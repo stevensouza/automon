@@ -175,6 +175,7 @@ Apache License
 
    END OF TERMS AND CONDITIONS
 
+
    APPENDIX: How to apply the Apache License to your work.
 
       To apply the Apache License to your work, attach the following
@@ -186,7 +187,9 @@ Apache License
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright {yyyy} {name of copyright owner}
+   Copyright 2015 Steve Souza
+   Description of purpose: Automon combines the power of AOP (AspectJ) with any monitoring or logging tools 
+   you already use to declaratively monitor your Java code, the JDK, and dependent libraries.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
