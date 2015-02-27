@@ -5,7 +5,7 @@ playground/src/main/resources/data/out/*
 
 # Eclipse
 # intellij
-.idea/
+.idea/**
 *.iml
 *.iws
 .#*
@@ -14,10 +14,10 @@ playground/src/main/resources/data/out/*
 .DS_Store
 
 #CVS
-CVS/
+CVS/**
 
 
 
 # Maven
-log/
-target/
+log/**
+target/**
