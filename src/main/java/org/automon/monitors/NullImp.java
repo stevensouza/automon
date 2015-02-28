@@ -1,6 +1,4 @@
-package org.automon.implementations;
-
-import org.automon.OpenMon;
+package org.automon.monitors;
 
 /**
  * Created by stevesouza on 2/26/15.
@@ -22,14 +20,14 @@ public final class NullImp implements OpenMon<Object> {
     public void exception(String label) {
 
     }
-
-    @Override
-    public void enable(boolean enable) {
-
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+//
+//    @Override
+//    public void enable(boolean enable) {
+//
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
 }

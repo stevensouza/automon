@@ -1,9 +1,6 @@
-package org.automon;
+package org.automon.aspects;
 
-import org.automon.implementations.Jamon;
-import org.automon.implementations.Metrics;
-import org.automon.implementations.NullImp;
-import org.automon.implementations.JavaSimon;
+import org.automon.monitors.*;
 
 /**
  * Created by stevesouza on 2/26/15.
@@ -19,16 +16,16 @@ public class MyAspect {
         this.openMon = openMon;
     }
 
-    public void enable(boolean enable) {
-        if (openMon==null)
-            return;
-
-        openMon.enable(enable);
-    }
-
-    public boolean isEnabled() {
-        return (openMon != null) && openMon.isEnabled();
-    }
+//    public void enable(boolean enable) {
+//        if (openMon==null)
+//            return;
+//
+//        openMon.enable(enable);
+//    }
+//
+//    public boolean isEnabled() {
+//        return (openMon != null) && openMon.isEnabled();
+//    }
 
     // && if (isEnabled())
     public void aroundAdvice() throws Exception {
@@ -66,10 +63,10 @@ public class MyAspect {
         myAspect.aroundAdvice();
         myAspect.afterThrowingAdvice();
 
-        System.out.println("\nJamon disabled");
-        myAspect.enable(false);
-        myAspect.setOpenMon(new Jamon());
-        myAspect.aroundAdvice();
-        myAspect.afterThrowingAdvice();
+//        System.out.println("\nJamon disabled");
+//        myAspect.enable(false);
+//        myAspect.setOpenMon(new Jamon());
+//        myAspect.aroundAdvice();
+//        myAspect.afterThrowingAdvice();
     }
 }

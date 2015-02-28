@@ -1,4 +1,4 @@
-package org.automon.implementations;
+package org.automon.monitors;
 
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
@@ -50,20 +50,20 @@ public class JamonTest {
                 describedAs("The label should match passed in label").isEqualTo(EXCEPTION);
     }
 
-    @Test
-    public void testShouldBeEnabledByDefault() throws Exception {
-        assertThat(openMon.isEnabled()).describedAs("Should be enabled by default").isTrue();
-    }
-
-    @Test
-    public void testEnableDisable() throws Exception {
-        openMon.enable(false);
-        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal jamons status").isEqualTo(MonitorFactory.isEnabled());
-        assertThat(openMon.isEnabled()).describedAs("Status should be disabled").isFalse();
-
-        openMon.enable(true);
-        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal jamons status").isEqualTo(MonitorFactory.isEnabled());
-        assertThat(openMon.isEnabled()).describedAs("Status should be enabled").isTrue();
-    }
+//    @Test
+//    public void testShouldBeEnabledByDefault() throws Exception {
+//        assertThat(openMon.isEnabled()).describedAs("Should be enabled by default").isTrue();
+//    }
+//
+//    @Test
+//    public void testEnableDisable() throws Exception {
+//        openMon.enable(false);
+//        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal jamons status").isEqualTo(MonitorFactory.isEnabled());
+//        assertThat(openMon.isEnabled()).describedAs("Status should be disabled").isFalse();
+//
+//        openMon.enable(true);
+//        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal jamons status").isEqualTo(MonitorFactory.isEnabled());
+//        assertThat(openMon.isEnabled()).describedAs("Status should be enabled").isTrue();
+//    }
 
 }

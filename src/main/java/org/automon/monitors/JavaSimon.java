@@ -1,6 +1,5 @@
-package org.automon.implementations;
+package org.automon.monitors;
 
-import org.automon.OpenMon;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 
@@ -24,17 +23,17 @@ public class JavaSimon implements OpenMon<Split> {
         SimonManager.getCounter(label).increase();
     }
 
-    @Override
-    public void enable(boolean enable) {
-        if (enable) {
-            SimonManager.enable();
-        } else {
-            SimonManager.disable();
-        }
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return SimonManager.isEnabled();
-    }
+//    @Override
+//    public void enable(boolean enable) {
+//        if (enable) {
+//            SimonManager.enable();
+//        } else {
+//            SimonManager.disable();
+//        }
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return SimonManager.isEnabled();
+//    }
 }

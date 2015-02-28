@@ -1,8 +1,7 @@
-package org.automon.implementations;
+package org.automon.monitors;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
-import org.automon.OpenMon;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
@@ -27,15 +26,15 @@ public class Metrics implements OpenMon<Timer> {
         metrics.counter(label).inc();
     }
 
-    @Override
-    public void enable(boolean enable) {
-
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    @Override
+//    public void enable(boolean enable) {
+//
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 
     public MetricRegistry getMetricRegistry() {
         return metrics;

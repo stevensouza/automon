@@ -1,4 +1,4 @@
-package org.automon;
+package org.automon.monitors;
 
 /**
  * Implementations of this interface can be called automatically by aspectJ pointcuts to monitor your system.
@@ -30,18 +30,18 @@ public interface OpenMon<T> {
      */
     public void exception(String label);
 
-    /**
-     * Enable/or disable monitoring.  At a minimum this capability should enable/disable the Advice for timing and counting exceptions.
-     * It may also enable/disable the underlying monitoring implementations overall ability to monitor
-     * (for example call Jamon's MontiorFactory.disable() method). This is the recommended implementation though not required.
-     *
-     * @param enable Enable/disable monitoring
-     */
-    public void enable(boolean enable);
-
-    /**
-     *
-     * @return True indicates monitoring is enabled, false indicates monitoring is disabled.
-     */
-    public boolean isEnabled();
+//    /**
+//     * Enable/or disable monitoring.  At a minimum this capability should enable/disable the Advice for timing and counting exceptions.
+//     * It may also enable/disable the underlying monitoring implementations overall ability to monitor
+//     * (for example call Jamon's MontiorFactory.disable() method). This is the recommended implementation though not required.
+//     *
+//     * @param enable Enable/disable monitoring
+//     */
+//    public void enable(boolean enable);
+//
+//    /**
+//     *
+//     * @return True indicates monitoring is enabled, false indicates monitoring is disabled.
+//     */
+//    public boolean isEnabled();
 }
