@@ -1,5 +1,8 @@
 package org.automon.implentations;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Snapshot;
+import com.codahale.metrics.Timer;
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 import org.junit.After;
@@ -10,43 +13,37 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class MetricsTest {
-    private Jamon openMon = new Jamon();
+    private Metrics openMon = new Metrics();
     private static final String LABEL =  "helloWorld.timer";
     private static final String EXCEPTION = "org.automon.MyException";
 
     @Before
     public void setUp() throws Exception {
-        MonitorFactory.reset();
     }
 
     @After
     public void tearDown() throws Exception {
-        MonitorFactory.reset();
     }
 
     @Test
     public void testStart() throws Exception {
-        Monitor mon = openMon.start(LABEL);
-        assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(LABEL);
-        assertThat(mon.getUnits()).describedAs("The units should be for time").isEqualTo("ms.");
-        assertThat(mon.getActive()).describedAs("The monitor should have been started").isEqualTo(1);
+        Timer mon = openMon.start(LABEL);
+        assertThat(mon.getCount()).describedAs("The timer shouldn't have completed").isEqualTo(0);
     }
 
     @Test
     public void testStop() throws Exception {
-        Monitor mon = openMon.start(LABEL);
+        Timer mon = openMon.start(LABEL);
         openMon.stop(mon);
-        assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(LABEL);
-        assertThat(mon.getActive()).describedAs("The monitor should not be running").isEqualTo(0);
-        assertThat(mon.getHits()).describedAs("The monitor should have finished and recorded hits").isEqualTo(1);
+        assertThat(mon.getCount()).describedAs("The timer should have completed/been stopped").isEqualTo(1);
     }
 
     @Test
     public void testException() throws Exception {
+        MetricRegistry metricRegistry = openMon.getMetricRegistry();
+        assertThat(metricRegistry.counter(EXCEPTION).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
         openMon.exception(EXCEPTION);
-        Monitor mon = MonitorFactory.getMonitor(EXCEPTION, "Exception");
-        assertThat(mon).describedAs("The exception monitor should have been created").isNotNull();
-        assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(EXCEPTION);
+        assertThat(metricRegistry.counter(EXCEPTION).getCount()).describedAs("An exception should now exist").isEqualTo(1);
     }
 
     @Test
@@ -57,12 +54,14 @@ public class MetricsTest {
     @Test
     public void testEnableDisable() throws Exception {
         openMon.enable(false);
-        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal jamons status").isEqualTo(MonitorFactory.isEnabled());
-        assertThat(openMon.isEnabled()).describedAs("Status should be disabled").isFalse();
+        assertThat(openMon.isEnabled()).describedAs("Metrics can't be enabled/disabled so it is a noop").isTrue();
+      }
 
-        openMon.enable(true);
-        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal jamons status").isEqualTo(MonitorFactory.isEnabled());
-        assertThat(openMon.isEnabled()).describedAs("Status should be enabled").isTrue();
+    @Test
+    public void setMetricRegistry() throws Exception {
+        MetricRegistry newMetricRegistry = new MetricRegistry();
+        openMon.setMetricRegistry(newMetricRegistry);
+        assertThat(openMon.getMetricRegistry()).isEqualTo(newMetricRegistry);
     }
 
 }
