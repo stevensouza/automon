@@ -1,10 +1,7 @@
-package org.automon.implentations;
+package org.automon.implementations;
 
 import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
-import com.jamonapi.Monitor;
-import com.jamonapi.MonitorFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

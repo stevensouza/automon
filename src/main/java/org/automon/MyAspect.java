@@ -1,9 +1,9 @@
 package org.automon;
 
-import org.automon.implentations.Jamon;
-import org.automon.implentations.Metrics;
-import org.automon.implentations.NullImp;
-import org.automon.implentations.JavaSimon;
+import org.automon.implementations.Jamon;
+import org.automon.implementations.Metrics;
+import org.automon.implementations.NullImp;
+import org.automon.implementations.JavaSimon;
 
 /**
  * Created by stevesouza on 2/26/15.

@@ -1,38 +1,29 @@
-package org.automon;
+package org.automon.pointcuts;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.automon.pointcuts.DelmeAspect;
 
 /**
- * aspectj compile time weaving using ajc
- *  cd /Users/stevesouza/gitrepo/testproject/playground/src/main/javastyle
- *  ajc -source 5 com/stevesouza/aspectj/*.javastyle
- *  javastyle com.stevesouza.aspectj.MessageCommunicator
- *
- * for nonaspectj version:
- *  javac com/stevesouza/aspectj/*.javastyle
+ * Pointcuts defined for various standard/basic pointcuts such as method, and constructor invocations as well as setter/getter methods.
+ * They should be reused in other aspects.
  *
  */
 @Aspect
-public abstract class AbstractAspect implements DelmeAspect {
-    private int callDepth;
+public abstract class Basic {
 
-    @Pointcut()
-    public abstract void traced();
-
+    /** Note this should cover everything.  I had problems with jdk 1.8 if I also included preinitialization so I got rid of this one */
     @Pointcut("!preinitialization(*.new(..))")
     public void all() {
 
     }
 
+    /** Method execution pointcuts
+     */
     @Pointcut("execution(* java.lang.Object.*(..))")
     public void objectMethod() {
     }
 
 
-    // change method() to methodExecution()
-    //  publicMethod to publicMethodExecution etc.
     @Pointcut("execution(* *(..))")
     public void method() {
 
@@ -100,31 +91,4 @@ public abstract class AbstractAspect implements DelmeAspect {
     }
 
 
-    @Before("traced()")
-    // note use of JoinPoint to get further info here
-    public void before(JoinPoint thisJoinPoint) {
-        print("Before", thisJoinPoint);
-        callDepth++;
-    }
-
-
-    @After("traced()")
-    // note use of JoinPoint to get further info here
-    public void after(JoinPoint thisJoinPoint) {
-        print("After", thisJoinPoint);
-        callDepth--;
-    }
-
-    // Convenient for quickly disabling advice.
-    @AfterReturning("if(false)")
-    public void afterDisabledExample() {
-
-    }
-
-    protected void print(String prefix, Object message) {
-        for (int i=0; i<callDepth;i++) {
-            System.out.print(" ");
-        }
-        System.out.println(prefix+"("+getClass()+ "):"+message);
-    }
 }

@@ -1,4 +1,4 @@
-package org.automon.implentations;
+package org.automon.implementations;
 
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;

@@ -1,9 +1,6 @@
-package org.automon.implentations;
+package org.automon.implementations;
 
-import com.jamonapi.Monitor;
-import com.jamonapi.MonitorFactory;
 import org.javasimon.Counter;
-import org.javasimon.Simon;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 import org.junit.After;

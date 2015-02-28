@@ -1,6 +1,5 @@
-package org.automon.implentations;
+package org.automon.implementations;
 
-import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import org.automon.OpenMon;

@@ -1,4 +1,4 @@
-package org.automon.implentations;
+package org.automon.implementations;
 
 import org.automon.OpenMon;
 

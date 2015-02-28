@@ -1,7 +1,6 @@
-package org.automon.implentations;
+package org.automon.implementations;
 
 import org.automon.OpenMon;
-import org.javasimon.Counter;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 

@@ -1,7 +1,7 @@
 package org.automon;
 
 /**
- * Implementations of this interface can be called automatically by aspectJ pointcuts to monitor your system.  
+ * Implementations of this interface can be called automatically by aspectJ pointcuts to monitor your system.
  */
 public interface OpenMon<T> {
     /**
