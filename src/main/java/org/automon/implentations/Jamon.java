@@ -8,6 +8,7 @@ import org.automon.OpenMon;
  * Created by stevesouza on 2/26/15.
  */
 public class Jamon implements OpenMon<Monitor> {
+
     @Override
     public Monitor start(String label) {
         return MonitorFactory.start(label);
