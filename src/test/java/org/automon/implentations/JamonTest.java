@@ -43,10 +43,11 @@ public class JamonTest {
 
     @Test
     public void testException() throws Exception {
+        assertThat(MonitorFactory.exists(EXCEPTION, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
         openMon.exception(EXCEPTION);
-        Monitor mon = MonitorFactory.getMonitor(EXCEPTION, "Exception");
-        assertThat(mon).describedAs("The exception monitor should have been created").isNotNull();
-        assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(EXCEPTION);
+        assertThat(MonitorFactory.exists(EXCEPTION, "Exception")).describedAs("The exception monitor should exist").isTrue();
+        assertThat(MonitorFactory.getMonitor(EXCEPTION, "Exception").getLabel()).
+                describedAs("The label should match passed in label").isEqualTo(EXCEPTION);
     }
 
     @Test
