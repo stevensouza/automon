@@ -16,13 +16,11 @@ public class Jamon implements OpenMon<Monitor> {
     @Override
     public void stop(Monitor mon) {
         mon.stop();
-        System.out.println(mon);
     }
 
     @Override
     public void exception(String label) {
-        Monitor mon = MonitorFactory.add(label, "Exception", 1);
-        System.out.println(mon);
+        MonitorFactory.add(label, "Exception", 1);
     }
 
     @Override
