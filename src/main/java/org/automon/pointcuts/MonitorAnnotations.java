@@ -10,7 +10,8 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class MonitorAnnotations {
 
     // or could be explicit for jamon, simon, spring, and metrics.  not sure if this applies to both type and method
-    @Pointcut("@annotation(..Monitor*)")
+   // @Pointcut("@annotation(com.jamonapi.aop.spring.MonitorAnnotation)")
+    @Pointcut("@annotation(com.jamonapi.aop.spring.MonitorAnnotation) || @annotation(org.javasimon.aop.Monitored)")
     public void monitorAnnotation() {
 
     }
