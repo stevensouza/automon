@@ -27,7 +27,7 @@ public class MyAspect {
     }
 
     public boolean isEnabled() {
-        return (openMon==null) ? false : openMon.isEnabled();
+        return (openMon != null) && openMon.isEnabled();
     }
 
     // && if (isEnabled())
