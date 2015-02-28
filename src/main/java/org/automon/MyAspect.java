@@ -3,7 +3,7 @@ package org.automon;
 import org.automon.implentations.Jamon;
 import org.automon.implentations.Metrics;
 import org.automon.implentations.NullImp;
-import org.automon.implentations.Simon;
+import org.automon.implentations.JavaSimon;
 
 /**
  * Created by stevesouza on 2/26/15.
@@ -52,7 +52,7 @@ public class MyAspect {
         myAspect.afterThrowingAdvice();
 
         System.out.println("\nJavasimon");
-        myAspect.setOpenMon(new Simon());
+        myAspect.setOpenMon(new JavaSimon());
         myAspect.aroundAdvice();
         myAspect.afterThrowingAdvice();
 

@@ -8,7 +8,8 @@ import org.javasimon.Split;
 /**
  * Created by stevesouza on 2/26/15.
  */
-public class Simon implements OpenMon<Split> {
+public class JavaSimon implements OpenMon<Split> {
+
     @Override
     public Split start(String label) {
         return SimonManager.getStopwatch(label).start();
