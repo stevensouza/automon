@@ -10,26 +10,22 @@ import static com.codahale.metrics.MetricRegistry.name;
 /**
  * Created by stevesouza on 2/26/15.
  */
-public class Metrics implements OpenMon<Timer.Context> {
+public class Metrics implements OpenMon<Timer> {
     private MetricRegistry metrics = new MetricRegistry();
 
     @Override
-    public Timer.Context start(String label) {
-        Timer timer = metrics.timer(name(label));
-        return timer.time();
+    public Timer start(String label) {
+        return metrics.timer(name(label));
     }
 
     @Override
-    public void stop(Timer.Context timerContext) {
-        timerContext.stop();
-        System.out.println("Metrics Timer.Context: "+timerContext);
+    public void stop(Timer timer) {
+        timer.time().stop();
     }
 
     @Override
     public void exception(String label) {
-        Counter mon = metrics.counter(label);
-        mon.inc();
-        System.out.println("Metrics counter: "+mon);
+        metrics.counter(label).inc();
     }
 
     @Override
@@ -41,4 +37,13 @@ public class Metrics implements OpenMon<Timer.Context> {
     public boolean isEnabled() {
         return true;
     }
+
+    public MetricRegistry getMetricRegistry() {
+        return metrics;
+    }
+
+    public void setMetricRegistry(MetricRegistry metrics) {
+        this.metrics = metrics;
+    }
+
 }
