@@ -17,16 +17,11 @@ public class Simon implements OpenMon<Split> {
     @Override
     public void stop(Split split) {
         split.stop();
-        System.out.println("Simon split: "+split);
-        System.out.println("Simon snapshot: "+split.getStopwatch().sample());
-
     }
 
     @Override
     public void exception(String label) {
-        Counter mon = SimonManager.getCounter(label);
-        mon.increase();
-        System.out.println("Simon counter: "+mon);
+        SimonManager.getCounter(label).increase();
     }
 
     @Override
