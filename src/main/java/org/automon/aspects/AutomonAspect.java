@@ -36,7 +36,7 @@ public abstract class AutomonAspect  {
 
     @Around("monitor()")
     public Object monitorPerformance(ProceedingJoinPoint pjp) throws Throwable {
-        Object mon = openMon.start("com.stevesouza.myMethod");
+        Object mon = openMon.start(pjp.getStaticPart().toString());
         Object retVal = pjp.proceed();
         openMon.stop(mon);
         return retVal;

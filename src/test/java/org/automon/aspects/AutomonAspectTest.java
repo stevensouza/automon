@@ -2,6 +2,8 @@ package org.automon.aspects;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.automon.monitors.OpenMon;
 import org.junit.After;
 import org.junit.Before;
@@ -50,6 +52,7 @@ public class AutomonAspectTest {
     public void testMonitorPerformance() throws Throwable {
         Object START_RETURN_VALUE = new Object();
         when(openMon.start(anyString())).thenReturn(START_RETURN_VALUE);
+        when(pjp.getStaticPart()).thenReturn(mock(JoinPoint.StaticPart.class));
 
         aspect.monitorPerformance(pjp);
 
@@ -62,6 +65,34 @@ public class AutomonAspectTest {
         aspect.monitorExceptions(jp, exception);
 
         verify(openMon).exception(anyString());
+    }
+
+    @Aspect
+    static class MyDisabledTestAspect extends AutomonAspect {
+        // Note the @Override annotation was not used below as it will not compile with ajc.
+        // Note I also couldn't think of a way to disable all monitoring without the following pointcuts
+        //  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
+        //  warning that there was no match.
+
+        @Pointcut("!within(java.lang.Object+)")
+        public void sys_monitor() {
+
+        }
+
+        @Pointcut("!within(java.lang.Object+)")
+        public void user_monitor() {
+
+        }
+
+        @Pointcut("!within(java.lang.Object+)")
+        public void sys_exceptions() {
+
+        }
+
+        @Pointcut("!within(java.lang.Object+)")
+        public void user_exceptions() {
+        }
+
     }
 
 }

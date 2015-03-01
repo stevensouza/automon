@@ -66,7 +66,7 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>       <!-- use this goal to weave constructor your main classes -->
-                            <!-- <goal>test-compile</goal>  --> <!-- use this goal to weave constructor your test classes -->
+                            <goal>test-compile</goal> <!-- use this goal to weave constructor your test classes -->
                         </goals>
                     </execution>
                 </executions>
@@ -87,7 +87,7 @@
                 <configuration>
                     <!-- generates class path with constructor dependencies as well as generated class -->
                     <classpathScope>runtime</classpathScope>
-                    <mainClass>com.stevesouza.aspectj.javastyle.method.MyClass</mainClass>
+                   <!-- <mainClass>org.automon.delme.MyClass</mainClass> -->
                 </configuration>
             </plugin>
     <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->

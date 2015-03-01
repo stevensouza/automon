@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class SpringBase extends AutomonAspect {
 
     @Pointcut("org.automon.pointcuts.Basic.publicMethod()")
-    public void sys_monitor1() {
+    public void sys_monitor() {
 
     }
 

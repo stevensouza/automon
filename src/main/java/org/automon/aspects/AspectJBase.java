@@ -10,20 +10,20 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public abstract class AspectJBase extends AutomonAspect {
 
-    @Pointcut("ifEnabled()")
+    @Pointcut("within(java.lang.Object+)")
     public void sys_monitor() {
 
     }
 
-    @Pointcut("ifEnabled()")
+    @Pointcut("within(java.lang.Object+)")
     public void sys_exceptions() {
 
     }
 
 
-    @Pointcut("if()")
-    public static boolean ifEnabled() {
-        return isEnabled();
-    }
+//    @Pointcut("if()")
+//    public static boolean ifEnabled() {
+//        return AutomonAspect.isEnabled();
+//    }
 
 }
