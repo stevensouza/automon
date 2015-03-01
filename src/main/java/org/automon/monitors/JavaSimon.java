@@ -23,17 +23,4 @@ public class JavaSimon implements OpenMon<Split> {
         SimonManager.getCounter(label).increase();
     }
 
-//    @Override
-//    public void enable(boolean enable) {
-//        if (enable) {
-//            SimonManager.enable();
-//        } else {
-//            SimonManager.disable();
-//        }
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return SimonManager.isEnabled();
-//    }
 }

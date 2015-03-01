@@ -20,14 +20,4 @@ public final class NullImp implements OpenMon<Object> {
     public void exception(String label) {
 
     }
-//
-//    @Override
-//    public void enable(boolean enable) {
-//
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return false;
-//    }
 }

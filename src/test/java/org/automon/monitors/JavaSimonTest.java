@@ -48,20 +48,4 @@ public class JavaSimonTest {
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(1);
     }
 
-//    @Test
-//    public void testShouldBeEnabledByDefault() throws Exception {
-//        assertThat(openMon.isEnabled()).describedAs("Should be enabled by default").isTrue();
-//    }
-//
-//    @Test
-//    public void testEnableDisable() throws Exception {
-//        openMon.enable(false);
-//        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal Javasimon's status").isEqualTo(SimonManager.isEnabled());
-//        assertThat(openMon.isEnabled()).describedAs("Status should be disabled").isFalse();
-//
-//        openMon.enable(true);
-//        assertThat(openMon.isEnabled()).describedAs("Enabled status should equal Javasimon's status").isEqualTo(SimonManager.isEnabled());
-//        assertThat(openMon.isEnabled()).describedAs("Status should be enabled").isTrue();
-//    }
-
 }

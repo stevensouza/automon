@@ -43,16 +43,6 @@ public class MetricsTest {
         assertThat(metricRegistry.counter(EXCEPTION).getCount()).describedAs("An exception should now exist").isEqualTo(1);
     }
 
-//    @Test
-//    public void testShouldBeEnabledByDefault() throws Exception {
-//        assertThat(openMon.isEnabled()).describedAs("Should be enabled by default").isTrue();
-//    }
-//
-//    @Test
-//    public void testEnableDisable() throws Exception {
-//        openMon.enable(false);
-//        assertThat(openMon.isEnabled()).describedAs("Metrics can't be enabled/disabled so it is a noop").isTrue();
-//      }
 
     @Test
     public void setMetricRegistry() throws Exception {

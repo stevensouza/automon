@@ -26,16 +26,6 @@ public class Metrics implements OpenMon<Timer> {
         metrics.counter(label).inc();
     }
 
-//    @Override
-//    public void enable(boolean enable) {
-//
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
-
     public MetricRegistry getMetricRegistry() {
         return metrics;
     }
