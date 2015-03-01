@@ -30,7 +30,6 @@ public abstract class AutomonAspect  {
 
     public static void enable(boolean shouldEnable) {
         enable = shouldEnable;
-//        openMon.enable(enable);
     }
 
 
@@ -49,9 +48,9 @@ public abstract class AutomonAspect  {
             System.out.println("Exception: "+e);
             System.out.println(" jp.getKind()=" + joinPoint.getKind());
             System.out.println(" jp.getStaticPart()="+joinPoint.getStaticPart());
-            Object[] argValues = joinPoint.getArgs();
+            //Object[] argValues = joinPoint.getArgs();
             Signature signature = joinPoint.getSignature();
-            System.out.println(" jp.getSignature().getClass()="+signature.getClass());
+            //System.out.println(" jp.getSignature().getClass()="+signature.getClass());
             openMon.exception(e.getClass().getName()); // java.lang.RuntimeException
 
         // Note would have to look at all the special cases here.
@@ -73,45 +72,26 @@ public abstract class AutomonAspect  {
         this.openMon = openMon;
     }
 
-
-
-//    public boolean isEnabled() {
-//        return isEnabled && openMon.isEnabled();
-//    }
-
-
-
-    @Pointcut("user_monitor1() && user_monitor2() && user_monitor3() && sys_monitor1()")
+    @Pointcut("user_monitor() && sys_monitor()")
     public void monitor() {
 
     }
 
     @Pointcut()
-    public abstract void sys_monitor1();
+    public abstract void sys_monitor();
 
     @Pointcut()
-    public abstract void user_monitor1();
+    public abstract void user_monitor();
 
-    @Pointcut()
-    public abstract void user_monitor2();
-
-    @Pointcut()
-    public abstract void user_monitor3();
-
-    @Pointcut("user_exceptions1() && user_exceptions2() && user_exceptions3() && sys_exceptions1()")
+    @Pointcut("user_exceptions() && sys_exceptions()")
     public void exceptions() {
     }
 
     @Pointcut()
-    public abstract void sys_exceptions1();
+    public abstract void sys_exceptions();
 
     @Pointcut()
-    public abstract void user_exceptions1();
+    public abstract void user_exceptions();
 
-    @Pointcut()
-    public abstract void user_exceptions2();
-
-    @Pointcut()
-    public abstract void user_exceptions3();
 
 }
