@@ -3,7 +3,6 @@ package org.automon.aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.automon.monitors.OpenMon;
-import org.automon.monitors.SysOut;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
