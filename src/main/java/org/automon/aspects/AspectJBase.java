@@ -4,7 +4,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * Created by stevesouza on 2/28/15.
+ * Contains 'if()' which is not compatible with Spring so this should be used when using AspectJ directly.  Note this allows for disabling of
+ * AutoMon via the pointcut language.
  */
 @Aspect
 public abstract class AspectJBase extends AutomonAspect {
