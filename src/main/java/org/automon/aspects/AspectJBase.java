@@ -11,12 +11,12 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class AspectJBase extends AutomonAspect {
 
     @Pointcut("ifEnabled()")
-    public void sys_monitor1() {
+    public void sys_monitor() {
 
     }
 
     @Pointcut("ifEnabled()")
-    public void sys_exceptions1() {
+    public void sys_exceptions() {
 
     }
 
