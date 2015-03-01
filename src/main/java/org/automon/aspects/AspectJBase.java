@@ -10,19 +10,19 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public abstract class AspectJBase extends AutomonAspect {
 
-    @Pointcut("noMonitoring()")
+    @Pointcut("ifEnabled()")
     public void sys_monitor1() {
 
     }
 
-    @Pointcut("noMonitoring()")
+    @Pointcut("ifEnabled()")
     public void sys_exceptions1() {
 
     }
 
 
     @Pointcut("if()")
-    public static boolean noMonitoring() {
+    public static boolean ifEnabled() {
         return isEnabled();
     }
 
