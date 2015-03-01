@@ -17,6 +17,11 @@ public abstract class Basic {
 
     }
 
+    @Pointcut("if()")
+    public static boolean none() {
+        return false;
+    }
+
     /** Method execution pointcuts
      */
     @Pointcut("execution(* java.lang.Object.*(..))")
