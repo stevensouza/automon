@@ -48,6 +48,15 @@ public class JamonTest {
     }
 
     @Test
+    public void testStopWithException() throws Exception {
+        Monitor mon = openMon.start(jp);
+        openMon.stop(mon, new RuntimeException("my exception"));
+        assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(LABEL);
+        assertThat(mon.getActive()).describedAs("The monitor should not be running").isEqualTo(0);
+        assertThat(mon.getHits()).describedAs("The monitor should have finished and recorded hits").isEqualTo(1);
+    }
+
+    @Test
     public void testException() throws Exception {
         assertThat(MonitorFactory.exists(EXCEPTION, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
         openMon.exception(EXCEPTION);

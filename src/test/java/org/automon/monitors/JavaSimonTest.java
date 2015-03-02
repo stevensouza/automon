@@ -49,6 +49,14 @@ public class JavaSimonTest {
     }
 
     @Test
+    public void testStopWithException() throws Exception {
+        Split mon = openMon.start(jp);
+        openMon.stop(mon, new RuntimeException("my exception"));
+        assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(0);
+        assertThat(mon.getStopwatch().getCounter()).describedAs("The monitor should not have finished").isEqualTo(1);
+    }
+
+    @Test
     public void testException() throws Exception {
         Counter mon = SimonManager.getCounter(EXCEPTION);
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(0);

@@ -43,6 +43,13 @@ public class MetricsTest {
     }
 
     @Test
+    public void testStopWithException() throws Exception {
+        Timer mon = openMon.start(jp);
+        openMon.stop(mon, new RuntimeException("my exception"));
+        assertThat(mon.getCount()).describedAs("The timer should have completed/been stopped").isEqualTo(1);
+    }
+
+    @Test
     public void testException() throws Exception {
         MetricRegistry metricRegistry = openMon.getMetricRegistry();
         assertThat(metricRegistry.counter(EXCEPTION).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
