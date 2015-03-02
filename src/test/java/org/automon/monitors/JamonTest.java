@@ -3,13 +3,13 @@ package org.automon.monitors;
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class JamonTest {
     private Jamon openMon = new Jamon();

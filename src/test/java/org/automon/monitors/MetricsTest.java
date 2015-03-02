@@ -2,7 +2,6 @@ package org.automon.monitors;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
-import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
 import org.junit.After;
 import org.junit.Before;

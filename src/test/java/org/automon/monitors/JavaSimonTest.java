@@ -1,6 +1,5 @@
 package org.automon.monitors;
 
-import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
 import org.javasimon.Counter;
 import org.javasimon.SimonManager;
