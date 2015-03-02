@@ -36,16 +36,16 @@ public class AutomonAspectTest {
 
     @Test
     public void testIsEnabledByDefault() throws Exception {
-        assertThat(AutomonAspect.isEnabled()).describedAs("Should be enabled by default").isTrue();
+        assertThat(aspect.isEnabled()).describedAs("Should be enabled by default").isTrue();
     }
 
     @Test
     public void testEnableDisable() throws Exception {
-        AutomonAspect.enable(false);
-        assertThat(AutomonAspect.isEnabled()).describedAs("Should be disabled").isFalse();
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).describedAs("Should be disabled").isFalse();
 
-        AutomonAspect.enable(true);
-        assertThat(AutomonAspect.isEnabled()).describedAs("Should be enabled").isTrue();
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
     @Test

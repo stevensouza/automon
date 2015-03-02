@@ -22,13 +22,13 @@ import org.automon.monitors.OpenMon;
 public abstract class AutomonAspect  {
 
     private OpenMon openMon = new NullImp();
-    protected static boolean enable = true;
+    protected  boolean enable = true;
 
-    public static boolean isEnabled() {
+    public boolean isEnabled() {
         return enable;
     }
 
-    public static void enable(boolean shouldEnable) {
+    public void enable(boolean shouldEnable) {
         enable = shouldEnable;
     }
 
