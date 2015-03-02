@@ -20,10 +20,4 @@ public abstract class AspectJBase extends AutomonAspect {
 
     }
 
-
-//    @Pointcut("if()")
-//    public static boolean ifEnabled() {
-//        return AutomonAspect.isEnabled();
-//    }
-
 }
