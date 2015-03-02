@@ -12,13 +12,9 @@ import org.automon.monitors.NullImp;
 import org.automon.monitors.OpenMon;
 
 /**
- * aspectj compile time weaving using ajc
- *  cd /Users/stevesouza/gitrepo/testproject/playground/src/main/javastyle
- *  ajc -source 5 com/stevesouza/aspectj/*.javastyle
- *  javastyle com.stevesouza.aspectj.MessageCommunicator
- *
- * for nonaspectj version:
- *  javac com/stevesouza/aspectj/*.javastyle
+ * Aspect that advises the {@link org.aspectj.lang.annotation.Around} and {@link org.aspectj.lang.annotation.AfterThrowing} annotations.
+ * The appropriate methods on {@link org.automon.monitors.OpenMon} methods are called and they typically time methods and count any exceptions
+ * thrown however other behavior such as logging is also possible.
  *
  */
 @Aspect
@@ -36,7 +32,14 @@ public abstract class AutomonAspect  {
     }
 
 
-
+    /**
+     * Advice that wraps the given pointcut and calls the appropriate {@link org.automon.monitors.OpenMon} method at the beginning and end
+     * of the method call.
+     *
+     * @param pjp Information on the {@link org.aspectj.lang.JoinPoint}
+     * @return The advised methods value or void.
+     * @throws Throwable If the method throws a {@link java.lang.Throwable} the advice will rethrow it.
+     */
     @Around("monitor()")
     public Object monitorPerformance(ProceedingJoinPoint pjp) throws Throwable {
         // Note context is typically a Timer/Monitor object though to this advice it is simply
