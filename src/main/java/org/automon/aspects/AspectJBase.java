@@ -20,7 +20,7 @@ public abstract class AspectJBase extends AutomonAspect {
 
     }
 
-    @Pointcut("within(java.lang.Object+) && !within(AspectJBase+)")
+    @Pointcut("within(java.lang.Object+) && !within(AutomonAspect+)")
     public void sys_pointcut() {
 
     }

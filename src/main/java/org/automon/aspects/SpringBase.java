@@ -19,7 +19,7 @@ public abstract class SpringBase extends AutomonAspect {
 
     }
 
-    @Pointcut("org.automon.pointcuts.Select.publicMethod() && !within(AspectJBase+)")
+    @Pointcut("org.automon.pointcuts.Select.publicMethod() && !within(AutomonAspect+)")
     public void sys_pointcut() {
 
     }
