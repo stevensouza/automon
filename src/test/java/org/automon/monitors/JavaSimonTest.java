@@ -17,7 +17,8 @@ public class JavaSimonTest {
     private JavaSimon openMon = new JavaSimon();
     private JoinPoint jp = mock(JoinPoint.class);
     private static final String LABEL =  "helloWorld.timer";
-    private static final String EXCEPTION = "org.automon.MyException";
+    private static final Exception EXCEPTION = new RuntimeException("my exception");
+    private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
 
     @Before
     public void setUp() throws Exception {
@@ -57,9 +58,9 @@ public class JavaSimonTest {
 
     @Test
     public void testException() throws Exception {
-        Counter mon = SimonManager.getCounter(EXCEPTION);
+        Counter mon = SimonManager.getCounter(EXCEPTION_LABEL);
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(0);
-        openMon.exception(EXCEPTION);
+        openMon.exception(jp, EXCEPTION);
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(1);
     }
 

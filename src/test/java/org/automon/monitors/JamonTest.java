@@ -15,7 +15,8 @@ public class JamonTest {
     private Jamon openMon = new Jamon();
     private JoinPoint jp = mock(JoinPoint.class);
     private static final String LABEL =  "helloWorld.timer";
-    private static final String EXCEPTION = "org.automon.MyException";
+    private static final Exception EXCEPTION = new RuntimeException("my exception");
+    private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
 
     @Before
     public void setUp() throws Exception {
@@ -58,11 +59,11 @@ public class JamonTest {
 
     @Test
     public void testException() throws Exception {
-        assertThat(MonitorFactory.exists(EXCEPTION, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
-        openMon.exception(EXCEPTION);
-        assertThat(MonitorFactory.exists(EXCEPTION, "Exception")).describedAs("The exception monitor should exist").isTrue();
-        assertThat(MonitorFactory.getMonitor(EXCEPTION, "Exception").getLabel()).
-                describedAs("The label should match passed in label").isEqualTo(EXCEPTION);
+        assertThat(MonitorFactory.exists(EXCEPTION_LABEL, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
+        openMon.exception(jp, EXCEPTION);
+        assertThat(MonitorFactory.exists(EXCEPTION_LABEL, "Exception")).describedAs("The exception monitor should exist").isTrue();
+        assertThat(MonitorFactory.getMonitor(EXCEPTION_LABEL, "Exception").getLabel()).
+                describedAs("The label should match passed in label").isEqualTo(EXCEPTION_LABEL);
     }
 
 

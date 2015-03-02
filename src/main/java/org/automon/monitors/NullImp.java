@@ -24,7 +24,7 @@ public final class NullImp implements OpenMon<Object> {
     }
 
     @Override
-    public void exception(String label) {
+    public void exception(JoinPoint jp, Throwable throwable) {
 
     }
 }

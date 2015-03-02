@@ -16,7 +16,8 @@ public class MetricsTest {
     private Metrics openMon = new Metrics();
     private JoinPoint jp = mock(JoinPoint.class);
     private static final String LABEL =  "helloWorld.timer";
-    private static final String EXCEPTION = "org.automon.MyException";
+    private static final Exception EXCEPTION = new RuntimeException("my exception");
+    private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
 
     @Before
     public void setUp() throws Exception {
@@ -51,9 +52,9 @@ public class MetricsTest {
     @Test
     public void testException() throws Exception {
         MetricRegistry metricRegistry = openMon.getMetricRegistry();
-        assertThat(metricRegistry.counter(EXCEPTION).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
-        openMon.exception(EXCEPTION);
-        assertThat(metricRegistry.counter(EXCEPTION).getCount()).describedAs("An exception should now exist").isEqualTo(1);
+        assertThat(metricRegistry.counter(EXCEPTION_LABEL).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
+        openMon.exception(jp, EXCEPTION);
+        assertThat(metricRegistry.counter(EXCEPTION_LABEL).getCount()).describedAs("An exception should now exist").isEqualTo(1);
     }
 
 

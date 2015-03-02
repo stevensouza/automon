@@ -62,7 +62,7 @@ public class AutomonAspectTest {
     public void testMonitorExceptions() throws Throwable {
         aspect.monitorExceptions(jp, exception);
 
-        verify(openMon).exception(anyString());
+        verify(openMon).exception(eq(jp), eq(exception));
     }
 
     @Aspect

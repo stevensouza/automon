@@ -25,8 +25,8 @@ public class JavaSimon extends OpenMonBase<Split> {
     }
 
     @Override
-    public void exception(String label) {
-        SimonManager.getCounter(label).increase();
+    public void exception(JoinPoint jp, Throwable throwable) {
+        SimonManager.getCounter(getLabel(throwable)).increase();
     }
 
 }

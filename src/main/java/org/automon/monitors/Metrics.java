@@ -28,8 +28,8 @@ public class Metrics extends OpenMonBase<Timer> {
     }
 
     @Override
-    public void exception(String label) {
-        metrics.counter(label).inc();
+    public void exception(JoinPoint jp, Throwable throwable) {
+        metrics.counter(getLabel(throwable)).inc();
     }
 
     public MetricRegistry getMetricRegistry() {

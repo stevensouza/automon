@@ -62,7 +62,7 @@ public class AspectJBaseTest {
 
         verify(openMon).stop(any(), eq(TEST_RUNTIME_EXCEPTION));
         verify(openMon, never()).stop(any());
-        verify(openMon).exception(anyString());
+        verify(openMon).exception(any(JoinPoint.class), eq(TEST_RUNTIME_EXCEPTION));
     }
 
 

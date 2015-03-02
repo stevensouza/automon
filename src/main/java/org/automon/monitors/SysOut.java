@@ -25,7 +25,7 @@ public final class SysOut extends OpenMonBase<Object> {
     }
 
     @Override
-    public void exception(String label) {
-        System.out.println("SysOut.exception(..): "+label);
+    public void exception(JoinPoint jp, Throwable throwable) {
+        System.out.println("SysOut.exception(..): JoinPoint="+ jp+", Exception="+throwable);
     }
 }

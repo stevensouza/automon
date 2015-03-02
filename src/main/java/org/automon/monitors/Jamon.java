@@ -25,8 +25,8 @@ public class Jamon extends OpenMonBase<Monitor> {
     }
 
     @Override
-    public void exception(String label) {
-        MonitorFactory.add(label, "Exception", 1);
+    public void exception(JoinPoint jp, Throwable throwable) {
+        MonitorFactory.add(getLabel(throwable), "Exception", 1);
     }
 
 }
