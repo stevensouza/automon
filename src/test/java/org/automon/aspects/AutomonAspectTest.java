@@ -49,12 +49,12 @@ public class AutomonAspectTest {
     @Test
     public void testMonitorPerformance() throws Throwable {
         Object START_RETURN_VALUE = new Object();
-        when(openMon.start(anyString())).thenReturn(START_RETURN_VALUE);
+        when(openMon.start(any(JoinPoint.class))).thenReturn(START_RETURN_VALUE);
         when(pjp.getStaticPart()).thenReturn(mock(JoinPoint.StaticPart.class));
 
         aspect.monitorPerformance(pjp);
 
-        verify(openMon).start(anyString());
+        verify(openMon).start(any(JoinPoint.class));
         verify(openMon).stop(START_RETURN_VALUE);
     }
 

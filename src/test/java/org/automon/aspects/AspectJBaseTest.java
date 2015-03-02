@@ -1,6 +1,7 @@
 package org.automon.aspects;
 
 import org.aspectj.lang.Aspects;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.monitors.OpenMon;
@@ -36,7 +37,7 @@ public class AspectJBaseTest {
         obj.iAmHiding();
 
         // start/stop pair should be called once per public method due to public method pointcut.
-        verify(openMon, times(2)).start(anyString());
+        verify(openMon, times(2)).start(any(JoinPoint.class));
         verify(openMon, times(2)).stop(any());
     }
 

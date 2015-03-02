@@ -39,10 +39,17 @@ public abstract class AutomonAspect  {
 
     @Around("monitor()")
     public Object monitorPerformance(ProceedingJoinPoint pjp) throws Throwable {
-        Object mon = openMon.start(pjp.getStaticPart().toString());
-        Object retVal = pjp.proceed();
-        openMon.stop(mon);
-        return retVal;
+        // Note context is typically a Timer/Monitor object though to this advice it is simply
+        // an object and the advice doesn't care what the intent of the context/object is.
+        Object context = openMon.start(pjp);
+        try {
+            Object retVal = pjp.proceed();
+            openMon.stop(context);
+            return retVal;
+        } catch (Throwable throwable) {
+            openMon.stop(context, throwable);
+            throw throwable;
+        }
     }
 
     @AfterThrowing(pointcut = "exceptions()", throwing = "e")
