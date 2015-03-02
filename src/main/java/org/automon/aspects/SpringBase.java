@@ -14,5 +14,9 @@ public abstract class SpringBase extends AutomonAspect {
 
     }
 
+    @Pointcut("org.automon.pointcuts.Basic.publicMethod()")
+    public void sys_exceptions() {
+
+    }
 
 }
