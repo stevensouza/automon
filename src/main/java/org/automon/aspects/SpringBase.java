@@ -9,14 +9,18 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public abstract class SpringBase extends AutomonAspect {
 
-    @Pointcut("org.automon.pointcuts.Select.publicMethod()")
+    @Pointcut("sys_pointcut()")
     public void sys_monitor() {
 
     }
 
-    @Pointcut("org.automon.pointcuts.Select.publicMethod()")
+    @Pointcut("sys_pointcut()")
     public void sys_exceptions() {
 
     }
 
+    @Pointcut("org.automon.pointcuts.Select.publicMethod() && !within(AspectJBase+)")
+    public void sys_pointcut() {
+
+    }
 }

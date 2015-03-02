@@ -10,13 +10,18 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public abstract class AspectJBase extends AutomonAspect {
 
-    @Pointcut("within(java.lang.Object+)")
+    @Pointcut("sys_pointcut()")
     public void sys_monitor() {
 
     }
 
-    @Pointcut("within(java.lang.Object+)")
+    @Pointcut("sys_pointcut()")
     public void sys_exceptions() {
+
+    }
+
+    @Pointcut("within(java.lang.Object+) && !within(AspectJBase+)")
+    public void sys_pointcut() {
 
     }
 
