@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
  *
  */
 @Aspect
-public abstract class Basic {
+public abstract class Select {
 
     /** Note this should cover everything.  I had problems with jdk 1.8 if I also included preinitialization so I got rid of this one */
     @Pointcut("!preinitialization(*.new(..))")

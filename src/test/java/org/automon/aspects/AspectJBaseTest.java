@@ -58,12 +58,12 @@ public class AspectJBaseTest {
     @Aspect
     static class MyAspectJTestAspect extends AspectJBase {
 
-        @Pointcut("within(MyTestClass) && org.automon.pointcuts.Basic.publicMethod()")
+        @Pointcut("within(MyTestClass) && org.automon.pointcuts.Select.publicMethod()")
         public void user_monitor() {
 
         }
 
-        @Pointcut("within(MyTestClass) && org.automon.pointcuts.Basic.publicMethod()")
+        @Pointcut("within(MyTestClass) && org.automon.pointcuts.Select.publicMethod()")
         public void user_exceptions() {
         }
 
