@@ -1,7 +1,7 @@
 package org.automon.pointcuts;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * Pointcuts defined for various standard/basic pointcuts such as method, and constructor invocations as well as setter/getter methods.

@@ -4,7 +4,6 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.monitors.OpenMon;
-import org.automon.monitors.SysOut;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
