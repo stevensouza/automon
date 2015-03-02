@@ -20,11 +20,6 @@ public class Jamon extends OpenMonBase<Monitor> {
     }
 
     @Override
-    public void stop(Monitor mon, Throwable throwable) {
-        mon.stop();
-    }
-
-    @Override
     public void exception(JoinPoint jp, Throwable throwable) {
         MonitorFactory.add(getLabel(throwable), "Exception", 1);
     }

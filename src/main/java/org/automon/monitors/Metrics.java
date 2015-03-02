@@ -23,11 +23,6 @@ public class Metrics extends OpenMonBase<Timer> {
     }
 
     @Override
-    public void stop(Timer timer, Throwable throwable) {
-        timer.time().stop();
-    }
-
-    @Override
     public void exception(JoinPoint jp, Throwable throwable) {
         metrics.counter(getLabel(throwable)).inc();
     }

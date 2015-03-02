@@ -24,4 +24,15 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
     protected String getLabel(Throwable throwable) {
         return throwable.getClass().getName();
     }
+
+    /**
+     * Note the default implementation simply calls {@link #stop(T)} and doesn't do anything with the {@link java.lang.Throwable} argument
+     *
+     * @param context The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
+     * @param throwable This argument is ignored in the default implementation.
+     */
+    public void stop(T context, Throwable throwable) {
+        stop(context);
+    }
+
 }
