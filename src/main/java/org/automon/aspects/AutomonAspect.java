@@ -55,6 +55,12 @@ public abstract class AutomonAspect  {
 
     @AfterThrowing(pointcut = "exceptions()", throwing = "throwable")
     public void monitorExceptions(JoinPoint jp, Throwable throwable) {
+        // 1) Put argument/info in exception OpenMonBase
+        //  i.e. arg0:val0
+        //       arg1:val1
+        //  how to handle different signatures?
+        // 2) only track exception first time it is encountered.  see notes.
+
 //        Exception: java.lang.RuntimeException: testing throwing exceptions
 //        jp.getKind()=method-execution
 //        jp.getStaticPart()=execution(void org.automon.aspects.AspectJBaseTest.MyTestClass.throwException())
