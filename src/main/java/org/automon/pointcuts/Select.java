@@ -5,11 +5,12 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * Pointcuts defined for various standard/basic pointcuts such as method, and constructor invocations as well as setter/getter methods.
- * They should be reused in other aspects.
+ * They should be reused in other aspects.  This class extends {@link org.automon.pointcuts.SpringSelect} to add pointcuts not valid in
+ * Spring, but valid in AspectJ as a whole.
  *
  */
 @Aspect
-public abstract class Select {
+public abstract class Select extends SpringSelect {
 
     /** Note this should cover everything.  I had problems with jdk 1.8 if I also included preinitialization so I got rid of this one */
     @Pointcut("!preinitialization(*.new(..))")
@@ -20,51 +21,6 @@ public abstract class Select {
     @Pointcut("if()")
     public static boolean none() {
         return false;
-    }
-
-    /** Method execution pointcuts
-     */
-    @Pointcut("execution(* java.lang.Object.*(..))")
-    public void objectMethod() {
-    }
-
-
-    @Pointcut("execution(* *(..))")
-    public void method() {
-
-    }
-
-    @Pointcut("execution(public * *.*(..))")
-    public void publicMethod() {
-
-    }
-
-    @Pointcut("execution(private * *.*(..))")
-    public void privateMethod() {
-
-    }
-
-    @Pointcut("execution(protected * *.*(..))")
-    public void protectedMethod() {
-
-    }
-
-    @Pointcut("method() && !privateMethod() && !protectedMethod() && !publicMethod()")
-    public void packageMethod() {
-
-    }
-
-    @Pointcut("execution(public void *.set*(*))")
-    public void setter() {
-    }
-
-    @Pointcut("execution(public * *.get*())")
-    public void getter() {
-    }
-
-    @Pointcut("getter() || setter()")
-    public void getterOrSetter() {
-
     }
 
     /**
