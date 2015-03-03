@@ -1,5 +1,7 @@
 package org.automon.monitors;
 
+import com.jamonapi.MonKey;
+import com.jamonapi.MonKeyImp;
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
@@ -20,8 +22,16 @@ public class Jamon extends OpenMonBase<Monitor> {
     }
 
     @Override
-    public void exception(JoinPoint jp, Throwable throwable) {
-        MonitorFactory.add(getLabel(throwable), "Exception", 1);
+    public void stop(Monitor mon, Throwable throwable) {
+        mon.stop();
+        mon.getMonKey().setDetails(throwable);
+        put(throwable);
+    }
+
+    @Override
+    public void exceptionImp(JoinPoint jp, Throwable throwable) {
+        MonKey key = new MonKeyImp(getLabel(throwable), throwable, "Exception");
+        MonitorFactory.add(key, 1);
     }
 
 }

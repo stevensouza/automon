@@ -1,9 +1,16 @@
 package org.automon.utils;
 
+import java.util.Collections;
+import java.util.Map;
+
 /**
  * Created by stevesouza on 3/3/15.
  */
 public class Utils {
+
+    public static Map<Throwable, Expirable> createExceptionMap() {
+        return Collections.synchronizedMap(new ExpiringMap<Throwable, Expirable>());
+    }
 
     // linkedHashMap removeEldestEntry - http://docs.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html#removeEldestEntry(java.util.Map.Entry)
     // must be threadsafe

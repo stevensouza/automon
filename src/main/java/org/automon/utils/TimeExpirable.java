@@ -5,12 +5,18 @@ package org.automon.utils;
  */
 public class TimeExpirable implements Expirable {
 
+    // Any exceptions in the map older than this will be removed on 'put'.
+    private static int DEFAULT_EXPIRATION_INTERVAL_IN_MINUTES = 2;
     private static long SECS_PER_MINUTE=60;
     private static long MS_PER_SEC=1000;
 
     private long creationTime;
     private long expirationIntervalInMs;
     private Now now;
+
+    public TimeExpirable() {
+        this(DEFAULT_EXPIRATION_INTERVAL_IN_MINUTES);
+    }
 
     public TimeExpirable(int expirationIntervalInMinutes) {
         this(expirationIntervalInMinutes, new CurrentTimeMills());
