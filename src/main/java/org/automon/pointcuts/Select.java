@@ -95,5 +95,61 @@ public abstract class Select {
 
     }
 
+    /** Field set pointcuts
+     */
+
+    @Pointcut("set(* *.*)")
+    public void fieldSet() {
+
+    }
+
+    @Pointcut("set(private * *.*)")
+    public void privateFieldSet() {
+
+    }
+
+    @Pointcut("set(protected * *.*)")
+    public void protectedFieldSet() {
+
+    }
+
+    @Pointcut("set(public * *.*)")
+    public void publicFieldSet() {
+
+    }
+
+    @Pointcut("fieldSet() && !privateFieldSet() && !protectedFieldSet() && !publicFieldSet()")
+    public void packageFieldSet() {
+
+    }
+
+    /** Field get pointcuts
+     */
+
+    @Pointcut("get(* *.*)")
+    public void fieldGet() {
+
+    }
+
+    @Pointcut("get(private * *.*)")
+    public void privateFieldGet() {
+
+    }
+
+    @Pointcut("get(protected * *.*)")
+    public void protectedFieldGet() {
+
+    }
+
+    @Pointcut("get(public * *.*)")
+    public void publicFieldGet() {
+
+    }
+
+    @Pointcut("fieldGet() && !privateFieldGet() && !protectedFieldGet() && !publicFieldGet()")
+    public void packageFieldGet() {
+
+    }
+
 
 }

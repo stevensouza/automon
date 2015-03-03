@@ -15,8 +15,8 @@ import static org.mockito.Mockito.*;
 
 public class AspectJBaseTest {
 
-    private static final RuntimeException  TEST_RUNTIME_EXCEPTION = new RuntimeException("testing throwing exceptions");
-    private static final String RETURN_VALUE = "any string";
+//    private static final RuntimeException  TEST_RUNTIME_EXCEPTION = HelloWorld.TEST_RUNTIME_EXCEPTION;
+//    private static final String RETURN_VALUE = HelloWorld.RETURN_VALUE;
     private OpenMon openMon = mock(OpenMon.class);
 
     @Before
@@ -31,77 +31,86 @@ public class AspectJBaseTest {
     }
 
     @Test
-    public void testSys_monitor() throws Exception {
-        MyTestClass obj = new MyTestClass();
+    public void testSys_monitorMethods() throws Exception {
+        HelloWorld obj = new HelloWorld();
         obj.hello();
         obj.world();
         obj.iAmHiding();
 
-        // start/stop pair should be called once per public method due to public method pointcut.
+        // start/stop pair should be called once per public method due to public method pointcut, and once for the constructor pointcut.
+        verify(openMon, times(3)).start(any(JoinPoint.class));
+        verify(openMon, times(3)).stop(any());
+    }
+
+    @Test
+    public void testSys_monitorFields() throws Exception {
+        HelloWorld obj = new HelloWorld();
+        obj.setPlanet("earth"); // sets - instance var. method doesn't count as it isn't public and so missed the pointcut
+        System.out.println(obj.getPlanet()); // get access for instance variable.  method doesn't match pointcut
+
+        // start/stop pair should be called once for the constructor, and twice instance variable get and set access
+        verify(openMon, times(3)).start(any(JoinPoint.class));
+        verify(openMon, times(3)).stop(any());
+    }
+
+    @Test
+    public void testReturnValue() throws Exception {
+        HelloWorld obj = new HelloWorld();
+        String testString = obj.getString();
+        assertThat(testString).isEqualTo(HelloWorld.RETURN_VALUE);
+        // called once per the constructor and once for the method
         verify(openMon, times(2)).start(any(JoinPoint.class));
         verify(openMon, times(2)).stop(any());
     }
 
     @Test
-    public void testReturnValue() throws Exception {
-        MyTestClass obj = new MyTestClass();
-        String testString = obj.getString();
-        assertThat(testString).isEqualTo(RETURN_VALUE);
-        verify(openMon).start(any(JoinPoint.class));
-        verify(openMon).stop(any());
-    }
-
-    @Test
-    public void testSys_exceptions() throws Exception {
-        MyTestClass obj = new MyTestClass();
+    public void testSys_exceptionsPublic() throws Exception {
+        HelloWorld obj = new HelloWorld();
         try {
             obj.throwException();
         } catch (Throwable t) {
-            assertThat(t).isEqualTo(TEST_RUNTIME_EXCEPTION);
+            assertThat(t).isEqualTo(HelloWorld.TEST_RUNTIME_EXCEPTION);
         }
 
-        verify(openMon).stop(any(), eq(TEST_RUNTIME_EXCEPTION));
-        verify(openMon, never()).stop(any());
-        verify(openMon).exception(any(JoinPoint.class), eq(TEST_RUNTIME_EXCEPTION));
+        verify(openMon).stop(any(), eq(HelloWorld.TEST_RUNTIME_EXCEPTION));// method call with exception
+        verify(openMon, times(2)).stop(any()); // constructor, and 1 field gets
+        verify(openMon).exception(any(JoinPoint.class), eq(HelloWorld.TEST_RUNTIME_EXCEPTION));
     }
 
+    @Test
+    public void testSys_exceptionsProtected() throws Exception {
+        HelloWorld obj = new HelloWorld();
+        try {
+            obj.throwOtherException(); // won't be monitored as it is not public
+        } catch (Throwable t) {
+            assertThat(t).isEqualTo(HelloWorld.TEST_RUNTIME_EXCEPTION);
+        }
+
+        verify(openMon, never()).stop(any(), eq(HelloWorld.TEST_RUNTIME_EXCEPTION));// method call with exception
+        verify(openMon, times(2)).stop(any()); // constructor, and 1 field get
+        verify(openMon, never()).exception(any(JoinPoint.class), eq(HelloWorld.TEST_RUNTIME_EXCEPTION));
+    }
 
 
     // Note the @Override annotation was not used below as it will not compile with ajc.
     @Aspect
     static class MyAspectJTestAspect extends AspectJBase {
 
-        @Pointcut("within(MyTestClass) && org.automon.pointcuts.Select.publicMethod()")
+        // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
+        // accesses to fields and methods.
+        @Pointcut("this(HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
+                "org.automon.pointcuts.Select.publicMethod() || " +
+                "org.automon.pointcuts.Select.fieldGet() || " +
+                "org.automon.pointcuts.Select.fieldSet()  " +
+                " ) " )
         public void user_monitor() {
 
         }
 
-        @Pointcut("within(MyTestClass) && org.automon.pointcuts.Select.publicMethod()")
+        @Pointcut("this(HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
         public void user_exceptions() {
         }
 
     }
 
-
-    private class MyTestClass {
-        public void hello() {
-
-        }
-
-        public void world() {
-
-        }
-
-        public String getString() {
-            return RETURN_VALUE;
-        }
-
-        private void iAmHiding() {
-
-        }
-
-        public void throwException() {
-            throw TEST_RUNTIME_EXCEPTION;
-        }
-    }
 }
