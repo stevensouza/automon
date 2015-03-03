@@ -13,10 +13,6 @@ import java.util.Map;
  */
 public class ExpiringMap<K, V extends Expirable> extends  LinkedHashMap<K, V> {
 
-    public ExpiringMap() {
-        super(16, 0.75f, true);
-    }
-
     // Note the jdk calls this from the 'put' method (after a new item has been put in)
     @Override
     protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
@@ -29,7 +25,8 @@ public class ExpiringMap<K, V extends Expirable> extends  LinkedHashMap<K, V> {
     }
 
     /** iterate the collection removing any entries older than the specified expiration interval.  This is not thread-safe
-     * unless the collection is synchronized.
+     * unless the collection is synchronized. The map is ordered from oldest to newest, so once
+     * we encounter one entry that is less than the threshold we can exit the removal loop.
      */
     void removeOldEntries() {
         Iterator<Map.Entry<K, V>> iterator = entrySet().iterator();
@@ -37,6 +34,8 @@ public class ExpiringMap<K, V extends Expirable> extends  LinkedHashMap<K, V> {
             Map.Entry<K, V> entry = iterator.next();
             if (entry.getValue().isExpired()) {
                 iterator.remove();
+            } else {
+                return;
             }
         }
     }
