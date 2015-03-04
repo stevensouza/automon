@@ -6,6 +6,8 @@ import org.aspectj.lang.JoinPoint;
  * Implementations of this interface can be called automatically by aspectJ pointcuts to monitor your system.
  */
 public interface OpenMon<T> {
+    public static final String EXCEPTION_LABEL = "org.automon.Exceptions";
+
     /**
      * Called by aspectJ as part of aroundAdvice. It is typically used to start a timer, however anything could be done
      * such as logging the start of the method.

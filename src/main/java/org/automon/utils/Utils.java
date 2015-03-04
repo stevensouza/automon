@@ -1,5 +1,8 @@
 package org.automon.utils;
 
+import org.aspectj.lang.JoinPoint;
+
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -10,6 +13,59 @@ public class Utils {
 
     public static Map<Throwable, Expirable> createExceptionMap() {
         return Collections.synchronizedMap(new ExpiringMap<Throwable, Expirable>());
+    }
+
+
+    /*
+       * When iterating over the map the most recently accessed entry is returned first and the least recently accessed element is returned last.
+     *
+   private void trackException(Throwable rootCause, Method method, String sqlMessage) {
+     String detailStackTrace = Misc.getExceptionTrace(rootCause);
+     MonitorFactory.add(new MonKeyImp(MonitorFactory.EXCEPTIONS_LABEL, detailStackTrace, "Exception"), 1); // counts total exceptions from jamon
+     MonitorFactory.add(new MonKeyImp("MonProxy-Exception: InvocationTargetException", detailStackTrace, "Exception"), 1); //counts total exceptions for MonProxy
+     MonitorFactory.add(new MonKeyImp("MonProxy-Exception: Root cause exception="+rootCause.getClass().getName()+sqlMessage,
+     detailStackTrace, "Exception"), 1); // Message for the exception
+     MonitorFactory.add(new MonKeyImp(labelerInt.getExceptionLabel(method), detailStackTrace,"Exception"), 1); // Exception and method that threw it.
+     }
+
+     // Add special info if it is a SQLException
+     if (rootCause instanceof SQLException) {
+       SQLException sqlException = (SQLException) rootCause;
+       sqlMessage = ",ErrorCode=" + sqlException.getErrorCode()+ ",SQLState=" + sqlException.getSQLState();
+     }
+
+     // Add jamon entries for Exceptions
+     trackException(rootCause, method, sqlMessage);
+
+     */
+    /**
+     * @param throwable The exception that was thrown
+     * @return A string suitable for a monitoring label representing the thrown exception.  It is a convenience method and need not be
+     * used to create the monitor
+     *
+     * Examples:<br>
+     *      <br>java.lang.RuntimeException
+     *      <br>java.sql.SQLException,ErrorCode=400,SQLState=Login failure
+     */
+    public static String getLabel(Throwable throwable) {
+        String sqlMessage="";
+        // add special label information if it is a sql exception.
+        if (throwable instanceof SQLException) {
+          SQLException sqlException = (SQLException) throwable;
+          sqlMessage = ",ErrorCode=" + sqlException.getErrorCode()+ ",SQLState=" + sqlException.getSQLState();
+        }
+        return throwable.getClass().getName()+sqlMessage;
+    }
+
+   /**
+    *
+    * @param jp The pointcut from the @Around advice that was intercepted.
+    * @return A label suitable for a monitoring/timer label.  It is a convenience method and need not be
+    * used to create the monitor
+    */
+
+    public static String getLabel(JoinPoint jp) {
+        return jp.getStaticPart().toString();
     }
 
     // linkedHashMap removeEldestEntry - http://docs.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html#removeEldestEntry(java.util.Map.Entry)
@@ -39,17 +95,6 @@ public class Utils {
 //    *           from the map; <tt>false</tt> if it should be retained.
 //            */
 
-    /*
-    LinkedHashMap()
-          Constructs an empty insertion-ordered LinkedHashMap instance with the default
-          initial capacity (16) and load factor (0.75).
-LinkedHashMap(int initialCapacity)
-          Constructs an empty insertion-ordered LinkedHashMap instance with the specified initial capacity and a default load factor (0.75).
-LinkedHashMap(int initialCapacity, float loadFactor)
-          Constructs an empty insertion-ordered LinkedHashMap instance with the specified initial capacity and load factor.
-LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
-          Constructs an empty LinkedHashMap instance with the specified initial capacity, load factor and ordering mode.
-     */
 
     // key is exception, value could be timestamp
     // **** SOLUTION ***
@@ -67,37 +112,9 @@ LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
     // The effects of returning true after modifying the map from within this method are unspecified.
 
 
-    // threadlocal won't work as it never removes the stack trace for a given thread.
-    // p 275 aspectj book
-//    @AfterThrowing(pointcut = "myExceptions()", throwing = "e")
-//    public void myAfterThrowing(JoinPoint joinPoint, Throwable e) {
-//   //     if (lastLoggedException.get()!=e) {
-//   //         lastLoggedException.set(e);
-//            System.out.println();
-//            System.out.println("Exception: "+e);
-//            System.out.println("Exception: "+e.getClass().getName());
-//
-//            System.out.println(" jp.getKind()=" + joinPoint.getKind());
-//            System.out.println(" jp.getStaticPart()="+joinPoint.getStaticPart());
-//            Object[] argValues = joinPoint.getArgs();
-//            Signature signature = joinPoint.getSignature();
-//            System.out.println(" jp.getSignature().getClass()="+signature.getClass());
-//            // Note would have to look at all the special cases here.
-//            if (signature instanceof MethodSignature) {
-//                MethodSignature methodSignature =  (MethodSignature) signature;
-//                String[]argNames = methodSignature.getParameterNames();
-//                for (int i = 0; i < argNames.length; i++) {
-//                    printMe("  argName, argValue", argNames[i] + ", " + argValues[i]);
-//                }
-//            }
-//     //   }
-//
-//    }
 
 
 
-    private void printMe(String type, Object message) {
-        System.out.println(" "+type + " : " + message);
-    }
+
 
 }

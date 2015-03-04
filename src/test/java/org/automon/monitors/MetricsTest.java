@@ -53,8 +53,12 @@ public class MetricsTest {
     public void testException() throws Exception {
         MetricRegistry metricRegistry = openMon.getMetricRegistry();
         assertThat(metricRegistry.counter(EXCEPTION_LABEL).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
+        assertThat(metricRegistry.counter(OpenMon.EXCEPTION_LABEL).getCount()).describedAs("No general exception should exist yet").isEqualTo(0);
+
         openMon.exception(jp, EXCEPTION);
+
         assertThat(metricRegistry.counter(EXCEPTION_LABEL).getCount()).describedAs("An exception should now exist").isEqualTo(1);
+        assertThat(metricRegistry.counter(OpenMon.EXCEPTION_LABEL).getCount()).describedAs("An general exception should now exist").isEqualTo(1);
     }
 
 

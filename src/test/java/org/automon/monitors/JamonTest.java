@@ -60,12 +60,11 @@ public class JamonTest {
     @Test
     public void testException() throws Exception {
         assertThat(MonitorFactory.exists(EXCEPTION_LABEL, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
+
         openMon.exception(jp, EXCEPTION);
-        assertThat(MonitorFactory.exists(EXCEPTION_LABEL, "Exception")).describedAs("The exception monitor should exist").isTrue();
-        assertThat(MonitorFactory.getMonitor(EXCEPTION_LABEL, "Exception").getLabel()).
-                describedAs("The label should match passed in label").isEqualTo(EXCEPTION_LABEL);
+
+        assertThat(MonitorFactory.getMonitor(EXCEPTION_LABEL, "Exception").getHits()).describedAs("One exception should have been thrown").isEqualTo(1);
+        assertThat(MonitorFactory.getMonitor(OpenMon.EXCEPTION_LABEL, "Exception").getHits()). describedAs("One exception should have been thrown").isEqualTo(1);
     }
-
-
 
 }

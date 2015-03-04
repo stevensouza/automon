@@ -22,6 +22,7 @@ public class TimeExpirable implements Expirable {
         this(expirationIntervalInMinutes, new CurrentTimeMills());
     }
 
+    // used for testing
     TimeExpirable(int expirationIntervalInMinutes, Now now) {
         this.now = now;
         creationTime = now.now();

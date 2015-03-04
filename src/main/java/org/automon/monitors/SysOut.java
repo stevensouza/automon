@@ -1,16 +1,17 @@
 package org.automon.monitors;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.utils.Utils;
 
 /**
  * Created by stevesouza on 2/26/15.
  */
-public final class SysOut extends OpenMonBase<Object> {
+public final class SysOut implements OpenMon<Object> {
     private static final Object NOOP = new Object();
 
     @Override
     public Object start(JoinPoint jp) {
-        System.out.println("SysOut.start(..): "+getLabel(jp));
+        System.out.println("SysOut.start(..): "+ Utils.getLabel(jp));
         return NOOP;
     }
 

@@ -59,9 +59,12 @@ public class JavaSimonTest {
     @Test
     public void testException() throws Exception {
         Counter mon = SimonManager.getCounter(EXCEPTION_LABEL);
+        Counter monGeneral = SimonManager.getCounter(OpenMon.EXCEPTION_LABEL);
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(0);
+        assertThat(monGeneral.getCounter()).describedAs("The general exception monitor should not have been created yet").isEqualTo(0);
         openMon.exception(jp, EXCEPTION);
-        assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(1);
+        assertThat(mon.getCounter()).describedAs("The exception monitor should have been created yet").isEqualTo(1);
+        assertThat(monGeneral.getCounter()).describedAs("The general  exception monitor should have been created yet").isEqualTo(1);
     }
 
 }

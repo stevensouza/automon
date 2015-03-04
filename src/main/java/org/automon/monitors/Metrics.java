@@ -3,6 +3,9 @@ package org.automon.monitors;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import org.aspectj.lang.JoinPoint;
+import org.automon.utils.Utils;
+
+import java.util.List;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
@@ -14,7 +17,7 @@ public class Metrics extends OpenMonBase<Timer> {
 
     @Override
     public Timer start(JoinPoint jp) {
-        return metrics.timer(name(getLabel(jp)));
+        return metrics.timer(name(Utils.getLabel(jp)));
     }
 
     @Override
@@ -23,8 +26,11 @@ public class Metrics extends OpenMonBase<Timer> {
     }
 
     @Override
-    public void exceptionImp(JoinPoint jp, Throwable throwable) {
-        metrics.counter(getLabel(throwable)).inc();
+    protected void trackException(JoinPoint jp, Throwable throwable) {
+        List<String> labels = getLabels(throwable);
+        for (String label : labels) {
+            metrics.counter(label).inc();
+        }
     }
 
     public MetricRegistry getMetricRegistry() {
