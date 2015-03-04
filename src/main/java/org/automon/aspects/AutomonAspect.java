@@ -55,57 +55,8 @@ public abstract class AutomonAspect  {
 
     @AfterThrowing(pointcut = "exceptions()", throwing = "throwable")
     public void monitorExceptions(JoinPoint jp, Throwable throwable) {
-        openMon.exception(jp, throwable); // java.lang.RuntimeException
-
-        // 1) Put argument/info in exception OpenMonBase
-        //  i.e. arg0:val0
-        //       arg1:val1
-        //  how to handle different signatures?
-        // 2) only track exception first time it is encountered.  see notes.
-
-//        Exception: java.lang.RuntimeException: testing throwing exceptions
-//        jp.getKind()=method-execution
-//        jp.getStaticPart()=execution(void org.automon.aspects.AspectJBaseTest.MyTestClass.throwException())
-
-        //Object[] argValues = joinPoint.getArgs();
-//        Signature signature = joinPoint.getSignature();
-        // Note would have to look at all the special cases here.
-//            if (signature instanceof MethodSignature) {
-//                MethodSignature methodSignature =  (MethodSignature) signature;
-//                String[]argNames = methodSignature.getParameterNames();
-//                //for (int i = 0; i < argNames.length; i++) {
-//                //    printMe("  argName, argValue", argNames[i] + ", " + argValues[i]);
-//                //}
-//            }
-
-        // threadlocal won't work as it never removes the stack trace for a given thread.
-        // p 275 aspectj book
-//    @AfterThrowing(pointcut = "myExceptions()", throwing = "e")
-//    public void myAfterThrowing(JoinPoint joinPoint, Throwable e) {
-//   //     if (lastLoggedException.get()!=e) {
-//   //         lastLoggedException.set(e);
-//            System.out.println();
-//            System.out.println("Exception: "+e);
-//            System.out.println("Exception: "+e.getClass().getName());
-//
-//            System.out.println(" jp.getKind()=" + joinPoint.getKind());
-//            System.out.println(" jp.getStaticPart()="+joinPoint.getStaticPart());
-//            Object[] argValues = joinPoint.getArgs();
-//            Signature signature = joinPoint.getSignature();
-//            System.out.println(" jp.getSignature().getClass()="+signature.getClass());
-//            // Note would have to look at all the special cases here.
-//            if (signature instanceof MethodSignature) {
-//                MethodSignature methodSignature =  (MethodSignature) signature;
-//                String[]argNames = methodSignature.getParameterNames();
-//                for (int i = 0; i < argNames.length; i++) {
-//                    printMe("  argName, argValue", argNames[i] + ", " + argValues[i]);
-//                }
-//            }
-//     //   }
-//
-//    }
+        openMon.exception(jp, throwable);
     }
-
 
     public OpenMon getOpenMon() {
         return openMon;
