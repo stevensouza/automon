@@ -6,12 +6,12 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.monitors.NullImp;
-import org.automon.monitors.OpenMon;
+import org.automon.implementations.NullImp;
+import org.automon.implementations.OpenMon;
 
 /**
  * Aspect that advises the {@link org.aspectj.lang.annotation.Around} and {@link org.aspectj.lang.annotation.AfterThrowing} annotations.
- * The appropriate methods on {@link org.automon.monitors.OpenMon} methods are called and they typically time methods and count any exceptions
+ * The appropriate methods on {@link org.automon.implementations.OpenMon} methods are called and they typically time methods and count any exceptions
  * thrown however other behavior such as logging is also possible.
  *
  */
@@ -31,7 +31,7 @@ public abstract class AutomonAspect  {
 
 
     /**
-     * Advice that wraps the given pointcut and calls the appropriate {@link org.automon.monitors.OpenMon} method at the beginning and end
+     * Advice that wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method at the beginning and end
      * of the method call.
      *
      * @param pjp Information on the {@link org.aspectj.lang.JoinPoint}

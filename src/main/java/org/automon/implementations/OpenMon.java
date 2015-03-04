@@ -1,4 +1,4 @@
-package org.automon.monitors;
+package org.automon.implementations;
 
 import org.aspectj.lang.JoinPoint;
 
@@ -32,7 +32,7 @@ public interface OpenMon<T> {
      * Called as part of AspectJ's 'around' advice.  It is called after the event such as a method has completed. Typically
      * a timer that was started in the 'start' method above would be stopped.  Although anything can be done.
      *
-     * Make sure not to double count exceptions which can happen if you also handle them in {@link org.automon.monitors.OpenMon#exception}
+     * Make sure not to double count exceptions which can happen if you also handle them in {@link OpenMon#exception}
      *
      * @param context The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
      *              Note although this variable is typically a 'timer' it can really be any object, or state needed.

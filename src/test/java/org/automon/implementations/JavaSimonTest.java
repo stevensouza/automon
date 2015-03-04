@@ -1,4 +1,4 @@
-package org.automon.monitors;
+package org.automon.implementations;
 
 import org.aspectj.lang.JoinPoint;
 import org.javasimon.Counter;
