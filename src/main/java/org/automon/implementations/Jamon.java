@@ -30,9 +30,19 @@ public class Jamon extends OpenMonBase<Monitor> {
     public void stop(Monitor mon, Throwable throwable) {
         mon.stop();
         put(throwable);
+        // note the following 'get' always succeeds because of the above 'put'
         mon.getMonKey().setDetails(get(throwable));
     }
 
+    @Override
+    public void exception(JoinPoint jp, Throwable throwable) {
+        // note for the jamon implementation the order of the following methods is important.  That way the stacktrace can be available
+        // to be put in all monitors.
+        put(throwable);
+        trackException(jp, throwable);
+    }
+
+    // Return the AutomonExpirable just put in the map via the call to exception
     @Override
     protected void trackException(JoinPoint jp, Throwable throwable) {
         AutomonExpirable exceptionContext = populateArgNamesAndValues_InExceptionContext(jp, throwable);

@@ -32,4 +32,12 @@ public class AutomonExpirable extends TimeExpirable {
         this.throwable = throwable;
     }
 
+    public String toString() {
+        return new StringBuilder().
+                append(Utils.getExceptionTrace(throwable)).
+                append(Utils.LINE_SEPARATOR).
+                append(Utils.argNameValuePairsToString(argNamesAndValues)).
+                toString();
+    }
+
 }

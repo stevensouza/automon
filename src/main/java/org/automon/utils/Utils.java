@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class Utils {
 
-    private static final String LINE_SEPARATOR = "\n";
+    public static final String LINE_SEPARATOR = "\n";
     /**
      * Returned when a method parameter is null
      */
@@ -107,21 +107,16 @@ public class Utils {
      }
 
     public static String argNameValuePairsToString(List<String> args) {
+        if (args==null) {
+            return UNKNOWN;
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("=== Parameters ===").append(LINE_SEPARATOR);
         for (String str : args) {
             sb.append(str).append(LINE_SEPARATOR);
         }
         return sb.append(LINE_SEPARATOR).toString();
-    }
-
-    private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
-        Signature signature = jp.getSignature();
-        if (signature instanceof CodeSignature) {
-            return ((CodeSignature) signature).getParameterNames();
-        } else {
-            return new Object[argValues.length];
-        }
     }
 
     /**
@@ -148,6 +143,9 @@ public class Utils {
 
     /** Return Exception information as String */
     public static String getExceptionTrace(Throwable exception) {
+        if (exception==null) {
+            return UNKNOWN;
+        }
         // each line of the stack trace will be returned in the array.
         StackTraceElement elements[] = exception.getStackTrace();
         StringBuffer sb = new StringBuffer().append(exception).append(LINE_SEPARATOR);
@@ -159,7 +157,13 @@ public class Utils {
         return sb.toString();
     }
 
-
-
+    private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
+        Signature signature = jp.getSignature();
+        if (signature instanceof CodeSignature) {
+            return ((CodeSignature) signature).getParameterNames();
+        } else {
+            return new Object[argValues.length];
+        }
+    }
 
 }
