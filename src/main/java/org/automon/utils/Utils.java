@@ -106,6 +106,11 @@ public class Utils {
         return list;
      }
 
+    /** Convert a list to a formatted string.
+     *
+     * @param args assumed to be parameter key value pairs
+     * @return String representing the argName, argValue pairs
+     */
     public static String argNameValuePairsToString(List<String> args) {
         if (args==null) {
             return UNKNOWN;

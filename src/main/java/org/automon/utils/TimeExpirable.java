@@ -1,7 +1,8 @@
 package org.automon.utils;
 
 /**
- * Created by stevesouza on 3/3/15.
+ * Allows for entries that are put into {@link org.automon.utils.ExpiringMap} to be removed when they become old.  Age
+ * is defined in minutes based on what is passed to the constructor.
  */
 public class TimeExpirable implements Expirable {
 

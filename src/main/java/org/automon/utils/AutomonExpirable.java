@@ -3,7 +3,8 @@ package org.automon.utils;
 import java.util.List;
 
 /**
- * Created by stevesouza on 3/5/15.
+ * Starts with {@link org.automon.utils.TimeExpirable} behavior and adds the ability to store the exception and argument name and values
+ * that occurred during an exception.
  */
 public class AutomonExpirable extends TimeExpirable {
     private Throwable throwable;
