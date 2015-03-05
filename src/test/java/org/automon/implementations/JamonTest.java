@@ -3,9 +3,12 @@ package org.automon.implementations;
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
+import org.automon.utils.AutomonExpirable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -62,6 +65,10 @@ public class JamonTest {
         openMon.exception(jp, EXCEPTION);
         assertThat(MonitorFactory.getMonitor(EXCEPTION_LABEL, "Exception").getHits()).describedAs("One exception should have been thrown").isEqualTo(1);
         assertThat(MonitorFactory.getMonitor(OpenMon.EXCEPTION_LABEL, "Exception").getHits()). describedAs("One exception should have been thrown").isEqualTo(1);
+
+        Map<Throwable, AutomonExpirable> map = openMon.getExceptionsMap();
+        assertThat(map.get(EXCEPTION).getThrowable()).describedAs("Throwable should have been set").isEqualTo(EXCEPTION);
+        assertThat(map.get(EXCEPTION).getArgNamesAndValues()).describedAs("Arg names and values should have been set").isNotNull();
     }
 
 }

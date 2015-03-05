@@ -1,6 +1,7 @@
 package org.automon.implementations;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.utils.AutomonExpirable;
 import org.automon.utils.Expirable;
 import org.junit.Test;
 
@@ -39,6 +40,9 @@ public class OpenMonBaseTest {
         assertThat(openMon.getExceptionsMap().get(runtimeException)).
                 describedAs("The value object should only have been created once").
                 isEqualTo(expirable);
+
+        Map<Throwable, AutomonExpirable> map = openMon.getExceptionsMap();
+        assertThat(map.get(runtimeException).getThrowable()).describedAs("Throwable should have been set").isEqualTo(runtimeException);
     }
 
     @Test
