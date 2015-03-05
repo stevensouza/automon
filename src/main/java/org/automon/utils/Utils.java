@@ -1,9 +1,14 @@
 package org.automon.utils;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.reflect.CodeSignature;
 
+import java.nio.charset.CoderMalfunctionError;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,6 +48,48 @@ public class Utils {
 
     public static String getLabel(JoinPoint.StaticPart jp ) {
         return jp.toString();
+    }
+
+
+    /**
+     * <p>If appropriate for the given {@link org.aspectj.lang.JoinPoint} return argument names and values
+     * in a list of Strings.</p>
+     *
+     * <p>Example for the following method - printName(String fname, String lname)<br>
+     *    fname: Steve<br>
+     *    lname: Souza<br>
+     * </p>
+     *
+     * <p>Under certain circumstances for example if the code was compiled without retaining parameters a
+     * parameter name of the format arg0 or even 0 might appear.</p>
+     *
+     *
+     * @param jp
+     * @return A list containing strings of the format: argName: argValue
+     */
+    public static List<String> getArgNameValuesPairs(JoinPoint jp) {
+        List<String> list =  new ArrayList<String>();
+        Object[] argValues = jp.getArgs();
+        if (argValues==null || argValues.length==0) {
+            return list;
+        }
+
+        Object[] argNames = getParameterNames(argValues, jp);
+        for (int i = 0; i < argValues.length; i++) {
+            String argName =  (argNames[i]==null) ? ""+i : argNames[i].toString();
+            list.add(""+argName+": "+argValues[i]);
+        }
+
+        return list;
+     }
+
+    private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
+        Signature signature = jp.getSignature();
+        if (signature instanceof CodeSignature) {
+            return ((CodeSignature) signature).getParameterNames();
+        } else {
+            return new Object[argValues.length];
+        }
     }
 
 }

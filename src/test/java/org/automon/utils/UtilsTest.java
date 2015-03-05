@@ -1,5 +1,7 @@
 package org.automon.utils;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +9,7 @@ import org.junit.Test;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 public class UtilsTest {
 
@@ -32,4 +35,43 @@ public class UtilsTest {
         assertThat(Utils.getLabel(sqlException)).isEqualTo("java.sql.SQLException,ErrorCode=400,SQLState=Login failure");
     }
 
+    @Test
+    public void testArgNameValuePairs_Empty() throws Exception {
+        JoinPoint jp = mock(JoinPoint.class);
+        assertThat(Utils.getArgNameValuesPairs(jp)).isEmpty();
+    }
+
+    @Test
+    public void testArgNameValuePairs_ArgValueNoArgName() throws Exception {
+        JoinPoint jp = mock(JoinPoint.class);
+        when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
+        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("0: Steve");
+    }
+
+    @Test
+    public void testArgNameValuePairs_ArgValueNoArgName_multiple() throws Exception {
+        JoinPoint jp = mock(JoinPoint.class);
+        when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
+        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("0: Steve",  "1: 20");
+    }
+
+    @Test
+    public void testArgNameValuePairs_ArgValueAndArgName() throws Exception {
+        JoinPoint jp = mock(JoinPoint.class);
+        CodeSignature signature = mock(CodeSignature.class);
+        when(jp.getSignature()).thenReturn(signature);
+        when(signature.getParameterNames()).thenReturn(new String[]{"firstName"});
+        when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
+        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("firstName: Steve");
+    }
+
+    @Test
+    public void testArgNameValuePairs_ArgValueAndArgName_multiple() throws Exception {
+        JoinPoint jp = mock(JoinPoint.class);
+        CodeSignature signature = mock(CodeSignature.class);
+        when(jp.getSignature()).thenReturn(signature);
+        when(signature.getParameterNames()).thenReturn(new String[]{"firstName", "number"});
+        when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
+        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("firstName: Steve", "number: 20");
+    }
 }
