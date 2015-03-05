@@ -16,8 +16,8 @@ public class Metrics extends OpenMonBase<Timer> {
     private MetricRegistry metrics = new MetricRegistry();
 
     @Override
-    public Timer start(JoinPoint jp) {
-        return metrics.timer(name(Utils.getLabel(jp)));
+    public Timer start(JoinPoint.StaticPart jp) {
+        return metrics.timer(name(jp.toString()));
     }
 
     @Override

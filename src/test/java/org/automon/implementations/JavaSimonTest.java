@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 public class JavaSimonTest {
     private JavaSimon openMon = new JavaSimon();
     private JoinPoint jp = mock(JoinPoint.class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
     private static final String LABEL =  "helloWorld.timer";
     private static final Exception EXCEPTION = new RuntimeException("my exception");
     private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
@@ -23,8 +24,8 @@ public class JavaSimonTest {
     @Before
     public void setUp() throws Exception {
         SimonManager.clear();
-        JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-        when(jp.getStaticPart()).thenReturn(staticPart);
+//        JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
+//        when(jp.getStaticPart()).thenReturn(staticPart);
         when(staticPart.toString()).thenReturn(LABEL);
     }
 
@@ -35,14 +36,14 @@ public class JavaSimonTest {
 
     @Test
     public void testStart() throws Exception {
-        Split mon = openMon.start(jp);
+        Split mon = openMon.start(staticPart);
         assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(1);
         assertThat(mon.getStopwatch().getCounter()).describedAs("The monitor should not have finished").isEqualTo(0);
     }
 
     @Test
     public void testStop() throws Exception {
-        Split mon = openMon.start(jp);
+        Split mon = openMon.start(staticPart);
         openMon.stop(mon);
         assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(0);
         assertThat(mon.getStopwatch().getCounter()).describedAs("The monitor should not have finished").isEqualTo(1);
@@ -50,7 +51,7 @@ public class JavaSimonTest {
 
     @Test
     public void testStopWithException() throws Exception {
-        Split mon = openMon.start(jp);
+        Split mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(0);
         assertThat(mon.getStopwatch().getCounter()).describedAs("The monitor should not have finished").isEqualTo(1);

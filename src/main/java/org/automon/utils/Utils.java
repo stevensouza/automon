@@ -64,8 +64,8 @@ public class Utils {
     * used to create the monitor
     */
 
-    public static String getLabel(JoinPoint jp) {
-        return jp.getStaticPart().toString();
+    public static String getLabel(JoinPoint.StaticPart jp ) {
+        return jp.toString();
     }
 
 }

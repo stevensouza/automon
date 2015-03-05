@@ -10,7 +10,7 @@ public final class SysOut implements OpenMon<Object> {
     private static final Object NOOP = new Object();
 
     @Override
-    public Object start(JoinPoint jp) {
+    public Object start(JoinPoint.StaticPart jp) {
         System.out.println("SysOut.start(..): "+ Utils.getLabel(jp));
         return NOOP;
     }

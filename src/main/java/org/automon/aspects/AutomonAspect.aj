@@ -1,11 +1,5 @@
 package org.automon.aspects;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 
@@ -15,8 +9,8 @@ import org.automon.implementations.OpenMon;
  * thrown however other behavior such as logging is also possible.
  *
  */
-@Aspect
-public abstract class AutomonAspect  {
+//@Aspect
+public abstract aspect AutomonAspect  {
 
     private OpenMon openMon = new NullImp();
     protected  boolean enable = true;
@@ -38,13 +32,14 @@ public abstract class AutomonAspect  {
      * @return The advised methods value or void.
      * @throws Throwable If the method throws a {@link java.lang.Throwable} the advice will rethrow it.
      */
-    @Around("monitor()")
-    public Object monitorPerformance(ProceedingJoinPoint pjp) throws Throwable {
+//    @Around("monitor()")
+    Object around() throws Throwable : monitor()  {
+   // public Object monitorPerformance(ProceedingJoinPoint pjp) throws Throwable {
         // Note context is typically a Timer/Monitor object though to this advice it is simply
         // an object and the advice doesn't care what the intent of the context/object is.
-        Object context = openMon.start(pjp);
+        Object context = openMon.start(thisJoinPointStaticPart);
         try {
-            Object retVal = pjp.proceed();
+            Object retVal = proceed();
             openMon.stop(context);
             return retVal;
         } catch (Throwable throwable) {
@@ -53,9 +48,11 @@ public abstract class AutomonAspect  {
         }
     }
 
-    @AfterThrowing(pointcut = "exceptions()", throwing = "throwable")
-    public void monitorExceptions(JoinPoint jp, Throwable throwable) {
-        openMon.exception(jp, throwable);
+    //@AfterThrowing(pointcut = "exceptions()", throwing = "throwable")
+
+    after() throwing(Throwable throwable): exceptions() {
+   // public void monitorExceptions(JoinPoint jp, Throwable throwable) {
+        openMon.exception(thisJoinPoint, throwable);
     }
 
     public OpenMon getOpenMon() {
@@ -66,26 +63,45 @@ public abstract class AutomonAspect  {
         this.openMon = openMon;
     }
 
-    @Pointcut("user_monitor() && sys_monitor()")
-    public void monitor() {
+    public pointcut monitor() : user_monitor() && sys_monitor();
+    public abstract pointcut sys_monitor();
+    public abstract pointcut user_monitor();
 
-    }
+    public pointcut exceptions() : user_exceptions() && sys_exceptions();
+    public abstract pointcut sys_exceptions();
+    public abstract pointcut user_exceptions();
 
-    @Pointcut()
-    public abstract void sys_monitor();
 
-    @Pointcut()
-    public abstract void user_monitor();
+    //@Pointcut("user_monitor() && sys_monitor()")
+//    public void monitor() {
+//
+//    }
 
-    @Pointcut("user_exceptions() && sys_exceptions()")
-    public void exceptions() {
-    }
+//    @Pointcut()
+//    public abstract void sys_monitor();
+//
+//    @Pointcut()
+//    public abstract void user_monitor();
+//
+//
 
-    @Pointcut()
-    public abstract void sys_exceptions();
 
-    @Pointcut()
-    public abstract void user_exceptions();
+
+//
+//    @Pointcut()
+//    public abstract void sys_monitor();
+//
+//    @Pointcut()
+//    public abstract void user_monitor();
+//    @Pointcut("user_exceptions() && sys_exceptions()")
+//    public void exceptions() {
+//    }
+//
+//    @Pointcut()
+//    public abstract void sys_exceptions();
+//
+//    @Pointcut()
+//    public abstract void user_exceptions();
 
 
 }

@@ -15,8 +15,8 @@ import java.util.List;
 public class Jamon extends OpenMonBase<Monitor> {
 
     @Override
-    public Monitor start(JoinPoint jp) {
-        return MonitorFactory.start(Utils.getLabel(jp));
+    public Monitor start(JoinPoint.StaticPart  jp) {
+        return MonitorFactory.start(jp.toString());
     }
 
     @Override

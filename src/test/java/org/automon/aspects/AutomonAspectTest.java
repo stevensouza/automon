@@ -1,5 +1,6 @@
 package org.automon.aspects;
 
+import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,9 +15,9 @@ import static org.mockito.Mockito.*;
 
 public class AutomonAspectTest {
 
-    private AutomonAspect aspect = new MyDisabledTestAspect();
+    private MyDisabledTestAspect aspect=Aspects.aspectOf(MyDisabledTestAspect.class);
     private Throwable exception = new RuntimeException("my exception");
-    private ProceedingJoinPoint pjp = mock(ProceedingJoinPoint.class);
+//    private ProceedingJoinPoint pjp = mock(ProceedingJoinPoint.class);
     private JoinPoint jp = mock(JoinPoint.class);
     private OpenMon openMon = mock(OpenMon.class);
 
@@ -48,48 +49,49 @@ public class AutomonAspectTest {
     @Test
     public void testMonitorPerformance() throws Throwable {
         Object START_RETURN_VALUE = new Object();
-        when(openMon.start(any(JoinPoint.class))).thenReturn(START_RETURN_VALUE);
-        when(pjp.getStaticPart()).thenReturn(mock(JoinPoint.StaticPart.class));
+        when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_RETURN_VALUE);
+       // when(pjp.getStaticPart()).thenReturn(mock(JoinPoint.StaticPart.class));
+        //aspect.monitor();
 
-        aspect.monitorPerformance(pjp);
+ //       aspect.monitorPerformance(pjp);
 
-        verify(openMon).start(any(JoinPoint.class));
+        verify(openMon).start(any(JoinPoint.StaticPart.class));
         verify(openMon).stop(START_RETURN_VALUE);
     }
 
     @Test
     public void testMonitorExceptions() throws Throwable {
-        aspect.monitorExceptions(jp, exception);
+       // aspect.monitorExceptions(jp, exception);
 
         verify(openMon).exception(eq(jp), eq(exception));
     }
 
-    @Aspect
-    static class MyDisabledTestAspect extends AutomonAspect {
-        // Note the @Override annotation was not used below as it will not compile with ajc.
-        // Note I also couldn't think of a way to disable all monitoring without the following pointcuts
-        //  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
-        //  warning that there was no match.
-
-        @Pointcut("!within(java.lang.Object+)")
-        public void sys_monitor() {
-
-        }
-
-        @Pointcut("!within(java.lang.Object+)")
-        public void user_monitor() {
-
-        }
-
-        @Pointcut("!within(java.lang.Object+)")
-        public void sys_exceptions() {
-
-        }
-
-        @Pointcut("!within(java.lang.Object+)")
-        public void user_exceptions() {
-        }
-
-    }
+//    @Aspect
+//    static class MyDisabledTestAspect extends AutomonAspect {
+//        // Note the @Override annotation was not used below as it will not compile with ajc.
+//        // Note I also couldn't think of a way to disable all monitoring without the following pointcuts
+//        //  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
+//        //  warning that there was no match.
+//
+//        @Pointcut("!within(java.lang.Object+)")
+//        public void sys_monitor() {
+//
+//        }
+//
+//        @Pointcut("!within(java.lang.Object+)")
+//        public void user_monitor() {
+//
+//        }
+//
+//        @Pointcut("!within(java.lang.Object+)")
+//        public void sys_exceptions() {
+//
+//        }
+//
+//        @Pointcut("!within(java.lang.Object+)")
+//        public void user_exceptions() {
+//        }
+//
+//    }
 
 }

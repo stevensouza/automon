@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 public class MetricsTest {
     private Metrics openMon = new Metrics();
     private JoinPoint jp = mock(JoinPoint.class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
     private static final String LABEL =  "helloWorld.timer";
     private static final Exception EXCEPTION = new RuntimeException("my exception");
     private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
@@ -22,7 +23,7 @@ public class MetricsTest {
     @Before
     public void setUp() throws Exception {
         JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-        when(jp.getStaticPart()).thenReturn(staticPart);
+//        when(jp.getStaticPart()).thenReturn(staticPart);
         when(staticPart.toString()).thenReturn(LABEL);
     }
     @After
@@ -31,20 +32,20 @@ public class MetricsTest {
 
     @Test
     public void testStart() throws Exception {
-        Timer mon = openMon.start(jp);
+        Timer mon = openMon.start(staticPart);
         assertThat(mon.getCount()).describedAs("The timer shouldn't have completed").isEqualTo(0);
     }
 
     @Test
     public void testStop() throws Exception {
-        Timer mon = openMon.start(jp);
+        Timer mon = openMon.start(staticPart);
         openMon.stop(mon);
         assertThat(mon.getCount()).describedAs("The timer should have completed/been stopped").isEqualTo(1);
     }
 
     @Test
     public void testStopWithException() throws Exception {
-        Timer mon = openMon.start(jp);
+        Timer mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(mon.getCount()).describedAs("The timer should have completed/been stopped").isEqualTo(1);
     }

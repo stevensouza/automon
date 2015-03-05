@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 public class OpenMonBaseTest {
      OpenMonBase openMon = new OpenMonBase() {
         @Override
-        public Object start(JoinPoint jp) {
+        public Object start(JoinPoint.StaticPart jp) {
             return null;
         }
 

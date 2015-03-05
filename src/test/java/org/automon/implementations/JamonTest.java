@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 public class JamonTest {
     private Jamon openMon = new Jamon();
     private JoinPoint jp = mock(JoinPoint.class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
     private static final String LABEL =  "helloWorld.timer";
     private static final Exception EXCEPTION = new RuntimeException("my exception");
     private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
@@ -21,8 +22,7 @@ public class JamonTest {
     @Before
     public void setUp() throws Exception {
         MonitorFactory.reset();
-        JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-        when(jp.getStaticPart()).thenReturn(staticPart);
+        //when(jp.getStaticPart()).thenReturn(staticPart);
         when(staticPart.toString()).thenReturn(LABEL);
     }
 
@@ -33,7 +33,7 @@ public class JamonTest {
 
     @Test
     public void testStart() throws Exception {
-        Monitor mon = openMon.start(jp);
+        Monitor mon = openMon.start(staticPart);
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(LABEL);
         assertThat(mon.getUnits()).describedAs("The units should be for time").isEqualTo("ms.");
         assertThat(mon.getActive()).describedAs("The monitor should have been started").isEqualTo(1);
@@ -41,7 +41,7 @@ public class JamonTest {
 
     @Test
     public void testStop() throws Exception {
-        Monitor mon = openMon.start(jp);
+        Monitor mon = openMon.start(staticPart);
         openMon.stop(mon);
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(LABEL);
         assertThat(mon.getActive()).describedAs("The monitor should not be running").isEqualTo(0);
@@ -50,7 +50,7 @@ public class JamonTest {
 
     @Test
     public void testStopWithException() throws Exception {
-        Monitor mon = openMon.start(jp);
+        Monitor mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(LABEL);
         assertThat(mon.getActive()).describedAs("The monitor should not be running").isEqualTo(0);

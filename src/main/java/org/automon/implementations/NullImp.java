@@ -9,7 +9,7 @@ public final class NullImp implements OpenMon<Object> {
     private static final Object NOOP = new Object();
 
     @Override
-    public Object start(JoinPoint label) {
+    public Object start(JoinPoint.StaticPart label) {
         return NOOP;
     }
 

@@ -16,7 +16,7 @@ public interface OpenMon<T> {
      * @return Any Object can be returned.  It will be passed back into the stop(..) method.  Typically this would be a timer
      * that can later be stopped.
      */
-    public T start(JoinPoint jp);
+    public T start(JoinPoint.StaticPart jp);
 
     /**
      * Called as part of AspectJ's 'around' advice.  It is called after the event such as a method has completed. Typically

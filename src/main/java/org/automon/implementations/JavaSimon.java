@@ -13,8 +13,8 @@ import java.util.List;
 public class JavaSimon extends OpenMonBase<Split> {
 
     @Override
-    public Split start(JoinPoint jp) {
-        return SimonManager.getStopwatch(Utils.getLabel(jp)).start();
+    public Split start(JoinPoint.StaticPart  jp) {
+        return SimonManager.getStopwatch(jp.toString()).start();
     }
 
     @Override

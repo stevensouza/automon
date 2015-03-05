@@ -2,8 +2,6 @@ package org.automon.aspects;
 
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.automon.implementations.OpenMon;
 import org.junit.After;
 import org.junit.Before;
@@ -13,14 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class AspectJBaseTest {
-
-//    private static final RuntimeException  TEST_RUNTIME_EXCEPTION = HelloWorld.TEST_RUNTIME_EXCEPTION;
-//    private static final String RETURN_VALUE = HelloWorld.RETURN_VALUE;
     private OpenMon openMon = mock(OpenMon.class);
 
     @Before
     public void setUp() throws Exception {
-        MyAspectJTestAspect aspect = Aspects.aspectOf(MyAspectJTestAspect.class);
+        MyAspectJTestAspect aspect= Aspects.aspectOf(MyAspectJTestAspect.class);
         aspect.setOpenMon(openMon);
     }
 
@@ -37,7 +32,7 @@ public class AspectJBaseTest {
         obj.iAmHiding();
 
         // start/stop pair should be called once per public method due to public method pointcut, and once for the constructor pointcut.
-        verify(openMon, times(3)).start(any(JoinPoint.class));
+        verify(openMon, times(3)).start(any(JoinPoint.StaticPart.class));
         verify(openMon, times(3)).stop(any());
     }
 
@@ -48,7 +43,7 @@ public class AspectJBaseTest {
         System.out.println(obj.getPlanet()); // get access for instance variable.  method doesn't match pointcut
 
         // start/stop pair should be called once for the constructor, and twice instance variable get and set access
-        verify(openMon, times(3)).start(any(JoinPoint.class));
+        verify(openMon, times(3)).start(any(JoinPoint.StaticPart.class));
         verify(openMon, times(3)).stop(any());
     }
 
@@ -58,7 +53,7 @@ public class AspectJBaseTest {
         String testString = obj.getString();
         assertThat(testString).isEqualTo(HelloWorld.RETURN_VALUE);
         // called once per the constructor and once for the method
-        verify(openMon, times(2)).start(any(JoinPoint.class));
+        verify(openMon, times(2)).start(any(JoinPoint.StaticPart.class));
         verify(openMon, times(2)).stop(any());
     }
 
@@ -92,24 +87,24 @@ public class AspectJBaseTest {
 
 
     // Note the @Override annotation was not used below as it will not compile with ajc.
-    @Aspect
-    static class MyAspectJTestAspect extends AspectJBase {
-
-        // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
-        // accesses to fields and methods.
-        @Pointcut("this(HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
-                "org.automon.pointcuts.Select.publicMethod() || " +
-                "org.automon.pointcuts.Select.fieldGet() || " +
-                "org.automon.pointcuts.Select.fieldSet()  " +
-                " ) " )
-        public void user_monitor() {
-
-        }
-
-        @Pointcut("this(HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
-        public void user_exceptions() {
-        }
-
-    }
+    //@Aspect
+//    static aspect MyAspectJTestAspect extends AspectJBase {
+//
+//        // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
+//        // accesses to fields and methods.
+//        @Pointcut("this(HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
+//                "org.automon.pointcuts.Select.publicMethod() || " +
+//                "org.automon.pointcuts.Select.fieldGet() || " +
+//                "org.automon.pointcuts.Select.fieldSet()  " +
+//                " ) " )
+//        public void user_monitor() {
+//
+//        }
+//
+//        @Pointcut("this(HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
+//        public void user_exceptions() {
+//        }
+//
+//    }
 
 }
