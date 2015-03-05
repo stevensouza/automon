@@ -69,15 +69,20 @@ public abstract aspect AutomonAspect  {
 
     /** pointcut that determines what is monitored for performance/time */
     public pointcut monitor() : user_monitor() && sys_monitor();
+
     /** User should implement this pointcut to determine what should be monitored for performance/time */
     public abstract pointcut user_monitor();
+
     /** reserved pointcut for Automon team */
     public abstract pointcut sys_monitor();
 
+
     /** pointcut that determines what is monitored for exceptions.  It can be the same as the {@link #monitor()} poincut */
     public pointcut exceptions() : user_exceptions() && sys_exceptions();
+
     /** User should implement this pointcut to determine what should be monitored for performance/time */
     public abstract pointcut user_exceptions();
+
     /** reserved pointcut for Automon team */
     public abstract pointcut sys_exceptions();
 

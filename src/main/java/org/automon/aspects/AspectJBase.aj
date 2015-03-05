@@ -9,6 +9,8 @@ package org.automon.aspects;
  */
 public abstract aspect AspectJBase extends AutomonAspect {
     public pointcut sys_monitor() : sys_pointcut();
+
     public pointcut sys_exceptions() : sys_pointcut();
+
     public pointcut sys_pointcut() : within(java.lang.Object+) && !within(AutomonAspect+);
 }
