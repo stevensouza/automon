@@ -2,8 +2,7 @@ package org.automon.implementations;
 
 
 import org.aspectj.lang.JoinPoint;
-import org.automon.utils.Expirable;
-import org.automon.utils.TimeExpirable;
+import org.automon.utils.AutomonExpirable;
 import org.automon.utils.Utils;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.Map;
  */
 public abstract class OpenMonBase<T> implements OpenMon<T> {
 
-    private  Map<Throwable, Expirable>  exceptionsMap = Utils.createExceptionMap();
+    private  Map<Throwable, AutomonExpirable>  exceptionsMap = Utils.createExceptionMap();
 
     /**
      * Note the default implementation simply calls {@link #stop(T)} and doesn't do anything with the {@link java.lang.Throwable} argument
@@ -38,8 +37,10 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
      */
     @Override
     public void exception(JoinPoint jp, Throwable throwable) {
-        trackException(jp, throwable);
+        // note for the jamon implementation the order of the following methods is important.  That way the stacktrace can be available
+        // to be put in all monitors.
         put(throwable);
+        trackException(jp, throwable);
     }
 
     /**
@@ -68,12 +69,18 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
     protected void put(Throwable throwable) {
         // note 'get' is used instead of 'containsKey' as we want to update the LRU information for each access.
         if (!exceptionsMap.containsKey(throwable)) {
-            exceptionsMap.put(throwable, new TimeExpirable());
+            AutomonExpirable automonExpirable = new AutomonExpirable();
+            automonExpirable.setThrowable(throwable);
+            exceptionsMap.put(throwable, automonExpirable);
         }
     }
 
+    protected AutomonExpirable get(Throwable throwable) {
+        return exceptionsMap.get(throwable);
+    }
+
     /** visible for testing */
-    Map<Throwable, Expirable> getExceptionsMap() {
+    Map<Throwable, AutomonExpirable> getExceptionsMap() {
         return exceptionsMap;
     }
 

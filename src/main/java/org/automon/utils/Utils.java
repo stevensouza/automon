@@ -1,5 +1,6 @@
 package org.automon.utils;
 
+import com.jamonapi.utils.Misc;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
@@ -15,8 +16,31 @@ import java.util.Map;
  */
 public class Utils {
 
-    public static Map<Throwable, Expirable> createExceptionMap() {
-        return Collections.synchronizedMap(new ExpiringMap<Throwable, Expirable>());
+    private static final String LINE_SEPARATOR = "\n";
+    /**
+     * Returned when a method parameter is null
+     */
+     static final String NULL_STR = "<null>";
+
+    /**
+     * used when a value isn't returned, and yet we don't want to throw an exception (hey it's just monitoring)
+     */
+     static final String UNKNOWN =  "???";
+
+
+    /**
+     * Maximum length for a parameter in the exception dump
+     */
+     static final int DEFAULT_ARG_STRING_MAX_LENGTH = 125;
+
+    /**
+     * Parameters kept in the details section are capped at a max length and this string is put at the end of
+     * the string after the truncation point to indicate there is more data that is not shown.
+     */
+     static final String DEFAULT_MAX_STRING_ENDING = "...";
+
+    public static Map<Throwable, AutomonExpirable> createExceptionMap() {
+        return Collections.synchronizedMap(new ExpiringMap<Throwable, AutomonExpirable>());
     }
 
    /**
@@ -66,7 +90,7 @@ public class Utils {
      * @param jp
      * @return A list containing strings of the format: argName: argValue
      */
-    public static List<String> getArgNameValuesPairs(JoinPoint jp) {
+    public static List<String> getArgNameValuePairs(JoinPoint jp) {
         List<String> list =  new ArrayList<String>();
         Object[] argValues = jp.getArgs();
         if (argValues==null || argValues.length==0) {
@@ -76,11 +100,20 @@ public class Utils {
         Object[] argNames = getParameterNames(argValues, jp);
         for (int i = 0; i < argValues.length; i++) {
             String argName =  (argNames[i]==null) ? ""+i : argNames[i].toString();
-            list.add(""+argName+": "+argValues[i]);
+            list.add(""+argName+": "+toStringWithLimit(argValues[i]));
         }
 
         return list;
      }
+
+    public static String argNameValuePairsToString(List<String> args) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Parameters ===").append(LINE_SEPARATOR);
+        for (String str : args) {
+            sb.append(str).append(LINE_SEPARATOR);
+        }
+        return sb.append(LINE_SEPARATOR).toString();
+    }
 
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
         Signature signature = jp.getSignature();
@@ -90,5 +123,43 @@ public class Utils {
             return new Object[argValues.length];
         }
     }
+
+    /**
+     * Turns a single method parameter into a string. To keep
+     * the functionality safe we truncate overly long strings and
+     * ignore any exceptions.
+     */
+     public static String toStringWithLimit(Object parameter) {
+        if(parameter == null) {
+            return NULL_STR;
+        }
+
+        String value = parameter.toString();
+        try {
+            if(value.length() > DEFAULT_ARG_STRING_MAX_LENGTH) {
+                value = value.substring(0, DEFAULT_ARG_STRING_MAX_LENGTH) + DEFAULT_MAX_STRING_ENDING;
+            }
+            return value;
+        } catch(Throwable e) {
+            return UNKNOWN;
+        }
+    }
+
+
+    /** Return Exception information as String */
+    public static String getExceptionTrace(Throwable exception) {
+        // each line of the stack trace will be returned in the array.
+        StackTraceElement elements[] = exception.getStackTrace();
+        StringBuffer sb = new StringBuffer().append(exception).append(LINE_SEPARATOR);
+
+        for (int i = 0; i < elements.length; i++) {
+            sb.append(elements[i]).append(LINE_SEPARATOR);
+        }
+
+        return sb.toString();
+    }
+
+
+
 
 }

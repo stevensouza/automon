@@ -39,21 +39,21 @@ public class UtilsTest {
     @Test
     public void testArgNameValuePairs_Empty() throws Exception {
         JoinPoint jp = mock(JoinPoint.class);
-        assertThat(Utils.getArgNameValuesPairs(jp)).isEmpty();
+        assertThat(Utils.getArgNameValuePairs(jp)).isEmpty();
     }
 
     @Test
     public void testArgNameValuePairs_ArgValueNoArgName() throws Exception {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
-        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("0: Steve");
+        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve");
     }
 
     @Test
     public void testArgNameValuePairs_ArgValueNoArgName_multiple() throws Exception {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("0: Steve",  "1: 20");
+        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve",  "1: 20");
     }
 
     @Test
@@ -63,7 +63,7 @@ public class UtilsTest {
         when(jp.getSignature()).thenReturn(signature);
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
-        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("firstName: Steve");
+        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("firstName: Steve");
     }
 
     @Test
@@ -73,6 +73,6 @@ public class UtilsTest {
         when(jp.getSignature()).thenReturn(signature);
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName", "number"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.getArgNameValuesPairs(jp)).containsExactly("firstName: Steve", "number: 20");
+        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("firstName: Steve", "number: 20");
     }
 }
