@@ -1,7 +1,6 @@
 package org.automon.implementations;
 
 import org.aspectj.lang.JoinPoint;
-import org.automon.utils.Utils;
 import org.javasimon.SimonManager;
 import org.javasimon.Split;
 

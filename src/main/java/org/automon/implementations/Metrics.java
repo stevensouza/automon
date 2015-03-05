@@ -3,7 +3,6 @@ package org.automon.implementations;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import org.aspectj.lang.JoinPoint;
-import org.automon.utils.Utils;
 
 import java.util.List;
 

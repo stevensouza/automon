@@ -2,7 +2,6 @@ package org.automon.aspects;
 
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.implementations.OpenMon;
@@ -15,12 +14,9 @@ import static org.mockito.Mockito.*;
 
 public class AutomonAspectTest {
 
-    private MyDisabledTestAspect aspect=Aspects.aspectOf(MyDisabledTestAspect.class);
+    private MyInheritedAutomonAspect aspect = Aspects.aspectOf(MyInheritedAutomonAspect.class);
     private Throwable exception = new RuntimeException("my exception");
-//    private ProceedingJoinPoint pjp = mock(ProceedingJoinPoint.class);
-    private JoinPoint jp = mock(JoinPoint.class);
     private OpenMon openMon = mock(OpenMon.class);
-
 
     @Before
     public void setUp() throws Exception {
@@ -48,50 +44,60 @@ public class AutomonAspectTest {
 
     @Test
     public void testMonitorPerformance() throws Throwable {
-        Object START_RETURN_VALUE = new Object();
-        when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_RETURN_VALUE);
-       // when(pjp.getStaticPart()).thenReturn(mock(JoinPoint.StaticPart.class));
-        //aspect.monitor();
+        HiWorld hi = new HiWorld();
+        Object START_CONTEXT = new Object();
+        when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);
 
- //       aspect.monitorPerformance(pjp);
+        hi.hello();
 
         verify(openMon).start(any(JoinPoint.StaticPart.class));
-        verify(openMon).stop(START_RETURN_VALUE);
+        verify(openMon).stop(START_CONTEXT);
     }
 
     @Test
     public void testMonitorExceptions() throws Throwable {
-       // aspect.monitorExceptions(jp, exception);
+        HiWorld hi = new HiWorld();
+        try {
+            hi.myException(exception);
+        } catch (Exception e) {
+            assertThat(e).isEqualTo(exception);
+        }
 
-        verify(openMon).exception(eq(jp), eq(exception));
+        verify(openMon).exception(any(JoinPoint.class), eq(exception));
     }
 
-//    @Aspect
-//    static class MyDisabledTestAspect extends AutomonAspect {
-//        // Note the @Override annotation was not used below as it will not compile with ajc.
-//        // Note I also couldn't think of a way to disable all monitoring without the following pointcuts
-//        //  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
-//        //  warning that there was no match.
-//
-//        @Pointcut("!within(java.lang.Object+)")
-//        public void sys_monitor() {
-//
-//        }
-//
-//        @Pointcut("!within(java.lang.Object+)")
-//        public void user_monitor() {
-//
-//        }
-//
-//        @Pointcut("!within(java.lang.Object+)")
-//        public void sys_exceptions() {
-//
-//        }
-//
-//        @Pointcut("!within(java.lang.Object+)")
-//        public void user_exceptions() {
-//        }
-//
-//    }
+
+    /** Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
+     * would run before ajc, and so any 'aspect' classes wouldn't be available when the tests were run.  Using @Aspect let javac compile them.
+     * This is also good as it shows java developers how to inherit from the aspects.
+     *
+     * Note2: The @Override annotation was not used below as it will not compile with ajc.
+     *
+     * Note3: I also couldn't think of a way to disable all monitoring without the following pointcuts
+     *  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
+     *  warning that there was no match.
+     */
+    @Aspect
+    static class MyInheritedAutomonAspect extends AutomonAspect {
+        @Pointcut("hiWorld()")
+        public void sys_monitor() {
+        }
+
+        @Pointcut("hiWorld()")
+        public void user_monitor() {
+        }
+
+        @Pointcut("hiWorld()")
+        public void sys_exceptions() {
+        }
+
+        @Pointcut("hiWorld()")
+        public void user_exceptions() {
+        }
+
+        @Pointcut("execution(* HiWorld.*(..))")
+        public void hiWorld() {
+        }
+    }
 
 }

@@ -2,6 +2,8 @@ package org.automon.aspects;
 
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.automon.implementations.OpenMon;
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +17,7 @@ public class AspectJBaseTest {
 
     @Before
     public void setUp() throws Exception {
-        MyAspectJTestAspect aspect= Aspects.aspectOf(MyAspectJTestAspect.class);
+        MyAspectJTestAspect aspect = Aspects.aspectOf(MyAspectJTestAspect.class);
         aspect.setOpenMon(openMon);
     }
 
@@ -31,7 +33,7 @@ public class AspectJBaseTest {
         obj.world();
         obj.iAmHiding();
 
-        // start/stop pair should be called once per public method due to public method pointcut, and once for the constructor pointcut.
+        // start/stop pair should be called for each public method due to public method pointcut, and once for the constructor pointcut.
         verify(openMon, times(3)).start(any(JoinPoint.StaticPart.class));
         verify(openMon, times(3)).stop(any());
     }
@@ -39,7 +41,7 @@ public class AspectJBaseTest {
     @Test
     public void testSys_monitorFields() throws Exception {
         HelloWorld obj = new HelloWorld();
-        obj.setPlanet("earth"); // sets - instance var. method doesn't count as it isn't public and so missed the pointcut
+        obj.setPlanet("earth"); // sets - instance var which matches pointcut. method itself doesn't count as it isn't public and so missed the pointcut
         System.out.println(obj.getPlanet()); // get access for instance variable.  method doesn't match pointcut
 
         // start/stop pair should be called once for the constructor, and twice instance variable get and set access
@@ -86,25 +88,32 @@ public class AspectJBaseTest {
     }
 
 
-    // Note the @Override annotation was not used below as it will not compile with ajc.
-    //@Aspect
-//    static aspect MyAspectJTestAspect extends AspectJBase {
-//
-//        // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
-//        // accesses to fields and methods.
-//        @Pointcut("this(HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
-//                "org.automon.pointcuts.Select.publicMethod() || " +
-//                "org.automon.pointcuts.Select.fieldGet() || " +
-//                "org.automon.pointcuts.Select.fieldSet()  " +
-//                " ) " )
-//        public void user_monitor() {
-//
-//        }
-//
-//        @Pointcut("this(HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
-//        public void user_exceptions() {
-//        }
-//
-//    }
+    /** Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
+     * would run before ajc, and so any 'aspect' classes wouldn't be available when the tests were run.  Using @Aspect let javac compile them.
+     * This is also good as it shows java developers how to inherit from the aspects.
+     *
+     * Note2: The @Override annotation was not used below as it will not compile with ajc.
+     *
+     * Note3: I also couldn't think of a way to disable all monitoring without the following pointcuts
+     *  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
+     *  warning that there was no match.
+     */
+    @Aspect
+    static class MyAspectJTestAspect extends AspectJBase {
+        // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
+        // accesses to fields and methods.
+        @Pointcut("this(HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
+                "org.automon.pointcuts.Select.publicMethod() || " +
+                "org.automon.pointcuts.Select.fieldGet() || " +
+                "org.automon.pointcuts.Select.fieldSet()  " +
+                " ) " )
+        public void user_monitor() {
+        }
+
+        //public pointcut user_exceptions() : this(HelloWorld) && org.automon.pointcuts.Select.publicMethod();
+        @Pointcut("this(HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
+        public void user_exceptions() {
+        }
+    }
 
 }

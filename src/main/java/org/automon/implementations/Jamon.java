@@ -5,7 +5,6 @@ import com.jamonapi.MonKeyImp;
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
-import org.automon.utils.Utils;
 
 import java.util.List;
 

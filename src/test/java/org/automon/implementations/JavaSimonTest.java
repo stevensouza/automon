@@ -24,8 +24,6 @@ public class JavaSimonTest {
     @Before
     public void setUp() throws Exception {
         SimonManager.clear();
-//        JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-//        when(jp.getStaticPart()).thenReturn(staticPart);
         when(staticPart.toString()).thenReturn(LABEL);
     }
 

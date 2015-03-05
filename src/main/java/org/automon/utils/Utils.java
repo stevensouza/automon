@@ -15,30 +15,7 @@ public class Utils {
         return Collections.synchronizedMap(new ExpiringMap<Throwable, Expirable>());
     }
 
-
-    /*
-       * When iterating over the map the most recently accessed entry is returned first and the least recently accessed element is returned last.
-     *
-   private void trackException(Throwable rootCause, Method method, String sqlMessage) {
-     String detailStackTrace = Misc.getExceptionTrace(rootCause);
-     MonitorFactory.add(new MonKeyImp(MonitorFactory.EXCEPTIONS_LABEL, detailStackTrace, "Exception"), 1); // counts total exceptions from jamon
-     MonitorFactory.add(new MonKeyImp("MonProxy-Exception: InvocationTargetException", detailStackTrace, "Exception"), 1); //counts total exceptions for MonProxy
-     MonitorFactory.add(new MonKeyImp("MonProxy-Exception: Root cause exception="+rootCause.getClass().getName()+sqlMessage,
-     detailStackTrace, "Exception"), 1); // Message for the exception
-     MonitorFactory.add(new MonKeyImp(labelerInt.getExceptionLabel(method), detailStackTrace,"Exception"), 1); // Exception and method that threw it.
-     }
-
-     // Add special info if it is a SQLException
-     if (rootCause instanceof SQLException) {
-       SQLException sqlException = (SQLException) rootCause;
-       sqlMessage = ",ErrorCode=" + sqlException.getErrorCode()+ ",SQLState=" + sqlException.getSQLState();
-     }
-
-     // Add jamon entries for Exceptions
-     trackException(rootCause, method, sqlMessage);
-
-     */
-    /**
+   /**
      * @param throwable The exception that was thrown
      * @return A string suitable for a monitoring label representing the thrown exception.  It is a convenience method and need not be
      * used to create the monitor

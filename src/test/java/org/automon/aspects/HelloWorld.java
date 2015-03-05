@@ -1,6 +1,8 @@
 package org.automon.aspects;
 
 /**
+ * Test class that is advised to see if aspects are working properly
+ *
  * Created by stevesouza on 3/3/15.
  */
 public class HelloWorld {
