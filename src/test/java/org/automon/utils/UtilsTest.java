@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -75,4 +77,36 @@ public class UtilsTest {
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
         assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("firstName: Steve", "number: 20");
     }
+
+    @Test
+    public void testArgNameValuePairsToString() throws Exception {
+        List<String> args = new ArrayList<String>();
+        assertThat(Utils.argNameValuePairsToString(null)).isEqualTo(Utils.UNKNOWN);
+        assertThat(Utils.argNameValuePairsToString(args)).contains("Parameter");
+        args.add("fname: Steve");
+        args.add("lname: Souza");
+        assertThat(Utils.argNameValuePairsToString(args)).contains("Parameter", "fname: Steve", "lname: Souza");
+    }
+
+    @Test
+    public void testToStringWithLimit() throws Exception {
+        assertThat(Utils.toStringWithLimit(null)).isEqualTo(Utils.NULL_STR);
+        assertThat(Utils.toStringWithLimit("hi")).describedAs("Normal length string").isEqualTo("hi");
+        StringBuilder sb = new StringBuilder();
+        int SIZE=1000;
+        for (int i=0;i<SIZE;i++) {
+            sb.append("A");
+        }
+        assertThat(Utils.toStringWithLimit(sb.toString()).length()).describedAs("Long strings should be truncated").isLessThan(SIZE);
+        assertThat(Utils.toStringWithLimit(sb.toString())).describedAs("String too long should be truncated").endsWith(Utils.DEFAULT_MAX_STRING_ENDING);
+    }
+
+    @Test
+    public void testGetExceptionTrace() throws Exception {
+        assertThat(Utils.getExceptionTrace(null)).isEqualTo(Utils.UNKNOWN);
+        RuntimeException e = new RuntimeException("my exception");
+        assertThat(Utils.getExceptionTrace(e)).contains("java.lang.RuntimeException: my exception");
+        assertThat(Utils.getExceptionTrace(e)).contains(getClass().getName());
+    }
+
 }
