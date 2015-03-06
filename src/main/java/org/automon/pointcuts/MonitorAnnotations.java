@@ -9,21 +9,14 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public abstract class MonitorAnnotations {
 
-//    @Pointcut("@annotation(Monitor? com..)")
-//    public void annotatedWithMonitor() {
-//    }
-
-    @Pointcut("@annotation(org.javasimon.aop.Monitored)")
-    public void javaSimon() {
-    }
-
-//    @Pointcut("@annotation(com.jamonapi.aop.spring.MonitorAnnotation)")
-//    public void jamon() {
-//    }
-
     @Pointcut("within(@com.jamonapi.aop.spring.MonitorAnnotation *) || @annotation(com.jamonapi.aop.spring.MonitorAnnotation)")
     public void jamon() {
     }
+
+    @Pointcut("within(@org.javasimon.aop.Monitored *) || @annotation(org.javasimon.aop.Monitored)")
+    public void javaSimon() {
+    }
+
 
 //    @Pointcut("@annotation(org.perf4j.aop.Profiled)")
 //    public void perf4j() {
