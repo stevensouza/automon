@@ -40,16 +40,6 @@ public class JamonAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods() throws Exception {
-        JamonAnnotatedMethod obj = new JamonAnnotatedMethod();
-        obj.annotatedMethod(); // monitored
-        obj.nonAnnotatedMethod(); // not monitored
-        verify(openMon).start(any(JoinPoint.StaticPart.class));
-        verify(openMon).stop(any());
-    }
-
-
-    @Test
     public void testAnnotated_Class_Exceptions() throws Exception {
         JamonAnnotatedClass obj = new JamonAnnotatedClass();
         try {
@@ -64,6 +54,16 @@ public class JamonAnnotationsTest {
     }
 
     @Test
+    public void testAnnotated_Methods() throws Exception {
+        JamonAnnotatedMethod obj = new JamonAnnotatedMethod();
+        obj.annotatedMethod(); // monitored
+        obj.nonAnnotatedMethod(); // not monitored
+        verify(openMon).start(any(JoinPoint.StaticPart.class));
+        verify(openMon).stop(any());
+    }
+
+
+   @Test
     public void testAnnotated_Methods_Exceptions() throws Exception {
         JamonAnnotatedMethod obj = new JamonAnnotatedMethod();
         try {

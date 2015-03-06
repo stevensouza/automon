@@ -40,16 +40,6 @@ public class JavaSimonAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods() throws Exception {
-        JavaSimonAnnotatedMethod obj = new JavaSimonAnnotatedMethod();
-        obj.annotatedMethod(); // monitored
-        obj.nonAnnotatedMethod(); // not monitored
-        verify(openMon).start(any(JoinPoint.StaticPart.class));
-        verify(openMon).stop(any());
-    }
-
-
-    @Test
     public void testAnnotated_Class_Exceptions() throws Exception {
         JavaSimonAnnotatedClass obj = new JavaSimonAnnotatedClass();
         try {
@@ -61,6 +51,15 @@ public class JavaSimonAnnotationsTest {
         verify(openMon).start(any(JoinPoint.StaticPart.class));
         verify(openMon).stop(any(), eq(EXCEPTION));
         verify(openMon).exception(any(JoinPoint.class), eq(EXCEPTION));
+    }
+
+    @Test
+    public void testAnnotated_Methods() throws Exception {
+        JavaSimonAnnotatedMethod obj = new JavaSimonAnnotatedMethod();
+        obj.annotatedMethod(); // monitored
+        obj.nonAnnotatedMethod(); // not monitored
+        verify(openMon).start(any(JoinPoint.StaticPart.class));
+        verify(openMon).stop(any());
     }
 
     @Test

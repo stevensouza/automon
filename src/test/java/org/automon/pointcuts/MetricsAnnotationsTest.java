@@ -40,16 +40,6 @@ public class MetricsAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods() throws Exception {
-        MetricsAnnotatedMethod obj = new MetricsAnnotatedMethod();
-        obj.annotatedMethod(); // monitored
-        obj.nonAnnotatedMethod(); // not monitored
-        verify(openMon).start(any(JoinPoint.StaticPart.class));
-        verify(openMon).stop(any());
-    }
-
-
-    @Test
     public void testAnnotated_Class_Exceptions() throws Exception {
         MetricsAnnotatedClass obj = new MetricsAnnotatedClass();
         try {
@@ -61,6 +51,15 @@ public class MetricsAnnotationsTest {
         verify(openMon).start(any(JoinPoint.StaticPart.class));
         verify(openMon).stop(any(), eq(EXCEPTION));
         verify(openMon).exception(any(JoinPoint.class), eq(EXCEPTION));
+    }
+
+    @Test
+    public void testAnnotated_Methods() throws Exception {
+        MetricsAnnotatedMethod obj = new MetricsAnnotatedMethod();
+        obj.annotatedMethod(); // monitored
+        obj.nonAnnotatedMethod(); // not monitored
+        verify(openMon).start(any(JoinPoint.StaticPart.class));
+        verify(openMon).stop(any());
     }
 
     @Test
