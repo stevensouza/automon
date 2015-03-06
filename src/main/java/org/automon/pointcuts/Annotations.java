@@ -21,7 +21,10 @@ public abstract class Annotations {
     public void javasimon() {
     }
 
-    // com.codahale.metrics.annotation
+    @Pointcut("within(@com.codahale.metrics.annotation.Timed *) || @annotation(com.codahale.metrics.annotation.Timed)")
+    public void metrics() {
+    }
+    //
 
 
 //    @Pointcut("@annotation(org.perf4j.aop.Profiled)")
