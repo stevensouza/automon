@@ -18,8 +18,10 @@ public abstract class Annotations {
     }
 
     @Pointcut("within(@org.javasimon.aop.Monitored *) || @annotation(org.javasimon.aop.Monitored)")
-    public void javaSimon() {
+    public void javasimon() {
     }
+
+    // com.codahale.metrics.annotation
 
 
 //    @Pointcut("@annotation(org.perf4j.aop.Profiled)")

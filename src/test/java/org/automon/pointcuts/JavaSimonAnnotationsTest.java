@@ -108,7 +108,7 @@ public class JavaSimonAnnotationsTest {
 
         @Pointcut("within(org.automon.pointcuts.JavaSimonAnnotated*) && " +
                 "org.automon.pointcuts.Select.publicMethod() && " +
-                "org.automon.pointcuts.Annotations.javaSimon()"
+                "org.automon.pointcuts.Annotations.javasimon()"
         )
         public void monitorAnnotions() {
         }
