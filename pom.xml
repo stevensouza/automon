@@ -61,6 +61,7 @@
                     <complianceLevel>${jdk.version}</complianceLevel>
                     <!-- generates META-INF/aop-ajc.xml file and puts it in jar.  Recommended for aspectj libraries. -->
                     <outxml>true</outxml>
+                    <showWeaveInfo>true</showWeaveInfo>
                 </configuration>
                 <executions>
                     <execution>
