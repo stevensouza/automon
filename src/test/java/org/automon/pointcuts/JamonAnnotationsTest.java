@@ -108,7 +108,7 @@ public class JamonAnnotationsTest {
 
         @Pointcut("within(org.automon.pointcuts.JamonAnnotated*) && " +
                 "org.automon.pointcuts.Select.publicMethod() && " +
-                "org.automon.pointcuts.MonitorAnnotations.jamon()"
+                "org.automon.pointcuts.Annotations.jamon()"
         )
         public void monitorAnnotions() {
         }

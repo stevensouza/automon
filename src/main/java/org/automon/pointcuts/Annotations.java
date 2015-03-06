@@ -4,10 +4,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * Created by stevesouza on 2/28/15.
+ * Pointcuts for monitoring defined in various other monitoring libraries.
  */
 @Aspect
-public abstract class MonitorAnnotations {
+public abstract class Annotations {
 
     @Pointcut("within(@com.jamonapi.aop.spring.MonitorAnnotation *) || @annotation(com.jamonapi.aop.spring.MonitorAnnotation)")
     public void jamon() {
