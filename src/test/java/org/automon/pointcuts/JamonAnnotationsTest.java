@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class JamonAnnotationsTest {
+    private static final RuntimeException EXCEPTION = new RuntimeException("my exception");
     private OpenMon openMon = mock(OpenMon.class);
 
     @Before
@@ -47,6 +48,41 @@ public class JamonAnnotationsTest {
         verify(openMon).stop(any());
     }
 
+
+    @Test
+    public void testAnnotated_Class_Exceptions() throws Exception {
+        JamonAnnotatedClass obj = new JamonAnnotatedClass();
+        try {
+            obj.myException(EXCEPTION);
+        } catch (Throwable t) {
+            assertThat(t).isEqualTo(EXCEPTION);
+        }
+
+        verify(openMon).start(any(JoinPoint.StaticPart.class));
+        verify(openMon).stop(any(), eq(EXCEPTION));
+        verify(openMon).exception(any(JoinPoint.class), eq(EXCEPTION));
+    }
+
+    @Test
+    public void testAnnotated_Methods_Exceptions() throws Exception {
+        JamonAnnotatedMethod obj = new JamonAnnotatedMethod();
+        try {
+            obj.myException(EXCEPTION); // monitored
+        } catch (Throwable t) {
+            assertThat(t).isEqualTo(EXCEPTION);
+        }
+
+        try {
+            obj.myNonAnnotatedException(EXCEPTION); // not monitored
+        } catch (Throwable t) {
+            assertThat(t).isEqualTo(EXCEPTION);
+        }
+
+
+        verify(openMon).start(any(JoinPoint.StaticPart.class));
+        verify(openMon).stop(any(), eq(EXCEPTION));
+        verify(openMon).exception(any(JoinPoint.class), eq(EXCEPTION));
+    }
     /** Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
      * would run before ajc, and so any 'aspect' classes wouldn't be available when the tests were run.  Using @Aspect let javac compile them.
      * This is also good as it shows java developers how to inherit from the aspects.

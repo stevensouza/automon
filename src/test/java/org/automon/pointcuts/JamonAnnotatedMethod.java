@@ -14,7 +14,12 @@ public class JamonAnnotatedMethod {
     public void nonAnnotatedMethod() {
     }
 
+    @MonitorAnnotation
     public void myException(Throwable throwable) throws Throwable {
+        throw throwable;
+    }
+
+    public void myNonAnnotatedException(Throwable throwable) throws Throwable {
         throw throwable;
     }
 }
