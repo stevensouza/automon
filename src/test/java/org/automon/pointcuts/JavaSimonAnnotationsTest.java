@@ -19,7 +19,7 @@ public class JavaSimonAnnotationsTest {
 
     @Before
     public void setUp() throws Exception {
-        MyJamonTestAspect aspect = Aspects.aspectOf(MyJamonTestAspect.class);
+        MyJavaSimonTestAspect aspect = Aspects.aspectOf(MyJavaSimonTestAspect.class);
         aspect.setOpenMon(openMon);
     }
 
@@ -94,7 +94,7 @@ public class JavaSimonAnnotationsTest {
      *  warning that there was no match.
      */
     @Aspect
-    static class MyJamonTestAspect extends AspectJBase {
+    static class MyJavaSimonTestAspect extends AspectJBase {
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
         @Pointcut("monitorAnnotions()")
