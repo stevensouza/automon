@@ -96,12 +96,12 @@ public class JavaSimonAnnotationsTest {
     static class MyJavaSimonTestAspect extends AspectJBase {
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
-        @Pointcut("monitorAnnotions()")
+        @Pointcut("monitorAnnotations()")
         public void user_monitor() {
         }
 
         //public pointcut user_exceptions() : this(HelloWorld) && org.automon.pointcuts.Select.publicMethod();
-        @Pointcut("monitorAnnotions()")
+        @Pointcut("monitorAnnotations()")
         public void user_exceptions() {
         }
 
@@ -109,7 +109,7 @@ public class JavaSimonAnnotationsTest {
                 "org.automon.pointcuts.Select.publicMethod() && " +
                 "org.automon.pointcuts.Annotations.javasimon()"
         )
-        public void monitorAnnotions() {
+        public void monitorAnnotations() {
         }
     }
 }
