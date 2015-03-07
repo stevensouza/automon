@@ -45,12 +45,10 @@ public abstract class Annotations {
     public void ejb() {
     }
 
-    @Pointcut("within(@org.springframework.stereotype..* *) " +
-            " || @annotation(org.springframework.stereotype.Component)" +
-            " || @annotation(org.springframework.stereotype.Controller)" +
-            " || @annotation(org.springframework.stereotype.Repository)" +
-            " || @annotation(org.springframework.stereotype.Service)"
-    )
+    /**
+     * Spring annotations are all type level ones: @Component, @Controller, @Repository, @Service
+     */
+    @Pointcut("within(@org.springframework.stereotype..* *)")
     public void spring() {
     }
 
