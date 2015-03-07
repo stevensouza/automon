@@ -48,6 +48,7 @@
       <mockito.version>1.9.5</mockito.version>
       <junit.version>4.11</junit.version>
       <perf4j.version>0.9.16</perf4j.version>
+      <newrelic.version>3.14.0</newrelic.version>
   </properties>
 
     <build>
@@ -160,6 +161,12 @@
           <groupId>org.perf4j</groupId>
           <artifactId>perf4j</artifactId>
           <version>${perf4j.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.newrelic.agent.java</groupId>
+          <artifactId>newrelic-api</artifactId>
+          <version>${newrelic.version}</version>
       </dependency>
 
 

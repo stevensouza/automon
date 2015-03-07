@@ -4,7 +4,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * Pointcuts for monitoring defined in various other monitoring libraries.
+ * Pointcuts for easily monitoring annotations defined in other monitoring libraries such as JAMon, Metrics, JavaSimon, NewRelic and Perf4j.
+ * This model can also be followed to have automon recognize any other annotation.  Typically these pointcuts will be combined
+ * with a pointcut that limits the matches to matches.  For examaple: execution(public *.*
  */
 @Aspect
 public abstract class Annotations {
@@ -30,6 +32,8 @@ public abstract class Annotations {
     public void perf4j() {
     }
 
-    // com.newrelic.api.agent.Trace
+    @Pointcut("within(@com.newrelic.api.agent.Trace *) || @annotation(com.newrelic.api.agent.Trace)")
+    public void newrelic() {
+    }
 
 }
