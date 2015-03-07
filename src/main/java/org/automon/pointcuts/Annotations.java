@@ -45,8 +45,25 @@ public abstract class Annotations {
     public void ejb() {
     }
 
-    // spring
+    @Pointcut("within(@org.springframework.stereotype..* *) " +
+            " || @annotation(org.springframework.stereotype.Component)" +
+            " || @annotation(org.springframework.stereotype.Controller)" +
+            " || @annotation(org.springframework.stereotype.Repository)" +
+            " || @annotation(org.springframework.stereotype.Service)"
+    )
+    public void spring() {
+    }
+
     // restapi
+    /**
+     * JAX-RS provides some annotations to aid in mapping a resource class (a POJO) as a web resource. The annotations include:
+
+     @Path specifies the relative path for a resource class or method.
+     @GET, @PUT, @POST, @DELETE and @HEAD specify the HTTP request type of a resource.
+     @Produces specifies the response Internet media types (used for content negotiation).
+     @Consumes specifies the accepted request Internet media types.
+
+     */
     // jpa
     // hibernate
 
