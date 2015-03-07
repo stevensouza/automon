@@ -8,9 +8,9 @@ package org.automon.aspects;
  * and {@link #user_exceptions()}</p>
  */
 public abstract aspect AspectJBase extends AutomonAspect {
-    public pointcut sys_monitor() : sys_pointcut();
+    public pointcut _sys_monitor() : _sys_pointcut();
 
-    public pointcut sys_exceptions() : sys_pointcut();
+    public pointcut _sys_exceptions() : _sys_pointcut();
 
-    public pointcut sys_pointcut() : within(java.lang.Object+) && !within(AutomonAspect+);
+    public pointcut _sys_pointcut() : within(java.lang.Object+) && !within(AutomonAspect+);
 }

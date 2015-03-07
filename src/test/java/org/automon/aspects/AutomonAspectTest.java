@@ -80,7 +80,7 @@ public class AutomonAspectTest {
     @Aspect
     static class MyInheritedAutomonAspect extends AutomonAspect {
         @Pointcut("hiWorld()")
-        public void sys_monitor() {
+        public void _sys_monitor() {
         }
 
         @Pointcut("hiWorld()")
@@ -88,7 +88,7 @@ public class AutomonAspectTest {
         }
 
         @Pointcut("hiWorld()")
-        public void sys_exceptions() {
+        public void _sys_exceptions() {
         }
 
         @Pointcut("hiWorld()")

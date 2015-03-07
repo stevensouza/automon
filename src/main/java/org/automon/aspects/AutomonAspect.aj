@@ -30,13 +30,13 @@ public abstract aspect AutomonAspect  {
 
 
     /**
-     * monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method at the beginning and end
+     * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method at the beginning and end
      * of the method call.
      *
      * @return The advised methods value or void.
      * @throws Throwable If the method throws a {@link java.lang.Throwable} the advice will rethrow it.
      */
-    Object around() throws Throwable : monitor()  {
+    Object around() throws Throwable : _monitor()  {
         // Note: context is typically a Timer/Monitor object returned by the monitoring implementation (Jamon, JavaSimon, Metrics,...)
         // though to this advice it is simply an object and the advice doesn't care what the intent of the context/object is.
         Object context = openMon.start(thisJoinPointStaticPart);
@@ -68,22 +68,22 @@ public abstract aspect AutomonAspect  {
     }
 
     /** pointcut that determines what is monitored for performance/time */
-    public pointcut monitor() : user_monitor() && sys_monitor();
+    public pointcut _monitor() : user_monitor() && _sys_monitor();
 
     /** User should implement this pointcut to determine what should be monitored for performance/time */
     public abstract pointcut user_monitor();
 
     /** reserved pointcut for Automon team */
-    public pointcut sys_monitor();
+    public pointcut _sys_monitor();
 
 
-    /** pointcut that determines what is monitored for exceptions.  It can be the same as the {@link #monitor()} poincut */
-    public pointcut exceptions() : user_exceptions() && sys_exceptions();
+    /** pointcut that determines what is monitored for exceptions.  It can be the same as the {@link #_monitor()} poincut */
+    public pointcut exceptions() : user_exceptions() && _sys_exceptions();
 
     /** User should implement this pointcut to determine what should be monitored for performance/time */
     public abstract pointcut user_exceptions();
 
     /** reserved pointcut for Automon team */
-    public  pointcut sys_exceptions();
+    public  pointcut _sys_exceptions();
 
 }
