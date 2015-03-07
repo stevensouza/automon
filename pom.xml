@@ -50,6 +50,7 @@
       <perf4j.version>0.9.16</perf4j.version>
       <newrelic.version>3.14.0</newrelic.version>
       <ejb.version>3.2</ejb.version>
+      <spring.version>4.0.2.RELEASE</spring.version>
   </properties>
 
     <build>
@@ -132,48 +133,63 @@
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjrt</artifactId>
         <version>${aspectj.version}</version>
+        <scope>provided</scope>
     </dependency>
     
     <dependency>
         <groupId>com.jamonapi</groupId>
         <artifactId>jamon</artifactId>
         <version>${jamonapi.version}</version>
+        <scope>provided</scope>
     </dependency>
     
     <dependency>
         <groupId>org.javasimon</groupId>
         <artifactId>javasimon-core</artifactId>
         <version>${javasimon.version}</version>
+        <scope>provided</scope>
     </dependency>
     
     <dependency>
         <groupId>io.dropwizard.metrics</groupId>
         <artifactId>metrics-core</artifactId>
         <version>${metrics.version}</version>
+        <scope>provided</scope>
     </dependency>
 
       <dependency>
           <groupId>io.dropwizard.metrics</groupId>
           <artifactId>metrics-annotation</artifactId>
           <version>${metrics.version}</version>
+          <scope>provided</scope>
       </dependency>
 
       <dependency>
           <groupId>org.perf4j</groupId>
           <artifactId>perf4j</artifactId>
           <version>${perf4j.version}</version>
+          <scope>provided</scope>
       </dependency>
 
       <dependency>
           <groupId>com.newrelic.agent.java</groupId>
           <artifactId>newrelic-api</artifactId>
           <version>${newrelic.version}</version>
+          <scope>provided</scope>
       </dependency>
 
       <dependency>
           <groupId>javax.ejb</groupId>
           <artifactId>javax.ejb-api</artifactId>
           <version>${ejb.version}</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>${spring.version}</version>
+          <scope>provided</scope>
       </dependency>
 
 
