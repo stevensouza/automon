@@ -47,6 +47,7 @@
       <mojo.execution.version>1.3.2</mojo.execution.version>
       <mockito.version>1.9.5</mockito.version>
       <junit.version>4.11</junit.version>
+      <perf4j.version>0.9.16</perf4j.version>
   </properties>
 
     <build>
@@ -154,6 +155,13 @@
           <artifactId>metrics-annotation</artifactId>
           <version>${metrics.version}</version>
       </dependency>
+
+      <dependency>
+          <groupId>org.perf4j</groupId>
+          <artifactId>perf4j</artifactId>
+          <version>${perf4j.version}</version>
+      </dependency>
+
 
   </dependencies>
 </project>

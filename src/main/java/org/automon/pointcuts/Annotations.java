@@ -24,11 +24,12 @@ public abstract class Annotations {
     @Pointcut("within(@com.codahale.metrics.annotation.Timed *) || @annotation(com.codahale.metrics.annotation.Timed)")
     public void metrics() {
     }
-    //
 
 
-//    @Pointcut("@annotation(org.perf4j.aop.Profiled)")
-//    public void perf4j() {
-//    }
+    @Pointcut("within(@org.perf4j.aop.Profiled *) || @annotation(org.perf4j.aop.Profiled)")
+    public void perf4j() {
+    }
+
+    // com.newrelic.api.agent.Trace
 
 }
