@@ -49,6 +49,7 @@
       <junit.version>4.11</junit.version>
       <perf4j.version>0.9.16</perf4j.version>
       <newrelic.version>3.14.0</newrelic.version>
+      <ejb.version>3.2</ejb.version>
   </properties>
 
     <build>
@@ -167,6 +168,12 @@
           <groupId>com.newrelic.agent.java</groupId>
           <artifactId>newrelic-api</artifactId>
           <version>${newrelic.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>javax.ejb</groupId>
+          <artifactId>javax.ejb-api</artifactId>
+          <version>${ejb.version}</version>
       </dependency>
 
 

@@ -36,4 +36,18 @@ public abstract class Annotations {
     public void newrelic() {
     }
 
+    @Pointcut(
+            "within(@javax.ejb.Stateless *)     || @annotation(javax.ejb.Stateless) || "+
+            "within(@javax.ejb.Stateful *)      || @annotation(javax.ejb.Stateful) || "+
+            "within(@javax.ejb.MessageDriven *) || @annotation(javax.ejb.MessageDriven) || "+
+            "within(@javax.ejb.Singleton *)     || @annotation(javax.ejb.Singleton)"
+    )
+    public void ejb() {
+    }
+
+    // spring
+    // restapi
+    // jpa
+    // hibernate
+
 }
