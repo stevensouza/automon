@@ -2,6 +2,7 @@ package org.automon.aspects;
 
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
+import org.automon.implementations.OpenMonFactory;
 
 /**
  * <p>Aspect that advises the {@link org.aspectj.lang.annotation.Around} and {@link org.aspectj.lang.annotation.AfterThrowing} annotations.
@@ -17,6 +18,13 @@ import org.automon.implementations.OpenMon;
  * with @AspectJ style, so it is probably the best option anyway.  </p>
  */
 public abstract aspect AutomonAspect  {
+
+    public AutomonAspect() {
+        String openMonStr = System.getProperty("org.automon", OpenMonFactory.NULL_IMP);
+        openMon = factory.getInstance(openMonStr, new NullImp());
+    }
+
+    private OpenMonFactory factory = new OpenMonFactory();
     private OpenMon openMon = new NullImp();
     protected  boolean enable = true;
 
