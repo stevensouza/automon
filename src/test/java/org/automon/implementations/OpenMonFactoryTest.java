@@ -29,27 +29,17 @@ public class OpenMonFactoryTest {
         assertThat(factory.getInstance(OpenMonFactory.METRICS, defaultValue)).isInstanceOf(Metrics.class);
         assertThat(factory.getInstance(OpenMonFactory.SYSOUT, defaultValue)).isInstanceOf(SysOut.class);
         assertThat(factory.getInstance(OpenMonFactory.NULL_IMP, defaultValue)).isInstanceOf(NullImp.class);
+        assertThat(factory.getInstance("jamon", defaultValue)).isInstanceOf(Jamon.class);
+        assertThat(factory.getInstance("JAMon", defaultValue)).isInstanceOf(Jamon.class);
         assertThat(factory.getInstance("I don't exist", defaultValue)).isEqualTo(defaultValue);
+
     }
 
-//    @Test
-//    public void testPut1String() throws Exception {
-//        String key = Jamon.class.getName();
-//        factory.put(key);
-//        assertThat(factory.get(key)).isInstanceOf(Jamon.class);
-//    }
-//
-//    @Test
-//    public void testPutNStrings() throws Exception {
-//        String jamon = Jamon.class.getName();
-//        String javaSimon = JavaSimon.class.getName();
-//        String metrics = Metrics.class.getName();
-//        String clazzNames = jamon+" , "+javaSimon+", "+metrics;
-//        factory.put(clazzNames);
-//        assertThat(factory.get(jamon)).isInstanceOf(Jamon.class);
-//        assertThat(factory.get(javaSimon)).isInstanceOf(JavaSimon.class);
-//        assertThat(factory.get(metrics)).isInstanceOf(Metrics.class);
-//    }
+    @Test
+    public void testGetLastToken() throws Exception {
+        assertThat(OpenMonFactory.getJustClassName("com.mypackage.Jamon")).isEqualTo("Jamon");
+        assertThat(OpenMonFactory.getJustClassName("Jamon")).isEqualTo("Jamon");
+    }
 
 
 }

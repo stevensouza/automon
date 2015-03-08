@@ -109,4 +109,12 @@ public class UtilsTest {
         assertThat(Utils.getExceptionTrace(e)).contains(getClass().getName());
     }
 
+    @Test
+    public void testTokenize() throws Exception {
+        String[] array = Utils.tokenize("com.jamonapi.MonitorFactory", "[.]");
+        assertThat(array).containsExactly("com","jamonapi","MonitorFactory");
+        array = Utils.tokenize("jamon , javasimon", ",");
+        assertThat(array).containsExactly("jamon","javasimon");
+    }
+
 }

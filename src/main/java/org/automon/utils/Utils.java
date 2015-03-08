@@ -5,10 +5,7 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by stevesouza on 3/3/15.
@@ -159,6 +156,10 @@ public class Utils {
         }
 
         return sb.toString();
+    }
+
+    public static String[] tokenize(String string, String splitOn) {
+        return string.replace(" ","").split(splitOn);
     }
 
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {

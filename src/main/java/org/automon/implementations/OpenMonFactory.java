@@ -1,5 +1,7 @@
 package org.automon.implementations;
 
+import org.automon.utils.Utils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,14 +27,26 @@ public class OpenMonFactory {
     }
 
     public void add(String clazzNamesString) {
-        String[] clazzNames = clazzNamesString.replace(" ","").split(",");
+        String[] clazzNames = Utils.tokenize(clazzNamesString, ",");
         for (String clazzName : clazzNames) {
-            openMonFactory.put(clazzName, clazzName.trim());
+            clazzName =  clazzName.trim();
+            openMonFactory.put(clazzName, clazzName);
+            openMonFactory.put(getJustClassName(clazzName).toLowerCase(), clazzName);
         }
+    }
+
+    static String getJustClassName(String clazzName) {
+        String[] array = Utils.tokenize(clazzName, "[.]");
+        return array[array.length-1];
     }
 
     public  OpenMon getInstance(String key, OpenMon defaultOpenMon) {
         String clazz = openMonFactory.get(key);
+
+        if (clazz == null) {
+            clazz = openMonFactory.get(key.toLowerCase());
+        }
+
         if (clazz == null) {
             return defaultOpenMon;
         }
@@ -44,26 +58,6 @@ public class OpenMonFactory {
 
         return openMon;
     }
-
-//    public  OpenMon getFirst(String keyStrings, OpenMon defaultOpenMon) {
-//        String[] keys = keyStrings.replace(" ","").split(",");
-//        for (String key : keys) {
-//            OpenMon openMon = get(key);
-//            if (openMon!=null) {
-//                return openMon;
-//            }
-//        }
-//
-//        return defaultOpenMon;
-//    }
-
-//    private OpenMon create(Class<? extends OpenMon> openMon) {
-//        try {
-//           return openMon.newInstance();
-//        } catch (Throwable t) {
-//           return null;
-//        }
-//    }
 
     private OpenMon create(String clazzName) {
         try {
