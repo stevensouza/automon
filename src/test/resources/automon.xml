@@ -1,0 +1,5 @@
+<!--
+Can put properties in an xml file. In comments...Could also use a properties file.
+
+org.automon=org.mypackage.MyOpenMon
+-->
