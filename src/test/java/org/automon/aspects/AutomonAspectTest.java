@@ -29,17 +29,12 @@ public class AutomonAspectTest {
     }
 
     @Test
-    public void testIsEnabledByDefault() throws Exception {
-        assertThat(aspect.isEnabled()).describedAs("Should be enabled by default").isTrue();
-    }
+    public void testIsEnabled() throws Exception {
+        MyInheritedAutomonAspect myInheritedAutomonAspect = new MyInheritedAutomonAspect();
+        assertThat(myInheritedAutomonAspect.isEnabled()).describedAs("Should be disabled").isFalse();
 
-    @Test
-    public void testEnableDisable() throws Exception {
-        aspect.enable(false);
-        assertThat(aspect.isEnabled()).describedAs("Should be disabled").isFalse();
-
-        aspect.enable(true);
-        assertThat(aspect.isEnabled()).describedAs("Should be enabled").isTrue();
+        myInheritedAutomonAspect.setOpenMon(openMon);
+        assertThat(myInheritedAutomonAspect.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
     @Test

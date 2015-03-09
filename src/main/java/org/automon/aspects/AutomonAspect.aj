@@ -30,16 +30,10 @@ public abstract aspect AutomonAspect  {
 
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
-    protected  boolean enable = true;
 
     public boolean isEnabled() {
-        return enable;
+        return !(openMon instanceof NullImp);
     }
-
-    public void enable(boolean shouldEnable) {
-        enable = shouldEnable;
-    }
-
 
     /**
      * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method at the beginning and end
