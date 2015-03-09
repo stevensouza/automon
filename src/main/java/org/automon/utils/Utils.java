@@ -162,6 +162,10 @@ public class Utils {
         return string.replace(" ","").split(splitOn);
     }
 
+    public static String stripFileScheme(String fileName) {
+        return fileName.replaceFirst("(?i)file://","").replaceFirst("(?i)file:","");
+    }
+
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
         Signature signature = jp.getSignature();
         if (signature instanceof CodeSignature) {
@@ -170,7 +174,5 @@ public class Utils {
             return new Object[argValues.length];
         }
     }
-
-
 
 }

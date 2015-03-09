@@ -117,4 +117,20 @@ public class UtilsTest {
         assertThat(array).containsExactly("jamon","javasimon");
     }
 
+    @Test
+    public void testStripFileScheme() throws Exception {
+        assertThat(Utils.stripFileScheme("myfile.dat")).isEqualTo("myfile.dat");
+        assertThat(Utils.stripFileScheme("file:myfile.dat")).isEqualTo("myfile.dat");
+        assertThat(Utils.stripFileScheme("file://myfile.dat")).isEqualTo("myfile.dat");
+        assertThat(Utils.stripFileScheme("file:/myfile.dat")).isEqualTo("/myfile.dat");
+        assertThat(Utils.stripFileScheme("file:///myfile.dat")).isEqualTo("/myfile.dat");
+
+        // with dir
+        assertThat(Utils.stripFileScheme("file:/dir/myfile.dat")).isEqualTo("/dir/myfile.dat");
+        assertThat(Utils.stripFileScheme("file://dir/myfile.dat")).isEqualTo("dir/myfile.dat");
+        assertThat(Utils.stripFileScheme("file:dir/myfile.dat")).isEqualTo("dir/myfile.dat");
+        assertThat(Utils.stripFileScheme("file:///dir/myfile.dat")).isEqualTo("/dir/myfile.dat");
+    }
+
+
 }
