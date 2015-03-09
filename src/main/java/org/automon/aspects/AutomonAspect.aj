@@ -3,6 +3,9 @@ package org.automon.aspects;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
+import org.automon.utils.AutomonPropertiesLoader;
+
+import java.util.Properties;
 
 /**
  * <p>Aspect that advises the {@link org.aspectj.lang.annotation.Around} and {@link org.aspectj.lang.annotation.AfterThrowing} annotations.
@@ -20,7 +23,8 @@ import org.automon.implementations.OpenMonFactory;
 public abstract aspect AutomonAspect  {
 
     public AutomonAspect() {
-        String openMonStr = System.getProperty("org.automon", OpenMonFactory.NULL_IMP);
+        Properties properties = new AutomonPropertiesLoader().getProperties();
+        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
         openMon = factory.getInstance(openMonStr);
     }
 
