@@ -6,7 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by stevesouza on 3/7/15.
+ * Class that holds {@link org.automon.implementations.OpenMon} implementations.  The factor contains the string class name of the impementation
+ * and is creates the instance with the required noarg constructor.  Note the instance can be created using the full class name with
+ * package or just the class name.  When using just the class name form it is case insensitive.  For example all of the following forms
+ * are acceptable:<br>
+ *     * {@link org.automon.implementations.Jamon}<br>
+ *     * JAMon<br>
+ *     * jamon<br>
+ *
+ *
  */
 public class OpenMonFactory {
 
@@ -17,8 +25,10 @@ public class OpenMonFactory {
     public static final String NULL_IMP =  "org.automon.implementations.NullImp";
 
     private  Map<String, String> openMonFactory = new HashMap<String,  String>();
+    private OpenMon defaultOpenMon;
 
-    public OpenMonFactory() {
+    public OpenMonFactory(OpenMon defaultOpenMon) {
+        this.defaultOpenMon = defaultOpenMon;
         add(JAMON);
         add(JAVA_SIMON);
         add(METRICS);
@@ -26,32 +36,44 @@ public class OpenMonFactory {
         add(NULL_IMP);
     }
 
-    public void add(String clazzNamesString) {
-        String[] clazzNames = Utils.tokenize(clazzNamesString, ",");
-        for (String clazzName : clazzNames) {
-            clazzName =  clazzName.trim();
-            openMonFactory.put(clazzName, clazzName);
-            openMonFactory.put(getJustClassName(clazzName).toLowerCase(), clazzName);
+    /**
+     * Takes a fully qualified class name and puts it in the factory in 2 forms.  The full form (i.e. org.automon.implementations.Jamon), and
+     * a shortened form 'Jamon'.
+     *
+     * @param classNames Example: org.automon.implementations.Jamon
+     */
+    public void add(String... classNames) {
+        for (String className : classNames) {
+            className =  className.trim();
+            openMonFactory.put(className, className);
+            openMonFactory.put(getJustClassName(className).toLowerCase(), className);
         }
     }
 
-    static String getJustClassName(String clazzName) {
-        String[] array = Utils.tokenize(clazzName, "[.]");
+    // takes something like com.mypackage.MyClass and returns MyClass.
+    static String getJustClassName(String className) {
+        String[] array = Utils.tokenize(className, "[.]");
         return array[array.length-1];
     }
 
-    public  OpenMon getInstance(String key, OpenMon defaultOpenMon) {
-        String clazz = openMonFactory.get(key);
-
-        if (clazz == null) {
-            clazz = openMonFactory.get(key.toLowerCase());
+    /**
+     *
+     * @param key  Fully qualified class name, or a case insensitive simple class name. Examples: 1) com.mypackage.MyOpenMon 2) MyOpenMon, 3) myopenmon
+     * @return An instance of the class or the default {@link org.automon.implementations.OpenMon} if there was a failure on class creation.
+     */
+    public  OpenMon getInstance(String key) {
+        String className = openMonFactory.get(key); // com.mypcackage.MyOpenMon
+        if (className == null) {
+            className = openMonFactory.get(key.toLowerCase()); // myopenmon
         }
 
-        if (clazz == null) {
+        // not in the map so return the default.
+        if (className == null) {
             return defaultOpenMon;
         }
 
-        OpenMon openMon = create(clazz);
+        // create the openMon, but if it fails return the default.
+        OpenMon openMon = create(className);
         if (openMon == null) {
             return defaultOpenMon;
         }
@@ -65,5 +87,12 @@ public class OpenMonFactory {
         } catch (Throwable t) {
             return null;
         }
+    }
+
+    /**
+     * Visible for testing.
+     */
+    void reset() {
+        openMonFactory.clear();
     }
 }

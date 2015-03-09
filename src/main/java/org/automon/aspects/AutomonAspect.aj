@@ -21,10 +21,10 @@ public abstract aspect AutomonAspect  {
 
     public AutomonAspect() {
         String openMonStr = System.getProperty("org.automon", OpenMonFactory.NULL_IMP);
-        openMon = factory.getInstance(openMonStr, new NullImp());
+        openMon = factory.getInstance(openMonStr);
     }
 
-    private OpenMonFactory factory = new OpenMonFactory();
+    private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
     protected  boolean enable = true;
 
