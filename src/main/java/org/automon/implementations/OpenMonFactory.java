@@ -96,6 +96,7 @@ public class OpenMonFactory {
         try {
             return (OpenMon) Class.forName(clazzName).newInstance();
         } catch (Throwable t) {
+            t.printStackTrace();
             return null;
         }
     }
