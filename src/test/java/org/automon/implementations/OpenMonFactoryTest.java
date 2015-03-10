@@ -46,7 +46,7 @@ public class OpenMonFactoryTest {
         factory.add(OpenMonFactory.JAMON, OpenMonFactory.JAVA_SIMON);
         assertThat(factory.getInstance(OpenMonFactory.JAMON)).isInstanceOf(Jamon.class);
         assertThat(factory.getInstance(OpenMonFactory.JAVA_SIMON)).isInstanceOf(JavaSimon.class);
-        assertThat(factory.getInstance(OpenMonFactory.METRICS)).isEqualTo(defaultValue);
+        assertThat(factory.getInstance("I_DO_NOT_EXIST")).isEqualTo(defaultValue);
     }
 
     @Test
