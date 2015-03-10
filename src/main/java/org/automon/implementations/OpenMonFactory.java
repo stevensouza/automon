@@ -2,8 +2,7 @@ package org.automon.implementations;
 
 import org.automon.utils.Utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class that holds {@link org.automon.implementations.OpenMon} implementations.  The factor contains the string class name of the impementation
@@ -18,10 +17,10 @@ import java.util.Map;
  */
 public class OpenMonFactory {
 
-    static final String JAMON =  "org.automon.implementations.Jamon";
-    static final String JAVA_SIMON =  "org.automon.implementations.JavaSimon";
-    static final String METRICS =  "org.automon.implementations.Metrics";
-    static final String SYSOUT =  "org.automon.implementations.SysOut";
+    public static final String JAMON =  "org.automon.implementations.Jamon";
+    public static final String JAVA_SIMON =  "org.automon.implementations.JavaSimon";
+    public static final String METRICS =  "org.automon.implementations.Metrics";
+    public static final String SYSOUT =  "org.automon.implementations.SysOut";
     public static final String NULL_IMP =  "org.automon.implementations.NullImp";
 
     private  Map<String, String> openMonFactory = new HashMap<String,  String>();
@@ -79,6 +78,18 @@ public class OpenMonFactory {
         }
 
         return openMon;
+    }
+
+    /**
+     *
+     * @return The keys concatenated together as a string in alphabetical order.   Class names such as 'com.myackage.MyClass'
+     * entries are redundant to the other entries and so are removed and only entries with the classname i.e. 'MyClass' will be returned.
+     */
+    public String toString() {
+        List<String> keys = new ArrayList(openMonFactory.keySet());
+        Utils.removeClassNames(keys);
+        Collections.sort(keys);
+        return keys.toString();
     }
 
     private OpenMon create(String clazzName) {

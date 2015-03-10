@@ -3,12 +3,14 @@ package org.automon.utils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
+import org.automon.aspects.AutomonMXBean;
 
+import javax.management.JMX;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by stevesouza on 3/3/15.
@@ -169,12 +171,47 @@ public class Utils {
         return fileName.replaceFirst("(?i)file://","").replaceFirst("(?i)file:","");
     }
 
+    public static AutomonMXBean getAutomonMxBean(Object aspect) throws Exception {
+        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        AutomonMXBean mxbeanProxy = JMX.newMXBeanProxy(mBeanServer, getMxBeanObjectName(aspect), AutomonMXBean.class);
+        return mxbeanProxy;
+    }
+
+    private static ObjectName getMxBeanObjectName(Object aspect) throws Exception {
+        String objectName = "org.automon:type=aspect,name=" + aspect;
+        return new ObjectName(objectName);
+    }
+
+    public static void registerWithJmx(Object aspect, AutomonMXBean mxBean)  {
+        try {
+            MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+            mBeanServer.registerMBean(mxBean, getMxBeanObjectName(aspect));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void unregisterWithJmx(Object aspect) throws Exception {
+        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        mBeanServer.unregisterMBean(getMxBeanObjectName(aspect));
+    }
+
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
         Signature signature = jp.getSignature();
         if (signature instanceof CodeSignature) {
             return ((CodeSignature) signature).getParameterNames();
         } else {
             return new Object[argValues.length];
+        }
+    }
+
+    public static void removeClassNames(List<String> list) {
+        ListIterator<String> iterator = list.listIterator();
+        while (iterator.hasNext()) {
+            String str = iterator.next();
+            if (str.contains(".")) {
+                iterator.remove();
+            }
         }
     }
 

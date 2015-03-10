@@ -132,5 +132,15 @@ public class UtilsTest {
         assertThat(Utils.stripFileScheme("file:///dir/myfile.dat")).isEqualTo("/dir/myfile.dat");
     }
 
+    @Test
+    public void removeClassNamesFromList() throws Exception {
+        List<String> list = new ArrayList<String>();
+        list.add("MyClass1");
+        list.add("MyClass2");
+        list.add("com.mypackage1.MyClass1");
+        list.add("com.mypackage1.MyClass2");
+        Utils.removeClassNames(list);
+        assertThat(list).containsExactly("MyClass1","MyClass2");
+    }
 
 }

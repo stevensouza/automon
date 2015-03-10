@@ -4,7 +4,10 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.implementations.Jamon;
 import org.automon.implementations.OpenMon;
+import org.automon.implementations.OpenMonFactory;
+import org.automon.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,16 +28,30 @@ public class AutomonAspectTest {
 
     @After
     public void tearDown() throws Exception {
-
     }
 
     @Test
     public void testIsEnabled() throws Exception {
-        MyInheritedAutomonAspect myInheritedAutomonAspect = new MyInheritedAutomonAspect();
-        assertThat(myInheritedAutomonAspect.isEnabled()).describedAs("Should be disabled").isFalse();
+        assertThat(aspect.isEnabled()).describedAs("Should be disabled").isTrue();
+        aspect.setOpenMon(OpenMonFactory.NULL_IMP);
+        assertThat(aspect.isEnabled()).describedAs("Should be enabled").isFalse();
+    }
 
-        myInheritedAutomonAspect.setOpenMon(openMon);
-        assertThat(myInheritedAutomonAspect.isEnabled()).describedAs("Should be enabled").isTrue();
+    @Test
+    public void testSetOpenMon() throws Exception {
+        aspect.setOpenMon(openMon);
+        assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isEqualTo(openMon);
+    }
+
+    @Test
+    public void testSetOpenMonWithString() throws Exception {
+        aspect.setOpenMon(OpenMonFactory.JAMON);
+        assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
+    }
+
+    @Test
+    public void testGetOpenMonFactory() throws Exception {
+        assertThat(aspect.getOpenMonFactory()).isNotNull();
     }
 
     @Test
@@ -59,6 +76,29 @@ public class AutomonAspectTest {
         }
 
         verify(openMon).exception(any(JoinPoint.class), eq(exception));
+    }
+
+    @Test
+    public void testJmxRegistration() throws Throwable {
+        AutomonMXBean mxBean = Utils.getAutomonMxBean(aspect);
+        mxBean.setOpenMon(OpenMonFactory.JAMON);
+
+        assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
+
+        assertThat(mxBean.getOpenMon()).
+                describedAs("Jmx version and aspect version should be the same").
+                isEqualTo(aspect.getOpenMon().toString());
+
+        assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
+        assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
+
+        mxBean.setOpenMon(OpenMonFactory.NULL_IMP);
+        assertThat(mxBean.isEnabled()).describedAs("Should be disabled").isFalse();
+        assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
+        assertThat(mxBean.getOpenMon()).
+                describedAs("Jmx version and aspect version should be the same").
+                isEqualTo(aspect.getOpenMon().toString());
+
     }
 
 

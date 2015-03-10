@@ -55,5 +55,10 @@ public class OpenMonFactoryTest {
         assertThat(OpenMonFactory.getJustClassName("Jamon")).isEqualTo("Jamon");
     }
 
+    @Test
+    public void testToString() throws Exception {
+        assertThat(factory.toString()).contains("jamon, javasimon, metrics, nullimp, sysout");
+    }
+
 
 }

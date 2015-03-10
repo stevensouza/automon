@@ -4,8 +4,11 @@ import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
 import org.automon.utils.AutomonPropertiesLoader;
+import org.automon.utils.Utils;
 
 import java.util.Properties;
+
+
 
 /**
  * <p>Aspect that advises the {@link org.aspectj.lang.annotation.Around} and {@link org.aspectj.lang.annotation.AfterThrowing} annotations.
@@ -20,19 +23,16 @@ import java.util.Properties;
  * creating the dynamic JoinPoint in native aspects. Native style aspects are more powerful and can later be extended by developers
  * with @AspectJ style, so it is probably the best option anyway.  </p>
  */
-public abstract aspect AutomonAspect  {
+public abstract aspect AutomonAspect {
+    private OpenMonFactory factory = new OpenMonFactory(new NullImp());
+    private OpenMon openMon = new NullImp();
+    private AutomonMXBean automonJmx = new Automon(this);
 
     public AutomonAspect() {
         Properties properties = new AutomonPropertiesLoader().getProperties();
         String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
-        openMon = factory.getInstance(openMonStr);
-    }
-
-    private OpenMonFactory factory = new OpenMonFactory(new NullImp());
-    private OpenMon openMon = new NullImp();
-
-    public boolean isEnabled() {
-        return !(openMon instanceof NullImp);
+        setOpenMon(openMonStr);
+        Utils.registerWithJmx(this, automonJmx);
     }
 
     /**
@@ -63,16 +63,6 @@ public abstract aspect AutomonAspect  {
         openMon.exception(thisJoinPoint, throwable);
     }
 
-    /** Retreive monitoring implementation */
-    public OpenMon getOpenMon() {
-        return openMon;
-    }
-
-    /** Set monitoring implementation such as JAMon, Metrics, or JavaSimon */
-    public void setOpenMon(OpenMon openMon) {
-        this.openMon = openMon;
-    }
-
     /** pointcut that determines what is monitored for performance/time */
     public pointcut _monitor() : user_monitor() && _sys_monitor();
 
@@ -91,5 +81,59 @@ public abstract aspect AutomonAspect  {
 
     /** reserved pointcut for Automon team */
     public  pointcut _sys_exceptions();
+
+
+    /* methods */
+    public boolean isEnabled() {
+        return !(openMon instanceof NullImp);
+    }
+
+    /** Retrieve monitoring implementation */
+    public OpenMon getOpenMon() {
+        return openMon;
+    }
+
+    /** Set monitoring implementation such as JAMon, Metrics, or JavaSimon */
+    public void setOpenMon(OpenMon openMon) {
+        this.openMon = openMon;
+    }
+
+    public void setOpenMon(String openMonKey) {
+        this.openMon = factory.getInstance(openMonKey);
+    }
+
+    public OpenMonFactory getOpenMonFactory() {
+        return factory;
+    }
+
+    // Note the mxbean was done as an inner class due to compilation order and AutomAspect.aj not being compiled and so
+    // not availalbe to Automon if it was an external class.
+    public static class Automon implements AutomonMXBean {
+        private AutomonAspect automonAspect;
+
+        public Automon(AutomonAspect automonAspect) {
+            this.automonAspect = automonAspect;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return automonAspect.isEnabled();
+        }
+
+        @Override
+        public void setOpenMon(String openMonKey) {
+            automonAspect.setOpenMon(openMonKey);
+        }
+
+        @Override
+        public String getOpenMon() {
+            return automonAspect.getOpenMon().toString();
+        }
+
+        @Override
+        public String getValidOpenMons() {
+            return automonAspect.getOpenMonFactory().toString();
+        }
+    }
 
 }
