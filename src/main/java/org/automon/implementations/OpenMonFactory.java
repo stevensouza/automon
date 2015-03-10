@@ -68,6 +68,8 @@ public class OpenMonFactory {
 
         // not in the map so return the default.
         if (className == null) {
+            System.err.println("Disabling Automon from "+getClass()+": The OpenMon '"+key+"' is not in the map."+
+                    " Try one of the following: "+this);
             return defaultOpenMon;
         }
 
@@ -92,10 +94,13 @@ public class OpenMonFactory {
         return keys.toString();
     }
 
-    private OpenMon create(String clazzName) {
+    private OpenMon create(String className) {
         try {
-            return (OpenMon) Class.forName(clazzName).newInstance();
+            return (OpenMon) Class.forName(className).newInstance();
         } catch (Throwable t) {
+            System.err.println("Disabling Automon from "+getClass()+": Failure in creating: '"+className+
+                    "'. Remember a public noarg constructor is required."+
+                    " Try one of the following: "+this);
             t.printStackTrace();
             return null;
         }
