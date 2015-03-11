@@ -178,7 +178,7 @@ public class Utils {
     }
 
     private static ObjectName getMxBeanObjectName(Object aspect) throws Exception {
-        String objectName = "org.automon:type=aspect,name=" + aspect;
+        String objectName = "org.automon:type=aspects,name=" + aspect;
         return new ObjectName(objectName);
     }
 
