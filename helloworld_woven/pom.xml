@@ -67,6 +67,7 @@
             </plugin>
 
             <plugin>
+                <!-- if this doesn't run try to go to the parent directory and run 'mvn clean install' first -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${mojo.execution.version}</version>
@@ -83,6 +84,13 @@
                     <commandlineArgs>100</commandlineArgs>
                     <classpathScope>runtime</classpathScope>
                     <mainClass>org.automon.helloworld.HelloWorld</mainClass>
+                    <systemProperties>
+                        <property>
+                            <!-- note assuming the proper jars are in the classpath you could use jamon, javasimon, metrics, nullimp, sysout -->
+                            <key>org.automon</key>
+                            <value>sysout</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
     <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
