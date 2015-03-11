@@ -1,11 +1,11 @@
 playground/src/main/resources/data/out/*
 
-# Files to exclude. Taken from 
+# Files to exclude. Taken from
 #   http://gary-rowe.com/agilestack/2012/10/12/a-gitignore-file-for-intellij-and-eclipse-with-maven/
 
 # Eclipse
 # intellij
-.idea/**
+.idea/
 *.iml
 *.iws
 .#*
@@ -14,10 +14,10 @@ playground/src/main/resources/data/out/*
 .DS_Store
 
 #CVS
-CVS/**
+CVS/
 
 
 
 # Maven
-log/**
-target/**
+log/
+target/
