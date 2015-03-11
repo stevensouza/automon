@@ -1,17 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.automon</groupId>
-  <artifactId>automon</artifactId>
+  <artifactId>automon_parent</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>automon</name>
-  
+  <packaging>pom</packaging>
+  <name>automonn parent</name>
+
   <description>Automon combines the power of AOP (AspectJ) with any monitoring or logging tools you already use to declaratively monitor your Java code, the JDK, and dependent libraries.
   </description>
   <url>http://www.automon.org</url>
-  
+
   <licenses>
       <license>
           <name>Automon License (Apache 2.0)</name>
@@ -19,7 +21,7 @@
           <distribution>repo</distribution>
       </license>
   </licenses>
-  
+
   <scm>
       <url>https://github.com/stevensouza/automon</url>
       <connection>scm:git:git://github.com:stevensouza/automon.git</connection>
@@ -34,164 +36,16 @@
       </developer>
   </developers>
 
+  <modules>
+    <module>automon</module>
+    <module>helloworld_unwoven</module>
+    <module>helloworld_woven</module>
+  </modules>
+
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <!-- note for aspectj compiling above 1.5 i found some errors if the pointcut let everything be monitored -->
       <jdk.version>1.8</jdk.version>
-      <metrics.version>3.1.0</metrics.version>
-      <jamonapi.version>2.81</jamonapi.version>
-      <javasimon.version>4.0.1</javasimon.version>
-      <assertj.version>1.7.0</assertj.version>
-      <aspectj.version>1.8.2</aspectj.version>
-      <mojo.ajc.version>1.7</mojo.ajc.version>
-      <mojo.execution.version>1.3.2</mojo.execution.version>
-      <mockito.version>1.9.5</mockito.version>
-      <junit.version>4.11</junit.version>
-      <perf4j.version>0.9.16</perf4j.version>
-      <newrelic.version>3.14.0</newrelic.version>
-      <ejb.version>3.2</ejb.version>
-      <spring.version>4.0.2.RELEASE</spring.version>
   </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>${mojo.ajc.version}</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <complianceLevel>${jdk.version}</complianceLevel>
-                    <!-- generates META-INF/aop-ajc.xml file and puts it in jar.  Recommended for aspectj libraries. -->
-                    <outxml>true</outxml>
-                    <showWeaveInfo>true</showWeaveInfo>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>       <!-- use this goal to weave constructor your main classes -->
-                            <goal>test-compile</goal> <!-- use this goal to weave constructor your test classes -->
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${mojo.execution.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- generates class path with constructor dependencies as well as generated class -->
-                    <classpathScope>runtime</classpathScope>
-                   <!-- <mainClass>org.automon.delme.MyClass</mainClass> -->
-                </configuration>
-            </plugin>
-    <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
-            </plugin>
-        </plugins>
-    </build>
-
-  <dependencies>
-
-    <!-- test dependencies -->
-    <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>${assertj.version}</version>
-        <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-        <version>${mockito.version}</version>
-        <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-    </dependency>
-    
-    <!-- runtime dependencies -->
-    <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjrt</artifactId>
-        <version>${aspectj.version}</version>
-        <scope>provided</scope>
-    </dependency>
-    
-    <dependency>
-        <groupId>com.jamonapi</groupId>
-        <artifactId>jamon</artifactId>
-        <version>${jamonapi.version}</version>
-        <scope>provided</scope>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.javasimon</groupId>
-        <artifactId>javasimon-core</artifactId>
-        <version>${javasimon.version}</version>
-        <scope>provided</scope>
-    </dependency>
-    
-    <dependency>
-        <groupId>io.dropwizard.metrics</groupId>
-        <artifactId>metrics-core</artifactId>
-        <version>${metrics.version}</version>
-        <scope>provided</scope>
-    </dependency>
-
-      <dependency>
-          <groupId>io.dropwizard.metrics</groupId>
-          <artifactId>metrics-annotation</artifactId>
-          <version>${metrics.version}</version>
-          <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-          <groupId>org.perf4j</groupId>
-          <artifactId>perf4j</artifactId>
-          <version>${perf4j.version}</version>
-          <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-          <groupId>com.newrelic.agent.java</groupId>
-          <artifactId>newrelic-api</artifactId>
-          <version>${newrelic.version}</version>
-          <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-          <groupId>javax.ejb</groupId>
-          <artifactId>javax.ejb-api</artifactId>
-          <version>${ejb.version}</version>
-          <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-context</artifactId>
-          <version>${spring.version}</version>
-          <scope>provided</scope>
-      </dependency>
-
-
-  </dependencies>
 </project>
