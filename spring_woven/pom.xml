@@ -1,0 +1,171 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.automon</groupId>
+    <artifactId>automon_parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.automon</groupId>
+  <artifactId>spring_woven</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>spring_woven</name>
+
+  <description>Weave HelloWorld class with the automon aspect in a spring application.  This is compile time weaving.  Note you
+    may also use load time weaving (LTW) with spring.
+    </description>
+
+  <properties>
+    <spring.version>4.1.1.RELEASE</spring.version>
+    <aspectj.version>1.8.2</aspectj.version>
+    <mojo.ajc.version>1.7</mojo.ajc.version>
+    <mojo.execution.version>1.3.2</mojo.execution.version>
+    <maven.compiler.version>3.2</maven.compiler.version>
+    <maven.surefire.version>2.18.1</maven.surefire.version>
+  </properties>
+
+  <build>
+      <plugins>
+
+<!-- note the ajc compiler is used. There may be ways to not use this however, I was having runtime errors with the following exception
+     when i used the standard maven compiler.
+
+     BeanPostProcessor before instantiation of bean failed; nested exception is java.lang.IllegalStateException:
+     Expecting to find 2 arguments to bind by name in advice, but actually found 1 arguments.
+-->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>aspectj-maven-plugin</artifactId>
+            <version>${mojo.ajc.version}</version>
+
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
+                        <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <!-- because this project has no sources it is required that forceAjcCompile is true.
+                Alternatively having one dummy class works. -->
+                <source>${jdk.version}</source>
+                <target>${jdk.version}</target>
+                <complianceLevel>${jdk.version}</complianceLevel>
+            </configuration>
+        </plugin>
+
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>${maven.surefire.version}</version>
+          </plugin>
+
+          <plugin>
+              <!-- if this doesn't run try to go to the parent directory and run 'mvn clean install' first -->
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>${mojo.execution.version}</version>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>exec</goal>
+                      </goals>
+
+                  </execution>
+              </executions>
+              <configuration>
+                  <!-- generates class path with all dependencies as well as generated class -->
+                  <commandlineArgs>100</commandlineArgs>
+                  <classpathScope>runtime</classpathScope>
+                  <mainClass>org.automon.spring.HelloWorld</mainClass>
+                  <systemProperties>
+                      <property>
+                          <!-- note assuming the proper jars are in the classpath you could use jamon, javasimon, metrics, nullimp, sysout -->
+                          <key>org.automon</key>
+                          <value>sysout</value>
+                      </property>
+                  </systemProperties>
+              </configuration>
+          </plugin>
+
+
+      </plugins>
+  </build>
+
+
+  <dependencies>
+     <!-- probably all of the following spring packages are not needed. Haven't had a chance to see which ones are -->
+
+      <dependency>
+        <groupId>org.automon</groupId>
+        <artifactId>automon</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjrt</artifactId>
+          <version>${aspectj.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjweaver</artifactId>
+          <version>${aspectj.version}</version>
+      </dependency>
+
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+       </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-tx</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-test</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-expression</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-jms</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+
+  </dependencies>
+</project>
