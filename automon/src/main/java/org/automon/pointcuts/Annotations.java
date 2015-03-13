@@ -5,8 +5,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * Pointcuts for easily monitoring annotations defined in other monitoring libraries such as JAMon, Metrics, JavaSimon, NewRelic and Perf4j.
- * This model can also be followed to have automon recognize any other annotation.  Typically these pointcuts will be combined
- * with a pointcut that limits the matches to matches.
+ * This model can also be followed to have automon recognize any other annotation.
  *
  * <p>
  *     Note @annotation(..) applies to method annotations, and @within(..) or within(@..) apply to class annotations.

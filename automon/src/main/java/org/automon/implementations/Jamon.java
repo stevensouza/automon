@@ -11,7 +11,7 @@ import org.automon.utils.Utils;
 import java.util.List;
 
 /**
- * Created by stevesouza on 2/26/15.
+ * {@link org.automon.implementations.OpenMon} implementation that uses Jamon to time methods, and count exceptions.
  */
 public class Jamon extends OpenMonBase<Monitor> {
 
@@ -46,6 +46,8 @@ public class Jamon extends OpenMonBase<Monitor> {
     @Override
     protected void trackException(JoinPoint jp, Throwable throwable) {
         AutomonExpirable exceptionContext = populateArgNamesAndValues_InExceptionContext(jp, throwable);
+        // Multiple monitors are tracked for the exception such as one of the specific exception and one that represents
+        // all exceptions.
         List<String> labels = getLabels(throwable);
         for (String label : labels) {
             MonKey key = new MonKeyImp(label, exceptionContext, "Exception");
@@ -53,6 +55,13 @@ public class Jamon extends OpenMonBase<Monitor> {
         }
     }
 
+    /**
+     * Jamon keeps the full stack trace and arguments available to be viewed in the jamon web app (details).  The following logic
+     * does this.
+     * @param jp
+     * @param throwable
+     * @return
+     */
     private AutomonExpirable populateArgNamesAndValues_InExceptionContext(JoinPoint jp, Throwable throwable) {
         AutomonExpirable exceptionContext = get(throwable);
         if (exceptionContext.getArgNamesAndValues()==null){

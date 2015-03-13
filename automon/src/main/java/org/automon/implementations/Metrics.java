@@ -9,7 +9,7 @@ import java.util.List;
 import static com.codahale.metrics.MetricRegistry.name;
 
 /**
- * Created by stevesouza on 2/26/15.
+ * {@link org.automon.implementations.OpenMon} implementation that uses Yammer Metrics to time methods, and count exceptions.
  */
 public class Metrics extends OpenMonBase<Timer> {
     private MetricRegistry metrics = new MetricRegistry();

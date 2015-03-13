@@ -4,7 +4,9 @@ import org.aspectj.lang.JoinPoint;
 import org.automon.utils.Utils;
 
 /**
- * Created by stevesouza on 2/26/15.
+ * {@link org.automon.implementations.OpenMon} implementation that uses {@link java.lang.System#out} to log method
+ * start, stop and thrown exceptions.  This tracer class is mainly used just to get a better understanding
+ * of how Automon works, however similar implementations using log4j, sl4j, java logging etc would be useful.
  */
 public final class SysOut implements OpenMon<Object> {
     private static final Object NOOP = new Object();

@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * Some standard pointcuts defined that are valid in Spring (execution(method)).
- * They should be reused in other aspects.   See {@link org.automon.pointcuts.Select}
+ * They can be reused in other aspects.   See {@link org.automon.pointcuts.Select}
  * for more general pointcuts valid in AspectJ as a whole.
  *
  */

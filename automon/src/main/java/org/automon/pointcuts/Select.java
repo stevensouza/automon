@@ -4,12 +4,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * Pointcuts defined for various standard/basic pointcuts such as method, and constructor invocations as well as setter/getter methods.
+ * <p>Pointcuts defined for various standard/basic pointcuts such as method, and constructor invocations as well as setter/getter methods.
  * They should be reused in other aspects.  This class extends {@link org.automon.pointcuts.SpringSelect} to add pointcuts not valid in
- * Spring, but valid in AspectJ as a whole.
+ * Spring, but valid in AspectJ as a whole.</p>
  *
- * Note remember that this interface extends {@link org.automon.pointcuts.SpringSelect} and so also has all of the available
- * pointcuts in that interface.
+ * <p>Note remember that this interface extends {@link org.automon.pointcuts.SpringSelect} and so also has all of the available
+ * pointcuts in that interface.</p>
  *
  */
 @Aspect

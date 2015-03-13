@@ -13,12 +13,12 @@ import java.util.Properties;
 /**
  * <p>Aspect that advises the {@link org.aspectj.lang.annotation.Around} and {@link org.aspectj.lang.annotation.AfterThrowing} annotations.
  * The appropriate methods on {@link org.automon.implementations.OpenMon} methods are called. The advice typically times methods
- * and counts any exceptions  thrown however other behavior such as logging is also possible.</p>
+ * and counts any exceptions  thrown, however other behavior such as logging is also possible.</p>
  *
  * <p>Note a developer should implement and provide any methods for this class or {@link org.automon.aspects.AspectJBase} or
  * {@link org.automon.aspects.SpringBase}.</p>
  *
- * <p>Note: I used native aspect style instead of the @AspectJ style because around in @AspectJ style doesn't seem to allow for the
+ * <p>Note: I used native aspect style instead of the @AspectJ style because @Around in @AspectJ style doesn't seem to allow for the
  * more performant use of the static part of the JoinPoint. The static part only seems to be available without first
  * creating the dynamic JoinPoint in native aspects. Native style aspects are more powerful and can later be extended by developers
  * with @AspectJ style, so it is probably the best option anyway.  </p>
@@ -29,6 +29,7 @@ public abstract aspect AutomonAspect {
     private AutomonMXBean automonJmx = new Automon(this);
 
     public AutomonAspect() {
+        // Use OpenMon the user selects and register the aspect with jmx
         Properties properties = new AutomonPropertiesLoader().getProperties();
         String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
         setOpenMon(openMonStr);
@@ -36,8 +37,8 @@ public abstract aspect AutomonAspect {
     }
 
     /**
-     * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method at the beginning and end
-     * of the method call.
+     * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method
+     * at the beginning and end of the method call.
      *
      * @return The advised methods value or void.
      * @throws Throwable If the method throws a {@link java.lang.Throwable} the advice will rethrow it.
@@ -57,7 +58,8 @@ public abstract aspect AutomonAspect {
     }
 
     /**
-     * exceptions() advice - Takes action on any Exception thrown.  It Tracks/Counts any exceptions thrown by the pointcut.
+     * exceptions() advice - Takes action on any Exception thrown.  It typically Tracks/Counts any exceptions thrown by the pointcut.
+     * Note arguments are passed on to {@link org.automon.implementations.OpenMon#exception(org.aspectj.lang.JoinPoint, Throwable)}
      */
     after() throwing(Throwable throwable): exceptions() {
         openMon.exception(thisJoinPoint, throwable);
@@ -98,6 +100,11 @@ public abstract aspect AutomonAspect {
         this.openMon = openMon;
     }
 
+    /**
+     * Take the string of any {@link org.automon.implementations.OpenMon} registered within this classes
+     * {@link org.automon.implementations.OpenMonFactory}, instantiate it and make it the current OpenMon.
+     * @param openMonKey Something like jamon, metrics, javasimon
+     */
     public void setOpenMon(String openMonKey) {
         this.openMon = factory.getInstance(openMonKey);
     }
@@ -107,7 +114,7 @@ public abstract aspect AutomonAspect {
     }
 
     // Note the mxbean was done as an inner class due to compilation order and AutomAspect.aj not being compiled and so
-    // not availalbe to Automon if it was an external class.
+    // not available to Automon if it was an external class.  These mehtods are visible via the jconsole jmx console.
     public static class Automon implements AutomonMXBean {
         private AutomonAspect automonAspect;
 

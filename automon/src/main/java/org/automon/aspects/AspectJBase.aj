@@ -2,10 +2,11 @@ package org.automon.aspects;
 
 
 /**
- * <p>Can contain pointucut language that is not compatible with Spring.  Use this as your Base class if you AspectJ directly.</p>
+ * <p>This class contains pointcut syntax that might not compatible with Spring.  Use this as your Base class if you AspectJ directly.
+ * Becuase it is not limited in its pointcut syntax it is more powerful.</p>
  *
- * <p>Note a developer should implement and provide pointcuts that you want to monitor by implementing {@link #user_monitor()}
- * and {@link #user_exceptions()}</p>
+ * <p>Note when a developer makes a conscrete intance of this class they should provide pointcuts that they want to monitor
+ * by implementing {@link #user_monitor()} and {@link #user_exceptions()}</p>
  */
 public abstract aspect AspectJBase extends AutomonAspect {
     public pointcut _sys_monitor() : _sys_pointcut();

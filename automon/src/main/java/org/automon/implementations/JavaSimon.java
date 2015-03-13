@@ -8,12 +8,12 @@ import org.javasimon.Split;
 import java.util.List;
 
 /**
- * Created by stevesouza on 2/26/15.
+ * {@link org.automon.implementations.OpenMon} implementation that uses JavaSimon to time methods, and count exceptions.
  */
 public class JavaSimon extends OpenMonBase<Split> {
     /**
      * <p>
-     * HACK ALERT: Fixes problem when user tries to create a JavaSimon when simon is not in the classpath.
+     * HACK ALERT: The following variable fixes problem when user tries to create a JavaSimon when simon is not in the classpath.
      *
      * For some reason when JavaSimon jars aren't in the classpath the NoClassDefFoundError
      * exception is not thrown at Object creation time but when 'trackException' is called.

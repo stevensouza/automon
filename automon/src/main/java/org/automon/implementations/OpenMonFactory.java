@@ -5,18 +5,20 @@ import org.automon.utils.Utils;
 import java.util.*;
 
 /**
- * Class that holds {@link org.automon.implementations.OpenMon} implementations.  The factor contains the string class name of the impementation
- * and is creates the instance with the required noarg constructor.  Note the instance can be created using the full class name with
- * package or just the class name.  When using just the class name form it is case insensitive.  For example all of the following forms
+ * Class that holds {@link org.automon.implementations.OpenMon} implementations.  The factory contains the string class
+ * name of the implementation and it will create the instance with the required noarg constructor.
+ * Note the instance can be created using the full class name with package or just the class name.
+ * When using just the class name form it is case insensitive.  For example all of the following forms
  * are acceptable:<br>
  *     * {@link org.automon.implementations.Jamon}<br>
  *     * JAMon<br>
  *     * jamon<br>
- *
- *
  */
 public class OpenMonFactory {
 
+    /**
+     * Note the short form is also put in the factory: jamon, javasimon, ...
+     */
     public static final String JAMON =  "org.automon.implementations.Jamon";
     public static final String JAVA_SIMON =  "org.automon.implementations.JavaSimon";
     public static final String METRICS =  "org.automon.implementations.Metrics";
@@ -24,6 +26,7 @@ public class OpenMonFactory {
     public static final String NULL_IMP =  "org.automon.implementations.NullImp";
 
     private  Map<String, String> openMonFactory = new HashMap<String,  String>();
+    // returned when the requested implementation can't be created.
     private OpenMon defaultOpenMon;
 
     public OpenMonFactory(OpenMon defaultOpenMon) {
@@ -57,7 +60,8 @@ public class OpenMonFactory {
 
     /**
      *
-     * @param key  Fully qualified class name, or a case insensitive simple class name. Examples: 1) com.mypackage.MyOpenMon 2) MyOpenMon, 3) myopenmon
+     * @param key  Fully qualified class name, or a case insensitive simple class name.
+     *             Examples: 1) com.mypackage.MyOpenMon 2) MyOpenMon, 3) myopenmon
      * @return An instance of the class or the default {@link org.automon.implementations.OpenMon} if there was a failure on class creation.
      */
     public  OpenMon getInstance(String key) {
