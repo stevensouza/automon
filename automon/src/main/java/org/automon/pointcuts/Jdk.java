@@ -13,7 +13,8 @@ public abstract class Jdk {
 
     @Pointcut(
             "within(java.sql.Statement+) || " +
-            "within(java.sql.Connection+)"
+            "within(java.sql.Connection+) || " +
+            "within(java.sql.Savepoint+)"
     )
     public void jdbc() {
     }
