@@ -33,6 +33,7 @@
       <newrelic.version>3.14.0</newrelic.version>
       <ejb.version>3.2</ejb.version>
       <spring.version>4.0.2.RELEASE</spring.version>
+      <jaxrs.version>2.0.1</jaxrs.version>
   </properties>
 
     <build>
@@ -174,6 +175,12 @@
           <scope>provided</scope>
       </dependency>
 
+      <dependency>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>javax.ws.rs-api</artifactId>
+          <version>${jaxrs.version}</version>
+          <scope>provided</scope>
+      </dependency>
 
   </dependencies>
 </project>
