@@ -69,8 +69,15 @@ public abstract class Annotations {
     )
     public void jaxrs() {
     }
-    // jaxrs
-    // jpa
-    // hibernate
 
+    /**
+     * Pointcut for jpa entities
+     */
+    @Pointcut(
+            "within(@javax.persistence.Entity *) || "+
+            "within(@javax.persistence.MappedSuperclass *) || "+
+            "within(@javax.persistence.Embeddable *)"
+    )
+    public void jpa() {
+    }
 }

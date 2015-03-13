@@ -34,6 +34,7 @@
       <ejb.version>3.2</ejb.version>
       <spring.version>4.0.2.RELEASE</spring.version>
       <jaxrs.version>2.0.1</jaxrs.version>
+      <jpa.version>1.0.1.Final</jpa.version>
   </properties>
 
     <build>
@@ -181,6 +182,14 @@
           <version>${jaxrs.version}</version>
           <scope>provided</scope>
       </dependency>
+
+      <dependency>
+          <groupId>org.hibernate.javax.persistence</groupId>
+          <artifactId>hibernate-jpa-2.0-api</artifactId>
+          <version>${jpa.version}</version>
+          <scope>provided</scope>
+      </dependency>
+
 
   </dependencies>
 </project>
