@@ -5,14 +5,16 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * Standard pointcuts that are useful for typically monitored classes in the jdk.  Typically these would involve IO of
- * one form or another.
+ * one form or another (i.e. files, jdbc, net/web)
  */
 
 @Aspect
-
 public abstract class Jdk {
 
-    @Pointcut("within(@org.automon.annotations.Monitor *) || @annotation(org.automon.annotations.Monitor)")
+    @Pointcut(
+            "within(java.sql.Statement+) || " +
+            "within(java.sql.Connection+)"
+    )
     public void jdbc() {
     }
 
@@ -22,7 +24,7 @@ public abstract class Jdk {
             "within(java.io.OutputStream+) || " +
             "within(java.io.InputStream+) || " +
             "within(java.io.DataInput+) || " +
-            "within(java.io.DataOutput+) || "
+            "within(java.io.DataOutput+)"
     )
     public void io() {
     }
@@ -31,6 +33,7 @@ public abstract class Jdk {
             "within(java.net.SocketImpl+) || " +
             "within(java.net.ServerSocket+) || " +
             "within(java.net.DatagramSocket+) || " +
+            "within(java.net.DatagramSocketImpl+) || " +
             "within(java.net.Socket+) || " +
             "within(java.net.URLConnection+)"
     )
