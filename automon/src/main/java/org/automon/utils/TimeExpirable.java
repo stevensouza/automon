@@ -6,14 +6,14 @@ package org.automon.utils;
  */
 public class TimeExpirable implements Expirable {
 
-    // Any exceptions in the map older than this will be removed on 'put'.
+    // Any exceptions in the map older than this will be removed when a 'put' is called.
     private static int DEFAULT_EXPIRATION_INTERVAL_IN_MINUTES = 2;
     private static long SECS_PER_MINUTE=60;
     private static long MS_PER_SEC=1000;
 
-    private long creationTime;
-    private long expirationIntervalInMs;
-    private Now now;
+    private long creationTime; // when the object was created.
+    private long expirationIntervalInMs; // how long in ms. until the object should expire
+    private Now now; // time calculator put as an Object to allow dependency injection (DI)
 
     public TimeExpirable() {
         this(DEFAULT_EXPIRATION_INTERVAL_IN_MINUTES);
@@ -38,7 +38,6 @@ public class TimeExpirable implements Expirable {
     static long convertToMs(int expirationInternalInMinutes) {
         return expirationInternalInMinutes*SECS_PER_MINUTE*MS_PER_SEC;
     }
-
 
     private static class CurrentTimeMills implements Now {
         @Override

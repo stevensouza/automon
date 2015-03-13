@@ -17,6 +17,7 @@ public class AutomonPropertiesLoader {
     private String[] fileNames;
     private Properties automonProps;
 
+    // AspectJ property that specifies the xml config file used by AspectJ
     private static final String ASPECTJ_CONFIG_FILE="org.aspectj.weaver.loadtime.configuration";
     private static final String DEFAULT_PROPS_CONFIG_FILE="automon.properties";
     private static final String DEFAULT_XML_CONFIG_FILE1="ajc-aop.xml";
@@ -34,6 +35,10 @@ public class AutomonPropertiesLoader {
         this(System.getProperty(ASPECTJ_CONFIG_FILE, null), DEFAULT_PROPS_CONFIG_FILE, DEFAULT_XML_CONFIG_FILE1, DEFAULT_XML_CONFIG_FILE2);
     }
 
+    /**
+     *
+     * @param fileNames list of file names to look for config properties in.  They are checked in order.  If none are found defaults are used.
+     */
     AutomonPropertiesLoader(String... fileNames) {
         this.fileNames = fileNames;
     }
@@ -85,6 +90,7 @@ public class AutomonPropertiesLoader {
     }
 
 
+    // Try to load the fileName to see if it is there and has properties.
     private Properties propertyLoader(String fileName)  {
         Properties properties = new Properties();
         InputStream input = null;
@@ -113,6 +119,7 @@ public class AutomonPropertiesLoader {
         }
     }
 
+    /** Use any properties that were passed in at the command line */
     private  void replaceWithCommandLineProps(Properties properties, Properties defaults) {
         for (Object key : defaults.keySet()) {
             String value = sysProperty.getProperty(key.toString());
@@ -123,6 +130,7 @@ public class AutomonPropertiesLoader {
 
     }
 
+    /** Defaults used if no config file is found */
     Properties getDefaults() {
         Properties defaults = new Properties();
         defaults.put(CONFIGURED_OPEN_MON, DEFAULT_OPEN_MON);

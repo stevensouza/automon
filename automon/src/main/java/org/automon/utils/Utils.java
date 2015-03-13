@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * Created by stevesouza on 3/3/15.
+ * Static utility methods used throughout Automon.
  */
 public class Utils {
 
@@ -40,6 +40,10 @@ public class Utils {
      */
      static final String DEFAULT_MAX_STRING_ENDING = "...";
 
+    /**
+     *
+     * @return Thread safe Map that can contain Exceptions that are thrown monitored code.
+     */
     public static Map<Throwable, AutomonExpirable> createExceptionMap() {
         return Collections.synchronizedMap(new ExpiringMap<Throwable, AutomonExpirable>());
     }
@@ -47,7 +51,7 @@ public class Utils {
    /**
      * @param throwable The exception that was thrown
      * @return A string suitable for a monitoring label representing the thrown exception.  It is a convenience method and need not be
-     * used to create the monitor
+     * used to create the monitor.  Note it adds extra information to the returned label for SQLException's.<br>
      *
      * Examples:<br>
      *      <br>java.lang.RuntimeException
@@ -147,7 +151,7 @@ public class Utils {
     }
 
 
-    /** Return Exception information as String */
+    /** Return full Exception stack trace as String */
     public static String getExceptionTrace(Throwable exception) {
         if (exception==null) {
             return UNKNOWN;
@@ -163,25 +167,49 @@ public class Utils {
         return sb.toString();
     }
 
+    /** Tokenize the passed in string.
+     *
+     * @param string string to tokenize
+     * @param splitOn string to split the string on.
+     * @return an array of String tokens.
+     */
     public static String[] tokenize(String string, String splitOn) {
         return string.replace(" ","").split(splitOn);
     }
 
+    /**
+     *
+     * @param fileName
+     * @return Take something like file://myfile.dat and return myfile.dat
+     */
     public static String stripFileScheme(String fileName) {
         return fileName.replaceFirst("(?i)file://","").replaceFirst("(?i)file:","");
     }
 
+    /**
+     * Pass in an aspect and return its jmx bean.
+     *
+     * @param aspect
+     * @return
+     * @throws Exception if jmx commands fail
+     */
     public static AutomonMXBean getAutomonMxBean(Object aspect) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         AutomonMXBean mxbeanProxy = JMX.newMXBeanProxy(mBeanServer, getMxBeanObjectName(aspect), AutomonMXBean.class);
         return mxbeanProxy;
     }
 
-    private static ObjectName getMxBeanObjectName(Object aspect) throws Exception {
+   // get the ObjectName that is used to refer to the 'aspect'
+   private static ObjectName getMxBeanObjectName(Object aspect) throws Exception {
         String objectName = "org.automon:type=aspects,name=" + aspect;
         return new ObjectName(objectName);
     }
 
+    /**
+     *
+     * @param aspect Aspect that we are registering the jmx bean for
+     * @param mxBean jmx bean use to manage and get information about the aspect
+     */
     public static void registerWithJmx(Object aspect, AutomonMXBean mxBean)  {
         try {
             MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
@@ -191,11 +219,18 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param aspect unregister the passed in aspect.
+     * @throws Exception
+     */
+
     public static void unregisterWithJmx(Object aspect) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         mBeanServer.unregisterMBean(getMxBeanObjectName(aspect));
     }
 
+    // used to get method argvalues from the method signature.
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
         Signature signature = jp.getSignature();
         if (signature instanceof CodeSignature) {
@@ -204,6 +239,12 @@ public class Utils {
             return new Object[argValues.length];
         }
     }
+
+    /**
+     *
+     * @param list Take a list and remove any entries with '.' in them.  This is done to remove class names from
+     *             a List.
+     */
 
     public static void removeClassNames(List<String> list) {
         ListIterator<String> iterator = list.listIterator();
