@@ -6,7 +6,11 @@ import org.aspectj.lang.annotation.Pointcut;
 /**
  * Pointcuts for easily monitoring annotations defined in other monitoring libraries such as JAMon, Metrics, JavaSimon, NewRelic and Perf4j.
  * This model can also be followed to have automon recognize any other annotation.  Typically these pointcuts will be combined
- * with a pointcut that limits the matches to matches.  For examaple: execution(public *.*
+ * with a pointcut that limits the matches to matches.
+ *
+ * <p>
+ *     Note @annotation(..) applies to method annotations, and @within(..) or within(@..) apply to class annotations.
+ * </p>
  */
 @Aspect
 public abstract class Annotations {
@@ -52,16 +56,20 @@ public abstract class Annotations {
     public void spring() {
     }
 
-    // restapi
     /**
-     * JAX-RS provides some annotations to aid in mapping a resource class (a POJO) as a web resource. The annotations include:
-
-     @Path specifies the relative path for a resource class or method.
-     @GET, @PUT, @POST, @DELETE and @HEAD specify the HTTP request type of a resource.
-     @Produces specifies the response Internet media types (used for content negotiation).
-     @Consumes specifies the accepted request Internet media types.
-
+     * JAX-RS provides some annotations to aid in mapping a resource class (a POJO) as a web resource. The annotations include
+     * @GET, @PUT, @POST, @DELETE and @HEAD specify the HTTP request type of a resource.  They are applied to methods.
      */
+    @Pointcut(
+            "@annotation(javax.ws.rs.GET) || "+
+            "@annotation(javax.ws.rs.PUT) || "+
+            "@annotation(javax.ws.rs.POST) || "+
+            "@annotation(javax.ws.rs.DELETE) || "+
+            "@annotation(javax.ws.rs.HEAD)"
+    )
+    public void jaxrs() {
+    }
+    // jaxrs
     // jpa
     // hibernate
 
