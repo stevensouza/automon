@@ -1,13 +1,16 @@
 <!-- You can define other pointcuts in this file (much like was done with 'profile()'). Then you can recombine them with 'and', and 'or'.  Example:
 <pointcut name="profile" expression="hismethods() or hermethods()) and myannotations()"/>
+
+ Choices for below:  jamon, metrics, javasimon, nullimp, sysout
+org.automon=sysout
 -->
 <aspectj>
   <aspects>
      <!-- Assume ajia.monitoring.Monitoring is an abstract aspect with
           an abstract monitored() pointcut -->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
-        <pointcut name="user_monitor"       expression="jamon_annotations()"/>
-        <pointcut name="user_exceptions"    expression="jamon_annotations()"/>
+        <pointcut name="user_monitor"       expression="automon_annotations()"/>
+        <pointcut name="user_exceptions"    expression="automon_annotations()"/>
         
         <!-- annotation pointcuts -->
         <pointcut name="jamon_annotations" expression="org.automon.pointcuts.Annotations.jamon()"/>
@@ -25,6 +28,24 @@
         <pointcut name="jdbc" expression="org.automon.pointcuts.Jdk.jdbc()"/>
         <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>
         <pointcut name="net" expression="org.automon.pointcuts.Jdk.net()"/>
+
+        <!-- pointcuts valid for Spring applications (Spring only supports 'execution(..)' pointcuts.
+             Note Select could also be used instead of SpringSelect as Spring inherits from SpringSelect
+         -->
+        <pointcut name="objectMethod" expression="org.automon.pointcuts.SpringSelect.objectMethod()"/>
+        <pointcut name="method" expression="org.automon.pointcuts.SpringSelect.method()"/>
+
+        <!-- method execution pointcuts -->
+        <pointcut name="publicMethod" expression="org.automon.pointcuts.SpringSelect.publicMethod()"/>
+        <pointcut name="protectedMethod" expression="org.automon.pointcuts.SpringSelect.protectedMethod()"/>
+        <pointcut name="privateMethod" expression="org.automon.pointcuts.SpringSelect.privateMethod()"/>
+        <pointcut name="packageMethod" expression="org.automon.pointcuts.SpringSelect.packageMethod()"/>
+
+        <!-- method getter/setter pointcuts -->
+        <pointcut name="setter" expression="org.automon.pointcuts.SpringSelect.setter()"/>
+        <pointcut name="getter" expression="org.automon.pointcuts.SpringSelect.getter()"/>
+        <pointcut name="getterOrSetter" expression="org.automon.pointcuts.SpringSelect.getterOrSetter()"/>
+
      </concrete-aspect>
   </aspects>
 </aspectj>
