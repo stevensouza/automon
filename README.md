@@ -20,13 +20,13 @@ Getting Started
 The quickest way to get started with Automon is to download this distribution, and go to the [examples](https://github.com/stevensouza/automon/tree/master/examples)
 directory and run the sample programs (*.sh).  There are more directions on running the examples in the 'examples' directories README file.
 
-Running a program with Automon is easy.  You simply put automon-{version}.jar in your classpath, and make either aspectjweaver.jar (LTW),
+**Running a program** with Automon is easy.  You simply put automon-{version}.jar in your classpath, and make either aspectjweaver.jar (LTW),
 or aspectjrt.jar (BTW) available.  The 'examples' directory shows how to invoke your programs using both LTW, and BTW.
 
-Load Time Weaving (LTW) also involves providing an ajc-aop.xml config file so review [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
+**Load Time Weaving** (LTW) also involves providing an ajc-aop.xml config file so review [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
 for more information on them.
 
-Build Time Weaving (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
+**Build Time Weaving** (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
 
 * [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) - A simple project that
 has a dependency on Automon and a simple jar that contains a HelloWorld application.  The output of this project is a jar
