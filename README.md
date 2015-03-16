@@ -9,6 +9,8 @@ It is important to note that Automon is complimentary to other monitoring tools
 such as JAMon, JavaSimon, Yammer Metrics, and New Relic.  In fact you specify which of these tools you would like to
 perform the monitoring.
 
+Automon can also be dynamically enabled/disabled by accessing the Automon JMX MXBean. 
+
 AspectJ Weaving
 -----------------------------------
 AspectJ 'weaves' Automon monitoring code into your classes.  This can be done at runtime with the Load Time Weaver (LTW)
