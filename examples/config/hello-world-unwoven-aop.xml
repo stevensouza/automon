@@ -1,0 +1,16 @@
+<!--
+-->
+<aspectj>
+  <aspects>
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
+        <pointcut name="user_monitor"       expression="profile()"/>
+        <pointcut name="user_exceptions"    expression="profile()"/>
+        <pointcut name="profile"            expression="within(org.automon.helloworld.*)"/>
+     </concrete-aspect>
+  </aspects>
+    <weaver options="-verbose -debug">
+        <!--<dump within="org.automon.implementations.*"/>-->
+        <!--<dump within="org.automon.helloworld.*"/>-->
+    </weaver>
+</aspectj>
+

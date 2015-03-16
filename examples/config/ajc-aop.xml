@@ -1,0 +1,106 @@
+<!-- You can define other pointcuts in this file (much like was done with 'profile()'). Then you can recombine them with 'and', and 'or'.  Example:
+I THINK AND OR MUST BE ALL CAPS!
+
+<pointcut name="profile" expression="hismethods() OR hermethods()) AND myannotations()"/>
+
+ Choices for below:  jamon, metrics, javasimon, nullimp, sysout
+org.automon=sysout
+
+ You may use any valid AspectJ pointcut in automon. This file has a number of pre-defined convenience pointcuts
+ (for example 'jdbc()' and 'io()', but you can also create your own.  Some examples follow.
+
+ Any calls to getFirstName in any class:
+  <pointcut name="profile" expression="execution(* *.getFirstName(..))"/>
+
+Any method in any class that has the format get*Name:
+  <pointcut name="profile" expression="execution(* *.get*Name(..))"/>
+
+path must be absolute:
+  <pointcut name="profile" expression="execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
+
+all methods in the following package structure (recursively).  This includes static methods:
+  <pointcut name="profile" expression="execution(* com.stevesouza..*(..))"/>
+
+public methods only:
+  <pointcut name="profile" expression="execution(public * com.stevesouza.helloworld.HelloWorld.*(..))"/>
+ java   -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:ajc-aop-hello.xml -javaagent:aspectjweaver.jar -classpath automon-1.0-SNAPSHOT.jar:aspectj_helloworld-1.0-SNAPSHOT.jar:jamon-2.81.jar com.stevesouza.helloworld.HelloWorld 10000
+
+-->
+<aspectj>
+  <aspects>
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
+        <pointcut name="user_monitor"       expression="profile()"/>
+        <pointcut name="user_exceptions"    expression="profile()"/>
+        <pointcut name="profile"            expression="automon_annotations()"/>
+
+
+         <!-- The following are reusable pointcuts you can use to tell Automon what parts of your application to monitor -->
+
+        <!-- annotation pointcuts -->
+        <pointcut name="jamon_annotations" expression="org.automon.pointcuts.Annotations.jamon()"/>
+        <pointcut name="automon_annotations" expression="org.automon.pointcuts.Annotations.automon()"/>
+        <pointcut name="javasimon_annotations" expression="org.automon.pointcuts.Annotations.javasimon()"/>
+        <pointcut name="metrics_annotations" expression="org.automon.pointcuts.Annotations.metrics()"/>
+        <pointcut name="perf4j_annotations" expression="org.automon.pointcuts.Annotations.perf4j()"/>
+        <pointcut name="newrelic_annotations" expression="org.automon.pointcuts.Annotations.newrelic()"/>
+        <pointcut name="ejb_annotations" expression="org.automon.pointcuts.Annotations.ejb()"/>
+        <pointcut name="spring_annotations" expression="org.automon.pointcuts.Annotations.spring()"/>
+        <pointcut name="jaxrs_annotations" expression="org.automon.pointcuts.Annotations.jaxrs()"/>
+        <pointcut name="jpa_annotations" expression="org.automon.pointcuts.Annotations.jpa()"/>
+        
+        <!-- jdk pointcuts: -->
+        <pointcut name="jdbc" expression="org.automon.pointcuts.Jdk.jdbc()"/>
+        <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>
+        <pointcut name="net" expression="org.automon.pointcuts.Jdk.net()"/>
+
+        <!-- **** pointcuts valid for Spring applications (Spring only supports 'execution(..)' pointcuts.
+             Note Select could also be used instead of SpringSelect as Spring inherits from SpringSelect
+         -->
+        <pointcut name="objectMethod" expression="org.automon.pointcuts.SpringSelect.objectMethod()"/>
+        <pointcut name="method" expression="org.automon.pointcuts.SpringSelect.method()"/>
+
+        <!-- method execution pointcuts -->
+        <pointcut name="publicMethod" expression="org.automon.pointcuts.SpringSelect.publicMethod()"/>
+        <pointcut name="protectedMethod" expression="org.automon.pointcuts.SpringSelect.protectedMethod()"/>
+        <pointcut name="privateMethod" expression="org.automon.pointcuts.SpringSelect.privateMethod()"/>
+        <pointcut name="packageMethod" expression="org.automon.pointcuts.SpringSelect.packageMethod()"/>
+
+        <!-- method getter/setter pointcuts -->
+        <pointcut name="setter" expression="org.automon.pointcuts.SpringSelect.setter()"/>
+        <pointcut name="getter" expression="org.automon.pointcuts.SpringSelect.getter()"/>
+        <pointcut name="getterOrSetter" expression="org.automon.pointcuts.SpringSelect.getterOrSetter()"/>
+
+         <!-- **** pointcuts valid for AspectJ and not Spring applications (Spring only supports 'execution(..)' pointcuts.-->
+         <pointcut name="all" expression="org.automon.pointcuts.Select.all()"/>
+
+         <!-- constructor pointcuts i.e. new MyObject() -->
+         <pointcut name="constructor" expression="org.automon.pointcuts.Select.constructor()"/>
+         <pointcut name="publicConstructor" expression="org.automon.pointcuts.Select.publicConstructor()"/>
+         <pointcut name="protectedConstructor" expression="org.automon.pointcuts.Select.protectedConstructor()"/>
+         <pointcut name="privateConstructor" expression="org.automon.pointcuts.Select.privateConstructor()"/>
+         <pointcut name="packageConstructor" expression="org.automon.pointcuts.Select.packageConstructor()"/>
+
+         <!-- field set pointcuts i.e. myObject1 = myObject2; -->
+         <pointcut name="fieldSet" expression="org.automon.pointcuts.Select.fieldSet()"/>
+         <pointcut name="publicFieldSet" expression="org.automon.pointcuts.Select.publicFieldSet()"/>
+         <pointcut name="protectedFieldSet" expression="org.automon.pointcuts.Select.protectedFieldSet()"/>
+         <pointcut name="privateFieldSet" expression="org.automon.pointcuts.Select.privateFieldSet()"/>
+         <pointcut name="packageFieldSet" expression="org.automon.pointcuts.Select.packageFieldSet()"/>
+
+         <!-- field get pointcuts i.e. System.out.println(myObject2.myVar); -->
+         <pointcut name="fieldGet" expression="org.automon.pointcuts.Select.fieldGet()"/>
+         <pointcut name="publicFieldGet" expression="org.automon.pointcuts.Select.publicFieldGet()"/>
+         <pointcut name="protectedFieldGet" expression="org.automon.pointcuts.Select.protectedFieldGet()"/>
+         <pointcut name="privateFieldGet" expression="org.automon.pointcuts.Select.privateFieldGet()"/>
+         <pointcut name="packageFieldGet" expression="org.automon.pointcuts.Select.packageFieldGet()"/>
+
+     </concrete-aspect>
+  </aspects>
+    <!--
+    <weaver options="-verbose -debug">
+        <dump within="org.automon.implementations.*"/>
+        <dump within="org.automon.helloworld.*"/>
+    </weaver>
+    -->
+</aspectj>
+
