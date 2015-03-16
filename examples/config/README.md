@@ -1,9 +1,11 @@
-Automon Load Time Weaving (LTW) Config XML Files
+Automon LTW Config XML Files
 ========================
 
-By configurming AspectJ LTW xml files you can tell Automon what parts of your program you would like to monitor simply by
- providing 2 pointcuts.  If you are unfamiliar with pointcuts please refer to AspectJ documentation. The pointcuts you provide
- follow:
+By configurming AspectJ LTW (Load Time Weaving) xml files you can tell Automon what parts of your program you would like to monitor simply by
+ providing 2 pointcuts.  If you are unfamiliar with pointcuts please refer to AspectJ documentation. This directory contains xml files that
+ you can use as starting points for using Automon and AspectJ LTW to monitor your Java programs.
+
+ By overriding the following pointcuts in the provided xml files you can quickly start monitoring your programs:
 
  * **user_monitor** - Anything with this pointcut name will be monitored have Automon's 'start' method called when the code is
  entered and 'stop' called when the code is completed.  JAMon, JavaSimon and Yammer Metrics use this to monitor the
@@ -13,8 +15,9 @@ By configurming AspectJ LTW xml files you can tell Automon what parts of your pr
 
  Typically the user_monitor and user_exceptions pointcuts use the same pointcut though they don't have to.
 
- See the xml files in this directory for some examples.  ajc-aop.xml also has many pointcuts defined that you
- can reuse that will simplify the process of writing pointcuts for you.
+ The xml files can be very simple. See [hello-world-unwoven-aop.xml](https://github.com/stevensouza/automon/blob/master/examples/config/hello-world-unwoven-aop.xml) for
+ a simple example that you could modify to monitor any of your code.  [ajc-aop.xml](https://github.com/stevensouza/automon/blob/master/examples/config/ajc-aop.xml) is a more complete example
+ that also has many pointcuts defined and so it should simplify the process of writing pointcuts for you.
 
  Here is an example of how you would pass this xml configuration information to the AspectJ LTW:
 
