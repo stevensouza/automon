@@ -27,7 +27,7 @@ The quickest way to get started with Automon is to download this distribution, a
 directory and run the sample programs (*.sh).  There are more directions on running the examples in the 'examples' directories README file.
 
 **Running a program** with Automon is easy.  You simply put automon-{version}.jar in your classpath, and make either aspectjweaver.jar (LTW),
-or aspectjrt.jar (BTW) available.  The 'examples' directory shows how to invoke your programs using both LTW, and BTW.
+or aspectjrt.jar (BTW) available.  The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory shows how to invoke your programs using both LTW, and BTW.
 
 **Load Time Weaving** (LTW) also involves providing an ajc-aop.xml config file so review [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
 for more information on them.
