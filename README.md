@@ -1,6 +1,6 @@
 # Automon
 Automon combines the power of AOP (AspectJ) with monitoring tools (JAMon, JavaSimon, Yammer Metrics, ...) or logging tools
-(perf4j, log4j, sl4j, ...) that you already use to declaratively monitor
+(perf4j, log4j, sl4j, ...) that you already use to declaratively monitor...
 
 * Your Java code,
 * The JDK,
