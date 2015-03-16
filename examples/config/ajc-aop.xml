@@ -1,33 +1,43 @@
-<!-- You can define other pointcuts in this file (much like was done with 'profile()'). Then you can recombine them with 'and', and 'or'.  Example:
-I THINK AND OR MUST BE ALL CAPS!
+<!--
 
-<pointcut name="profile" expression="hismethods() OR hermethods()) AND myannotations()"/>
+The 'user_monitor' pointcut defines what code you would like to time.  The 'user_exceptions' pointcut defines what code
+you would like to monitor for exceptions.  Because often these should be the same you can define another pointcut that
+they both point to. In the example below that is done with the 'profile' pointcut.
 
- Choices for below:  jamon, metrics, javasimon, nullimp, sysout
+Pointcuts can be combined with boolean logic like AND, OR, !.  See the AspectJ documentation for more information
+on the rich pointcut language.  This file also has various pointcuts that may be useful.  For example the 'ejb' pointcut
+is defined which will monitor any code that has any of the JDKs ejb annotations (Stateless, Stateful etc).
+
+Note if the following line is put in the comments section of this file then it will be used to configure the Automon
+monitoring implementation.  It can be overridden by the command line by specifying: -Dorg.automon=sysout
 org.automon=sysout
 
- You may use any valid AspectJ pointcut in automon. This file has a number of pre-defined convenience pointcuts
- (for example 'jdbc()' and 'io()', but you can also create your own.  Some examples follow.
+Current choices include the following though you can provide your own implementation of org.automon.implementations.OpenMon:  jamon, metrics, javasimon, nullimp, sysout
+
+Here are a few pointcut examples. Note I think AND/OR must be in uppercase.
+
+<pointcut name="profile" expression="(hismethods() OR hermethods()) AND myannotations() AND !boringstuff()"/>
 
  Any calls to getFirstName in any class:
   <pointcut name="profile" expression="execution(* *.getFirstName(..))"/>
 
-Any method in any class that has the format get*Name:
+ Any method in any class that has the format get*Name:
   <pointcut name="profile" expression="execution(* *.get*Name(..))"/>
 
-path must be absolute:
+ Note the path to the class must contain the full package name and/or wildcards (.., *):
   <pointcut name="profile" expression="execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
 
-all methods in the following package structure (recursively).  This includes static methods:
+ all methods in the following package structure (recursively).  This includes static methods:
   <pointcut name="profile" expression="execution(* com.stevesouza..*(..))"/>
 
 public methods only:
   <pointcut name="profile" expression="execution(public * com.stevesouza.helloworld.HelloWorld.*(..))"/>
- java   -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:ajc-aop-hello.xml -javaagent:aspectjweaver.jar -classpath automon-1.0-SNAPSHOT.jar:aspectj_helloworld-1.0-SNAPSHOT.jar:jamon-2.81.jar com.stevesouza.helloworld.HelloWorld 10000
 
 -->
 <aspectj>
   <aspects>
+      <!--  If you want to use more than just method pointcuts use AspectJBase -->
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">-->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
@@ -96,6 +106,10 @@ public methods only:
 
      </concrete-aspect>
   </aspects>
+    <!--
+     The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
+     classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
+    -->
     <!--
     <weaver options="-verbose -debug">
         <dump within="org.automon.implementations.*"/>

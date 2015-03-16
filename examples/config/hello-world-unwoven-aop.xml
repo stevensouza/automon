@@ -1,13 +1,27 @@
 <!--
+The 'user_monitor' pointcut defines what code you would like to time.  The 'user_exceptions' pointcut defines what code
+you would like to monitor for exceptions.  Because often these should be the same you can define another pointcut that
+they both point to. In the example below that is done with the 'profile' pointcut.
+
+Pointcuts can be combined with boolean logic like AND, OR, !.  See the AspectJ documentation for more information
+on the rich pointcut language.
+
+See ajc-aop.xml for more information and examples.
 -->
 <aspectj>
   <aspects>
+      <!--  If you want to use more than just method pointcuts use AspectJBase -->
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">-->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
         <pointcut name="profile"            expression="within(org.automon.helloworld.*)"/>
      </concrete-aspect>
   </aspects>
+    <!--
+      The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
+     classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
+     -->
     <weaver options="-verbose -debug">
         <!--<dump within="org.automon.implementations.*"/>-->
         <!--<dump within="org.automon.helloworld.*"/>-->
