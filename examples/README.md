@@ -17,7 +17,8 @@ The following is an example of invoking a program with LTW:
 **java   -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml -javaagent:libs/aspectjweaver.jar -classpath libs/automon-1.0-SNAPSHOT.jar:libs/playground-1.0-SNAPSHOT.jar com.stevesouza.automon.annotations.AnnotationTester**
 
 * -Dorg.automon=sysout - Specifies what implementation should be used to monitor your program. In this case we are simply
-printing all invocations with System.out.println(..);
+printing all invocations with System.out.println(..);.  Should you specify one of the other monitoring options such as jamon, javasimon, metrics
+make sure you include those jars in the classpath too.
 * -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml - Standard AspectJ syntax for configuring the weaver. For
 Automon you will put your 'pointcuts' here that specify what parts of your code you would like to monitor.  See the
 /config directory for a few examples
