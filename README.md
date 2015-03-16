@@ -16,12 +16,15 @@ as it lets you use the powerful AspectJ pointcut language at runtime to specify 
 Getting Started
 -----------------------------------
 The quickest way to get started is to download this distribution, and go to the [examples](https://github.com/stevensouza/automon/tree/master/examples)
-directory and run the sample programs.  There are more directions on running the examples in this directories README file.
+directory and run the sample programs (*.sh).  There are more directions on running the examples in the 'examples' directories README file.
 
-Load Time Weaving involves providing an ajc-aop.xml file so review the [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
+Running a program with Automon is easy.  You simply put the automon-{version}.jar in your classpath, and make either aspectjweaver.jar (LTW),
+or aspectjrt.jar (BTW) available.  The 'examples' directory shows how to invoke your program using both LTW, and BTW.
+
+Load Time Weaving (LTW) also involves providing an ajc-aop.xml file so review the [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
 for more information on them.
 
-And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
+Build Time Weaving (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
 
 * [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) - A simple project that combines
 has a dependency on Automon and a simple jar that contains a HelloWorld application.  The output of this project is a jar
