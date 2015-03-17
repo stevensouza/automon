@@ -42,8 +42,8 @@ project at build time.
 
 Support
 -----------------------------------
-And finally if you need support contact me at [Issues](https://github.com/stevensouza/automon/issues) or email me
-at steve@stevesouza.com.
+And finally if you need support contact us at [Issues](https://github.com/stevensouza/automon/issues) or email us
+at admin@automon.org.
 
 Thanks, and happy monitoring!
 
