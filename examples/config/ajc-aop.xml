@@ -104,6 +104,9 @@ public methods only:
          <pointcut name="privateFieldGet" expression="org.automon.pointcuts.Select.privateFieldGet()"/>
          <pointcut name="packageFieldGet" expression="org.automon.pointcuts.Select.packageFieldGet()"/>
 
+         <!-- 3rd party jars -->
+         <pointcut name="hbase" expression="org.automon.pointcuts.Libraries.hbase()"/>
+
      </concrete-aspect>
   </aspects>
     <!--
