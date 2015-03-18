@@ -21,7 +21,7 @@ public class HelloWorld {
         HelloWorld hw = new HelloWorld();
         int loops = (args==null || args.length==0) ? 1 : Integer.valueOf(args[0]);
         for (int i=0;i<loops;i++) {
-            System.out.println("** loop "+i+" of "+loops);
+            System.out.println("     ** loop "+i+" of "+loops);
             System.out.println("     ** "+hw.getFirstName());
             System.out.println("     ** "+hw.getLastName());
             try {
