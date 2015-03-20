@@ -12,7 +12,7 @@ be able to start monitoring your code within minutes.
 It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.
 It serves as a bridge between AspectJ (which defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
 
-The following diagram shows a pointcut that will monitor all methods in the 'com.mycompany' package as well as its subpackages using
+The following diagram shows an AspectJ pointcut that will monitor all methods in the 'com.mycompany' package as well as its subpackages using
 your monitoring tool of choice.
 ![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png).
 
