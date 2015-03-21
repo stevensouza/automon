@@ -6,6 +6,8 @@ they both point to. In the example below that is done with the 'profile' pointcu
 Pointcuts can be combined with boolean logic like AND, OR, !.  See the AspectJ documentation for more information
 on the rich pointcut language.
 
+Note you can specify any openmon by putting this argument in the first column in this comment section: org.automon=sysout
+
 See ajc-aop.xml for more information and examples.
 -->
 <aspectj>

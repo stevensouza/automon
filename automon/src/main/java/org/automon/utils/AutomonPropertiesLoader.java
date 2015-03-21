@@ -2,7 +2,7 @@ package org.automon.utils;
 
 import org.automon.implementations.OpenMonFactory;
 
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -14,6 +14,7 @@ import java.util.Properties;
  */
 public class AutomonPropertiesLoader {
 
+    private static final String EMPTY_DEFAULT_OPEN_MON = "";
     private String[] fileNames;
     private Properties automonProps;
 
@@ -24,7 +25,6 @@ public class AutomonPropertiesLoader {
     private static final String DEFAULT_XML_CONFIG_FILE2="aop.xml";
 
     public static final String CONFIGURED_OPEN_MON  = "org.automon";
-    static final String DEFAULT_OPEN_MON = OpenMonFactory.NULL_IMP;
 
     private boolean configFileFound=false;
 
@@ -95,7 +95,8 @@ public class AutomonPropertiesLoader {
         Properties properties = new Properties();
         InputStream input = null;
         try {
-            input = getClass().getClassLoader().getResourceAsStream(fileName);
+            // command line aop.xml file
+            input = getConfiFileInputStream(fileName);
             if (input!=null) {
                 properties.load(input);
                 configFileFound = true;
@@ -107,6 +108,16 @@ public class AutomonPropertiesLoader {
         }
 
         return properties;
+    }
+
+    private InputStream getConfiFileInputStream(String fileName) throws FileNotFoundException {
+        InputStream input = null;
+        if (new File(fileName).exists()) {
+            input = new BufferedInputStream(new FileInputStream(fileName));
+        } else {
+            input = getClass().getClassLoader().getResourceAsStream(fileName);
+        }
+        return input;
     }
 
     void close(InputStream input) {
@@ -133,7 +144,7 @@ public class AutomonPropertiesLoader {
     /** Defaults used if no config file is found */
     Properties getDefaults() {
         Properties defaults = new Properties();
-        defaults.put(CONFIGURED_OPEN_MON, DEFAULT_OPEN_MON);
+        defaults.put(CONFIGURED_OPEN_MON, EMPTY_DEFAULT_OPEN_MON);
         return defaults;
     }
 

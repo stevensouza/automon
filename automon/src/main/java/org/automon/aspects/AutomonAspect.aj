@@ -36,7 +36,7 @@ public abstract aspect AutomonAspect {
 
     private void initOpenMon() {
         Properties properties = new AutomonPropertiesLoader().getProperties();
-        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON, null);
+        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
         // if the openMonString is a fully qualified classname then also register it in the factory i.e. com.mygreatcompany.MyOpenMon
         if (Utils.hasPackageName(openMonStr)) {
             factory.add(openMonStr);
@@ -117,7 +117,7 @@ public abstract aspect AutomonAspect {
      * @param openMonKey Something like jamon, metrics, javasimon
      */
     public void setOpenMon(String openMonKey) {
-        if (openMonKey==null) {
+        if (openMonKey==null || openMonKey.trim().equals("")) {
             this.openMon = factory.getFirstInstance();
         } else {
             this.openMon = factory.getInstance(openMonKey);

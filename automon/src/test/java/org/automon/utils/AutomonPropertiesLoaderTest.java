@@ -26,7 +26,7 @@ public class AutomonPropertiesLoaderTest {
     public void testDefaults() throws Exception {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader();
         Properties properties = loader.getProperties();
-        assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo(AutomonPropertiesLoader.DEFAULT_OPEN_MON);
+        assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEmpty();
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AutomonPropertiesLoaderTest {
     public void testFromConfigFilesThatDoNotExist() throws Exception {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon1.properties", "automon2.properties");
         Properties properties = loader.getProperties();
-        assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo(AutomonPropertiesLoader.DEFAULT_OPEN_MON);
+        assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEmpty();
     }
 
 

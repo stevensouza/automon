@@ -8,9 +8,15 @@ Pointcuts can be combined with boolean logic like AND, OR, !.  See the AspectJ d
 on the rich pointcut language.  This file also has various pointcuts that may be useful.  For example the 'ejb' pointcut
 is defined which will monitor any code that has any of the JDKs ejb annotations (Stateless, Stateful etc).
 
-Note if the following line is put in the comments section of this file then it will be used to configure the Automon
-monitoring implementation.  It can be overridden by the command line by specifying: -Dorg.automon=sysout
-org.automon=sysout
+
+If 'org.automon' is not specified anywhere the current implementations (for example jamon, javasimon, yammer metrics) will be
+attempted to be created.  The first one that succeeds will be used (for example by putting the jamon jar in the classpath
+it could be created).  If none is created Automon is disabled.
+
+Note you can also explicitly specify an OpenMon implementation.  Note if the following line is put in the first column of the
+omments section of this file then it will be used to configure the Automon monitoring implementation: org.automon=sysout
+You can also specify your own OpenMon implementation as long as it has a fully qualified classname (i.e. com.mypackage.MyClass) and
+a noarg constructor.  It can also be specified by the command line parameter: -Dorg.automon=sysout
 
 Current choices include the following though you can provide your own implementation of org.automon.implementations.OpenMon:  jamon, metrics, javasimon, nullimp, sysout
 
