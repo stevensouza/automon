@@ -30,10 +30,18 @@ public abstract aspect AutomonAspect {
 
     public AutomonAspect() {
         // Use OpenMon the user selects and register the aspect with jmx
-        Properties properties = new AutomonPropertiesLoader().getProperties();
-        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
-        setOpenMon(openMonStr);
+        initOpenMon();
         Utils.registerWithJmx(this, automonJmx);
+    }
+
+    private void initOpenMon() {
+        Properties properties = new AutomonPropertiesLoader().getProperties();
+        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON, null);
+        // if the openMonString is a fully qualified classname then also register it in the factory i.e. com.mygreatcompany.MyOpenMon
+        if (Utils.hasPackageName(openMonStr)) {
+            factory.add(openMonStr);
+        }
+        setOpenMon(openMonStr);
     }
 
     /**
@@ -102,16 +110,25 @@ public abstract aspect AutomonAspect {
 
     /**
      * Take the string of any {@link org.automon.implementations.OpenMon} registered within this classes
-     * {@link org.automon.implementations.OpenMonFactory}, instantiate it and make it the current OpenMon.
+     * {@link org.automon.implementations.OpenMonFactory}, instantiate it and make it the current OpenMon.  If null is passed
+     * in then use the default of iterating each of the preinstalled OpenMon types attempting to create them until one succeeds.
+     * If one doesn't succeed then it would mean the proper jar is not available. If all of these fail then simply disable.
+     *
      * @param openMonKey Something like jamon, metrics, javasimon
      */
     public void setOpenMon(String openMonKey) {
-        this.openMon = factory.getInstance(openMonKey);
+        if (openMonKey==null) {
+            this.openMon = factory.getFirstInstance();
+        } else {
+            this.openMon = factory.getInstance(openMonKey);
+        }
     }
 
     public OpenMonFactory getOpenMonFactory() {
         return factory;
     }
+
+
 
     // Note the mxbean was done as an inner class due to compilation order and AutomAspect.aj not being compiled and so
     // not available to Automon if it was an external class.  These mehtods are visible via the jconsole jmx console.

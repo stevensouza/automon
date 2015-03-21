@@ -143,4 +143,23 @@ public class UtilsTest {
         assertThat(list).containsExactly("MyClass1","MyClass2");
     }
 
+    @Test
+    public void shouldHavePackageName() {
+        assertThat(Utils.hasPackageName(null)).isFalse();
+        assertThat(Utils.hasPackageName("NoPackage")).isFalse();
+        assertThat(Utils.hasPackageName("com.package.MyClass")).isTrue();
+    }
+
+    @Test
+    public void shouldCreateFirstInstance() {
+        String str = Utils.createFirst("java.lang.String");
+        assertThat(str).isInstanceOf(String.class);
+
+        str = Utils.createFirst("i.do.not.Exist", "java.lang.String");
+        assertThat(str).isInstanceOf(String.class);
+
+        str = Utils.createFirst("i.do.not.Exist1", "i.do.not.Exist2");
+        assertThat(str).isNull();
+    }
+
 }

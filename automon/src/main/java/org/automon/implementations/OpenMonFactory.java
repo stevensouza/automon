@@ -25,7 +25,7 @@ public class OpenMonFactory {
     public static final String SYSOUT =  "org.automon.implementations.SysOut";
     public static final String NULL_IMP =  "org.automon.implementations.NullImp";
 
-    private  Map<String, String> openMonFactory = new HashMap<String,  String>();
+    private  Map<String, String> openMonFactoryMap = new HashMap<String,  String>();
     // returned when the requested implementation can't be created.
     private OpenMon defaultOpenMon;
 
@@ -47,8 +47,8 @@ public class OpenMonFactory {
     public void add(String... classNames) {
         for (String className : classNames) {
             className =  className.trim();
-            openMonFactory.put(className, className);
-            openMonFactory.put(getJustClassName(className).toLowerCase(), className);
+            openMonFactoryMap.put(className, className);
+            openMonFactoryMap.put(getJustClassName(className).toLowerCase(), className);
         }
     }
 
@@ -65,9 +65,9 @@ public class OpenMonFactory {
      * @return An instance of the class or the default {@link org.automon.implementations.OpenMon} if there was a failure on class creation.
      */
     public  OpenMon getInstance(String key) {
-        String className = openMonFactory.get(key); // com.mypcackage.MyOpenMon
+        String className = openMonFactoryMap.get(key); // com.mypcackage.MyOpenMon
         if (className == null) {
-            className = openMonFactory.get(key.toLowerCase()); // myopenmon
+            className = openMonFactoryMap.get(key.toLowerCase()); // myopenmon
         }
 
         // not in the map so return the default.
@@ -87,12 +87,25 @@ public class OpenMonFactory {
     }
 
     /**
+     * @return The first of the preinstalled {@link org.automon.implementations.OpenMon}'s or the defaultMon if they all fail
+     * on creation.  Failure on creation would probably be due to the required jars not being availalbe at runtime.
+     */
+    public OpenMon getFirstInstance() {
+        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON);
+        if (openMon==null) {
+            return defaultOpenMon;
+        }
+
+        return openMon;
+    }
+
+    /**
      *
      * @return The keys concatenated together as a string in alphabetical order.   Class names such as 'com.myackage.MyClass'
      * entries are redundant to the other entries and so are removed and only entries with the classname i.e. 'MyClass' will be returned.
      */
     public String toString() {
-        List<String> keys = new ArrayList(openMonFactory.keySet());
+        List<String> keys = new ArrayList(openMonFactoryMap.keySet());
         Utils.removeClassNames(keys);
         Collections.sort(keys);
         return keys.toString();
@@ -114,6 +127,6 @@ public class OpenMonFactory {
      * Visible for testing.
      */
     void reset() {
-        openMonFactory.clear();
+        openMonFactoryMap.clear();
     }
 }

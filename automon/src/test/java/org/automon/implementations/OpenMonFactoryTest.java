@@ -60,5 +60,10 @@ public class OpenMonFactoryTest {
         assertThat(factory.toString()).contains("jamon, javasimon, metrics, nullimp, sysout");
     }
 
+    @Test
+    public void testGetFirstInstance() throws Exception {
+        assertThat(factory.getFirstInstance()).isNotNull();
+        assertThat(factory.getFirstInstance()).isNotEqualTo(defaultValue);
+    }
 
 }

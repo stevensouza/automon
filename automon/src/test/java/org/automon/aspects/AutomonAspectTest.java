@@ -5,6 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.implementations.Jamon;
+import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
 import org.automon.utils.Utils;
@@ -47,6 +48,13 @@ public class AutomonAspectTest {
     public void testSetOpenMonWithString() throws Exception {
         aspect.setOpenMon(OpenMonFactory.JAMON);
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
+    }
+
+    @Test
+    public void testSetOpenMonWithNull() throws Exception {
+        aspect.setOpenMon((String) null);
+        assertThat(aspect.getOpenMon()).describedAs("Should not be null").isNotNull();
+        assertThat(aspect.getOpenMon()).describedAs("Should have found one of the default implementations in the classpath").isNotInstanceOf(NullImp.class);
     }
 
     @Test

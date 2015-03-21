@@ -4,6 +4,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.automon.aspects.AutomonMXBean;
+import org.automon.implementations.OpenMon;
 
 import javax.management.JMX;
 import javax.management.MBeanServer;
@@ -228,6 +229,26 @@ public class Utils {
     public static void unregisterWithJmx(Object aspect) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         mBeanServer.unregisterMBean(getMxBeanObjectName(aspect));
+    }
+
+    public static boolean hasPackageName(String className) {
+        return className==null ? false : className.contains(".");
+    }
+
+    /**
+     * Take a variable list of fully qualified class names and return the first one.
+     * @param classNames com.package1.MyClass1, com.package2.MyClass2
+     * @param <T>
+     * @return The first created class or none if all fail.
+     */
+    public static <T> T createFirst(String... classNames) {
+        for (String className : classNames) {
+            try {
+                return (T) Class.forName(className).newInstance();
+            } catch (Throwable t) {
+            }
+        }
+        return null;
     }
 
     // used to get method argvalues from the method signature.
