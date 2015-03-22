@@ -2,15 +2,17 @@ Automon LTW Config XML Files
 ========================
 
 By configurming AspectJ LTW (Load Time Weaving) xml files you can tell Automon which parts of your program you would like to monitor simply by
- providing 2 pointcuts (user_monitor, and user_exceptions).  If you are unfamiliar with pointcuts please refer to AspectJ documentation.
- This directory contains xml files that you can use as starting points for using Automon and AspectJ LTW to monitor your Java programs.
+ providing 2 pointcuts (user_monitor, and user_exceptions). This directory contains xml files that you can use as starting points for using Automon and AspectJ LTW to monitor your Java programs.
+
+
+ If you are unfamiliar with pointcuts please refer to AspectJ documentation.
 
  By overriding the following pointcuts in the provided xml files you can quickly start monitoring your programs:
 
- * **user_monitor** - Anything with this pointcut name will be monitored by calling Automon's 'start' method called when the code is
- entered and 'stop' called when the code is completed.  JAMon, JavaSimon and Yammer Metrics (or your own implementation) can be called to monitor the
+ * **user_monitor** - Any code that is specified with this pointcut will be timed by calling Automon's 'start' method when the code is
+ entered and 'stop' when the method is completed.  JAMon, JavaSimon and Yammer Metrics (or your own implementation) will be called to monitor the
  performance of any classes or methods that are identified by the the pointcut.
- * **user_exceptions** - Any code with this pointcut name will call Automon's code that specifies an exception has been thrown.
+ * **user_exceptions** - Any code that is specified with this pointcut will call Automon's code that specifies an exception has been thrown.
  Automon implementations of JAMon, JavaSimon, and Yammer Metrics use this capability to count exceptions.
 
  Typically the user_monitor and user_exceptions would use the same pointcut though they don't have to.
