@@ -14,7 +14,7 @@ It serves as a bridge between AspectJ (which defines 'what to monitor') and moni
 
 The following diagram shows an AspectJ pointcut that will monitor all methods (any return type, any number of arguments)
  in the 'com.mycompany' package as well as its subpackages (..) using your monitoring tool of choice.
-![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png).
+![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png)
 
 And finally, Automon can be dynamically enabled/disabled via the Automon MXBean (JMX).
 
