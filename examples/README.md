@@ -16,7 +16,7 @@ Load Time Weaving (LTW) Invocation
 -----------------------------------
 The following is an example of invoking a program with LTW:
 
-**java   -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml -javaagent:libs/aspectjweaver.jar -classpath libs/automon-1.0.jar:libs/playground-1.0.jar com.stevesouza.automon.annotations.AnnotationTester**
+**java -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml -javaagent:libs/aspectjweaver.jar -classpath libs/automon-1.0.jar**:libs/playground-1.0.jar com.stevesouza.automon.annotations.AnnotationTester
 
 * **-Dorg.automon=sysout** - Specifies what implementation should be used to monitor your program. In this case we are simply
 printing all method invocations with System.out.println(..).  Should you specify one of the other monitoring options such as jamon, javasimon, metrics
@@ -40,7 +40,7 @@ instead of the javac compiler.  This approach is static and so not as flexible a
 
 The following is an example of running a program that was compiled using BTW:
 
-**java   -Dorg.automon=sysout -classpath libs/automon-1.0.jar:libs/helloworld_woven-1.0.jar:libs/aspectjrt.jar org.automon.helloworld.HelloWorld**
+**java -Dorg.automon=sysout -classpath libs/automon-1.0.jar:libs/aspectjrt.jar**:libs/helloworld_woven-1.0.jar org.automon.helloworld.HelloWorld
 
 There are two differences between running a program with BTW vs LTW.
 
