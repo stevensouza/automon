@@ -6,22 +6,26 @@ Automon combines the power of AOP (AspectJ) with monitoring tools (JAMon, JavaSi
 * The JDK,
 * Any jars used by your application
 
-Automon is typically used to time monitor method invocations, and count exceptions. It is very easy to set-up and you should
+Automon is typically used to track method invocation time, and exception counts. It is very easy to set-up and you should
 be able to start monitoring your code within minutes.
 
 It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.
 It serves as a bridge between AspectJ (which defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
 
-The following diagram shows an AspectJ pointcut that will monitor all methods (with any return type and any number of arguments)
- in the 'com.mycompany' package as well as its subpackages using your monitoring tool of choice.
+The following diagram shows an AspectJ pointcut that will monitor all methods (any return type, any number of arguments)
+ in the 'com.mycompany' package as well as its subpackages (..) using your monitoring tool of choice.
 ![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png).
 
-Automon can also be dynamically enabled/disabled by accessing the Automon MXBean (JMX).
+And finally, Automon can be dynamically enabled/disabled via the Automon MXBean (JMX).
 
 AspectJ Weaving
 -----------------------------------
-AspectJ 'weaves' Automon monitoring code into your classes.  This can be done at runtime with the Load Time Weaver (LTW)
-or at build time with the Build Time Weaver (BTW).  Both approaches generate the same class files.  LTW is more flexible
+AspectJ 'weaves' Automon monitoring code into your classes.  This can be done...
+
+* at runtime with the Load Time Weaver (LTW)
+* at build time with the Build Time Weaver (BTW).
+
+Both approaches generate the same class files.  LTW is more flexible
 as it lets you use the powerful AspectJ pointcut language at runtime to specify what classes you want to monitor.
 
 Getting Started
@@ -29,8 +33,12 @@ Getting Started
 The quickest way to get started with Automon is to download this distribution, and go to the [examples](https://github.com/stevensouza/automon/tree/master/examples)
 directory and run the sample programs (*.sh).  There are more directions on running the examples in the 'examples' directories README file.
 
-**Running a program** with Automon is easy.  You simply put automon-{version}.jar in your classpath, and make either aspectjweaver.jar (LTW),
-or aspectjrt.jar (BTW) available.  The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory
+**Running a program** with Automon is easy.  You simply...
+
+* Put automon-{version}.jar in your classpath,
+* And make either aspectjweaver.jar (LTW), or aspectjrt.jar (BTW) available.
+
+The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory
 shows how to invoke your programs using both LTW, and BTW.
 
 **Load Time Weaving** (LTW) also involves providing an ajc-aop.xml config file.  Review [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
