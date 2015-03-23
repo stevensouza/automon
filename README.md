@@ -27,6 +27,7 @@ AspectJ 'weaves' Automon monitoring code into your classes.  This can be done...
 
 Both approaches generate identical class files.  LTW is more flexible
 as it lets you use the powerful AspectJ pointcut language at runtime to specify what classes you want to monitor.
+
 Here is a short video that shows how to monitor your code using Automon with LTW: [Automon demo](http://youtu.be/RdR0EdezS74)
 
 Getting Started
