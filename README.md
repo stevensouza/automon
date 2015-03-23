@@ -61,6 +61,11 @@ Java IO, and Http requests.
 
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
 
+Automon Source Code
+-----------------------------------
+
+The code that generates the automon-{version}.jar file is contained in [this directory](https://github.com/stevensouza/automon/tree/master/automon).
+
 
 Support
 -----------------------------------
