@@ -14,7 +14,7 @@ attempted to be created.  The first one that succeeds will be used (for example 
 it could be created).  If none is created Automon is disabled.
 
 Note you can also explicitly specify an OpenMon implementation.  Note if the following line is put in the first column of the
-omments section of this file then it will be used to configure the Automon monitoring implementation: org.automon=sysout
+comments section of this file then it will be used to configure the Automon monitoring implementation: org.automon=sysout
 You can also specify your own OpenMon implementation as long as it has a fully qualified classname (i.e. com.mypackage.MyClass) and
 a noarg constructor.  It can also be specified by the command line parameter: -Dorg.automon=sysout
 
@@ -38,6 +38,12 @@ Here are a few pointcut examples. Note I think AND/OR must be in uppercase.
 
 public methods only:
   <pointcut name="profile" expression="execution(public * com.stevesouza.helloworld.HelloWorld.*(..))"/>
+
+within a package as well as any subpackages:
+        <pointcut name="profile" expression="within(org.automon.helloworld..*)"/>
+
+within a type as well as any types that inherit from it.:
+        <pointcut name="profile" expression="within(org.automon.helloworld.HelloWorld+)"/>
 
 -->
 <aspectj>
