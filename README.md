@@ -16,6 +16,8 @@ The following diagram shows an AspectJ pointcut that will monitor all methods (a
  in the 'com.mycompany' package as well as its subpackages (..) using your monitoring tool of choice.
 ![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png)
 
+Automon requires jdk 1.5 or higher.
+
 And finally, Automon can be dynamically enabled/disabled via the Automon MXBean (JMX).
 
 AspectJ Weaving
