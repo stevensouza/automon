@@ -64,7 +64,7 @@ The [examples](https://github.com/stevensouza/automon/tree/master/examples) dire
 Maven
 -----------------------------------
 
-Incorporate Automon into your maven project by adding the following dependency using the most current version.
+Incorporate Automon into your maven project by adding the following dependency (using the most current version).
 
 ```xml
       <dependency>
