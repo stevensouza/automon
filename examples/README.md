@@ -14,6 +14,9 @@ this 'examples' directory.  Note you can perform both BTW and LTW on existing ja
 
 Load Time Weaving (LTW) Invocation
 -----------------------------------
+
+Here is a short video that shows an example of LTW with Automon: [Automon demo](http://youtu.be/RdR0EdezS74)
+
 The following is an example of invoking a program with LTW:
 
 **java -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml -javaagent:libs/aspectjweaver.jar -classpath libs/automon-1.0.jar**:libs/playground-1.0.jar com.stevesouza.automon.annotations.AnnotationTester

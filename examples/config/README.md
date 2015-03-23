@@ -25,3 +25,4 @@ By configurming AspectJ LTW (Load Time Weaving) xml files you can tell Automon w
 
  **java   -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml -javaagent:libs/aspectjweaver.jar -classpath libs/automon-1.0.jar:libs/playground-1.0.jar com.stevesouza.automon.annotations.AnnotationTester**
 
+Here is a short video that shows an example of LTW with Automon: [Automon demo](http://youtu.be/RdR0EdezS74)
