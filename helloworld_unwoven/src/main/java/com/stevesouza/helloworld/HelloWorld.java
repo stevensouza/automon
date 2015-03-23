@@ -25,7 +25,7 @@ public class HelloWorld {
             System.out.println("      ** "+getLastName());
             try {
                 iMessedUp();
-            } catch (RuntimeException excepion) {
+            } catch (RuntimeException exception) {
                 // hidden exception
             }
             Thread.sleep(1000);

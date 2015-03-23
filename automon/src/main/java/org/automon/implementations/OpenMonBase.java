@@ -72,7 +72,7 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
 
     /**
      * Put the thrown exception in a map.  The exception is given a timestamp so it can be removed after a reasonable
-     * ammount of time. This ensures that any other method in the call stack doesn't keep putting in the same exception.
+     * amount of time. This ensures that any other method in the call stack doesn't keep putting in the same exception.
      * @param throwable
      */
     protected void put(Throwable throwable) {

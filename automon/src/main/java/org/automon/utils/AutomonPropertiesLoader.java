@@ -52,7 +52,6 @@ public class AutomonPropertiesLoader {
      * it loads defaults.
      *
      * @return
-     * @throws java.io.IOException
      */
     public Properties getProperties() {
         if (automonProps == null) {
@@ -148,7 +147,7 @@ public class AutomonPropertiesLoader {
 
     static class SysProperty {
         public String getProperty(String key) {
-            return System.getProperty(key.toString());
+            return System.getProperty(key);
         }
     }
 

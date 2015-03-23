@@ -27,7 +27,7 @@ public interface OpenMon<T> {
      * Called as part of AspectJ's 'around' advice.  It is called after the event such as a method has completed. Typically
      * a timer that was started in the 'start' method above would be stopped.  Although anything can be done.
      *
-     * @param context The object returned by 'start' is passed into this paramter.  Typically this would be a timer and should be stopped.
+     * @param context The object returned by 'start' is passed into this parameter.  Typically this would be a timer and should be stopped.
      *    Note although this variable is typically a 'timer' it can really be any object, or state needed.
      */
     public void stop(T context);

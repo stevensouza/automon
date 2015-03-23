@@ -1,7 +1,7 @@
 Automon LTW Config XML Files
 ========================
 
-By configurming AspectJ LTW (Load Time Weaving) xml files you can tell Automon which parts of your program you would like to monitor simply by
+By configuring AspectJ LTW (Load Time Weaving) xml files you can tell Automon which parts of your program you would like to monitor simply by
  providing 2 pointcuts (user_monitor, and user_exceptions). This directory contains xml files that you can use as starting points for using Automon and AspectJ LTW to monitor your Java programs.
 
 

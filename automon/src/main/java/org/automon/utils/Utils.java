@@ -158,7 +158,7 @@ public class Utils {
         }
         // each line of the stack trace will be returned in the array.
         StackTraceElement elements[] = exception.getStackTrace();
-        StringBuffer sb = new StringBuffer().append(exception).append(LINE_SEPARATOR);
+        StringBuilder sb = new StringBuilder().append(exception).append(LINE_SEPARATOR);
 
         for (int i = 0; i < elements.length; i++) {
             sb.append(elements[i]).append(LINE_SEPARATOR);

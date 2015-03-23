@@ -83,7 +83,7 @@ privileged public abstract aspect AutomonAspect {
     public pointcut _sys_monitor();
 
 
-    /** pointcut that determines what is monitored for exceptions.  It can be the same as the {@link #_monitor()} poincut */
+    /** pointcut that determines what is monitored for exceptions.  It can be the same as the {@link #_monitor()} pointcut */
     public pointcut exceptions() : user_exceptions() && _sys_exceptions();
 
     /** User should implement this pointcut to determine what should be monitored for performance/time */
@@ -130,8 +130,8 @@ privileged public abstract aspect AutomonAspect {
 
 
 
-    // Note the mxbean was done as an inner class due to compilation order and AutomAspect.aj not being compiled and so
-    // not available to Automon if it was an external class.  These mehtods are visible via the jconsole jmx console.
+    // Note the mxbean was done as an inner class due to compilation order and AutomonAspect.aj not being compiled and so
+    // not available to Automon if it was an external class.  These methods are visible via the jconsole jmx console.
     public static class Automon implements AutomonMXBean {
         private AutomonAspect automonAspect;
 

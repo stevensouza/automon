@@ -75,7 +75,7 @@ public class ExpiringMapTest {
         map.put("World", object3);
         assertThat(map).containsOnlyKeys("Hello", "Cruel", "World");
 
-        // expire obects so they will be removed on next put.
+        // expire objects so they will be removed on next put.
         when(object1.isExpired()).thenReturn(true); // object1 is the oldest so it will trigger removal loop on next put
         when(object2.isExpired()).thenReturn(true);
         map.put("Now", object4);

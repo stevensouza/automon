@@ -10,7 +10,7 @@ Note you can specify any openmon by putting this argument in the first column in
 
 See ajc-aop.xml for more information and examples.
 
-The example below monitors call to jdk io and net classes from wihtn the 'org.automon.jdk' package and any of its subclasses
+The example below monitors call to jdk io and net classes from within the 'org.automon.jdk' package and any of its subclasses
 
 -->
 <aspectj>

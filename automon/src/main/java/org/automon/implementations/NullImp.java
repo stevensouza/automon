@@ -3,7 +3,7 @@ package org.automon.implementations;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * {@link org.automon.implementations.OpenMon} implementation that performs a noop for all methods.  This impementation
+ * {@link org.automon.implementations.OpenMon} implementation that performs a noop for all methods.  This implementation
  * is used when Automon is disabled.
  */
 public final class NullImp implements OpenMon<Object> {

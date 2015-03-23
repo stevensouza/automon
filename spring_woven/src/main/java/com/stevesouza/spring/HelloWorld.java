@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class HelloWorld {
 
     public String mySpringMonitoring() {
-      return "Spring applicaiton using automon to monitor the 'helloWorld' spring bean.";
+      return "Spring application using automon to monitor the 'helloWorld' spring bean.";
     }
 
     public String getFirstName() {
@@ -36,7 +36,7 @@ public class HelloWorld {
             System.out.println("    ** "+hw.getLastName());
             try {
                 hw.iMessedUp();
-            } catch (RuntimeException excepion) {
+            } catch (RuntimeException exception) {
                 // hidden exception
             }
             Thread.sleep(1000);
