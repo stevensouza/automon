@@ -23,7 +23,7 @@ import java.util.Properties;
  * creating the dynamic JoinPoint in native aspects. Native style aspects are more powerful and can later be extended by developers
  * with @AspectJ style, so it is probably the best option anyway.  </p>
  */
-public abstract aspect AutomonAspect {
+privileged public abstract aspect AutomonAspect {
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
     private AutomonMXBean automonJmx = new Automon(this);
