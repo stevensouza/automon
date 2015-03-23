@@ -5,3 +5,4 @@ cp ../automon/target/automon-1.0.jar libs/
 cp ../helloworld_unwoven/target/helloworld_unwoven-1.0.jar libs/
 cp ../helloworld_woven/target/helloworld_woven-1.0.jar libs/
 cp ../spring_woven/target/spring_woven-1.0.jar libs/
+cp ../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-1.0.jar libs/

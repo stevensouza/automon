@@ -9,6 +9,7 @@ on the rich pointcut language.
 Note you can specify any openmon by putting this argument in the first column in this comment section: org.automon=sysout
 
 See ajc-aop.xml for more information and examples.
+
 -->
 <aspectj>
   <aspects>
@@ -17,7 +18,7 @@ See ajc-aop.xml for more information and examples.
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
-        <pointcut name="profile"            expression="within(org.automon.helloworld.*)"/>
+        <pointcut name="profile"            expression="within(org.automon.helloworld.HelloWorld+)"/>
      </concrete-aspect>
   </aspects>
     <!--

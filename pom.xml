@@ -48,6 +48,7 @@
     <module>helloworld_unwoven</module>
     <module>helloworld_woven</module>
     <module>spring_woven</module>
+    <module>helloworld_unwoven_jamon</module>
   </modules>
 
   <properties>
