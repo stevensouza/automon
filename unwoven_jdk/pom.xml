@@ -53,7 +53,7 @@
             </executions>
             <configuration>
                 <!-- generates class path with all dependencies as well as generated class -->
-                <commandlineArgs>100</commandlineArgs>
+                <commandlineArgs>pom.xml</commandlineArgs>
                 <classpathScope>runtime</classpathScope>
                 <mainClass>com.stevesouza.jdk.JdkHelloWorld</mainClass>
             </configuration>

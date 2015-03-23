@@ -90,7 +90,6 @@
             <groupId>com.jamonapi</groupId>
             <artifactId>jamon</artifactId>
             <version>${jamonapi.version}</version>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>
