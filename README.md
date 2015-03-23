@@ -69,7 +69,7 @@ Incorporate Automon into your maven project by adding the following dependency u
 ```xml
       <dependency>
           <groupId>org.automon</groupId>
-          <artifactId>helloworld_unwoven</artifactId>
+          <artifactId>automon</artifactId>
           <version>1.0</version>
       </dependency>
 ```
