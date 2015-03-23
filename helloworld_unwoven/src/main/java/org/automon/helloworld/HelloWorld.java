@@ -1,7 +1,7 @@
 package org.automon.helloworld;
 
 /**
- * Created by stevesouza on 2/13/15.
+ * Program used as basis for simple Automon example programs
  */
 public class HelloWorld {
 
@@ -17,19 +17,24 @@ public class HelloWorld {
         throw new RuntimeException("I really did it this time!");
     }
 
-    public static void main(String[] args) throws Exception {
-        HelloWorld hw = new HelloWorld();
+    public void run(String[] args) throws Exception {
         int loops = (args==null || args.length==0) ? 1 : Integer.valueOf(args[0]);
         for (int i=0;i<loops;i++) {
             System.out.println("     ** loop "+i+" of "+loops);
-            System.out.println("      ** "+hw.getFirstName());
-            System.out.println("      ** "+hw.getLastName());
+            System.out.println("      ** "+getFirstName());
+            System.out.println("      ** "+getLastName());
             try {
-                hw.iMessedUp();
+                iMessedUp();
             } catch (RuntimeException excepion) {
                 // hidden exception
             }
             Thread.sleep(1000);
         }
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        HelloWorld helloWorld = new HelloWorld();
+        helloWorld.run(args);
     }
 }
