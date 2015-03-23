@@ -53,6 +53,14 @@ has a dependency on Automon and a simple jar that contains a HelloWorld applicat
   that contains AspectJ BTW woven code.
 * [spring_woven](https://github.com/stevensouza/automon/tree/master/spring_woven) - This project shows how you can weave a Spring
 project at build time.
+* [helloworld_unwoven_jamon](https://github.com/stevensouza/automon/tree/master/helloworld_unwoven_jamon) - An simple program monitored
+with Jamon.  If you pass a command line argument to run the program in a loop the program will run long enough that you can look
+at the Jamon metrics MBeans in the Jconsole.
+* [unwoven_jdk](https://github.com/stevensouza/automon/tree/master/unwoven_jdk) - A simple program that when used with LTW will monitor
+Java IO, and Http requests.
+
+The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
+
 
 Support
 -----------------------------------
