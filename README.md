@@ -61,6 +61,20 @@ Java IO, and Http requests.
 
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
 
+Maven
+-----------------------------------
+
+Incorporate Automon into your maven project by adding the following dependency using the most current version.
+
+```xml
+      <dependency>
+          <groupId>org.automon</groupId>
+          <artifactId>helloworld_unwoven</artifactId>
+          <version>1.0</version>
+      </dependency>
+```
+
+
 Automon Source Code
 -----------------------------------
 
