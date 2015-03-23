@@ -4,7 +4,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.automon.aspects.AutomonMXBean;
-import org.automon.implementations.OpenMon;
 
 import javax.management.JMX;
 import javax.management.MBeanServer;

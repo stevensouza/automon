@@ -1,7 +1,5 @@
 package org.automon.utils;
 
-import org.automon.implementations.OpenMonFactory;
-
 import java.io.*;
 import java.util.Properties;
 
