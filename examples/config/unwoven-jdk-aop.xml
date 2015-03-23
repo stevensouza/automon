@@ -10,15 +10,24 @@ Note you can specify any openmon by putting this argument in the first column in
 
 See ajc-aop.xml for more information and examples.
 
+The example below monitors call to jdk io and net classes from wihtn the 'org.automon.jdk' package and any of its subclasses
+
 -->
 <aspectj>
   <aspects>
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
-      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">-->
-     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">-->
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
-        <pointcut name="profile"            expression="within(org.automon.helloworld.HelloWorld+)"/>
+        <pointcut name="profile"            expression="within(org.automon.jdk..*) AND jdk()"/>
+
+         <!-- jdk pointcuts: -->
+         <pointcut name="jdk" expression="io() || net()"/>
+
+         <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>
+         <pointcut name="net" expression="org.automon.pointcuts.Jdk.net()"/>
+
      </concrete-aspect>
   </aspects>
     <!--
