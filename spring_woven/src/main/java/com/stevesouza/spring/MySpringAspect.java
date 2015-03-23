@@ -3,7 +3,7 @@ package com.stevesouza.spring;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.*;
+import org.automon.aspects.SpringBase;
 
 /**
 <aspectj>
