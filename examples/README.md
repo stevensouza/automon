@@ -15,7 +15,7 @@ this 'examples' directory.  Note you can perform both BTW and LTW on existing ja
 Load Time Weaving (LTW) Invocation
 -----------------------------------
 
-Here is a short video that shows an example of LTW with Automon: [Automon demo](http://youtu.be/RdR0EdezS74)
+Here is a short video that shows how to monitor your code using Automon with LTW: [Automon demo](http://youtu.be/RdR0EdezS74)
 
 The following is an example of invoking a program with LTW:
 
