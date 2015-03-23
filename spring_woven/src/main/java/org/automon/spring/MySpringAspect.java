@@ -1,7 +1,6 @@
 package org.automon.spring;
 
-import org.aspectj.lang.Aspects;
-import org.aspectj.lang.JoinPoint;
+
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.aspects.*;
@@ -9,8 +8,6 @@ import org.automon.aspects.*;
 /**
 <aspectj>
   <aspects>
-     <!-- Assume ajia.monitoring.Monitoring is an abstract aspect with
-          an abstract monitored() pointcut -->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
