@@ -1,4 +1,4 @@
-package org.automon.jdk;
+package com.stevesouza.jdk;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

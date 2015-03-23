@@ -1,4 +1,4 @@
-package org.automon.helloworld;
+package com.stevesouza.helloworld;
 
 /**
  * Program used as basis for simple Automon example programs

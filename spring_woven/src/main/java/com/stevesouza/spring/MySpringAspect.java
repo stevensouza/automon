@@ -1,4 +1,4 @@
-package org.automon.spring;
+package com.stevesouza.spring;
 
 
 import org.aspectj.lang.annotation.Aspect;

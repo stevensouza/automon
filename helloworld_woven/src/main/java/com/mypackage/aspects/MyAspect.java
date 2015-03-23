@@ -27,7 +27,7 @@ public class MyAspect extends SpringBase {
   public void user_exceptions() {
   }
 
-  @Pointcut("execution(public * org.automon.helloworld.HelloWorld.*(..))")
+  @Pointcut("execution(public * com.stevesouza.helloworld.HelloWorld.*(..))")
   public void profile() {
   }
 

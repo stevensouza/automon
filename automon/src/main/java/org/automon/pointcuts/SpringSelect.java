@@ -54,8 +54,10 @@ public abstract class SpringSelect {
 
     @Pointcut("getter() || setter()")
     public void getterOrSetter() {
-
     }
 
+    @Pointcut("within(org.automon..*)")
+    public void automon() {
+    }
 
 }

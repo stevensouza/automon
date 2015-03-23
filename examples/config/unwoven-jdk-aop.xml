@@ -20,13 +20,16 @@ The example below monitors call to jdk io and net classes from wihtn the 'org.au
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
-        <pointcut name="profile"            expression="within(org.automon.jdk..*) AND jdk()"/>
+        <pointcut name="profile"            expression="within(com.stevesouza.jdk..*) AND jdk() AND !automon()"/>
 
          <!-- jdk pointcuts: -->
          <pointcut name="jdk" expression="io() || net()"/>
 
          <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>
          <pointcut name="net" expression="org.automon.pointcuts.Jdk.net()"/>
+
+         <!-- org.automon..* classes -->
+         <pointcut name="automon" expression="org.automon.pointcuts.SpringSelect.automon()"/>
 
      </concrete-aspect>
   </aspects>
@@ -37,6 +40,15 @@ The example below monitors call to jdk io and net classes from wihtn the 'org.au
     <weaver options="-verbose -debug">
         <!--<dump within="org.automon.implementations.*"/>-->
         <!--<dump within="org.automon.helloworld.*"/>-->
+        <!-- Weave types that are within the javax.* or org.aspectj.*
+           packages. Also weave all types in the foo package that do
+           not have the @NoWeave annotation. -->
+        <!--<include within="javax.*"/>-->
+        <!--<include within="org.aspectj.*"/>-->
+        <!--<include within="(!@NoWeave foo.*) AND foo.*"/>-->
+
+        <!-- Do not weave types within the "bar" pakage -->
+        <!--<exclude within="bar.*"/>-->
     </weaver>
 </aspectj>
 

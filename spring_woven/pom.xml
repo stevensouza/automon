@@ -81,7 +81,7 @@
                   <!-- generates class path with all dependencies as well as generated class -->
                   <commandlineArgs>100</commandlineArgs>
                   <classpathScope>runtime</classpathScope>
-                  <mainClass>org.automon.spring.HelloWorld</mainClass>
+                  <mainClass>com.stevesouza.spring.HelloWorld</mainClass>
                   <systemProperties>
                       <property>
                           <!-- note assuming the proper jars are in the classpath you could use jamon, javasimon, metrics, nullimp, sysout -->

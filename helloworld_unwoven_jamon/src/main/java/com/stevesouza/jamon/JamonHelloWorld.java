@@ -1,9 +1,9 @@
-package org.automon.jamon;
+package com.stevesouza.jamon;
 
 import com.jamonapi.JamonPropertiesLoader;
 import com.jamonapi.MonitorFactory;
 import com.jamonapi.jmx.JmxUtils;
-import org.automon.helloworld.*;
+import com.stevesouza.helloworld.HelloWorld;
 
 /**
  * Created by stevesouza on 2/13/15.

@@ -54,7 +54,7 @@
                 <!-- generates class path with all dependencies as well as generated class -->
                 <commandlineArgs>100</commandlineArgs>
                 <classpathScope>runtime</classpathScope>
-                <mainClass>org.automon.helloworld.HelloWorld</mainClass>
+                <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
             </configuration>
         </plugin>
 

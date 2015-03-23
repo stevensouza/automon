@@ -9,8 +9,7 @@ classes at runtime when they are loaded by the class loader.
 
 See [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) and
 [spring_woven](https://github.com/stevensouza/automon/tree/master/spring_woven) pom files for how to configure a program
-for Build Time Weaving (BTW).  Examples of using LTW are in
-this 'examples' directory.  
+for Build Time Weaving (BTW).  Examples of using LTW are in this 'examples' directory.
 
 Note you can perform both BTW and LTW on existing jars, whether you own the code in them or not.
 
@@ -45,7 +44,7 @@ instead of the javac compiler.  This approach is static and so not as flexible a
 
 The following is an example of running a program that was compiled using BTW:
 
-**java -Dorg.automon=sysout -classpath libs/automon-1.0.jar:libs/aspectjrt.jar**:libs/helloworld_woven-1.0.jar org.automon.helloworld.HelloWorld
+**java -Dorg.automon=sysout -classpath libs/automon-1.0.jar:libs/aspectjrt.jar**:libs/helloworld_woven-1.0.jar com.stevesouza.helloworld.HelloWorld
 
 There are two differences between running a program with BTW vs LTW.
 

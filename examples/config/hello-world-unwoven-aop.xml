@@ -18,7 +18,7 @@ See ajc-aop.xml for more information and examples.
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
-        <pointcut name="profile"            expression="within(org.automon.helloworld.HelloWorld+)"/>
+        <pointcut name="profile"            expression="within(com.stevesouza.helloworld.HelloWorld+)"/>
      </concrete-aspect>
   </aspects>
     <!--
@@ -28,6 +28,15 @@ See ajc-aop.xml for more information and examples.
     <weaver options="-verbose -debug">
         <!--<dump within="org.automon.implementations.*"/>-->
         <!--<dump within="org.automon.helloworld.*"/>-->
+        <!-- Weave types that are within the javax.* or org.aspectj.*
+           packages. Also weave all types in the foo package that do
+           not have the @NoWeave annotation. -->
+        <!--<include within="javax.*"/>-->
+        <!--<include within="org.aspectj.*"/>-->
+        <!--<include within="(!@NoWeave foo.*) AND foo.*"/>-->
+
+        <!-- Do not weave types within the "bar" pakage -->
+        <!--<exclude within="bar.*"/>-->
     </weaver>
 </aspectj>
 

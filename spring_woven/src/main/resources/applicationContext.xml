@@ -15,8 +15,8 @@
  <!--
  This could instead be declared with @Component annotation
  -->
-<bean id="helloWorld" class="org.automon.spring.HelloWorld"/>
-<!-- <bean id="mySpringAspect" class="org.automon.spring.MySpringAspect"/> -->
+<bean id="helloWorld" class="com.stevesouza.spring.HelloWorld"/>
+<!-- <bean id="mySpringAspect" class="MySpringAspect"/> -->
 
 <!-- <aop:aspectj-autoproxy/> -->
 

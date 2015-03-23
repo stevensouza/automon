@@ -55,7 +55,7 @@
                 <!-- generates class path with all dependencies as well as generated class -->
                 <commandlineArgs>100</commandlineArgs>
                 <classpathScope>runtime</classpathScope>
-                <mainClass>org.automon.jdk.JdkHelloWorld</mainClass>
+                <mainClass>com.stevesouza.jdk.JdkHelloWorld</mainClass>
             </configuration>
         </plugin>
 
