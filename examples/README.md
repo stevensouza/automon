@@ -2,6 +2,8 @@ Automon Example Programs
 ========================
 
 This directory contains sample programs (*.sh) that show how programs can easily be monitored/profiled/instrumented with Automon.
+Before running the programs you must generate the needed jar files by running the following from the automon root directory:
+mvn clean package
 
 Some of the programs use Load Time Weaving (LTW) whereas others were woven at build time (BTW).  Weaving combines Automon's
 monitoring aspects with any Java classes that you want to monitor.  LTW is the most flexible.  It adds monitoring capabilities to your
