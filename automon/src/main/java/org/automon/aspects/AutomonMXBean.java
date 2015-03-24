@@ -3,7 +3,7 @@ package org.automon.aspects;
 
 
 /**
- * Jmx bean that allows {@link org.automon.aspects.AutomonAspect} to be configured from a jmx console like visualvm, or jconsole
+ * Jmx bean that allows AutomonAspect to be configured from a jmx console like visualvm, or jconsole
  */
 public interface AutomonMXBean {
     /**

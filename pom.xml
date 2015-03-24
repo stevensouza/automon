@@ -56,7 +56,22 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <!-- note for aspectj compiling above 1.5 i found some errors if the pointcut let everything be monitored -->
       <jdk.version>1.8</jdk.version>
+      <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
   </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+                <!-- The following is needed for jdk 1.8 javadocs generation or failure. -->
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <distributionManagement>
         <snapshotRepository>

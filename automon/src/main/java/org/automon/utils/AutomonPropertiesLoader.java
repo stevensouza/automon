@@ -51,7 +51,7 @@ public class AutomonPropertiesLoader {
     /** Using logic documented in the class comments load properties.  Note it can't fail as in the worst case
      * it loads defaults.
      *
-     * @return
+     * @return default properties and/or any properties passed in by the user
      */
     public Properties getProperties() {
         if (automonProps == null) {

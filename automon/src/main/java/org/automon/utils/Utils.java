@@ -190,7 +190,7 @@ public class Utils {
      * Pass in an aspect and return its jmx bean.
      *
      * @param aspect
-     * @return
+     * @return MxBean to manage the aspect
      * @throws Exception if jmx commands fail
      */
     public static AutomonMXBean getAutomonMxBean(Object aspect) throws Exception {

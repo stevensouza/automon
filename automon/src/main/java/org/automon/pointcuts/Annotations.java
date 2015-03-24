@@ -57,7 +57,7 @@ public abstract class Annotations {
 
     /**
      * JAX-RS provides some annotations to aid in mapping a resource class (a POJO) as a web resource. The annotations include
-     * @GET, @PUT, @POST, @DELETE and @HEAD specify the HTTP request type of a resource.  They are applied to methods.
+     * GET, PUT, POST, DELETE and HEAD specify the HTTP request type of a resource.  They are applied to methods.
      */
     @Pointcut(
             "@annotation(javax.ws.rs.GET) || "+
