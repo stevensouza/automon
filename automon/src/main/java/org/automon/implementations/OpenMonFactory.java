@@ -88,7 +88,7 @@ public class OpenMonFactory {
 
     /**
      * @return The first of the preinstalled {@link org.automon.implementations.OpenMon}'s or the defaultMon if they all fail
-     * on creation.  Failure on creation would probably be due to the required jars not being availalbe at runtime.
+     * on creation.  Failure on creation would probably be due to the required jars not being available at runtime.
      */
     public OpenMon getFirstInstance() {
         OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON);
