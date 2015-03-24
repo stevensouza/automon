@@ -93,7 +93,7 @@ public class AutomonPropertiesLoader {
         InputStream input = null;
         try {
             // command line aop.xml file
-            input = getConfiFileInputStream(fileName);
+            input = getConfigFileInputStream(fileName);
             if (input!=null) {
                 properties.load(input);
                 configFileFound = true;
@@ -107,7 +107,7 @@ public class AutomonPropertiesLoader {
         return properties;
     }
 
-    private InputStream getConfiFileInputStream(String fileName) throws FileNotFoundException {
+    private InputStream getConfigFileInputStream(String fileName) throws FileNotFoundException {
         InputStream input = null;
         if (new File(fileName).exists()) {
             input = new BufferedInputStream(new FileInputStream(fileName));
