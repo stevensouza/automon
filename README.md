@@ -10,7 +10,8 @@ Automon is typically used to track method invocation time, and exception counts.
 be able to start monitoring your code within minutes.
 
 It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.
-It serves as a bridge between AspectJ (which defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
+It serves as a bridge between AspectJ (AspectJ defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
+You can also easily provide your own monitoring tool by implementing the simple [OpenMon interface](https://github.com/stevensouza/automon/blob/master/automon/src/main/java/org/automon/implementations/OpenMon.java).
 
 The following diagram shows an AspectJ pointcut that will monitor all methods (any return type, any number of arguments)
  in the 'com.mycompany' package as well as its subpackages (..) using your monitoring tool of choice.
