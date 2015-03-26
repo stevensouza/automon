@@ -29,7 +29,7 @@ AspectJ 'weaves' Automon monitoring code into your classes.  This can be done...
 * at runtime with the Load Time Weaver (LTW)
 * at build time with the Build Time Weaver (BTW).
 
-Both approaches replace the original class file with one that has monitoring added to it.  Regardless of whether LTW, or BTW is used the
+Both approaches replace the original class files with ones that have monitoring added to them.  Regardless of whether LTW, or BTW is used the
  generated class files are identical.  LTW is more flexible as it lets you use the powerful AspectJ pointcut language at
  runtime to specify what classes you want to monitor.
 
