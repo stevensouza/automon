@@ -48,8 +48,16 @@ directory and run the sample programs (*.sh).  There are more directions on runn
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory
 shows how to invoke your programs using both LTW, and BTW.
 
-**Load Time Weaving** (LTW) also involves providing an ajc-aop.xml config file.  Review [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
-for more information on them.
+**Load Time Weaving** (LTW) also involves providing an ajc-aop.xml config file.  Review the [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
+for more information on them. The following maven projects generate java jars that each have *.sh scripts that allow you to
+run them with LTW.
+
+* [helloworld_unwoven_jamon](https://github.com/stevensouza/automon/tree/master/helloworld_unwoven_jamon) - A simple program monitored
+with Jamon.  If you pass a command line argument to run the program in a loop the program will run long enough that you can look
+at the Jamon metrics MBeans in the Jconsole.
+* [unwoven_jdk](https://github.com/stevensouza/automon/tree/master/unwoven_jdk) - A simple program that when used with LTW will monitor
+Java IO, Http requests, and JDBC calls.
+
 
 **Build Time Weaving** (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
 
@@ -58,11 +66,6 @@ has a dependency on Automon and a simple jar that contains a HelloWorld applicat
   that contains AspectJ BTW woven code.
 * [spring_woven](https://github.com/stevensouza/automon/tree/master/spring_woven) - This project shows how you can weave a Spring
 project at build time.
-* [helloworld_unwoven_jamon](https://github.com/stevensouza/automon/tree/master/helloworld_unwoven_jamon) - An simple program monitored
-with Jamon.  If you pass a command line argument to run the program in a loop the program will run long enough that you can look
-at the Jamon metrics MBeans in the Jconsole.
-* [unwoven_jdk](https://github.com/stevensouza/automon/tree/master/unwoven_jdk) - A simple program that when used with LTW will monitor
-Java IO, Http requests, and JDBC calls.
 
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
 
