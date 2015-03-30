@@ -49,8 +49,8 @@ The [examples](https://github.com/stevensouza/automon/tree/master/examples) dire
 shows how to invoke your programs using both LTW, and BTW.
 
 **Load Time Weaving** (LTW) also involves providing an ajc-aop.xml config file.  Review the [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
-for more information on them. The following maven projects generate java jars that each have *.sh scripts that allow you to
-run them with LTW.
+for more information on them. The following maven projects generate plain (unwoven) java jars.  Each of them has a *.sh script
+ in the exampls directory that lets you run the the java code with LTW.
 
 * [helloworld_unwoven_jamon](https://github.com/stevensouza/automon/tree/master/helloworld_unwoven_jamon) - A simple program monitored
 with Jamon.  If you pass a command line argument to run the program in a loop the program will run long enough that you can look
