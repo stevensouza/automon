@@ -44,6 +44,11 @@ public class JdkHelloWorld {
         return connection.getResponseCode();
     }
 
+    public void jdbcInteractions() throws Exception {
+        JdbcInteraction jdbcInteraction = new JdbcInteraction();
+        jdbcInteraction.runQueries();
+    }
+
 
 
     public static void main(String[] args) throws Exception {
@@ -56,5 +61,8 @@ public class JdkHelloWorld {
 
         url =  "http://example.com";
         System.out.println("   ***"+url+" status code="+helloWorld.urlWithConnection(url));
+
+        System.out.println("   *** jdbc interactions");
+        helloWorld.jdbcInteractions();
     }
 }

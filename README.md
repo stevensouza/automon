@@ -62,7 +62,7 @@ project at build time.
 with Jamon.  If you pass a command line argument to run the program in a loop the program will run long enough that you can look
 at the Jamon metrics MBeans in the Jconsole.
 * [unwoven_jdk](https://github.com/stevensouza/automon/tree/master/unwoven_jdk) - A simple program that when used with LTW will monitor
-Java IO, and Http requests.
+Java IO, Http requests, and JDBC calls.
 
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
 

@@ -23,10 +23,11 @@ The example below monitors call to jdk io and net classes from within the 'org.a
         <pointcut name="profile"            expression="within(com.stevesouza.jdk..*) AND jdk() AND !automon()"/>
 
          <!-- jdk pointcuts: -->
-         <pointcut name="jdk" expression="io() || net()"/>
+         <pointcut name="jdk" expression="io() || net() || jdbc()"/>
 
          <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>
          <pointcut name="net" expression="org.automon.pointcuts.Jdk.net()"/>
+         <pointcut name="jdbc" expression="org.automon.pointcuts.Jdk.jdbc()"/>
 
          <!-- org.automon..* classes -->
          <pointcut name="automon" expression="org.automon.pointcuts.SpringSelect.automon()"/>
@@ -37,7 +38,7 @@ The example below monitors call to jdk io and net classes from within the 'org.a
       The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
      classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
      -->
-    <weaver options="-verbose -debug">
+    <!--<weaver options="-verbose -debug">-->
         <!--<dump within="org.automon.implementations.*"/>-->
         <!--<dump within="org.automon.helloworld.*"/>-->
         <!-- Weave types that are within the javax.* or org.aspectj.*
@@ -49,6 +50,6 @@ The example below monitors call to jdk io and net classes from within the 'org.a
 
         <!-- Do not weave types within the "bar" pakage -->
         <!--<exclude within="bar.*"/>-->
-    </weaver>
+    <!--</weaver>-->
 </aspectj>
 
