@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by stevesouza on 2/13/15.
+ * Sample program to test that Automon detects calls to IO, Http Requests, and JDBC calls.
  */
 public class JdkHelloWorld {
 
@@ -50,7 +50,12 @@ public class JdkHelloWorld {
     }
 
 
-
+    /**
+     * Read a file, execute http requests, and make jdbc calls.
+     * 
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         String fileName=args[0];
         JdkHelloWorld helloWorld = new JdkHelloWorld();
