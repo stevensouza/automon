@@ -4,7 +4,9 @@ The 'user_monitor' pointcut defines what code you would like to time.  The 'user
 you would like to monitor for exceptions.  Because often these should be the same you can define another pointcut that
 they both point to. In the example below that is done with the 'profile' pointcut.
 
-Pointcuts can be combined with boolean logic like AND, ||, ! (note i am unsure if the proper constructs are AND, || so need to test).
+Pointcuts can be combined with boolean logic like AND, ||, ! (due to xml limitations AND should be used instead of &&.
+||, OR may both be used.  I believe AND, OR are case sensitive. Refer to aspectJ documentation for more information)
+
 See the AspectJ documentation for more information
 on the rich pointcut language.  This file also has various pointcuts that may be useful.  For example the 'ejb' pointcut
 is defined which will monitor any code that has any of the JDKs ejb annotations (Stateless, Stateful etc).
