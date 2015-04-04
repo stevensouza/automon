@@ -1,0 +1,60 @@
+<!--
+The 'user_monitor' pointcut defines what code you would like to time.  The 'user_exceptions' pointcut defines what code
+you would like to monitor for exceptions.  Because often these should be the same you can define another pointcut that
+they both point to. In the example below that is done with the 'profile' pointcut.
+
+Pointcuts can be combined with boolean logic like AND, ||, !.  See the AspectJ documentation for more information
+on the rich pointcut language.
+
+Note you can specify any openmon by putting this argument in the first column in this comment section: org.automon=sysout
+
+See ajc-aop.xml for more information and examples.
+
+The example below monitors call to jdk io and net classes from within the 'org.automon.jdk' package and any of its subclasses
+ 
+ Works 
+         <pointcut name="profile"            expression="within(com.fdsapi..*) AND execution(public * *(..)) AND !automon()"/>
+
+-->
+<aspectj>
+  <aspects>
+      <!--  If you want to use more than just method pointcuts use AspectJBase -->
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">-->
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">
+        <pointcut name="user_monitor"       expression="profile()"/>
+        <pointcut name="user_exceptions"    expression="profile()"/>
+        <pointcut name="profile"            expression="jdk() || demo() AND !automon()"/>
+
+          <pointcut name="demo" expression="within(com.stevesouza..*) AND execution(public * *(..))"/>
+
+         <!-- jdk pointcuts: -->
+         <pointcut name="jdk" expression="io() || net() || jdbc()"/>
+
+         <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>
+         <pointcut name="net" expression="org.automon.pointcuts.Jdk.net()"/>
+         <pointcut name="jdbc" expression="org.automon.pointcuts.Jdk.jdbc()"/>
+
+         <!-- org.automon..* classes -->
+         <pointcut name="automon" expression="org.automon.pointcuts.SpringSelect.automon()"/>
+
+     </concrete-aspect>
+  </aspects>
+    <!--
+      The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
+     classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
+     -->
+    <weaver options="-verbose -debug">
+        <!--<dump within="org.automon.implementations.*"/>-->
+        <!--<dump within="org.automon.helloworld.*"/>-->
+        <!-- Weave types that are within the javax.* or org.aspectj.*
+           packages. Also weave all types in the foo package that do
+           not have the @NoWeave annotation. -->
+        <!--<include within="javax.*"/>-->
+        <!--<include within="org.aspectj.*"/>-->
+        <!--<include within="(!@NoWeave foo.*) AND foo.*"/>-->
+
+        <!-- Do not weave types within the "bar" pakage -->
+        <!--<exclude within="bar.*"/>-->
+    </weaver>
+</aspectj>
+
