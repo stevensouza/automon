@@ -57,6 +57,9 @@ with Jamon.  If you pass a command line argument to run the program in a loop th
 at the Jamon metrics MBeans in the Jconsole.
 * [unwoven_jdk](https://github.com/stevensouza/automon/tree/master/unwoven_jdk) - A simple program that when used with LTW will monitor
 Java IO, Http requests, and JDBC calls.
+* [webapp_unwoven](https://github.com/stevensouza/automon/tree/master/webapp_unwoven) - A web application (war) that can be installed
+in a web container like tomcat or jetty. It monitors calls to the jdk (jdbc, io, and http requests) and custom classes.  See
+[README.md](https://github.com/stevensouza/automon/tree/master/webapp_unwoven) for more information.
 
 
 **Build Time Weaving** (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
