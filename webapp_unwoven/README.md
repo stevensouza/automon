@@ -1,6 +1,7 @@
 # Running Automon in a web container
 This directory contains a maven project that will build a war. Follow the steps below to monitor the web application.
 Install the web application like you would any other war in your web container.
+
 It has been tested with Jetty and Tomcat, but should also work with other containers.  From a browser go to the following link
  'http://localhost:8080/automon_demo/' (replacing localhost:8080 with your server and port information if it is different).  This page
  does the following:

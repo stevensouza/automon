@@ -58,7 +58,7 @@ at the Jamon metrics MBeans in the Jconsole.
 * [unwoven_jdk](https://github.com/stevensouza/automon/tree/master/unwoven_jdk) - A simple program that when used with LTW will monitor
 Java IO, Http requests, and JDBC calls.
 * [webapp_unwoven](https://github.com/stevensouza/automon/tree/master/webapp_unwoven) - A web application (war) that can be installed
-in a web container like tomcat or jetty. It monitors calls to the jdk (jdbc, io, and http requests) and custom classes.  See
+in a web container like Tomcat or Jetty. It monitors calls to the jdk (jdbc, io, and http requests) and custom classes.  See
 [README.md](https://github.com/stevensouza/automon/tree/master/webapp_unwoven) for more information.
 
 
