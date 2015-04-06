@@ -35,9 +35,9 @@ public class AutomonExpirable extends TimeExpirable {
 
     public String toString() {
         return new StringBuilder().
-                append(Utils.getExceptionTrace(throwable)).
-                append(Utils.LINE_SEPARATOR).
                 append(Utils.argNameValuePairsToString(argNamesAndValues)).
+                append(Utils.LINE_SEPARATOR).
+                append(Utils.getExceptionTrace(throwable)).
                 toString();
     }
 
