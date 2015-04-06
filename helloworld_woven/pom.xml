@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.automon</groupId>
     <artifactId>automon_parent</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.automon</groupId>
   <artifactId>helloworld_woven</artifactId>
-  <version>1.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>helloworld_woven</name>
 
@@ -107,13 +107,13 @@
       <dependency>
           <groupId>org.automon</groupId>
           <artifactId>helloworld_unwoven</artifactId>
-          <version>1.0</version>
+          <version>${version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.automon</groupId>
         <artifactId>automon</artifactId>
-        <version>1.0</version>
+          <version>${version}</version>
       </dependency>
 
       <dependency>
