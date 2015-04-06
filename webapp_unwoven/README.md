@@ -1,4 +1,4 @@
-# Running Automon in a web container
+# Running Automon in a web container (Jetty, Tomcat,...)
 This directory contains a maven project that will build a war. Follow the steps below to monitor the web application.
 Install the web application like you would any other war in your web container.
 
