@@ -72,6 +72,8 @@ project at build time.
 
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
 
+An interview that covers Automon can be found [here](http://jaxenter.com/advanced-java-monitoring-with-automon-116079.html).
+
 Maven
 -----------------------------------
 
