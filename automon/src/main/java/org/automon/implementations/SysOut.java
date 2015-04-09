@@ -8,23 +8,22 @@ import org.automon.utils.Utils;
  * start, stop and thrown exceptions.  This tracer class is mainly used just to get a better understanding
  * of how Automon works, however similar implementations using log4j, sl4j, java logging etc would be useful.
  */
-public final class SysOut implements OpenMon<Object> {
-    private static final Object NOOP = new Object();
+public final class SysOut implements OpenMon<TimerContext> {
 
     @Override
-    public Object start(JoinPoint.StaticPart jp) {
+    public TimerContext start(JoinPoint.StaticPart jp) {
         System.out.println("SysOut.start(..): "+ Utils.getLabel(jp));
-        return NOOP;
+        return new TimerContext(jp);
     }
 
     @Override
-    public void stop(Object context) {
-        System.out.println("SysOut.stop(..)");
+    public void stop(TimerContext context) {
+        System.out.println("SysOut.stop(..) ms.: "+context.stop());
     }
 
     @Override
-    public void stop(Object context, Throwable throwable) {
-        System.out.println("SysOut.stop(..) - Exception: "+throwable);
+    public void stop(TimerContext context, Throwable throwable) {
+        System.out.println("SysOut.stop(..) ms.: "+context.stop()+" - Exception: "+throwable);
     }
 
     @Override
