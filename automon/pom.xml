@@ -22,7 +22,7 @@
   <properties>
       <metrics.version>3.1.0</metrics.version>
       <jamonapi.version>2.81</jamonapi.version>
-      <javasimon.version>4.0.1</javasimon.version>
+      <javasimon.version>4.1.1</javasimon.version>
       <assertj.version>1.7.0</assertj.version>
       <aspectj.version>1.8.2</aspectj.version>
       <mojo.ajc.version>1.7</mojo.ajc.version>
@@ -30,7 +30,7 @@
       <mockito.version>1.9.5</mockito.version>
       <junit.version>4.11</junit.version>
       <perf4j.version>0.9.16</perf4j.version>
-      <newrelic.version>3.14.0</newrelic.version>
+      <newrelic.version>3.29.0</newrelic.version>
       <ejb.version>3.2</ejb.version>
       <spring.version>4.0.2.RELEASE</spring.version>
       <jaxrs.version>2.0.1</jaxrs.version>
