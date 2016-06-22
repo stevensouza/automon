@@ -35,6 +35,7 @@
       <spring.version>4.0.2.RELEASE</spring.version>
       <jaxrs.version>2.0.1</jaxrs.version>
       <jpa.version>1.0.1.Final</jpa.version>
+      <statsd.version>3.1.0</statsd.version>
   </properties>
 
     <build>
@@ -161,6 +162,12 @@
           <version>${newrelic.version}</version>
           <scope>provided</scope>
       </dependency>
+      
+      <dependency>
+        <groupId>com.timgroup</groupId>
+        <artifactId>java-statsd-client</artifactId>
+        <version>${statsd.version}</version>
+      </dependency>      
 
       <dependency>
           <groupId>javax.ejb</groupId>
