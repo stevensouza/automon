@@ -30,6 +30,7 @@ public class OpenMonFactoryTest {
         assertThat(factory.getInstance(OpenMonFactory.METRICS)).isInstanceOf(Metrics.class);
         assertThat(factory.getInstance(OpenMonFactory.SYSOUT)).isInstanceOf(SysOut.class);
         assertThat(factory.getInstance(OpenMonFactory.NULL_IMP)).isInstanceOf(NullImp.class);
+        assertThat(factory.getInstance(OpenMonFactory.NEW_RELIC)).isInstanceOf(NewRelicImp.class);
 
         // test getting instance with the class name only (case insensitive)
         assertThat(factory.getInstance("jamon")).isInstanceOf(Jamon.class);
@@ -57,7 +58,7 @@ public class OpenMonFactoryTest {
 
     @Test
     public void testToString() throws Exception {
-        assertThat(factory.toString()).contains("jamon, javasimon, metrics, nullimp, sysout");
+        assertThat(factory.toString()).contains("jamon, javasimon, metrics, newrelicimp, nullimp, sysout");
     }
 
     @Test
