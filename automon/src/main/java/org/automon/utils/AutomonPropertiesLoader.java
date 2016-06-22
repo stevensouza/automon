@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * Load Automon properties.  The order of loading is to look in the file named jamonapi.properties in the classpath.
+ * Load Automon properties.  The order of loading is to look in the file named automon.properties in the classpath.
  * Next look for system properties passed to the command line: (-DdistributedDataRefreshRateInMinutes=10).
  * These take precedence over the file.  If properties aren't in the file or passed in via the command line
  * then use defaults.
