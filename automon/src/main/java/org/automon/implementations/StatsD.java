@@ -14,7 +14,7 @@ import org.aspectj.lang.Signature;
  */
 public class StatsD extends OpenMonBase<TimerContext>{
 
-    private static final StatsDClient statsdClient = new NonBlockingStatsDClient("stevesouza.playground", "localhost", 8125);
+    private static final StatsDClient statsdClient = new NonBlockingStatsDClient("automon", "localhost", 8125);
 
     @Override
     public TimerContext start(JoinPoint.StaticPart jp) {
