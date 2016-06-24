@@ -25,6 +25,7 @@ public class OpenMonFactory {
     public static final String SYSOUT =  "org.automon.implementations.SysOut";
     public static final String NULL_IMP =  "org.automon.implementations.NullImp";
     public static final String NEW_RELIC =  "org.automon.implementations.NewRelicImp";
+    public static final String STATSD =  "org.automon.implementations.StatsD";
 
     private  Map<String, String> openMonFactoryMap = new HashMap<String,  String>();
     // returned when the requested implementation can't be created.
@@ -36,6 +37,7 @@ public class OpenMonFactory {
         add(JAVA_SIMON);
         add(METRICS);
         add(NEW_RELIC);
+        add(STATSD);
         add(SYSOUT);
         add(NULL_IMP);
     }
@@ -93,7 +95,7 @@ public class OpenMonFactory {
      * on creation.  Failure on creation would probably be due to the required jars not being available at runtime.
      */
     public OpenMon getFirstInstance() {
-        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, NEW_RELIC);
+        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, NEW_RELIC, STATSD);
         if (openMon==null) {
             return defaultOpenMon;
         }
