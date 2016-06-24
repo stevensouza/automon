@@ -1,5 +1,7 @@
 package com.stevesouza.helloworld;
 
+import java.util.Date;
+
 /**
  * Program used as basis for simple Automon example programs
  */
@@ -19,6 +21,7 @@ public class HelloWorld {
 
     public void run(String[] args) throws Exception {
         int loops = (args==null || args.length==0) ? 1 : Integer.valueOf(args[0]);
+        System.out.println("start: "+new Date());
         for (int i=0;i<loops;i++) {
             System.out.println("     ** loop "+i+" of "+loops);
             System.out.println("      ** "+getFirstName());
@@ -30,7 +33,7 @@ public class HelloWorld {
             }
             Thread.sleep(1000);
         }
-
+        System.out.println("end: "+new Date());
     }
 
     public static void main(String[] args) throws Exception {
