@@ -95,7 +95,9 @@ public class OpenMonFactory {
      * on creation.  Failure on creation would probably be due to the required jars not being available at runtime.
      */
     public OpenMon getFirstInstance() {
-        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, NEW_RELIC, STATSD);
+        // note for some reason the NewRelic exception is not caught and exits the program so i put it last
+        // This is a hack though and I need to see why it is not being caught.  
+        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, STATSD, NEW_RELIC);
         if (openMon==null) {
             return defaultOpenMon;
         }
