@@ -37,7 +37,7 @@ public class AutomonPropertiesLoader {
      *
      * @param fileNames list of file names to look for config properties in.  They are checked in order.  If none are found defaults are used.
      */
-    AutomonPropertiesLoader(String... fileNames) {
+    public AutomonPropertiesLoader(String... fileNames) {
         this.fileNames = fileNames;
     }
 
@@ -65,7 +65,7 @@ public class AutomonPropertiesLoader {
         // note precedence is -D properties, then from the file, then defaults.
         Properties defaults = getDefaults();
         Properties userProvided = propertyLoader(fileNames);
-        replaceWithCommandLineProps(userProvided, defaults);
+        replaceWithSystemProps(userProvided);
         automonProps = new Properties(defaults);
         automonProps.putAll(userProvided);
     }
@@ -127,13 +127,11 @@ public class AutomonPropertiesLoader {
         }
     }
 
-    /** Use any properties that were passed in at the command line */
-    private  void replaceWithCommandLineProps(Properties properties, Properties defaults) {
-        for (Object key : defaults.keySet()) {
+    /** Use any properties that were passed in at the command line or defined at the OS */
+    private  void replaceWithSystemProps(Properties properties) {
+        for (Object key : sysProperty.getProperties().keySet()) {
             String value = sysProperty.getProperty(key.toString());
-            if (value != null) {
-                properties.put(key, value);
-            }
+            properties.put(key, value);
         }
 
     }
@@ -148,6 +146,10 @@ public class AutomonPropertiesLoader {
     static class SysProperty {
         public String getProperty(String key) {
             return System.getProperty(key);
+        }
+        
+        public Properties getProperties() {
+            return System.getProperties();
         }
     }
 

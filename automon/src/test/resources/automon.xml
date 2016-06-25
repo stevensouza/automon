@@ -2,4 +2,9 @@
 Can put properties in an xml file. In comments...Could also use a properties file.
 
 org.automon=org.mypackage.MyOpenMon
+
+org.automon.statsd.prefix=mytestprefix
+org.automon.statsd.hostname=mytesthostname
+org.automon.statsd.port=9999
+
 -->

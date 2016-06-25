@@ -4,33 +4,36 @@ package org.automon.implementations;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 import java.util.List;
+import java.util.Properties;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
+import org.automon.utils.AutomonPropertiesLoader;
 
 /**
  * {@link org.automon.implementations.OpenMon} implementation that uses StatsD to time methods, and count exceptions.
- *
- *    statsdClient.incrementCounter("java.sql.SQLException,ErrorCode=400,SQLState=Login failure");
-            statsdClient.incrementCounter("java.sql.SQLException.ErrorCode 400-SQLState Login failure");
-
-replace ,ErrorCode= with .ErrorCode<space>
-replace ,SQLState= with -SQLState<space>
-
-* properties - prefix default automon, localhost, 8125
-test with statsd not explicit
-sample scripts for all supported types
-documentation
-release
-* 
+ * 
+ * Note to use this you will need to have your statsD server and specify the prefix, host and port you would like to use.
+ * This can be specified via the command line, or in an automon.properties file.  The default values are specified in this class.
+ * 
+ * <ul>
+ *   <li>-Dorg.automon.statsd.prefix=myapplication</li>
+ *   <li>-Dorg.automon.statsd.hostname=mystatsdhost</li>
+ *   <li>-Dorg.automon.statsd.port=8125</li>
+ * </ul>
  * @author stevesouza
  */
 public class StatsD extends OpenMonBase<TimerContext>{
 
-    private static final StatsDClient statsdClient = new NonBlockingStatsDClient("automon", "localhost", 8125);
-
+    private final StatsDClient statsdClient;
+     
+    public StatsD() {
+        StatsDPropsLoader propsLoader = new StatsDPropsLoader(new AutomonPropertiesLoader());
+        statsdClient = new NonBlockingStatsDClient(propsLoader.getPrefix(), propsLoader.getHostName(), propsLoader.getPort()); 
+    }
+    
     @Override
     public TimerContext start(JoinPoint.StaticPart jp) {
-                return new TimerContext(jp);
+      return new TimerContext(jp);
     }
 
     /**
@@ -57,8 +60,8 @@ public class StatsD extends OpenMonBase<TimerContext>{
         }
     }
     
-    /** statsD doesn't format = and , properly.  Instead of depending on statsd to 
-     * format them create a string that looks acceptable.  This is primarily done for 
+    /** StatsD doesn't format = and , properly.  Instead of depending on statsd to 
+     * format them create a string that looks acceptable.  This is done for 
      * sql exceptions of the format:   java.sql.SQLException,ErrorCode=400,SQLState=Login failure
      * 
      * @param exceptionLabel
@@ -72,6 +75,50 @@ public class StatsD extends OpenMonBase<TimerContext>{
         return exceptionLabel.
                 replace(",ErrorCode=", ".ErrorCode ").
                 replace(",SQLState=", "-SQLState ");
+    }
+    
+    public void close() {
+        if (statsdClient!=null) {
+          statsdClient.stop();
+        }      
+    }
+    
+
+    
+    static class StatsDPropsLoader {
+        private static final String PREFIX_KEY="org.automon.statsd.prefix";
+        private static final String HOSTNAME_KEY="org.automon.statsd.hostname";
+        private static final String PORT_KEY="org.automon.statsd.port";
+        
+        // visible for testing
+        static final String PREFIX_VALUE="automon";
+        static final String HOSTNAME_VALUE="localhost";
+        static final String PORT_VALUE="8125";
+        
+        private final String prefix; 
+        private final String hostName;
+        private final int port;
+    
+        StatsDPropsLoader(AutomonPropertiesLoader propsLoader) {
+          Properties props = propsLoader.getProperties();
+          prefix = props.getProperty(PREFIX_KEY, PREFIX_VALUE);
+          hostName = props.getProperty(HOSTNAME_KEY, HOSTNAME_VALUE);
+          port = Integer.parseInt(props.getProperty(PORT_KEY, PORT_VALUE));        
+        }
+        
+            /** methods for testing */
+        String getPrefix() {
+          return prefix;
+        }
+
+        String getHostName() {
+          return hostName;
+        }
+
+        int getPort() {
+          return port;
+        }
+        
     }
        
 }

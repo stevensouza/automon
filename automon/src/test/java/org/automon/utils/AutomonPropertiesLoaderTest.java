@@ -28,6 +28,15 @@ public class AutomonPropertiesLoaderTest {
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEmpty();
     }
+    
+    
+    @Test
+    public void testNoExists() throws Exception {
+        AutomonPropertiesLoader loader = new AutomonPropertiesLoader();
+        Properties properties = loader.getProperties();
+        assertThat(properties.getProperty("I_DO_NOT_EXIST")).isNull();
+    }
+    
 
     @Test
     public void testFromConfigFile() throws Exception {
@@ -70,9 +79,26 @@ public class AutomonPropertiesLoaderTest {
     @Test
     public void testFromSystemProperties() throws Exception {
         AutomonPropertiesLoader.SysProperty sysProperty = mock(AutomonPropertiesLoader.SysProperty.class);
+        Properties props = new Properties();
+        props.put(AutomonPropertiesLoader.CONFIGURED_OPEN_MON, "com.mypackage.SystemPropertyPrecedence");
+        when(sysProperty.getProperties()).thenReturn(props);
         when(sysProperty.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).thenReturn("com.mypackage.SystemPropertyPrecedence");
+       
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader(sysProperty, "automon.xml");
         Properties properties = loader.getProperties();
-        assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo("com.mypackage.SystemPropertyPrecedence");
+        assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo("com.mypackage.SystemPropertyPrecedence");        
+    }
+    
+    @Test
+    public void testFromSystemProperties_StatsD() throws Exception {
+        AutomonPropertiesLoader.SysProperty sysProperty = mock(AutomonPropertiesLoader.SysProperty.class);
+        Properties props = new Properties();
+        props.put("org.automon.statsd.noexist", "mynoexist_value");
+        when(sysProperty.getProperties()).thenReturn(props);       
+        when(sysProperty.getProperty("org.automon.statsd.noexist")).thenReturn("mynoexist_value");
+        
+        AutomonPropertiesLoader loader = new AutomonPropertiesLoader(sysProperty, "automon.xml");
+        Properties properties = loader.getProperties();
+        assertThat(properties.getProperty("org.automon.statsd.noexist")).isEqualTo("mynoexist_value");        
     }
 }
