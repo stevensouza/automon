@@ -129,11 +129,7 @@ public class AutomonPropertiesLoader {
 
     /** Use any properties that were passed in at the command line or defined at the OS */
     private  void replaceWithSystemProps(Properties properties) {
-        for (Object key : sysProperty.getProperties().keySet()) {
-            String value = sysProperty.getProperty(key.toString());
-            properties.put(key, value);
-        }
-
+        properties.putAll(sysProperty.getProperties());
     }
 
     /** Defaults used if no config file is found */
