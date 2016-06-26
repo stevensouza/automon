@@ -7,7 +7,9 @@ Automon combines the power of AOP (AspectJ) with monitoring tools (JAMon, JavaSi
 * Any jars used by your application
 
 Automon is typically used to track method invocation time, and exception counts. It is very easy to set-up and you should
-be able to start monitoring your code within minutes.
+be able to start monitoring your code within minutes.  The data will be stored and displayed in the monitoring tool of your choice. The following image shows the type of data Automon collects (displayed in JAMon and here in grahphite/StatsD).
+
+![Automon method and exception metrics](https://github.com/stevensouza/automon/blob/master/docs/automon_jamon.png)
 
 It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.
 It serves as a bridge between AspectJ (AspectJ defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
