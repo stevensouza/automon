@@ -6,18 +6,18 @@ Automon combines the power of AOP (AspectJ) with monitoring tools (JAMon, JavaSi
 * The JDK,
 * Any jars used by your application
 
-Automon is typically used to track method invocation time, and exception counts. It is very easy to set-up and you should
-be able to start monitoring your code within minutes.  The data will be stored and displayed in the monitoring tool of your choice. The following image shows the type of data Automon collects (displayed in JAMon and here in [grahphite/StatsD](https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png)).
+**Automon is typically used to track method invocation time, and exception counts.** It is very easy to set-up and you should
+be able to start monitoring your code within minutes.  The data will be stored and displayed using the monitoring tool of your choice. The following image shows the type of data Automon collects (displayed in JAMon and here in [grahphite/StatsD](https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png)).
 
 ![Automon method and exception metrics displayed in JAMon](https://github.com/stevensouza/automon/blob/master/docs/automon_jamon.png)
 
-The following is a sample command that will monitor your program with Automon (in this case using JAMon): 
-* java  -Dorg.aspectj.weaver.loadtime.configuration=file:aop.xml -javaagent:aspectjweaver.jar -classpath automon-{version}.jar:myapplication.jar:jamon-2.81.jar com.mypackage.MyClass
+**The following is a sample command that will monitor your program with Automon** (in this case using JAMon): 
+* **java  -Dorg.aspectj.weaver.loadtime.configuration=file:aop.xml -javaagent:aspectjweaver.jar -classpath automon-{version}.jar:myapplication.jar:jamon-2.81.jar com.mypackage.MyClass**
 * Running with Yammer Metrics, StatsD, JavaSimon etc. you would simply use their respective jars instead of the JAMon jar
 * aop.xml (AspectJ file) is where you define what parts of your program you want monitored. It is often quite simple.
 * aspectjweaver.jar is required for AspectJ to monitor the code.
 
-It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.
+**It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.**
 It serves as a bridge between AspectJ (AspectJ defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
 You can also easily provide your own monitoring tool by implementing the simple [OpenMon](https://github.com/stevensouza/automon/blob/master/automon/src/main/java/org/automon/implementations/OpenMon.java)
 interface.
