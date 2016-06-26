@@ -17,6 +17,8 @@ be able to start monitoring your code within minutes.  The data will be stored a
 * aop.xml (AspectJ file) is where you define what parts of your program you want monitored. It is often quite simple.
 * aspectjweaver.jar is required for AspectJ to monitor the code.
 
+See 'Getting Started' below and [examples](https://github.com/stevensouza/automon/tree/master/examples) for instructions on how to run Automon with CodaHale/Yammer Metrics, JavaSimon, NewRelic, StatsD, Tomcat and Jetty.
+
 **It is important to note that Automon is complimentary to monitoring and logging tools. Automon performs no monitoring on its own.**
 It serves as a bridge between AspectJ (AspectJ defines 'what to monitor') and monitoring and logging tools (which define 'how to monitor').
 You can also easily provide your own monitoring tool by implementing the simple [OpenMon](https://github.com/stevensouza/automon/blob/master/automon/src/main/java/org/automon/implementations/OpenMon.java)
