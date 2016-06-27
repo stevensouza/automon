@@ -161,5 +161,22 @@ public class UtilsTest {
         str = Utils.createFirst("i.do.not.Exist1", "i.do.not.Exist2");
         assertThat(str).isNull();
     }
+    
+    /**
+     *  
+     * Test of start method, of class StatsD.
+     */
+    @Test
+    public void testFormatExceptionForToolsWithLimitedCharacterSet() {
+        assertThat(Utils.formatExceptionForToolsWithLimitedCharacterSet(null)).describedAs("Null values should return unchanged").isNull();
+
+        String before = "java.sql.SQLException,ErrorCode=400,SQLState=Login failure";
+        String after = "java.sql.SQLException.ErrorCode 400-SQLState Login failure";
+        assertThat(Utils.formatExceptionForToolsWithLimitedCharacterSet(before)).describedAs("StatsD string is not as expected (remove ,=)").isEqualTo(after);
+
+        String plainException = "java.lang.Exception";
+        assertThat(Utils.formatExceptionForToolsWithLimitedCharacterSet(plainException)).describedAs("Nonsql exceptions should have no change").isEqualTo(plainException);
+    }
+     
 
 }

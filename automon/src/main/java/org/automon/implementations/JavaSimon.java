@@ -6,6 +6,7 @@ import org.javasimon.SimonManager;
 import org.javasimon.Split;
 
 import java.util.List;
+import org.automon.utils.Utils;
 
 /**
  * {@link org.automon.implementations.OpenMon} implementation that uses JavaSimon to time methods, and count exceptions.
@@ -30,11 +31,11 @@ public class JavaSimon extends OpenMonBase<Split> {
      *  at org.automon.implementations.OpenMonBase.exception(OpenMonBase.java:43)
      * </p>
      */
-    private Simon hackToCauseNoClassDefFoundErrorOnCreation = SimonManager.getRootSimon();
+    private final Simon hackToCauseNoClassDefFoundErrorOnCreation = SimonManager.getRootSimon();
 
     @Override
     public Split start(JoinPoint.StaticPart  jp) {
-        return SimonManager.getStopwatch(jp.toString()).start();
+        return SimonManager.getStopwatch(cleanSpaces(jp.toString())).start();
     }
 
     @Override
@@ -46,8 +47,18 @@ public class JavaSimon extends OpenMonBase<Split> {
     protected void trackException(JoinPoint jp, Throwable throwable) {
         List<String> labels = getLabels(throwable);
         for (String label : labels) {
-            SimonManager.getCounter(label).increase();
+            String simonCompatibleLabel = cleanExceptionForSimon(label);
+            SimonManager.getCounter(simonCompatibleLabel).increase();
         }
+    }
+    
+    // JavaSimon doesn't allow spaces in monitors.
+    private String cleanSpaces(String label) {
+        return label.replaceAll("[ ]+", "<space>");
+    }
+    
+    String cleanExceptionForSimon(String exceptionLabel) {
+        return cleanSpaces(Utils.formatExceptionForToolsWithLimitedCharacterSet(exceptionLabel));
     }
 
 }

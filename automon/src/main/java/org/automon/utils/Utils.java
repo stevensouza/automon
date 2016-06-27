@@ -77,6 +77,28 @@ public class Utils {
     public static String getLabel(JoinPoint.StaticPart jp ) {
         return jp.toString();
     }
+    
+    /**
+     * Some tools don't allow for special characters in their monitoring labels. For example
+     * StatsD doesn't allow '.=' and JavaSimon doesn't allow ' ='.  The following method strips
+     * these characters out of the exception string for SQL so they will work in these api's.  
+     * This is done for sql exceptions of the format:   
+     *  java.sql.SQLException,ErrorCode=400,SQLState=Login failure
+     * 
+     * Note at the time of this writing JavaSimon uses this regular expression for labels: '[-_\[\]A-Za-z0-9.,@$%)(<>]+'
+     * 
+     * @param exceptionLabel
+     * @return 
+     */
+    public static String formatExceptionForToolsWithLimitedCharacterSet(String exceptionLabel) {
+        if (exceptionLabel==null) {
+            return null;
+        }
+        
+        return exceptionLabel.
+                replace(",ErrorCode=", ".ErrorCode ").
+                replace(",SQLState=", "-SQLState ");
+    }
 
 
     /**
