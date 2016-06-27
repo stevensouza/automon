@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.automon.utils.AutomonPropertiesLoader;
+import org.automon.utils.Utils;
 
 /**
  * {@link org.automon.implementations.OpenMon} implementation that uses StatsD to time methods, and count exceptions.
@@ -56,25 +57,8 @@ public class StatsD extends OpenMonBase<TimerContext>{
     protected void trackException(JoinPoint jp, Throwable throwable) {
         List<String> labels = getLabels(throwable);
         for (String label : labels) {
-            statsdClient.incrementCounter(formatExceptionForStatsD(label));
+            statsdClient.incrementCounter(Utils.formatExceptionForToolsWithLimitedCharacterSet(label));
         }
-    }
-    
-    /** StatsD doesn't format = and , properly.  Instead of depending on statsd to 
-     * format them create a string that looks acceptable.  This is done for 
-     * sql exceptions of the format:   java.sql.SQLException,ErrorCode=400,SQLState=Login failure
-     * 
-     * @param exceptionLabel
-     * @return 
-     */
-    String formatExceptionForStatsD(String exceptionLabel) {
-        if (exceptionLabel==null) {
-            return null;
-        }
-        
-        return exceptionLabel.
-                replace(",ErrorCode=", ".ErrorCode ").
-                replace(",SQLState=", "-SQLState ");
     }
     
     public void close() {
