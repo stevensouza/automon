@@ -72,7 +72,7 @@ in a web container like Tomcat or Jetty. It monitors calls to the jdk (jdbc, io,
 [README.md](https://github.com/stevensouza/automon/tree/master/webapp_unwoven) for more information.
 
 
-**Build Time Weaving** (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects:
+**Build Time Weaving** (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects (In the examples I use 'woven' and BTW synonymously):
 
 * [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) - A simple project that
 has a dependency on Automon and a simple jar that contains a HelloWorld application.  The output of this project is a jar
