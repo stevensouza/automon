@@ -39,7 +39,7 @@ program you should include automon-{version}.jar.  This small jar is the bridge 
 monitor your program (for example JAMon, JavaSimon, Yammer Metrics).
 * **com.stevesouza.automon.annotations.AnnotationTester** - Standard java indicating the class you would like to run.
 
-See the various scripts in this directory to see how to use your favorite monitoring api with Automon (Examples: hello-world-unwoven-statsd-ltw.sh, hello-world-unwoven-metrics-ltw.sh, hello-world-unwoven-jamon-ltw.sh,...)
+See the various scripts in this directory to see how to use your favorite monitoring api with Automon (Examples: hello-world-statsd-ltw.sh, hello-world-metrics-ltw.sh, hello-world-jamon-ltw.sh,...)
 
 Build Time Weaving (BTW) Invocation
 -----------------------------------
