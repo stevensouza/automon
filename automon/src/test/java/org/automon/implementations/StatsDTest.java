@@ -32,21 +32,7 @@ public class StatsDTest {
           statsd.close();
         }
     }
-    /**
-     * Test of start method, of class StatsD.
-     */
-    @Test
-    public void testFormatExceptionForStatsD() {
-        statsd = new StatsD();
-        assertThat(statsd.formatExceptionForStatsD(null)).describedAs("Null values should return unchanged").isNull();
 
-        String before = "java.sql.SQLException,ErrorCode=400,SQLState=Login failure";
-        String after = "java.sql.SQLException.ErrorCode 400-SQLState Login failure";
-        assertThat(statsd.formatExceptionForStatsD(before)).describedAs("StatsD string is not as expected (remove ,=)").isEqualTo(after);
-
-        String plainException = "java.lang.Exception";
-        assertThat(statsd.formatExceptionForStatsD(plainException)).describedAs("Nonsql exceptions should have no change").isEqualTo(plainException);
-    }
 
     @Test
     public void testDefaultProperties() {

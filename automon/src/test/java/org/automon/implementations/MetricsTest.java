@@ -16,14 +16,11 @@ public class MetricsTest {
     private Metrics openMon = new Metrics();
     private JoinPoint jp = mock(JoinPoint.class);
     private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-    private static final String LABEL =  "helloWorld.timer";
-    private static final Exception EXCEPTION = new RuntimeException("my exception");
-    private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
 
     @Before
     public void setUp() throws Exception {
         JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-        when(staticPart.toString()).thenReturn(LABEL);
+        when(staticPart.toString()).thenReturn(SharedConstants.LABEL);
     }
     @After
     public void tearDown() throws Exception {
@@ -52,10 +49,10 @@ public class MetricsTest {
     @Test
     public void testException() throws Exception {
         MetricRegistry metricRegistry = openMon.getMetricRegistry();
-        assertThat(metricRegistry.counter(EXCEPTION_LABEL).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
+        assertThat(metricRegistry.counter(SharedConstants.EXCEPTION_LABEL).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
         assertThat(metricRegistry.counter(OpenMon.EXCEPTION_LABEL).getCount()).describedAs("No general exception should exist yet").isEqualTo(0);
-        openMon.exception(jp, EXCEPTION);
-        assertThat(metricRegistry.counter(EXCEPTION_LABEL).getCount()).describedAs("An exception should now exist").isEqualTo(1);
+        openMon.exception(jp, SharedConstants.EXCEPTION);
+        assertThat(metricRegistry.counter(SharedConstants.EXCEPTION_LABEL).getCount()).describedAs("An exception should now exist").isEqualTo(1);
         assertThat(metricRegistry.counter(OpenMon.EXCEPTION_LABEL).getCount()).describedAs("An general exception should now exist").isEqualTo(1);
     }
 

@@ -17,14 +17,11 @@ public class JavaSimonTest {
     private JavaSimon openMon = new JavaSimon();
     private JoinPoint jp = mock(JoinPoint.class);
     private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
-    private static final String LABEL =  "helloWorld.timer";
-    private static final Exception EXCEPTION = new RuntimeException("my exception");
-    private static final String EXCEPTION_LABEL = EXCEPTION.getClass().getName();
 
     @Before
     public void setUp() throws Exception {
         SimonManager.clear();
-        when(staticPart.toString()).thenReturn(LABEL);
+        when(staticPart.toString()).thenReturn(SharedConstants.LABEL);
     }
 
     @After
@@ -57,11 +54,11 @@ public class JavaSimonTest {
 
     @Test
     public void testException() throws Exception {
-        Counter mon = SimonManager.getCounter(EXCEPTION_LABEL);
+        Counter mon = SimonManager.getCounter(openMon.cleanExceptionForSimon(SharedConstants.EXCEPTION_LABEL));
         Counter monGeneral = SimonManager.getCounter(OpenMon.EXCEPTION_LABEL);
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(0);
         assertThat(monGeneral.getCounter()).describedAs("The general exception monitor should not have been created yet").isEqualTo(0);
-        openMon.exception(jp, EXCEPTION);
+        openMon.exception(jp, SharedConstants.EXCEPTION);
         assertThat(mon.getCounter()).describedAs("The exception monitor should have been created yet").isEqualTo(1);
         assertThat(monGeneral.getCounter()).describedAs("The general  exception monitor should have been created yet").isEqualTo(1);
     }
