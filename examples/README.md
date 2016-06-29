@@ -15,7 +15,7 @@ for Build Time Weaving (BTW).  Examples of using LTW are in this 'examples' dire
 
 Note you can perform both BTW and LTW on existing jars, whether you own the code in them or not.
 
-Here is an example of the collected monitoring data displayed in ![StatsD/Graphite]( https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png). 
+Here is an example of the collected monitoring data displayed in StatsD/Graphite: ![StatsD/Graphite]( https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png). 
 
 Load Time Weaving (LTW) Invocation
 -----------------------------------
