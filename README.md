@@ -14,7 +14,9 @@ be able to start monitoring your code within minutes.  The data will be stored a
 **The following is a sample command that will monitor your program with Automon** (in this case using JAMon): 
 * java  -Dorg.aspectj.weaver.loadtime.configuration=file:aop.xml -javaagent:aspectjweaver.jar -classpath automon-{version}.jar:myapplication.jar:jamon-2.81.jar com.mypackage.MyClass
 * Running with Yammer Metrics, StatsD, JavaSimon etc. you would simply use their respective jars instead of the JAMon jar
-* aop.xml (AspectJ file) is where you define what parts of your program you want monitored. It is often quite simple. ([Example monitoring JDK classes (JDBC, IO, Net packages), and custom classes:]( https://github.com/stevensouza/automon/blob/master/examples/config/automon-aop.xml))
+* aop.xml (AspectJ file) is where you define what parts of your program you want monitored (through 'pointcuts'). It is often quite simple. 
+* * Here is a sample pointcut:  <pointcut name="profile" expression="within(com.stevesouza..*)"/>
+* * And a full AOP config file [Example monitoring JDK classes (JDBC, IO, Net packages), and custom classes:]( https://github.com/stevensouza/automon/blob/master/examples/config/automon-aop.xml)
 * aspectjweaver.jar is required for AspectJ to monitor the code.
 
 See 'Getting Started' below and [examples](https://github.com/stevensouza/automon/tree/master/examples) for instructions on how to run Automon with CodaHale/Yammer Metrics, JavaSimon, NewRelic, StatsD, Tomcat and Jetty.
