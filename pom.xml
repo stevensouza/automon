@@ -51,6 +51,7 @@
     <module>helloworld_unwoven_jamon</module>
     <module>unwoven_jdk</module>
     <module>webapp_unwoven</module>
+    <module>spring_aop</module>
   </modules>
 
   <properties>
