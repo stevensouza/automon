@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.automon</groupId>
+        <artifactId>automon_parent</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>spring_aop</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+        <aspectj.version>1.8.2</aspectj.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
+        <spring.aop.version>1.8.0</spring.aop.version>
+    </properties>
+    <dependencies>
+        
+        <dependency>
+          <groupId>org.automon</groupId>
+          <artifactId>automon</artifactId>
+          <version>${version}</version>
+        </dependency>
+
+            <!-- for spring aop -->
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjrt</artifactId>
+             <version>${spring.aop.version}</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjweaver</artifactId>
+             <version>${spring.aop.version}</version>
+         </dependency>
+    </dependencies>
+    <name>spring_aop</name>
+</project>
