@@ -11,10 +11,10 @@ be able to start monitoring your code within minutes.  The data will be stored a
 
 ![Automon method and exception metrics displayed in JAMon](https://github.com/stevensouza/automon/blob/master/docs/automon_jamon.png)
 
-**The following is a sample command that will monitor your program with Automon** (in this case using JAMon): 
+**The following is a sample command that will monitor your program with Automon** (in this case using JAMon):
 * java  -Dorg.aspectj.weaver.loadtime.configuration=file:aop.xml -javaagent:aspectjweaver.jar -classpath automon-{version}.jar:myapplication.jar:jamon-2.81.jar com.mypackage.MyClass
 * Running with Yammer Metrics, StatsD, JavaSimon etc. you would simply use their respective jars instead of the JAMon jar
-* aop.xml (AspectJ file) is where you define what parts of your program you want monitored (through 'pointcuts'). It is often quite simple. 
+* aop.xml (AspectJ file) is where you define what parts of your program you want monitored (through 'pointcuts'). It is often quite simple.
     * Here is a sample pointcut monitoring all methods in all classes in package 'com.stevesouza':  `<pointcut name="profile" expression="within(com.stevesouza..*)"/>`
     * And a full AOP config file [Example monitoring JDK classes (JDBC, IO, Net packages), and custom classes:]( https://github.com/stevensouza/automon/blob/master/examples/config/automon-aop.xml)
 * aspectjweaver.jar is required for AspectJ to monitor the code.
@@ -95,7 +95,7 @@ Incorporate Automon into your maven project by adding the following dependency (
       <dependency>
           <groupId>org.automon</groupId>
           <artifactId>automon</artifactId>
-          <version>1.0</version>
+          <version>1.0.1</version>
       </dependency>
 ```
 
