@@ -1,4 +1,6 @@
 #!/bin/sh
 # Change the version of all sh files to match the current version
 # Note make sure the following command doesn't execute against this file!
-# sed -i.tmp  "s/1.0-SNAPSHOT/1.0/g" *.sh
+# This could be done by renaming this file temporarily and manually 
+# executing the command
+# sed -i.tmp  "s/1.0.1-SNAPSHOT/1.0.1/g" *.sh
