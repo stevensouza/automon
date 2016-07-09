@@ -6,12 +6,12 @@
   <parent>
     <groupId>org.automon</groupId>
     <artifactId>automon_parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
   </parent>
 
   <groupId>org.automon</groupId>
   <artifactId>unwoven_jdk</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
   <name>unwoven_jdk</name>
   <description>This pom simply executes a few jdk classes to show how they can be woven/monitored with automon.</description>
