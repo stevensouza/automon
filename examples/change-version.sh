@@ -3,4 +3,4 @@
 # Note make sure the following command doesn't execute against this file!
 # This could be done by renaming this file temporarily and manually 
 # executing the command
-# sed -i.tmp  "s/1.0.1-SNAPSHOT/1.0.1/g" *.sh
+# sed -i.tmp  "s/1.0.1/1.0.2-SNAPSHOT/g" *.sh

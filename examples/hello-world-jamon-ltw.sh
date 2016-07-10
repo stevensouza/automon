@@ -6,6 +6,6 @@
 # Yammer Metrics or JavaSimon could be done in a similar way. Note -Dorg.automon=jamon is not specified below.  Instead
 # Automon recognizes that Jamon is available and so uses it.
 
-java  -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.1.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.1.jar:../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-1.0.1.jar:libs/jamon-2.81.jar com.stevesouza.jamon.JamonHelloWorld
+java  -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.2-SNAPSHOT.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.2-SNAPSHOT.jar:../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-1.0.2-SNAPSHOT.jar:libs/jamon-2.81.jar com.stevesouza.jamon.JamonHelloWorld
 # to run the program in a loop for 1000 times (allows time to look at automon jmx in jconsole)
-#java  -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.1.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.1.jar:../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-1.0.1.jar:libs/jamon-2.81.jar com.stevesouza.jamon.JamonHelloWorld 1000
+#java  -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.2-SNAPSHOT.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.2-SNAPSHOT.jar:../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-1.0.2-SNAPSHOT.jar:libs/jamon-2.81.jar com.stevesouza.jamon.JamonHelloWorld 1000
