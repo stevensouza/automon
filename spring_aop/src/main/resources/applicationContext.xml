@@ -16,8 +16,9 @@
 <aop:aspectj-autoproxy/>
 <!-- monitoMe is the bean we will monitor -->
 <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
-<bean id="automonAspect" class="org.automon.spring_aop.AutomonSpringAspect"/>
 
+<!-- <bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect"/> -->
+  <bean id="automonSpringAspect" class="org.automon.spring_aop.DelmeAspect"/>
 
 <!-- Link the bean to the JamonAspect so it is monitored.  Here we will simply specify the beanId.
  There are many ways to do this using aspectJ pointcut syntax.  For example annotations or packages
