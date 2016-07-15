@@ -15,5 +15,5 @@ public abstract aspect SpringBase extends AutomonAspect {
     // Note in a native aspect the full path isn't needed and it could be taken care of in the import statement,
     // however intellij doesn't register that import statement as being used and it will be removed if
     // a optimize imports command is done, so I am being explicit below.
-    public pointcut _sys_pointcut() : org.automon.pointcuts.Select.publicMethod() && !within(AutomonAspect+);
+    public pointcut _sys_pointcut() : org.automon.pointcuts.SpringSelect.publicMethod() && !within(AutomonAspect+);
 }
