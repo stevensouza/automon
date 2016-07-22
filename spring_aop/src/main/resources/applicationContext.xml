@@ -33,7 +33,6 @@
    </aop:aspect>
 </aop:config>
 -->
-
     <aop:config>
         <aop:pointcut id="monitoredMethods"  expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
         <aop:pointcut id="exceptionTrackedMethods"  expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
