@@ -13,32 +13,29 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     
-<!-- <aop:aspectj-autoproxy/> -->
 <!-- monitoMe is the bean we will monitor -->
 <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
+<bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect"/>
 
-<!-- <bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect"/> -->
-  <bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect2"/>
+<!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and 
+ Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.
+   - 'monitoredMethods' is a pointcut that tracks execution time of the methods.
+   - 'exceptionTrackedMethods' is a pointcut that tracks any exceptions that are thronw.  
+ Typically both of these pointcuts would be the same though they don't need to be.
+ 
+ There are many ways of defining aspectJ pointcut syntax.  For example annotations or packages
+ can be specified. You can also use the '||' conditional to monitor many beans. 
+ 
+ Example1: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe)"/>
+ Example2: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe4) || bean(monitorMe3)"/>
+-->
 
-<!-- Link the bean to the JamonAspect so it is monitored.  Here we will simply specify the beanId.
- There are many ways to do this using aspectJ pointcut syntax.  For example annotations or packages
- can be specified.You can also use the '||' conditional to
- monitor many beans. Example: expression="bean(monitorMe4) || bean(monitorMe3)"/>
--->
-<!--
-<aop:config>
-   <aop:pointcut id="jamonMonitoringPointcut" expression="bean(monitorMe)"/>
-   <aop:aspect id="jamonSpringAspect2" ref="jamonAspect">
-       <aop:around pointcut-ref="jamonMonitoringPointcut" method="monitor"/>
-   </aop:aspect>
-</aop:config>
--->
     <aop:config>
         <aop:pointcut id="monitoredMethods"  expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
         <aop:pointcut id="exceptionTrackedMethods"  expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
 
         <aop:aspect id="automonAspect" ref="automonSpringAspect">
-            <aop:around pointcut-ref="monitoredMethods" method="monitor"/>  
+            <aop:around         pointcut-ref="monitoredMethods"        method="monitor"/>  
             <aop:after-throwing pointcut-ref="exceptionTrackedMethods" method="throwing" throwing="exceptionArg"/>
         </aop:aspect>        
     </aop:config>
