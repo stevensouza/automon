@@ -17,9 +17,12 @@ public class SpringMain {
             monitorMe.myMethod();
             monitorMe.myName("steve", "souza");
         }
-        
-        System.out.println(System.getProperties());
-
-
+           
+       // System.out.println(System.getProperties());
+        try {
+        monitorMe.myException();
+        } catch (Exception e) {
+            
+        }
     }
 }

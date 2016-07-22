@@ -17,4 +17,8 @@ public class MonitorMe {
     public void myName(String fname, String lname) {
        System.out.println("exiting MonitorMe.myName(...)");
     }
+    
+    public void myException()  throws Exception {
+           throw new Exception("testing excpeptions");
+    }
 }

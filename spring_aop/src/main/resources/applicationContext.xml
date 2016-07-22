@@ -13,12 +13,12 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     
-<aop:aspectj-autoproxy/>
+<!-- <aop:aspectj-autoproxy/> -->
 <!-- monitoMe is the bean we will monitor -->
 <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
 
 <!-- <bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect"/> -->
-  <bean id="automonSpringAspect" class="org.automon.spring_aop.DelmeAspect"/>
+  <bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect2"/>
 
 <!-- Link the bean to the JamonAspect so it is monitored.  Here we will simply specify the beanId.
  There are many ways to do this using aspectJ pointcut syntax.  For example annotations or packages
@@ -33,5 +33,16 @@
    </aop:aspect>
 </aop:config>
 -->
+
+    <aop:config>
+        <aop:pointcut id="monitoredMethods"  expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
+        <aop:pointcut id="exceptionTrackedMethods"  expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
+
+        <aop:aspect id="automonAspect" ref="automonSpringAspect">
+            <aop:around pointcut-ref="monitoredMethods" method="monitor"/>  
+            <aop:after-throwing pointcut-ref="exceptionTrackedMethods" method="throwing" throwing="exceptionArg"/>
+        </aop:aspect>        
+    </aop:config>
+
 </beans>
 
