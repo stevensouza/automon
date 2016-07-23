@@ -5,7 +5,10 @@
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
  <!--
- This could instead be declared with @Component annotation
+ This could instead be declared with @Component annotation. Note also that
+ MySpringAspect is woven at compile time so there is no need to reference the aspect
+ at runtime.  In this sense the monitoring bypasses spring. This approach (BTW) also does 
+ not require ajc-aop.xml to be passed at runtime.
  -->
 <bean id="helloWorld" class="com.stevesouza.spring.HelloWorld"/>
 <!-- <bean id="mySpringAspect" class="MySpringAspect"/> -->
