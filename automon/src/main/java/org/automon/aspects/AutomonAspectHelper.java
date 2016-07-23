@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.automon.spring_aop;
+package org.automon.aspects;
 
 import java.util.Properties;
 import org.automon.implementations.NullImp;
@@ -22,15 +22,14 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public  class AutomonAspectInternals  {
+public  class AutomonAspectHelper  {
     
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
 
-    public AutomonAspectInternals() {
+    public AutomonAspectHelper() {
         // Use OpenMon the user selects and register the aspect with jmx
         initOpenMon();
-       // Utils.registerWithJmx(this, automonJmx);
     }
 
     private void initOpenMon() {

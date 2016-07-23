@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.automon.spring_aop;
+package org.automon.aspects;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component 
 public  class AutomonSpringAspect  {
     
-    protected AutomonAspectInternals automonAspectInternals = new AutomonAspectInternals();
+    protected AutomonAspectHelper automonAspectInternals = new AutomonAspectHelper();
     protected AutomonMXBean automonJmx = new AutomonJmx(this);
 
     public AutomonSpringAspect() {

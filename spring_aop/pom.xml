@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.automon</groupId>
         <artifactId>automon_parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
     <artifactId>spring_aop</artifactId>
     <packaging>jar</packaging>
@@ -20,7 +20,7 @@
         <dependency>
           <groupId>org.automon</groupId>
           <artifactId>automon</artifactId>
-          <version>1.0.1-SNAPSHOT</version>
+          <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
             <!-- for spring aop -->

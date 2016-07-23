@@ -15,7 +15,7 @@
     
 <!-- monitoMe is the bean we will monitor -->
 <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
-<bean id="automonSpringAspect" class="org.automon.spring_aop.AutomonSpringAspect"/>
+<bean id="automonSpringAspect" class="org.automon.aspects.AutomonSpringAspect"/>
 
 <!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and 
  Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.

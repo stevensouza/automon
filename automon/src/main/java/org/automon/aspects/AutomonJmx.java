@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.automon.spring_aop;
+package org.automon.aspects;
 
 import org.automon.aspects.AutomonMXBean;
 
