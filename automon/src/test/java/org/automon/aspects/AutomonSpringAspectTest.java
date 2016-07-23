@@ -47,6 +47,8 @@ public class AutomonSpringAspectTest {
 
     @Test
     public void testMonitorExceptions() throws Throwable {
+        Object START_CONTEXT = new Object();
+        when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);
         HelloWorld monitorMe = context.getBean("monitorMe", HelloWorld.class);
         try {
             monitorMe.throwException();
@@ -54,6 +56,8 @@ public class AutomonSpringAspectTest {
             assertThat(e).isEqualTo(exception);
         }
 
+        verify(openMon).stop(START_CONTEXT, exception);
+        verify(openMon, never()).stop(any());
         verify(openMon).exception(any(JoinPoint.class), eq(exception));
     }
 
