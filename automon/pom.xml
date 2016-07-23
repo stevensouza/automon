@@ -32,7 +32,8 @@
       <perf4j.version>0.9.16</perf4j.version>
       <newrelic.version>3.29.0</newrelic.version>
       <ejb.version>3.2</ejb.version>
-      <spring.version>4.0.2.RELEASE</spring.version>
+      <spring.version>4.1.1.RELEASE</spring.version>
+      <spring.aop.version>1.8.0</spring.aop.version>
       <jaxrs.version>2.0.1</jaxrs.version>
       <jpa.version>1.0.1.Final</jpa.version>
       <statsd.version>3.1.0</statsd.version>
@@ -112,6 +113,13 @@
         <version>${junit.version}</version>
         <scope>test</scope>
     </dependency>
+    
+          <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjweaver</artifactId>
+             <version>${spring.aop.version}</version>
+             <scope>test</scope>
+         </dependency>
 
     <!-- runtime dependencies -->
     <dependency>
@@ -167,6 +175,7 @@
         <groupId>com.timgroup</groupId>
         <artifactId>java-statsd-client</artifactId>
         <version>${statsd.version}</version>
+         <scope>provided</scope>        
       </dependency>      
 
       <dependency>

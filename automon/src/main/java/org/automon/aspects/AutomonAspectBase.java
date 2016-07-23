@@ -11,25 +11,22 @@ import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
 import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
-import org.springframework.stereotype.Component;
 
 /**
- * <p>This aspect should contain pointcut language that is compatible with Spring.  Use this as your Base class if you use Spring.
- * It will also work with any AspectJ program, but will be more limited in how expressive the pointcuts can be.</p>
- *
- * <p>Note a developer should implement and provide pointcuts that you want to monitor by implementing {@link #user_monitor()}
- * and {@link #user_exceptions()}</p>
+ * <p>Base class used in all aspects</p>
  */
 
-@Component
-public  class AutomonAspectHelper  {
+public  class AutomonAspectBase  {
     
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
+    private AutomonMXBean automonJmx = new AutomonJmx(this);
 
-    public AutomonAspectHelper() {
+
+    public AutomonAspectBase() {
         // Use OpenMon the user selects and register the aspect with jmx
         initOpenMon();
+        Utils.registerWithJmx(this, automonJmx);
     }
 
     private void initOpenMon() {

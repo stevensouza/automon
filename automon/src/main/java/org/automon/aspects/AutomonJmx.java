@@ -5,8 +5,6 @@
  */
 package org.automon.aspects;
 
-import org.automon.aspects.AutomonMXBean;
-
 /**
     // Note the mxbean was done as an inner class due to compilation order and AutomonAspect.aj not being compiled and so
     // not available to Automon if it was an external class.  These methods are visible via the jconsole jmx console.
@@ -15,28 +13,28 @@ import org.automon.aspects.AutomonMXBean;
  */
 public class AutomonJmx  implements AutomonMXBean {
        
-        private AutomonSpringAspect automonAspect;
-        public AutomonJmx(AutomonSpringAspect automonAspect) {
-            this.automonAspect = automonAspect;
+        private AutomonAspectBase automonAspectBase;
+        public AutomonJmx(AutomonAspectBase automonAspectBase) {
+            this.automonAspectBase = automonAspectBase;
         }
 
         @Override
         public boolean isEnabled() {
-            return automonAspect.isEnabled();
+            return automonAspectBase.isEnabled();
         }
 
         @Override
         public void setOpenMon(String openMonKey) {
-            automonAspect.setOpenMon(openMonKey);
+            automonAspectBase.setOpenMon(openMonKey);
         }
 
         @Override
         public String getOpenMon() {
-            return automonAspect.getOpenMon().toString();
+            return automonAspectBase.getOpenMon().toString();
         }
 
         @Override
         public String getValidOpenMons() {
-            return automonAspect.getOpenMonFactory().toString();
+            return automonAspectBase.getOpenMonFactory().toString();
         }
 }

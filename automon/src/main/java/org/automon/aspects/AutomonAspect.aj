@@ -23,27 +23,7 @@ import java.util.Properties;
  * creating the dynamic JoinPoint in native aspects. Native style aspects are more powerful and can later be extended by developers
  * with @AspectJ style, so it is probably the best option anyway.  </p>
  */
-privileged public abstract aspect AutomonAspect {
-    private OpenMonFactory factory = new OpenMonFactory(new NullImp());
-    private OpenMon openMon = new NullImp();
-    private AutomonMXBean automonJmx = new Automon(this);
-
-    public AutomonAspect() {
-        // Use OpenMon the user selects and register the aspect with jmx
-        initOpenMon();
-        Utils.registerWithJmx(this, automonJmx);
-    }
-
-    private void initOpenMon() {
-        Properties properties = new AutomonPropertiesLoader().getProperties();
-        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
-        // if the openMonString is a fully qualified classname then also register it in the factory i.e. com.mygreatcompany.MyOpenMon
-        if (Utils.hasPackageName(openMonStr)) {
-            factory.add(openMonStr);
-        }
-        setOpenMon(openMonStr);
-    }
-
+privileged public abstract aspect AutomonAspect extends AutomonAspectBase {
     /**
      * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method
      * at the beginning and end of the method call.
@@ -54,13 +34,13 @@ privileged public abstract aspect AutomonAspect {
     Object around() throws Throwable : _monitor()  {
         // Note: context is typically a Timer/Monitor object returned by the monitoring implementation (Jamon, JavaSimon, Metrics,...)
         // though to this advice it is simply an object and the advice doesn't care what the intent of the context/object is.
-        Object context = openMon.start(thisJoinPointStaticPart);
+        Object context = getOpenMon().start(thisJoinPointStaticPart);
         try {
             Object retVal = proceed();
-            openMon.stop(context);
+            getOpenMon().stop(context);
             return retVal;
         } catch (Throwable throwable) {
-            openMon.stop(context, throwable);
+            getOpenMon().stop(context, throwable);
             throw throwable;
         }
     }
@@ -70,7 +50,7 @@ privileged public abstract aspect AutomonAspect {
      * Note arguments are passed on to {@link org.automon.implementations.OpenMon#exception(org.aspectj.lang.JoinPoint, Throwable)}
      */
     after() throwing(Throwable throwable): exceptions() {
-        openMon.exception(thisJoinPoint, throwable);
+        getOpenMon().exception(thisJoinPoint, throwable);
     }
 
     /** pointcut that determines what is monitored for performance/time */
@@ -91,73 +71,5 @@ privileged public abstract aspect AutomonAspect {
 
     /** reserved pointcut for Automon team */
     public  pointcut _sys_exceptions();
-
-
-    /* methods */
-    public boolean isEnabled() {
-        return !(openMon instanceof NullImp);
-    }
-
-    /** Retrieve monitoring implementation */
-    public OpenMon getOpenMon() {
-        return openMon;
-    }
-
-    /** Set monitoring implementation such as JAMon, Metrics, or JavaSimon */
-    public void setOpenMon(OpenMon openMon) {
-        this.openMon = openMon;
-    }
-
-    /**
-     * Take the string of any {@link org.automon.implementations.OpenMon} registered within this classes
-     * {@link org.automon.implementations.OpenMonFactory}, instantiate it and make it the current OpenMon.  If null is passed
-     * in then use the default of iterating each of the preinstalled OpenMon types attempting to create them until one succeeds.
-     * If one doesn't succeed then it would mean the proper jar is not available. If all of these fail then simply disable.
-     *
-     * @param openMonKey Something like jamon, metrics, javasimon
-     */
-    public void setOpenMon(String openMonKey) {
-        if (openMonKey==null || openMonKey.trim().equals("")) {
-            this.openMon = factory.getFirstInstance();
-        } else {
-            this.openMon = factory.getInstance(openMonKey);
-        }
-    }
-
-    public OpenMonFactory getOpenMonFactory() {
-        return factory;
-    }
-
-
-
-    // Note the mxbean was done as an inner class due to compilation order and AutomonAspect.aj not being compiled and so
-    // not available to Automon if it was an external class.  These methods are visible via the jconsole jmx console.
-    public static class Automon implements AutomonMXBean {
-        private AutomonAspect automonAspect;
-
-        public Automon(AutomonAspect automonAspect) {
-            this.automonAspect = automonAspect;
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return automonAspect.isEnabled();
-        }
-
-        @Override
-        public void setOpenMon(String openMonKey) {
-            automonAspect.setOpenMon(openMonKey);
-        }
-
-        @Override
-        public String getOpenMon() {
-            return automonAspect.getOpenMon().toString();
-        }
-
-        @Override
-        public String getValidOpenMons() {
-            return automonAspect.getOpenMonFactory().toString();
-        }
-    }
 
 }

@@ -7,12 +7,6 @@ package org.automon.aspects;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.automon.aspects.AutomonMXBean;
-import org.automon.implementations.NullImp;
-import org.automon.implementations.OpenMon;
-import org.automon.implementations.OpenMonFactory;
-import org.automon.utils.Utils;
-//import org.automon.aspects.SpringBase;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,49 +18,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component 
-public  class AutomonSpringAspect  {
-    
-    protected AutomonAspectHelper automonAspectInternals = new AutomonAspectHelper();
-    protected AutomonMXBean automonJmx = new AutomonJmx(this);
-
-    public AutomonSpringAspect() {
-        // Use OpenMon the user selects and register the aspect with jmx
-       // initOpenMon();
-        Utils.registerWithJmx(this, automonJmx);
-    }
-
-    /* methods */
-    public boolean isEnabled() {
-        return !(getOpenMon() instanceof NullImp);
-    }
-
-    /** Retrieve monitoring implementation
-     * @return  */
-    public OpenMon getOpenMon() {
-        return automonAspectInternals.getOpenMon();
-    }
-
-    /** Set monitoring implementation such as JAMon, Metrics, or JavaSimon
-     * @param openMon */
-    public void setOpenMon(OpenMon openMon) {
-        automonAspectInternals.setOpenMon(openMon);
-    }
-
-    /**
-     * Take the string of any {@link org.automon.implementations.OpenMon} registered within this classes
-     * {@link org.automon.implementations.OpenMonFactory}, instantiate it and make it the current OpenMon.  If null is passed
-     * in then use the default of iterating each of the preinstalled OpenMon types attempting to create them until one succeeds.
-     * If one doesn't succeed then it would mean the proper jar is not available. If all of these fail then simply disable.
-     *
-     * @param openMonKey Something like jamon, metrics, javasimon
-     */
-    public void setOpenMon(String openMonKey) {
-        automonAspectInternals.setOpenMon(openMonKey);
-    }
-
-    public OpenMonFactory getOpenMonFactory() {
-        return automonAspectInternals.getOpenMonFactory();
-    }
+public  class AutomonSpringAspect  extends AutomonAspectBase {
 
      /**
      * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method
@@ -101,5 +53,6 @@ public  class AutomonSpringAspect  {
     public void throwing(JoinPoint pjp, Throwable exceptionArg) {
         getOpenMon().exception(pjp, exceptionArg);
     }
+
 
 }

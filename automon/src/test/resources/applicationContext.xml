@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    
+    <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+<!-- monitoMe is the bean we will monitor -->
+<bean id="monitorMe" class="org.automon.aspects.HelloWorld"/>
+<bean id="automonSpringAspect" class="org.automon.aspects.AutomonSpringAspect"/>
+
+<!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and 
+ Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.
+   - 'monitoredMethods' is a pointcut that tracks execution time of the methods.
+   - 'exceptionTrackedMethods' is a pointcut that tracks any exceptions that are thronw.  
+ Typically both of these pointcuts would be the same though they don't need to be.
+ 
+ There are many ways of defining aspectJ pointcut syntax.  For example annotations or packages
+ can be specified. You can also use the '||' conditional to monitor many beans. 
+ 
+ Example1: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe)"/>
+ Example2: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe4) || bean(monitorMe3)"/>
+-->
+
+    <aop:config>
+        <aop:pointcut id="monitoredMethods"  expression="bean(monitorMe)"/>
+        <aop:pointcut id="exceptionTrackedMethods"  expression="bean(monitorMe)"/>
+
+        <aop:aspect id="automonAspect" ref="automonSpringAspect">
+            <aop:around         pointcut-ref="monitoredMethods"        method="monitor"/>  
+            <aop:after-throwing pointcut-ref="exceptionTrackedMethods" method="throwing" throwing="exceptionArg"/>
+        </aop:aspect>        
+    </aop:config>
+
+</beans>
+
