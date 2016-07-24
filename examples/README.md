@@ -5,7 +5,7 @@ This directory contains sample programs (*.sh) that show how programs can easily
 Before running the programs you must generate the needed jar files by running the following from the automon root directory:
 mvn clean package
 
-A Spring AOP example can be found in this directory.  [Here is its source code](https://github.com/stevensouza/automon/tree/master/spring_aop).
+A Spring AOP monitoring example can be found in this directory (spring-aop.sh).  [Here is its source code](https://github.com/stevensouza/automon/tree/master/spring_aop).
 
 Some of the example programs use Load Time Weaving (LTW) whereas others were woven at build time (BTW).  Weaving combines Automon's
 monitoring aspects with any Java classes that you want to monitor.  LTW is the most flexible.  It adds monitoring capabilities to your
