@@ -3,6 +3,8 @@ playground/src/main/resources/data/out/*
 # Files to exclude. Taken from
 #   http://gary-rowe.com/agilestack/2012/10/12/a-gitignore-file-for-intellij-and-eclipse-with-maven/
 
+*.versionsBackup
+
 # Eclipse
 # intellij
 .idea/
