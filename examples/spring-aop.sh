@@ -4,4 +4,4 @@
 # The spring_aop jar has all needed depedendent jars bundled inside it.  It also
 # has a main executable class defined: org.automon.spring_aop.SpringMain.  See the spring_aop project and associated pom.xml for
 # more info.
-java -Dorg.automon="sysout" -jar ../spring_aop/target/spring_aop-1.0.2-SNAPSHOT.jar
+java -Dorg.automon="sysout" -jar ../spring_aop/target/spring_aop-1.0.3-SNAPSHOT.jar
