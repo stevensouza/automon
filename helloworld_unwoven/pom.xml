@@ -6,12 +6,12 @@
   <parent>
     <groupId>org.automon</groupId>
     <artifactId>automon_parent</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
   </parent>
 
   <groupId>org.automon</groupId>
   <artifactId>helloworld_unwoven</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
   <name>helloworld_unwoven</name>
   <description>This pom simply has an unwoven HelloWorld class.  The resulting jar can be used to test AspectJ load time weaving.</description>

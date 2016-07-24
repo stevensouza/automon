@@ -7,12 +7,12 @@
   <parent>
     <groupId>org.automon</groupId>
     <artifactId>automon_parent</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
   </parent>
 
   <groupId>org.automon</groupId>
   <artifactId>automon</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
   <name>automon</name>
   <description>Automon combines the power of AOP (AspectJ) with any monitoring or logging tools you already use to declaratively monitor
