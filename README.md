@@ -52,7 +52,9 @@ Getting Started
 The quickest way to get started with Automon is to download this distribution, and go to the [examples](https://github.com/stevensouza/automon/tree/master/examples)
 directory and run the sample programs (*.sh).  There are more directions on running the examples in the 'examples' directories README file.
 
-**Running a program** with Automon is easy.  You simply...
+If you are using **Spring** the following maven module shows how to [monitor Spring beans with Automon](https://github.com/stevensouza/automon/tree/master/spring_aop).  In particular look at the Spring [applicationContext.xml](https://github.com/stevensouza/automon/blob/master/spring_aop/src/main/resources/applicationContext.xml) file to see how to specify which Spring beans to monitor.
+
+Automon does not require Spring though. **Running a non-Spring program** with Automon is easy too.  You simply...
 
 * Put automon-{version}.jar in your classpath,
 * And make either aspectjweaver.jar (LTW), or aspectjrt.jar (BTW) available.
