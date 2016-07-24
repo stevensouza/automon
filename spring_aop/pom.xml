@@ -15,7 +15,43 @@
         <spring.version>4.1.1.RELEASE</spring.version>
         <spring.aop.version>1.8.0</spring.aop.version>
     </properties>
-    <dependencies>
+    
+      <build>
+    <plugins>
+      <plugin>
+          <!-- The shade plugin bundles all jars into one big jar making deployment and execution easier. 
+           The mainClass element is defined so you can execute the jar without specifying the class.  To run this jar 
+           simply type: java -Dorg.automon="sysout" -jar target/spring_aop-1.0.2-SNAPSHOT.jar
+          -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.4.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/spring.handlers</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/spring.schemas</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>org.automon.spring_aop.SpringMain</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
         
         <dependency>
           <groupId>org.automon</groupId>
@@ -43,4 +79,5 @@
          </dependency>
     </dependencies>
     <name>spring_aop</name>
+    
 </project>
