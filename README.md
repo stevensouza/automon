@@ -91,13 +91,13 @@ An interview that covers Automon can be found [here](http://jaxenter.com/advance
 Maven
 -----------------------------------
 
-Incorporate Automon into your maven project by adding the following dependency (using the most current version).
+Incorporate Automon into your maven project by adding the following dependency ([using the most current version](https://mvnrepository.com/artifact/org.automon/automon)).
 
 ```xml
       <dependency>
           <groupId>org.automon</groupId>
           <artifactId>automon</artifactId>
-          <version>1.0.1</version>
+          <version>1.0.2</version>
       </dependency>
 ```
 
