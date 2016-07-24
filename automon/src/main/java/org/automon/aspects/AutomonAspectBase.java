@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.automon.aspects;
 
 import java.util.Properties;
@@ -13,7 +9,8 @@ import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 
 /**
- * <p>Base class used in all aspects</p>
+ * <p>Base class used in all aspects. Contains automon implementations and registers Automon
+ * with jmx</p>
  */
 
 public  class AutomonAspectBase  {
@@ -24,11 +21,12 @@ public  class AutomonAspectBase  {
 
 
     public AutomonAspectBase() {
-        // Use OpenMon the user selects and register the aspect with jmx
+        // Use the OpenMon the user selects and register the aspect with jmx
         initOpenMon();
         Utils.registerWithJmx(this, automonJmx);
     }
 
+    // use the specified Automon implementation 
     private void initOpenMon() {
         Properties properties = new AutomonPropertiesLoader().getProperties();
         String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
@@ -39,12 +37,11 @@ public  class AutomonAspectBase  {
         setOpenMon(openMonStr);
     }
 
-    /* methods */
     public boolean isEnabled() {
         return !(openMon instanceof NullImp);
     }
 
-    /** Retrieve monitoring implementation
+    /** Retrieve current monitoring implementation
      * @return  */
     public OpenMon getOpenMon() {
         return openMon;
