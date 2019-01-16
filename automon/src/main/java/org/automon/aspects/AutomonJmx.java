@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.automon.aspects;
 
-/**
-    // Note the mxbean was done as an inner class due to compilation order and AutomonAspect.aj not being compiled and so
-    // not available to Automon if it was an external class.  These methods are visible via the jconsole jmx console.
- *
- * @author stevesouza
+/** Registers Automon aspects with jmx so they can be managed and viewed.
  */
 public class AutomonJmx  implements AutomonMXBean {
        
+        // aspect to register with jmx
         private AutomonAspectBase automonAspectBase;
         public AutomonJmx(AutomonAspectBase automonAspectBase) {
             this.automonAspectBase = automonAspectBase;
