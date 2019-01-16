@@ -75,14 +75,14 @@
         <dependency>
             <groupId>org.automon</groupId>
             <artifactId>automon</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.automon</groupId>
             <artifactId>helloworld_unwoven</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

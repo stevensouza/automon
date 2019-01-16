@@ -103,7 +103,7 @@
       <dependency>
         <groupId>org.automon</groupId>
         <artifactId>automon</artifactId>
-          <version>${version}</version>
+          <version>${project.version}</version>
       </dependency>
 
       <dependency>
