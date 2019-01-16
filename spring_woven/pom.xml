@@ -19,7 +19,7 @@
     </description>
 
   <properties>
-    <spring.version>4.1.1.RELEASE</spring.version>
+    <spring.version>5.1.4.RELEASE</spring.version>
     <aspectj.version>1.8.2</aspectj.version>
     <mojo.ajc.version>1.7</mojo.ajc.version>
     <mojo.execution.version>1.3.2</mojo.execution.version>
