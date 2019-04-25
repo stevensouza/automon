@@ -24,8 +24,8 @@ public class Micrometer extends OpenMonBase<TimerContext> {
 
     @Override
     public void stop(TimerContext context) {
-        long stop = context.stop();
-        getTimer(context.getJoinPoint().toString()).record(stop, TimeUnit.MILLISECONDS);
+        long executionTimeMs = context.stop();
+        getTimer(context.getJoinPoint().toString()).record(executionTimeMs, TimeUnit.MILLISECONDS);
     }
 
 
