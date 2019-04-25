@@ -12,7 +12,7 @@ import static com.codahale.metrics.MetricRegistry.name;
  * {@link org.automon.implementations.OpenMon} implementation that uses Yammer Metrics to time methods, and count exceptions.
  */
 public class Metrics extends OpenMonBase<Timer> {
-    private MetricRegistry metrics = new MetricRegistry();
+    private static MetricRegistry metrics = new MetricRegistry();
 
     @Override
     public Timer start(JoinPoint.StaticPart jp) {
@@ -32,12 +32,12 @@ public class Metrics extends OpenMonBase<Timer> {
         }
     }
 
-    public MetricRegistry getMetricRegistry() {
+    public static MetricRegistry getMetricRegistry() {
         return metrics;
     }
 
-    public void setMetricRegistry(MetricRegistry metrics) {
-        this.metrics = metrics;
+    public static void setMetricRegistry(MetricRegistry newMetricRegistry) {
+        metrics = newMetricRegistry;
     }
 
 }
