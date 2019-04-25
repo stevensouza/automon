@@ -28,7 +28,7 @@ public interface OpenMon<T> {
      * a timer that was started in the 'start' method above would be stopped.  Although anything can be done.
      *
      * @param context The object returned by 'start' is passed into this parameter.  Typically this would be a timer and should be stopped.
-     *    Note although this variable is typically a 'timer' it can really be any object, or state needed.
+     *                Note although this variable is typically a 'timer' it can really be any object, or state needed.
      */
     public void stop(T context);
 
@@ -39,15 +39,15 @@ public interface OpenMon<T> {
      * Make sure not to double count exceptions which can happen if you also handle them in {@link #exception}
      *
      * @param context The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
-     *              Note although this variable is typically a 'timer' it can really be any object, or state needed.
+     *                Note although this variable is typically a 'timer' it can really be any object, or state needed.
      */
     public void stop(T context, Throwable throwable);
 
     /**
      * Notification that an exception has occurred. Typically the implementing class would count exceptions though anything is possible.
      *
-     * @param jp The {@link org.aspectj.lang.JoinPoint} associated with where the exception was thrown.  Note this gives you access
-     *           to the argument names and values of the pointcut that threw the exception
+     * @param jp        The {@link org.aspectj.lang.JoinPoint} associated with where the exception was thrown.  Note this gives you access
+     *                  to the argument names and values of the pointcut that threw the exception
      * @param throwable The thrown exception
      */
     public void exception(JoinPoint jp, Throwable throwable);

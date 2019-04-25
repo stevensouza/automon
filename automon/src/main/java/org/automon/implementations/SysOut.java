@@ -12,22 +12,22 @@ public final class SysOut implements OpenMon<TimerContext> {
 
     @Override
     public TimerContext start(JoinPoint.StaticPart jp) {
-        System.out.println("SysOut.start(..): "+ Utils.getLabel(jp));
+        System.out.println("SysOut.start(..): " + Utils.getLabel(jp));
         return new TimerContext(jp);
     }
 
     @Override
     public void stop(TimerContext context) {
-        System.out.println("SysOut.stop(..) ms.: "+context.stop());
+        System.out.println("SysOut.stop(..) ms.: " + context.stop());
     }
 
     @Override
     public void stop(TimerContext context, Throwable throwable) {
-        System.out.println("SysOut.stop(..) ms.: "+context.stop()+" - Exception: "+throwable);
+        System.out.println("SysOut.stop(..) ms.: " + context.stop() + " - Exception: " + throwable);
     }
 
     @Override
     public void exception(JoinPoint jp, Throwable throwable) {
-        System.out.println("SysOut.exception(..): JoinPoint="+ jp+", Exception="+throwable);
+        System.out.println("SysOut.exception(..): JoinPoint=" + jp + ", Exception=" + throwable);
     }
 }

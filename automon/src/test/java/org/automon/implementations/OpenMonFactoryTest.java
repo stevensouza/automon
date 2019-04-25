@@ -59,7 +59,7 @@ public class OpenMonFactoryTest {
 
     @Test
     public void testToString() throws Exception {
-        assertThat(factory.toString()).contains("jamon, javasimon, metrics, newrelicimp, nullimp, statsd, sysout");
+        assertThat(factory.toString()).contains("jamon, javasimon, metrics, micrometer, newrelicimp, nullimp, statsd, sysout");
     }
 
     @Test

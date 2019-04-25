@@ -16,7 +16,7 @@ import java.util.List;
 public class Jamon extends OpenMonBase<Monitor> {
 
     @Override
-    public Monitor start(JoinPoint.StaticPart  jp) {
+    public Monitor start(JoinPoint.StaticPart jp) {
         return MonitorFactory.start(jp.toString());
     }
 
@@ -58,13 +58,14 @@ public class Jamon extends OpenMonBase<Monitor> {
     /**
      * Jamon keeps the full stack trace and arguments available to be viewed in the jamon web app (details).  The following logic
      * does this.
+     *
      * @param jp
      * @param throwable
      * @return
      */
     private AutomonExpirable populateArgNamesAndValues_InExceptionContext(JoinPoint jp, Throwable throwable) {
         AutomonExpirable exceptionContext = get(throwable);
-        if (exceptionContext.getArgNamesAndValues()==null){
+        if (exceptionContext.getArgNamesAndValues() == null) {
             exceptionContext.setArgNamesAndValues(Utils.getArgNameValuePairs(jp));
         }
 

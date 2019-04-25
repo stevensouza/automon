@@ -16,14 +16,16 @@ import java.util.Map;
  */
 public abstract class OpenMonBase<T> implements OpenMon<T> {
 
-    /** map containing recently thrown exceptions so they can be reused if needed */
-    private  Map<Throwable, AutomonExpirable>  exceptionsMap = Utils.createExceptionMap();
+    /**
+     * map containing recently thrown exceptions so they can be reused if needed
+     */
+    private Map<Throwable, AutomonExpirable> exceptionsMap = Utils.createExceptionMap();
 
     /**
      * Stop the timer and put the the {@link java.lang.Throwable} argument in a map so it can be reused by other methods
      * in the call stack.
      *
-     * @param context The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
+     * @param context   The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
      * @param throwable This argument is put in the exception map, and otherwise ignored in the default implementation.
      */
     @Override
@@ -36,7 +38,7 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
      * Override {@link #trackException(org.aspectj.lang.JoinPoint, Throwable)} instead of this method unless the default behavior
      * is not desired.  The useful capability this method provides is to store the thrown exception in the exceptions map.
      *
-     * @param jp The {@link org.aspectj.lang.JoinPoint} associated with where the exception was thrown.
+     * @param jp        The {@link org.aspectj.lang.JoinPoint} associated with where the exception was thrown.
      * @param throwable The thrown exception
      */
     @Override
@@ -50,6 +52,7 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
     /**
      * Can be overridden to perform the action required by the implementation class.  For example JAMon specific actions
      * are taken here.
+     *
      * @param jp
      * @param throwable
      */
@@ -73,6 +76,7 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
     /**
      * Put the thrown exception in a map.  The exception is given a timestamp so it can be removed after a reasonable
      * amount of time. This ensures that any other method in the call stack doesn't keep putting in the same exception.
+     *
      * @param throwable
      */
     protected void put(Throwable throwable) {
@@ -87,7 +91,9 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
         return exceptionsMap.get(throwable);
     }
 
-    /** visible for testing */
+    /**
+     * visible for testing
+     */
     Map<Throwable, AutomonExpirable> getExceptionsMap() {
         return exceptionsMap;
     }
