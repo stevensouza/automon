@@ -31,7 +31,7 @@ public class TimeExpirableTest {
         long time = System.currentTimeMillis();
         when(now.now()).thenReturn(time);
         TimeExpirable expirable = new TimeExpirable(1, now);
-        when(now.now()).thenReturn(time+MIN_IN_MS);
+        when(now.now()).thenReturn(time + MIN_IN_MS);
         assertThat(expirable.isExpired()).describedAs("Exactly at expiration interval").isTrue();
     }
 
@@ -42,7 +42,7 @@ public class TimeExpirableTest {
         long time = System.currentTimeMillis();
         when(now.now()).thenReturn(time);
         TimeExpirable expirable = new TimeExpirable(1, now);
-        when(now.now()).thenReturn(time+100);
+        when(now.now()).thenReturn(time + 100);
         assertThat(expirable.isExpired()).isFalse();
     }
 

@@ -4,7 +4,7 @@ package org.automon.pointcuts;
 import org.automon.annotations.Monitor;
 
 /**
- *  Test class that is advised to see if aspects are working properly
+ * Test class that is advised to see if aspects are working properly
  */
 public class AutomonAnnotatedMethod {
     private String string;
@@ -15,7 +15,7 @@ public class AutomonAnnotatedMethod {
 
     @Monitor
     public AutomonAnnotatedMethod(String annotatedConstructor) {
-        this.string=annotatedConstructor;
+        this.string = annotatedConstructor;
     }
 
     @Monitor

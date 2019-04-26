@@ -8,7 +8,6 @@ package org.automon.utils;
  */
 public interface Expirable {
     /**
-     *
      * @return true if the object has expired.
      */
     public boolean isExpired();

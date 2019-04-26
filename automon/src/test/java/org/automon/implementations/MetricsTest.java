@@ -15,14 +15,15 @@ import static org.mockito.Mockito.when;
 public class MetricsTest {
     private Metrics openMon = new Metrics();
     private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @Before
     public void setUp() throws Exception {
         Metrics.setMetricRegistry(new MetricRegistry());
-        JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
+        JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
         when(staticPart.toString()).thenReturn(SharedConstants.LABEL);
     }
+
     @After
     public void tearDown() throws Exception {
         Metrics.setMetricRegistry(new MetricRegistry());

@@ -12,8 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
  * the '+' at the end of the classname will also monitor any calls to any class that inherits from this one.  See AspectJ documentation
  * for more information.
  * </p>
- *
- *
  */
 
 @Aspect
@@ -21,30 +19,30 @@ public abstract class Jdk {
 
     @Pointcut(
             "call(public * java.sql.Statement+.*(..)) || " +
-            "call(public * java.sql.Connection+.*(..)) || " +
-            "call(public * java.sql.Savepoint+.*(..))"
+                    "call(public * java.sql.Connection+.*(..)) || " +
+                    "call(public * java.sql.Savepoint+.*(..))"
     )
     public void jdbc() {
     }
 
     @Pointcut(
             "call(public * java.io.Writer+.*(..)) || " +
-            "call(public * java.io.Reader+.*(..)) || " +
-            "call(public * java.io.OutputStream+.*(..)) || " +
-            "call(public * java.io.InputStream+.*(..)) || " +
-            "call(public * java.io.DataInput+.*(..)) || " +
-            "call(public * java.io.DataOutput+.*(..))"
+                    "call(public * java.io.Reader+.*(..)) || " +
+                    "call(public * java.io.OutputStream+.*(..)) || " +
+                    "call(public * java.io.InputStream+.*(..)) || " +
+                    "call(public * java.io.DataInput+.*(..)) || " +
+                    "call(public * java.io.DataOutput+.*(..))"
     )
     public void io() {
     }
 
     @Pointcut(
             "call(public * java.net.SocketImpl+.*(..)) || " +
-            "call(public * java.net.ServerSocket+.*(..)) || " +
-            "call(public * java.net.DatagramSocket+.*(..)) || " +
-            "call(public * java.net.DatagramSocketImpl+.*(..)) || " +
-            "call(public * java.net.Socket+.*(..)) || " +
-            "call(public * java.net.URLConnection+.*(..))"
+                    "call(public * java.net.ServerSocket+.*(..)) || " +
+                    "call(public * java.net.DatagramSocket+.*(..)) || " +
+                    "call(public * java.net.DatagramSocketImpl+.*(..)) || " +
+                    "call(public * java.net.Socket+.*(..)) || " +
+                    "call(public * java.net.URLConnection+.*(..))"
     )
     public void net() {
     }

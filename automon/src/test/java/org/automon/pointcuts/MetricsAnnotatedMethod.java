@@ -3,7 +3,7 @@ package org.automon.pointcuts;
 import com.codahale.metrics.annotation.Timed;
 
 /**
- *  Test class that is advised to see if aspects are working properly
+ * Test class that is advised to see if aspects are working properly
  */
 public class MetricsAnnotatedMethod {
 

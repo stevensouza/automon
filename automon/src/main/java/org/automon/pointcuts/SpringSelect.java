@@ -7,11 +7,11 @@ import org.aspectj.lang.annotation.Pointcut;
  * Some standard pointcuts defined that are valid in Spring (execution(method)).
  * They can be reused in other aspects.   See {@link org.automon.pointcuts.Select}
  * for more general pointcuts valid in AspectJ as a whole.
- *
  */
 @Aspect
 public abstract class SpringSelect {
-    /** Method execution pointcuts
+    /**
+     * Method execution pointcuts
      */
     @Pointcut("execution(* java.lang.Object.*(..))")
     public void objectMethod() {
@@ -43,7 +43,9 @@ public abstract class SpringSelect {
 
     }
 
-    /** Pointcuts for getter and setter methods */
+    /**
+     * Pointcuts for getter and setter methods
+     */
     @Pointcut("execution(public void *.set*(*))")
     public void setter() {
     }

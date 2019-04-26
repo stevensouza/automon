@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class JavaSimonTest {
     private JavaSimon openMon = new JavaSimon();
     private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @Before
     public void setUp() throws Exception {

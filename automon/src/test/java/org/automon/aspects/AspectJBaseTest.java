@@ -88,15 +88,16 @@ public class AspectJBaseTest {
     }
 
 
-    /** Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
+    /**
+     * Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
      * would run before ajc, and so any 'aspect' classes wouldn't be available when the tests were run.  Using @Aspect let javac compile them.
      * This is also good as it shows java developers how to inherit from the aspects.
-     *
+     * <p>
      * Note2: The @Override annotation was not used below as it will not compile with ajc.
-     *
+     * <p>
      * Note3: I also couldn't think of a way to disable all monitoring without the following pointcuts
-     *  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
-     *  warning that there was no match.
+     * Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
+     * warning that there was no match.
      */
     @Aspect
     static class MyAspectJTestAspect extends AspectJBase {
@@ -106,7 +107,7 @@ public class AspectJBaseTest {
                 "org.automon.pointcuts.Select.publicMethod() || " +
                 "org.automon.pointcuts.Select.fieldGet() || " +
                 "org.automon.pointcuts.Select.fieldSet()  " +
-                " ) " )
+                " ) ")
         public void user_monitor() {
         }
 

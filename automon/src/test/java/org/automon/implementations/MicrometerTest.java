@@ -1,7 +1,5 @@
 package org.automon.implementations;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Timer;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.aspectj.lang.JoinPoint;
@@ -19,13 +17,14 @@ import static org.mockito.Mockito.when;
 public class MicrometerTest {
     private Micrometer openMon = new Micrometer();
     private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @Before
     public void setUp() throws Exception {
         Micrometer.setMeterRegistry(new SimpleMeterRegistry());
         when(staticPart.toString()).thenReturn(SharedConstants.LABEL);
     }
+
     @After
     public void tearDown() throws Exception {
         Micrometer.setMeterRegistry(new SimpleMeterRegistry());
@@ -88,7 +87,7 @@ public class MicrometerTest {
     public void setMetricRegistry() throws Exception {
         MeterRegistry registry = new SimpleMeterRegistry();
         Micrometer.setMeterRegistry(registry);
-        assertThat( Micrometer.getMeterRegistry()).isEqualTo(registry);
+        assertThat(Micrometer.getMeterRegistry()).isEqualTo(registry);
     }
 
 }

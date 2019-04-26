@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class JamonTest {
     private Jamon openMon = new Jamon();
     private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
+    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @Before
     public void setUp() throws Exception {
@@ -61,7 +61,7 @@ public class JamonTest {
         assertThat(MonitorFactory.exists(SharedConstants.EXCEPTION_LABEL, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
         openMon.exception(jp, SharedConstants.EXCEPTION);
         assertThat(MonitorFactory.getMonitor(SharedConstants.EXCEPTION_LABEL, "Exception").getHits()).describedAs("One exception should have been thrown").isEqualTo(1);
-        assertThat(MonitorFactory.getMonitor(OpenMon.EXCEPTION_LABEL, "Exception").getHits()). describedAs("One exception should have been thrown").isEqualTo(1);
+        assertThat(MonitorFactory.getMonitor(OpenMon.EXCEPTION_LABEL, "Exception").getHits()).describedAs("One exception should have been thrown").isEqualTo(1);
 
         Map<Throwable, AutomonExpirable> map = openMon.getExceptionsMap();
         assertThat(map.get(SharedConstants.EXCEPTION).getThrowable()).describedAs("Throwable should have been set").isEqualTo(SharedConstants.EXCEPTION);

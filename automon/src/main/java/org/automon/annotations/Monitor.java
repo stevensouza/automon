@@ -15,6 +15,6 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD})
-public @interface  Monitor {
+public @interface Monitor {
 
 }

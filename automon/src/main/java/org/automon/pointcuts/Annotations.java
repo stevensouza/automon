@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Pointcut;
  * This model can also be followed to have automon recognize any other annotation.
  *
  * <p>
- *     Note @annotation(..) applies to method annotations, and @within(..) or within(@..) apply to class annotations.
+ * Note @annotation(..) applies to method annotations, and @within(..) or within(@..) apply to class annotations.
  * </p>
  */
 @Aspect
@@ -40,10 +40,10 @@ public abstract class Annotations {
     }
 
     @Pointcut(
-            "within(@javax.ejb.Stateless *)     || @annotation(javax.ejb.Stateless) || "+
-            "within(@javax.ejb.Stateful *)      || @annotation(javax.ejb.Stateful) || "+
-            "within(@javax.ejb.MessageDriven *) || @annotation(javax.ejb.MessageDriven) || "+
-            "within(@javax.ejb.Singleton *)     || @annotation(javax.ejb.Singleton)"
+            "within(@javax.ejb.Stateless *)     || @annotation(javax.ejb.Stateless) || " +
+                    "within(@javax.ejb.Stateful *)      || @annotation(javax.ejb.Stateful) || " +
+                    "within(@javax.ejb.MessageDriven *) || @annotation(javax.ejb.MessageDriven) || " +
+                    "within(@javax.ejb.Singleton *)     || @annotation(javax.ejb.Singleton)"
     )
     public void ejb() {
     }
@@ -60,11 +60,11 @@ public abstract class Annotations {
      * GET, PUT, POST, DELETE and HEAD specify the HTTP request type of a resource.  They are applied to methods.
      */
     @Pointcut(
-            "@annotation(javax.ws.rs.GET) || "+
-            "@annotation(javax.ws.rs.PUT) || "+
-            "@annotation(javax.ws.rs.POST) || "+
-            "@annotation(javax.ws.rs.DELETE) || "+
-            "@annotation(javax.ws.rs.HEAD)"
+            "@annotation(javax.ws.rs.GET) || " +
+                    "@annotation(javax.ws.rs.PUT) || " +
+                    "@annotation(javax.ws.rs.POST) || " +
+                    "@annotation(javax.ws.rs.DELETE) || " +
+                    "@annotation(javax.ws.rs.HEAD)"
     )
     public void jaxrs() {
     }
@@ -73,9 +73,9 @@ public abstract class Annotations {
      * Pointcut for jpa entities
      */
     @Pointcut(
-            "within(@javax.persistence.Entity *) || "+
-            "within(@javax.persistence.MappedSuperclass *) || "+
-            "within(@javax.persistence.Embeddable *)"
+            "within(@javax.persistence.Entity *) || " +
+                    "within(@javax.persistence.MappedSuperclass *) || " +
+                    "within(@javax.persistence.Embeddable *)"
     )
     public void jpa() {
     }

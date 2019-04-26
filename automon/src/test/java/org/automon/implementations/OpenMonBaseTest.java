@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class OpenMonBaseTest {
-     OpenMonBase openMon = new OpenMonBase() {
+    OpenMonBase openMon = new OpenMonBase() {
         @Override
         public Object start(JoinPoint.StaticPart jp) {
             return null;

@@ -55,7 +55,7 @@ public class UtilsTest {
     public void testArgNameValuePairs_ArgValueNoArgName_multiple() throws Exception {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve",  "1: 20");
+        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve", "1: 20");
     }
 
     @Test
@@ -93,8 +93,8 @@ public class UtilsTest {
         assertThat(Utils.toStringWithLimit(null)).isEqualTo(Utils.NULL_STR);
         assertThat(Utils.toStringWithLimit("hi")).describedAs("Normal length string").isEqualTo("hi");
         StringBuilder sb = new StringBuilder();
-        int SIZE=1000;
-        for (int i=0;i<SIZE;i++) {
+        int SIZE = 1000;
+        for (int i = 0; i < SIZE; i++) {
             sb.append("A");
         }
         assertThat(Utils.toStringWithLimit(sb.toString()).length()).describedAs("Long strings should be truncated").isLessThan(SIZE);
@@ -112,9 +112,9 @@ public class UtilsTest {
     @Test
     public void testTokenize() throws Exception {
         String[] array = Utils.tokenize("com.jamonapi.MonitorFactory", "[.]");
-        assertThat(array).containsExactly("com","jamonapi","MonitorFactory");
+        assertThat(array).containsExactly("com", "jamonapi", "MonitorFactory");
         array = Utils.tokenize("jamon , javasimon", ",");
-        assertThat(array).containsExactly("jamon","javasimon");
+        assertThat(array).containsExactly("jamon", "javasimon");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class UtilsTest {
         list.add("com.mypackage1.MyClass1");
         list.add("com.mypackage1.MyClass2");
         Utils.removeClassNames(list);
-        assertThat(list).containsExactly("MyClass1","MyClass2");
+        assertThat(list).containsExactly("MyClass1", "MyClass2");
     }
 
     @Test
@@ -161,9 +161,8 @@ public class UtilsTest {
         str = Utils.createFirst("i.do.not.Exist1", "i.do.not.Exist2");
         assertThat(str).isNull();
     }
-    
+
     /**
-     *  
      * Test of start method, of class StatsD.
      */
     @Test
@@ -177,6 +176,6 @@ public class UtilsTest {
         String plainException = "java.lang.Exception";
         assertThat(Utils.formatExceptionForToolsWithLimitedCharacterSet(plainException)).describedAs("Nonsql exceptions should have no change").isEqualTo(plainException);
     }
-     
+
 
 }

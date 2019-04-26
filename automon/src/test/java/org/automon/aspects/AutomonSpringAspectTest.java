@@ -1,19 +1,18 @@
 package org.automon.aspects;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.implementations.Jamon;
 import org.automon.implementations.OpenMon;
+import org.automon.implementations.OpenMonFactory;
+import org.automon.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.automon.implementations.Jamon;
-import org.automon.implementations.OpenMonFactory;
-import org.automon.utils.Utils;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 public class AutomonSpringAspectTest {
 
@@ -21,11 +20,12 @@ public class AutomonSpringAspectTest {
     private OpenMon openMon = mock(OpenMon.class);
 
     private ApplicationContext context;
+
     @Before
     public void setUp() throws Exception {
         context = new ClassPathXmlApplicationContext("applicationContext.xml");
         AutomonSpringAspect aspect = context.getBean("automonSpringAspect", AutomonSpringAspect.class);
-        aspect.setOpenMon(openMon);        
+        aspect.setOpenMon(openMon);
     }
 
     @After
@@ -38,9 +38,9 @@ public class AutomonSpringAspectTest {
         HelloWorld monitorMe = context.getBean("monitorMe", HelloWorld.class);
         Object START_CONTEXT = new Object();
         when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);
-        
+
         monitorMe.getString();
-        
+
         verify(openMon).start(any(JoinPoint.StaticPart.class));
         verify(openMon).stop(START_CONTEXT);
     }

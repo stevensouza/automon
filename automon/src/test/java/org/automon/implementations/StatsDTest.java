@@ -5,20 +5,18 @@
  */
 package org.automon.implementations;
 
-import org.junit.Test;
-
-
-import static org.assertj.core.api.Assertions.assertThat;
 import org.automon.utils.AutomonPropertiesLoader;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- *
  * @author stevesouza
  */
 public class StatsDTest {
-    
+
     private StatsD statsd;
 
     @Before
@@ -28,8 +26,8 @@ public class StatsDTest {
 
     @After
     public void tearDown() throws Exception {
-        if (statsd!=null) {
-          statsd.close();
+        if (statsd != null) {
+            statsd.close();
         }
     }
 
@@ -41,8 +39,8 @@ public class StatsDTest {
         assertThat(loader.getHostName()).describedAs("StatsD hostname default is not correct").isEqualTo(StatsD.StatsDPropsLoader.HOSTNAME_VALUE);
         assertThat(loader.getPort()).describedAs("StatsD port default is not correct").isEqualTo(Integer.parseInt(StatsD.StatsDPropsLoader.PORT_VALUE));
     }
-    
-        @Test
+
+    @Test
     public void testPopulatePropertiesFromConfigFile() {
         StatsD.StatsDPropsLoader loader = new StatsD.StatsDPropsLoader(new AutomonPropertiesLoader("automon.xml"));
         assertThat(loader.getPrefix()).describedAs("StatsD Prefix from config file is not correct").isEqualTo("mytestprefix");

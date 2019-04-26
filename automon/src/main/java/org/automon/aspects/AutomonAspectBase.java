@@ -1,20 +1,20 @@
-
 package org.automon.aspects;
 
-import java.util.Properties;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
 import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 
+import java.util.Properties;
+
 /**
  * <p>Base class used in all aspects. Contains automon implementations and registers Automon
  * with jmx</p>
  */
 
-public  class AutomonAspectBase  {
-    
+public class AutomonAspectBase {
+
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
     private AutomonMXBean automonJmx = new AutomonJmx(this);
@@ -41,14 +41,20 @@ public  class AutomonAspectBase  {
         return !(openMon instanceof NullImp);
     }
 
-    /** Retrieve current monitoring implementation
-     * @return  */
+    /**
+     * Retrieve current monitoring implementation
+     *
+     * @return
+     */
     public OpenMon getOpenMon() {
         return openMon;
     }
 
-    /** Set monitoring implementation such as JAMon, Metrics, or JavaSimon
-     * @param openMon */
+    /**
+     * Set monitoring implementation such as JAMon, Metrics, or JavaSimon
+     *
+     * @param openMon
+     */
     public void setOpenMon(OpenMon openMon) {
         this.openMon = openMon;
     }
@@ -62,7 +68,7 @@ public  class AutomonAspectBase  {
      * @param openMonKey Something like jamon, metrics, javasimon
      */
     public void setOpenMon(String openMonKey) {
-        if (openMonKey==null || openMonKey.trim().equals("")) {
+        if (openMonKey == null || openMonKey.trim().equals("")) {
             this.openMon = factory.getFirstInstance();
         } else {
             this.openMon = factory.getInstance(openMonKey);

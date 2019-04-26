@@ -8,7 +8,6 @@ import java.util.Properties;
  * Next look for system properties passed to the command line: (-DdistributedDataRefreshRateInMinutes=10).
  * These take precedence over the file.  If properties aren't in the file or passed in via the command line
  * then use defaults.
- *
  */
 public class AutomonPropertiesLoader {
 
@@ -17,14 +16,14 @@ public class AutomonPropertiesLoader {
     private Properties automonProps;
 
     // AspectJ property that specifies the xml config file used by AspectJ
-    private static final String ASPECTJ_CONFIG_FILE="org.aspectj.weaver.loadtime.configuration";
-    private static final String DEFAULT_PROPS_CONFIG_FILE="automon.properties";
-    private static final String DEFAULT_XML_CONFIG_FILE1="ajc-aop.xml";
-    private static final String DEFAULT_XML_CONFIG_FILE2="aop.xml";
+    private static final String ASPECTJ_CONFIG_FILE = "org.aspectj.weaver.loadtime.configuration";
+    private static final String DEFAULT_PROPS_CONFIG_FILE = "automon.properties";
+    private static final String DEFAULT_XML_CONFIG_FILE1 = "ajc-aop.xml";
+    private static final String DEFAULT_XML_CONFIG_FILE2 = "aop.xml";
 
-    public static final String CONFIGURED_OPEN_MON  = "org.automon";
+    public static final String CONFIGURED_OPEN_MON = "org.automon";
 
-    private boolean configFileFound=false;
+    private boolean configFileFound = false;
 
     // Simply gets system properties but put in class so it can be mocked in a test.
     SysProperty sysProperty = new SysProperty();
@@ -34,7 +33,6 @@ public class AutomonPropertiesLoader {
     }
 
     /**
-     *
      * @param fileNames list of file names to look for config properties in.  They are checked in order.  If none are found defaults are used.
      */
     public AutomonPropertiesLoader(String... fileNames) {
@@ -47,8 +45,8 @@ public class AutomonPropertiesLoader {
     }
 
 
-
-    /** Using logic documented in the class comments load properties.  Note it can't fail as in the worst case
+    /**
+     * Using logic documented in the class comments load properties.  Note it can't fail as in the worst case
      * it loads defaults.
      *
      * @return default properties and/or any properties passed in by the user
@@ -88,19 +86,19 @@ public class AutomonPropertiesLoader {
 
 
     // Try to load the fileName to see if it is there and has properties.
-    private Properties propertyLoader(String fileName)  {
+    private Properties propertyLoader(String fileName) {
         Properties properties = new Properties();
         InputStream input = null;
         try {
             // command line aop.xml file
             input = getConfigFileInputStream(fileName);
-            if (input!=null) {
+            if (input != null) {
                 properties.load(input);
                 configFileFound = true;
             }
         } catch (Throwable t) {
             // want to ignore exception and proceed with loading with CLI props or defaults.
-        } finally{
+        } finally {
             close(input);
         }
 
@@ -119,20 +117,24 @@ public class AutomonPropertiesLoader {
 
     void close(InputStream input) {
         try {
-          if (input!=null) {
-            input.close();
-           }
+            if (input != null) {
+                input.close();
+            }
         } catch (Throwable t) {
 
         }
     }
 
-    /** Use any properties that were passed in at the command line or defined at the OS */
-    private  void replaceWithSystemProps(Properties properties) {
+    /**
+     * Use any properties that were passed in at the command line or defined at the OS
+     */
+    private void replaceWithSystemProps(Properties properties) {
         properties.putAll(sysProperty.getProperties());
     }
 
-    /** Defaults used if no config file is found */
+    /**
+     * Defaults used if no config file is found
+     */
     Properties getDefaults() {
         Properties defaults = new Properties();
         defaults.put(CONFIGURED_OPEN_MON, EMPTY_DEFAULT_OPEN_MON);
@@ -143,7 +145,7 @@ public class AutomonPropertiesLoader {
         public String getProperty(String key) {
             return System.getProperty(key);
         }
-        
+
         public Properties getProperties() {
             return System.getProperties();
         }

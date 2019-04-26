@@ -4,7 +4,7 @@ package org.automon.pointcuts;
 import org.automon.annotations.Monitor;
 
 /**
- *  Test class that is advised to see if aspects are working properly
+ * Test class that is advised to see if aspects are working properly
  */
 @Monitor
 public class AutomonAnnotatedClass {

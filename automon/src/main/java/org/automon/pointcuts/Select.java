@@ -10,12 +10,13 @@ import org.aspectj.lang.annotation.Pointcut;
  *
  * <p>Note remember that this interface extends {@link org.automon.pointcuts.SpringSelect} and so also has all of the available
  * pointcuts in that interface.</p>
- *
  */
 @Aspect
 public abstract class Select extends SpringSelect {
 
-    /** Note this should cover everything.  I had problems with jdk 1.8 if I also included preinitialization so I got rid of this one */
+    /**
+     * Note this should cover everything.  I had problems with jdk 1.8 if I also included preinitialization so I got rid of this one
+     */
     @Pointcut("!preinitialization(*.new(..))")
     public void all() {
 
@@ -54,7 +55,8 @@ public abstract class Select extends SpringSelect {
 
     }
 
-    /** Field set pointcuts
+    /**
+     * Field set pointcuts
      */
 
     @Pointcut("set(* *.*)")
@@ -82,7 +84,8 @@ public abstract class Select extends SpringSelect {
 
     }
 
-    /** Field get pointcuts
+    /**
+     * Field get pointcuts
      */
 
     @Pointcut("get(* *.*)")

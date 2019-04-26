@@ -8,8 +8,8 @@ public class TimeExpirable implements Expirable {
 
     // Any exceptions in the map older than this will be removed when a 'put' is called.
     private static int DEFAULT_EXPIRATION_INTERVAL_IN_MINUTES = 2;
-    private static long SECS_PER_MINUTE=60;
-    private static long MS_PER_SEC=1000;
+    private static long SECS_PER_MINUTE = 60;
+    private static long MS_PER_SEC = 1000;
 
     private long creationTime; // when the object was created.
     private long expirationIntervalInMs; // how long in ms. until the object should expire
@@ -32,11 +32,11 @@ public class TimeExpirable implements Expirable {
 
     @Override
     public boolean isExpired() {
-        return (now.now()-creationTime)>=expirationIntervalInMs;
+        return (now.now() - creationTime) >= expirationIntervalInMs;
     }
 
     static long convertToMs(int expirationInternalInMinutes) {
-        return expirationInternalInMinutes*SECS_PER_MINUTE*MS_PER_SEC;
+        return expirationInternalInMinutes * SECS_PER_MINUTE * MS_PER_SEC;
     }
 
     private static class CurrentTimeMills implements Now {
@@ -47,7 +47,7 @@ public class TimeExpirable implements Expirable {
     }
 
     // used to facilitate testing with a mock.
-    public  interface Now {
+    public interface Now {
         public long now();
     }
 }

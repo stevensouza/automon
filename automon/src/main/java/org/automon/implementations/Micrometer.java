@@ -12,22 +12,21 @@ import java.util.concurrent.TimeUnit;
 /**
  * {@link org.automon.implementations.OpenMon} implementation that https://micrometer.io to time methods, and count exceptions.
  * Note micrometer is a wrapper for many underlying monitoring api's.  It is also the default monitoring api of Spring.
- *
+ * <p>
  * To have this object share the same MeterRegistry as spring simply access it MetricRegistry via @Autowired and then call
  * this classes Micrometer.setMeterRegistry(springMeterRegistry) with Springs value. Example:
  *
- *     @Autowired
- *     public MetricsController(MeterRegistry registry) {
- *         Micrometer.setMeterRegistry(registry);
- *     }
- *
+ * @Autowired public MetricsController(MeterRegistry registry) {
+ * Micrometer.setMeterRegistry(registry);
+ * }
+ * <p>
  * # For spring see see data at http://localhost:8080/actuator/metrics
  * # or you can look at an individual metric like this
- *
+ * <p>
  * #  http://localhost:8080/actuator/metrics/execution(int org.tempuri.AddResponse.getAddResult())
  * #    or
  * #  http://localhost:8080/actuator/metrics/execution(int%20org.tempuri.AddResponse.getAddResult())
- *
+ * <p>
  * To enable this class for monitoring put the following in automon.properties
  * #org.automon=micrometer
  */

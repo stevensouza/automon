@@ -1,7 +1,7 @@
 package org.automon.aspects;
 
 /**
- *  Test class that is advised to see if aspects are working properly
+ * Test class that is advised to see if aspects are working properly
  */
 public class HiWorld {
     public String hello() {

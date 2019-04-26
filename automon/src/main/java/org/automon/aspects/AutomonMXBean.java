@@ -1,7 +1,6 @@
 package org.automon.aspects;
 
 
-
 /**
  * Jmx bean that allows AutomonAspect to be configured from a jmx console like visualvm, or jconsole
  */
@@ -22,13 +21,11 @@ public interface AutomonMXBean {
     public void setOpenMon(String openMon);
 
     /**
-     *
      * @return The current {@link org.automon.implementations.OpenMon}.
      */
     public String getOpenMon();
 
     /**
-     *
      * @return A list of all registered {@link org.automon.implementations.OpenMon}'s.
      * Values here can be used in {@link org.automon.aspects.AutomonMXBean#setOpenMon(String)}
      */

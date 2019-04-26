@@ -78,7 +78,7 @@ public class AutomonAspectTest {
     public void testMonitorExceptions() throws Throwable {
         Object START_CONTEXT = new Object();
         when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);
-  
+
         HiWorld hi = new HiWorld();
         try {
             hi.myException(exception);
@@ -115,15 +115,16 @@ public class AutomonAspectTest {
     }
 
 
-    /** Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
+    /**
+     * Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
      * would run before ajc, and so any 'aspect' classes wouldn't be available when the tests were run.  Using @Aspect let javac compile them.
      * This is also good as it shows java developers how to inherit from the aspects.
-     *
+     * <p>
      * Note2: The @Override annotation was not used below as it will not compile with ajc.
-     *
+     * <p>
      * Note3: I also couldn't think of a way to disable all monitoring without the following pointcuts
-     *  Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
-     *  warning that there was no match.
+     * Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
+     * warning that there was no match.
      */
     @Aspect
     static class MyInheritedAutomonAspect extends AutomonAspect {

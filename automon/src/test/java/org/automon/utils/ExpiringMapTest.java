@@ -42,7 +42,7 @@ public class ExpiringMapTest {
     }
 
     @Test
-         public void testRemove_None() throws Exception {
+    public void testRemove_None() throws Exception {
         ExpiringMap<String, Expirable> map = new ExpiringMap<String, Expirable>();
         Expirable object1 = mock(Expirable.class);
         when(object1.isExpired()).thenReturn(false);
@@ -57,10 +57,10 @@ public class ExpiringMapTest {
     @Test
     public void testRemove_Expired() throws Exception {
         ExpiringMap<String, Expirable> map = new ExpiringMap<String, Expirable>();
-        Expirable object1  = mock(Expirable.class);
-        Expirable object2  = mock(Expirable.class);
-        Expirable object3  = mock(Expirable.class);
-        Expirable object4  = mock(Expirable.class);
+        Expirable object1 = mock(Expirable.class);
+        Expirable object2 = mock(Expirable.class);
+        Expirable object3 = mock(Expirable.class);
+        Expirable object4 = mock(Expirable.class);
 
         when(object1.isExpired()).thenReturn(false);
         when(object2.isExpired()).thenReturn(false);
