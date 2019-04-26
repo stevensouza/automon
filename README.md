@@ -7,7 +7,7 @@ Automon combines the power of AOP (AspectJ) with monitoring tools  or logging to
 
 Some monitoring tools Automon currently works with are: JAMon, JavaSimon, Yammer Metrics, StatsD, Micrometer. Here are the current [implementations](https://github.com/stevensouza/automon/tree/master/automon/src/main/java/org/automon/implementations). If automon doesn't support your tool of intrest it can usually be supported by adding a simple class.
 
-Note through [Micrometer](https://micrometer.io/docs) you can also monitor with a number of other monitoring/metering APIs.  As of 5/2019 this includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront. 
+Note: Through [Micrometer](https://micrometer.io/docs) you can also monitor with a number of other monitoring/metering APIs.  As of 5/2019 this includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront. 
 
 **Automon is typically used to track method invocation time, and exception counts.** It is very easy to set-up and you should
 be able to start monitoring your code within minutes.  The data will be stored and displayed using the monitoring tool of your choice. The following image shows the type of data Automon collects (The example below displays the data in JAMon, however the data can be displayed in whatever monitoring tool/api you choose.  For example here is same data displayed in [grahphite/StatsD](https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png)).
