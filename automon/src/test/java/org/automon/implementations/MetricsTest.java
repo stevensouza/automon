@@ -19,11 +19,13 @@ public class MetricsTest {
 
     @Before
     public void setUp() throws Exception {
+        Metrics.setMetricRegistry(new MetricRegistry());
         JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart .class);
         when(staticPart.toString()).thenReturn(SharedConstants.LABEL);
     }
     @After
     public void tearDown() throws Exception {
+        Metrics.setMetricRegistry(new MetricRegistry());
     }
 
     @Test
@@ -60,8 +62,8 @@ public class MetricsTest {
     @Test
     public void setMetricRegistry() throws Exception {
         MetricRegistry newMetricRegistry = new MetricRegistry();
-        openMon.setMetricRegistry(newMetricRegistry);
-        assertThat(openMon.getMetricRegistry()).isEqualTo(newMetricRegistry);
+        Metrics.setMetricRegistry(newMetricRegistry);
+        assertThat(Metrics.getMetricRegistry()).isEqualTo(newMetricRegistry);
     }
 
 }

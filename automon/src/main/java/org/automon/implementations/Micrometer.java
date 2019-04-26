@@ -12,6 +12,24 @@ import java.util.concurrent.TimeUnit;
 /**
  * {@link org.automon.implementations.OpenMon} implementation that https://micrometer.io to time methods, and count exceptions.
  * Note micrometer is a wrapper for many underlying monitoring api's.  It is also the default monitoring api of Spring.
+ *
+ * To have this object share the same MeterRegistry as spring simply access it MetricRegistry via @Autowired and then call
+ * this classes Micrometer.setMeterRegistry(springMeterRegistry) with Springs value. Example:
+ *
+ *     @Autowired
+ *     public MetricsController(MeterRegistry registry) {
+ *         Micrometer.setMeterRegistry(registry);
+ *     }
+ *
+ * # For spring see see data at http://localhost:8080/actuator/metrics
+ * # or you can look at an individual metric like this
+ *
+ * #  http://localhost:8080/actuator/metrics/execution(int org.tempuri.AddResponse.getAddResult())
+ * #    or
+ * #  http://localhost:8080/actuator/metrics/execution(int%20org.tempuri.AddResponse.getAddResult())
+ *
+ * To enable this class for monitoring put the following in automon.properties
+ * #org.automon=micrometer
  */
 public class Micrometer extends OpenMonBase<TimerContext> {
 
@@ -43,7 +61,7 @@ public class Micrometer extends OpenMonBase<TimerContext> {
      */
     protected Timer getTimer(String methodName) {
         return Timer.builder(methodName)
-                .tag("automon.method", "org.automon.Method")
+                .tag("automon", "method")
                 .description("automon.org method timer")
                 .register(registry);
     }
@@ -56,7 +74,7 @@ public class Micrometer extends OpenMonBase<TimerContext> {
      */
     protected Counter getCounter(String exceptionName) {
         return Counter.builder(exceptionName)
-                .tag("automon.exception", EXCEPTION_LABEL)
+                .tag("automon", "exception")
                 .description("automon.org exception counter")
                 .register(registry);
     }
