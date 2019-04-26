@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.automon</groupId>
     <artifactId>automon_parent</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
 
   <groupId>org.automon</groupId>
   <artifactId>spring_woven</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>spring_woven</name>
 
