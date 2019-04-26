@@ -100,7 +100,7 @@ Incorporate Automon into your maven project by adding the following dependency (
       <dependency>
           <groupId>org.automon</groupId>
           <artifactId>automon</artifactId>
-          <version>1.0.2</version>
+          <version>1.0.3</version>
       </dependency>
 ```
 
