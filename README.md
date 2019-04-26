@@ -1,10 +1,13 @@
 # Automon
-Automon combines the power of AOP (AspectJ) with monitoring tools (JAMon, JavaSimon, Yammer Metrics, StatsD, ...) or logging tools
-(perf4j, log4j, sl4j, ...) that you already use to declaratively monitor the following:
+Automon combines the power of AOP (AspectJ) with monitoring tools  or logging tools that you already use to declaratively monitor the following:
 
 * Your Java code,
 * The JDK,
-* Any jars used by your application
+* Any jars used by your application. 
+
+Some monitoring tools Automon currently works with are: JAMon, JavaSimon, Yammer Metrics, StatsD, Micrometer. Note through [Micrometer](https://micrometer.io/docs) you can also monitor with a number of other monitoring/metering APIs.  As of 5/2019 this includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront. 
+
+If automon doesn't support your tool of intrest it can usually be supported by adding a simple class.
 
 **Automon is typically used to track method invocation time, and exception counts.** It is very easy to set-up and you should
 be able to start monitoring your code within minutes.  The data will be stored and displayed using the monitoring tool of your choice. The following image shows the type of data Automon collects (The example below displays the data in JAMon, however the data can be displayed in whatever monitoring tool/api you choose.  For example here is same data displayed in [grahphite/StatsD](https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png)).
@@ -13,7 +16,7 @@ be able to start monitoring your code within minutes.  The data will be stored a
 
 **The following is a sample command that will monitor your program with Automon** (in this case using JAMon):
 * java  -Dorg.aspectj.weaver.loadtime.configuration=file:aop.xml -javaagent:aspectjweaver.jar -classpath automon-{version}.jar:myapplication.jar:jamon-2.81.jar com.mypackage.MyClass
-* Running with Yammer Metrics, StatsD, JavaSimon etc. you would simply use their respective jars instead of the JAMon jar
+* Running with Micrometer, Yammer Metrics, StatsD, JavaSimon etc. you would simply use their respective jars instead of the JAMon jar
 * aop.xml (AspectJ file) is where you define what parts of your program you want monitored (through 'pointcuts'). It is often quite simple.
     * Here is a sample pointcut monitoring all methods in all classes in package 'com.stevesouza':  `<pointcut name="profile" expression="within(com.stevesouza..*)"/>`
     * And a full AOP config file [Example monitoring JDK classes (JDBC, IO, Net packages), and custom classes:]( https://github.com/stevensouza/automon/blob/master/examples/config/automon-aop.xml)
