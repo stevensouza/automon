@@ -84,8 +84,8 @@ in a web container like Tomcat or Jetty. It monitors calls to the jdk (jdbc, io,
 * [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) - A simple project that
 has a dependency on Automon and a simple jar that contains a HelloWorld application.  The output of this project is a jar
   that contains AspectJ BTW woven code.
-* [spring_woven](https://github.com/stevensouza/automon/tree/master/spring_woven) - This project shows how you can weave a Spring
-project at build time.
+* [spring_woven](https://github.com/stevensouza/automon/tree/master/spring_woven) - This project shows how you can weave a Spring project at build time.
+* Another example using [Spring woven and Apache Camel](https://github.com/stevensouza/camel).  See the comments for camel_experiment6_soap.
 
 The [examples](https://github.com/stevensouza/automon/tree/master/examples) directory has scripts (*.sh) to run these programs.
 
