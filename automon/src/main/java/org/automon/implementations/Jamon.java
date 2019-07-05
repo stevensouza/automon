@@ -29,9 +29,26 @@ public class Jamon extends OpenMonBase<Monitor> {
     @Override
     public void stop(Monitor mon, Throwable throwable) {
         mon.stop();
-        put(throwable);
+        // NOT sure put(throwable) is needed. note what i would like to do is pass in a standard object wrapper that
+        // can be serialized so when it's toString method is called the more upated argumentslist verrsion of toString is called.
+        // all objects i have seen have implementations of toString that add data. i.e. {}, [], key=, value=
+        // tried entryset, list, map, set, eventobject
+
+        // THIS SHOULD DO IT...
+        /*
+                AtomicReference<String> ar=new AtomicReference<>("steve");
+                        System.out.println(ar);
+        ar.set("souza");
+        System.out.println(ar);
+
+         */
+        //put(throwable);
         // note the following 'get' always succeeds because of the above 'put'
-        mon.getMonKey().setDetails(get(throwable));
+        // don't want to use AutoExpirable so could either do string or throwable. if
+        // argnames and values are set then use AutoExpirable.toString.  if not use
+        // throwable. note can't depend in a clustered environment for AutoExpirable being
+        // on all clusters so can't serialize that.
+        mon.getMonKey().setDetails(throwable);
     }
 
     @Override
@@ -48,9 +65,10 @@ public class Jamon extends OpenMonBase<Monitor> {
         AutomonExpirable exceptionContext = populateArgNamesAndValues_InExceptionContext(jp, throwable);
         // Multiple monitors are tracked for the exception such as one of the specific exception and one that represents
         // all exceptions.
+        String exceptionContextStr = exceptionContext.toString();
         List<String> labels = getLabels(throwable);
         for (String label : labels) {
-            MonKey key = new MonKeyImp(label, exceptionContext, "Exception");
+            MonKey key = new MonKeyImp(label, exceptionContextStr, "Exception");
             MonitorFactory.add(key, 1);
         }
     }
@@ -71,5 +89,6 @@ public class Jamon extends OpenMonBase<Monitor> {
 
         return exceptionContext;
     }
+
 
 }
