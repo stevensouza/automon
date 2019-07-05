@@ -15,7 +15,7 @@ public class HelloWorld {
         return "Souza";
     }
 
-    public void iMessedUp() {
+    public void iMessedUp(String firstName, String lastName) {
         throw new RuntimeException("I really did it this time!");
     }
 
@@ -27,7 +27,7 @@ public class HelloWorld {
             System.out.println("      ** "+getFirstName());
             System.out.println("      ** "+getLastName());
             try {
-                iMessedUp();
+                iMessedUp("Steve", "Souza");
             } catch (RuntimeException exception) {
                 // hidden exception
             }

@@ -21,12 +21,12 @@ public class MyServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request,
             HttpServletResponse response)
-                    throws ServletException, IOException {
+                    throws IOException {
         HelloWorld helloWorld = new HelloWorld();
         PrintWriter out = response.getWriter();
         out.println("Hello World & "+helloWorld.getFirstName()+" "+helloWorld.getLastName());
         try {
-            helloWorld.iMessedUp();
+            helloWorld.iMessedUp("Steve","Souza");
         } catch (Exception exception) {
             // hidden exception
         }
