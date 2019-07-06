@@ -29,27 +29,19 @@ public class Jamon extends OpenMonBase<Monitor> {
     @Override
     public void stop(Monitor mon, Throwable throwable) {
         mon.stop();
-        // NOT sure put(throwable) is needed. note what i would like to do is pass in a standard object wrapper that
-        // can be serialized so when it's toString method is called the more upated argumentslist verrsion of toString is called.
-        // all objects i have seen have implementations of toString that add data. i.e. {}, [], key=, value=
-        // tried entryset, list, map, set, eventobject
-
-        // THIS SHOULD DO IT...
-        /*
-                AtomicReference<String> ar=new AtomicReference<>("steve");
-                        System.out.println(ar);
-        ar.set("souza");
-        System.out.println(ar);
-
-         */
-        //put(throwable);
+        put(throwable);
         // note the following 'get' always succeeds because of the above 'put'
-        // don't want to use AutoExpirable so could either do string or throwable. if
-        // argnames and values are set then use AutoExpirable.toString.  if not use
-        // throwable. note can't depend in a clustered environment for AutoExpirable being
-        // on all clusters so can't serialize that.
-        mon.getMonKey().setDetails(throwable);
+        // Note the jamonDetails MUST be serializable and contain classes not in a library
+        // but available in the jdk.  This is becuase there is no guarantee all servers in the
+        // jamon cluster have for example AutoMon available for deserialization of the
+        // MonitorComposite object.  In the following case we are saving an AtomicReference that
+        // contains a Throwable. Both of these classes are Serializable and in the jdk.
+        // Note if exception tracking is enabled then this stack trace will be overridden with a
+        // string version of the stack trace AND any variables and values passed to the method
+        // in the traceException method below as it is called after this method.
+        mon.getMonKey().setDetails(get(throwable).setJamonDetails(throwable));
     }
+
 
     @Override
     public void exception(JoinPoint jp, Throwable throwable) {
@@ -62,13 +54,12 @@ public class Jamon extends OpenMonBase<Monitor> {
     // Return the AutomonExpirable just put in the map via the call to exception
     @Override
     protected void trackException(JoinPoint jp, Throwable throwable) {
-        AutomonExpirable exceptionContext = populateArgNamesAndValues_InExceptionContext(jp, throwable);
+        AutomonExpirable exceptionContext = populateExceptionContext(jp, throwable);
         // Multiple monitors are tracked for the exception such as one of the specific exception and one that represents
         // all exceptions.
-        String exceptionContextStr = exceptionContext.toString();
         List<String> labels = getLabels(throwable);
         for (String label : labels) {
-            MonKey key = new MonKeyImp(label, exceptionContextStr, "Exception");
+            MonKey key = new MonKeyImp(label, exceptionContext.getJamonDetails(), "Exception");
             MonitorFactory.add(key, 1);
         }
     }
@@ -81,10 +72,12 @@ public class Jamon extends OpenMonBase<Monitor> {
      * @param throwable
      * @return
      */
-    private AutomonExpirable populateArgNamesAndValues_InExceptionContext(JoinPoint jp, Throwable throwable) {
+    private AutomonExpirable populateExceptionContext(JoinPoint jp, Throwable throwable) {
         AutomonExpirable exceptionContext = get(throwable);
         if (exceptionContext.getArgNamesAndValues() == null) {
             exceptionContext.setArgNamesAndValues(Utils.getArgNameValuePairs(jp));
+            // note this will replace the jamon details of Throwable that was set in the stop method above.
+            exceptionContext.setJamonDetails(exceptionContext.toString());
         }
 
         return exceptionContext;

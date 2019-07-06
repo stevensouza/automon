@@ -54,6 +54,9 @@ public class JamonTest {
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(SharedConstants.LABEL);
         assertThat(mon.getActive()).describedAs("The monitor should not be running").isEqualTo(0);
         assertThat(mon.getHits()).describedAs("The monitor should have finished and recorded hits").isEqualTo(1);
+        Map<Throwable, AutomonExpirable> map = openMon.getExceptionsMap();
+        assertThat(map.size()).isEqualTo(1);
+        map.forEach((throwable,automonExpirable)->assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(RuntimeException.class));
     }
 
     @Test
@@ -66,6 +69,9 @@ public class JamonTest {
         Map<Throwable, AutomonExpirable> map = openMon.getExceptionsMap();
         assertThat(map.get(SharedConstants.EXCEPTION).getThrowable()).describedAs("Throwable should have been set").isEqualTo(SharedConstants.EXCEPTION);
         assertThat(map.get(SharedConstants.EXCEPTION).getArgNamesAndValues()).describedAs("Arg names and values should have been set").isNotNull();
+        assertThat(map.size()).isEqualTo(1);
+        map.forEach((throwable,automonExpirable)->assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(String.class));
+
     }
 
 }

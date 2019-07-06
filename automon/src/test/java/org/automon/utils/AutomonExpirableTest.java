@@ -2,8 +2,10 @@ package org.automon.utils;
 
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,6 +17,7 @@ public class AutomonExpirableTest {
         assertThat(expirable.getArgNamesAndValues()).isNull();
         assertThat(expirable.getThrowable()).isNull();
         assertThat(expirable.toString()).isNotNull();
+        assertThat(expirable.getJamonDetails()).isNotNull();
     }
 
     @Test
@@ -50,5 +53,18 @@ public class AutomonExpirableTest {
 
         assertThat(expirable.toString()).contains("fname: Steve");
         assertThat(expirable.toString()).contains("java.lang.RuntimeException: my exception", getClass().getName());
+    }
+
+    @Test
+    public void testJamonDetailsDefault() {
+        AutomonExpirable expirable = new AutomonExpirable();
+        assertThat(expirable.getJamonDetails()).isNotNull();
+    }
+
+    @Test
+    public void testJamonDetailsSet() {
+        AutomonExpirable expirable = new AutomonExpirable();
+        AtomicReference<Object> reference = expirable.setJamonDetails("steve");
+        assertThat(reference.get()).isEqualTo("steve");
     }
 }
