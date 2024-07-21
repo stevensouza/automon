@@ -39,22 +39,18 @@
         </plugin>
 
         <plugin>
+<!--            to run the specified class: mvn exec:exec-->
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
             <version>${mojo.execution.version}</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>exec</goal>
-                    </goals>
-
-                </execution>
-            </executions>
             <configuration>
-                <!-- generates class path with all dependencies as well as generated class -->
-                <commandlineArgs>100</commandlineArgs>
-                <classpathScope>runtime</classpathScope>
-                <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
+                <executable>java</executable>
+                <arguments>
+                    <argument>-classpath</argument>
+                    <classpath/>
+                    <argument>com.stevesouza.helloworld.HelloWorld</argument>
+                    <argument>5</argument>
+                </arguments>
             </configuration>
         </plugin>
 

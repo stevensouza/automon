@@ -19,29 +19,6 @@
     your Java code, the JDK, and dependent libraries.  This module generates the core automon aspect library.
   </description>
 
-  <properties>
-      <metrics.version>4.0.5</metrics.version>
-      <jamonapi.version>2.81</jamonapi.version>
-      <javasimon.version>4.1.4</javasimon.version>
-      <assertj.version>3.12.2</assertj.version>
-      <aspectj.version>1.9.3</aspectj.version>
-      <mojo.ajc.version>1.7</mojo.ajc.version>
-      <mojo.execution.version>1.3.2</mojo.execution.version>
-      <mockito.version>1.10.19</mockito.version>
-      <junit.version>4.13.1</junit.version>
-      <perf4j.version>0.9.16</perf4j.version>
-      <newrelic.version>5.0.0</newrelic.version>
-      <ejb.version>3.2.2</ejb.version>
-      <spring.version>5.1.6.RELEASE</spring.version>
-      <spring.aop.version>1.9.3</spring.aop.version>
-      <jaxrs.version>2.1.1</jaxrs.version>
-      <jpa.version>1.0.1.Final</jpa.version>
-      <statsd.version>3.1.0</statsd.version>
-      <micrometer.version>1.1.4</micrometer.version>
-      <maven.compiler.source>1.8</maven.compiler.source>
-      <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -88,7 +65,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>${surefire.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -102,13 +79,13 @@
         <version>${assertj.version}</version>
         <scope>test</scope>
     </dependency>
-
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-        <version>${mockito.version}</version>
-        <scope>test</scope>
-    </dependency>
+      <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>${mockito.version}</version>
+          <scope>test</scope>
+      </dependency>
 
     <dependency>
         <groupId>junit</groupId>
