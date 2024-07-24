@@ -84,7 +84,8 @@
         <newrelic.version>8.13.0</newrelic.version>
 <!--        latest is 4.0.1 but should i support? also they changed the maven repo for it -->
         <ejb.version>3.2.2</ejb.version>
-        <spring.version>5.1.6.RELEASE</spring.version>
+<!--        6.1.10 needs java 17-->
+        <spring.version>5.3.37</spring.version>
         <spring.aop.version>1.9.3</spring.aop.version>
 <!--        moved.  do i need to support?-->
         <jaxrs.version>2.1.1</jaxrs.version>
