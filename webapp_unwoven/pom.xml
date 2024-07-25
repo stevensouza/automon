@@ -8,7 +8,6 @@
         <version>1.0.4-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.automon</groupId>
     <artifactId>webapp_unwoven</artifactId>
     <version>1.0.4-SNAPSHOT</version>
     <packaging>war</packaging>

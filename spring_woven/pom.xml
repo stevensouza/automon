@@ -8,7 +8,6 @@
     <version>1.0.4-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.automon</groupId>
   <artifactId>spring_woven</artifactId>
   <version>1.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>

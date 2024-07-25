@@ -9,7 +9,6 @@
     <version>1.0.4-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.automon</groupId>
   <artifactId>unwoven_jdk</artifactId>
   <version>1.0.4-SNAPSHOT</version>
   <packaging>jar</packaging>

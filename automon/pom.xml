@@ -1,198 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.automon</groupId>
-    <artifactId>automon_parent</artifactId>
+    <parent>
+        <groupId>org.automon</groupId>
+        <artifactId>automon_parent</artifactId>
+        <version>1.0.4-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>automon</artifactId>
     <version>1.0.4-SNAPSHOT</version>
-  </parent>
-
-  <groupId>org.automon</groupId>
-  <artifactId>automon</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>automon</name>
-  <description>Automon combines the power of AOP (AspectJ) with any monitoring or logging tools you already use to declaratively monitor
-    your Java code, the JDK, and dependent libraries.  This module generates the core automon aspect library.
-  </description>
+    <packaging>jar</packaging>
+    <name>automon</name>
+    <description>Automon combines the power of AOP (AspectJ) with any monitoring or logging tools you already use to
+        declaratively monitor your Java code, the JDK, and dependent libraries. This module generates the core automon
+        aspect library.
+    </description>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
+                <groupId>dev.aspectj</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>${mojo.ajc.version}</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <complianceLevel>${jdk.version}</complianceLevel>
-                    <!-- generates META-INF/aop-ajc.xml file and puts it in jar.  Recommended for aspectj libraries. -->
-                    <outxml>true</outxml>
-                    <showWeaveInfo>true</showWeaveInfo>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>       <!-- use this goal to weave constructor your main classes -->
-                            <goal>test-compile</goal> <!-- use this goal to weave constructor your test classes -->
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${mojo.execution.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- generates class path with constructor dependencies as well as generated class -->
-                    <classpathScope>runtime</classpathScope>
-                   <!-- <mainClass>org.automon.delme.MyClass</mainClass> -->
-                </configuration>
-            </plugin>
-    <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
+            <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
             </plugin>
         </plugins>
     </build>
 
-  <dependencies>
+    <dependencies>
 
-    <!-- test dependencies -->
-    <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>${assertj.version}</version>
-        <scope>test</scope>
-    </dependency>
-      <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-      <dependency>
-          <groupId>org.mockito</groupId>
-          <artifactId>mockito-core</artifactId>
-          <version>${mockito.version}</version>
-          <scope>test</scope>
-      </dependency>
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-    </dependency>
-    
-          <dependency>
-             <groupId>org.aspectj</groupId>
-             <artifactId>aspectjweaver</artifactId>
-             <version>${spring.aop.version}</version>
-             <scope>test</scope>
-         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 
-    <!-- runtime dependencies -->
-    <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjrt</artifactId>
-        <version>${aspectj.version}</version>
-        <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>com.jamonapi</groupId>
-        <artifactId>jamon</artifactId>
-        <version>${jamonapi.version}</version>
-        <scope>provided</scope>
-    </dependency>
+        <!-- runtime dependencies -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>org.javasimon</groupId>
-        <artifactId>javasimon-core</artifactId>
-        <version>${javasimon.version}</version>
-        <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>com.jamonapi</groupId>
+            <artifactId>jamon</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>io.dropwizard.metrics</groupId>
-        <artifactId>metrics-core</artifactId>
-        <version>${metrics.version}</version>
-        <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.javasimon</groupId>
+            <artifactId>javasimon-core</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>io.dropwizard.metrics</groupId>
-          <artifactId>metrics-annotation</artifactId>
-          <version>${metrics.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>io.micrometer</groupId>
-          <artifactId>micrometer-core</artifactId>
-          <version>${micrometer.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-annotation</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>org.perf4j</groupId>
-          <artifactId>perf4j</artifactId>
-          <version>${perf4j.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>com.newrelic.agent.java</groupId>
-          <artifactId>newrelic-api</artifactId>
-          <version>${newrelic.version}</version>
-          <scope>provided</scope>
-      </dependency>
-      
-      <dependency>
-        <groupId>com.timgroup</groupId>
-        <artifactId>java-statsd-client</artifactId>
-        <version>${statsd.version}</version>
-         <scope>provided</scope>        
-      </dependency>      
+        <dependency>
+            <groupId>org.perf4j</groupId>
+            <artifactId>perf4j</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>javax.ejb</groupId>
-          <artifactId>javax.ejb-api</artifactId>
-          <version>${ejb.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>com.newrelic.agent.java</groupId>
+            <artifactId>newrelic-api</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-context</artifactId>
-          <version>${spring.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>com.timgroup</groupId>
+            <artifactId>java-statsd-client</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>javax.ws.rs</groupId>
-          <artifactId>javax.ws.rs-api</artifactId>
-          <version>${jaxrs.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>javax.ejb</groupId>
+            <artifactId>javax.ejb-api</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>org.hibernate.javax.persistence</groupId>
-          <artifactId>hibernate-jpa-2.0-api</artifactId>
-          <version>${jpa.version}</version>
-          <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+        </dependency>
 
 
-  </dependencies>
+    </dependencies>
 </project>
