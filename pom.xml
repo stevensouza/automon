@@ -57,6 +57,7 @@
 
     <properties>
         <automon.version>1.0.4-SNAPSHOT</automon.version>
+        <revision>1.0.4-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jdk.version>1.8</jdk.version>
@@ -163,23 +164,23 @@
                     </executions>
                 </plugin>
 
-                <!--                Define the class to run and any arguments in child poms.-->
-                <!--                - mvn exec:java (compiles and runs if executed from child dir)-->
-                <!--                - mvn exec:java -Dexec.args="arg1 arg2 arg3" (provide different args)-->
-                <!--                - mvn exec:java -Dexec.mainClass="com.example.YourMainClass" (provide different class)-->
+            <!--   Define the class to run and any arguments in child poms.
+                                - mvn exec:java (compiles and runs if executed from child dir)
+                                - mvn exec:java -Dexec.args="arg1 arg2 arg3" (provide different args)
+                                - mvn exec:java -Dexec.mainClass="com.example.YourMainClass" (provide different class)
 
-                <!--                Configure in child class like the following-->
-                <!--                <plugin>-->
-                <!--                    &lt;!&ndash;            to run the specified class: mvn exec:exec&ndash;&gt;-->
-                <!--                    <groupId>org.codehaus.mojo</groupId>-->
-                <!--                    <artifactId>exec-maven-plugin</artifactId>-->
-                <!--                    <configuration>-->
-                <!--                        <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>-->
-                <!--                        <arguments>-->
-                <!--                            <argument>5</argument>-->
-                <!--                        </arguments>-->
-                <!--                    </configuration>-->
-                <!--                </plugin>-->
+                                Configure in child class like the following:
+                                <plugin>
+                                    <groupId>org.codehaus.mojo</groupId>
+                                    <artifactId>exec-maven-plugin</artifactId>
+                                    <configuration>
+                                        <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
+                                        <arguments>
+                                            <argument>5</argument>
+                                        </arguments>
+                                    </configuration>
+                                </plugin>
+            -->
 
 
                 <plugin>
