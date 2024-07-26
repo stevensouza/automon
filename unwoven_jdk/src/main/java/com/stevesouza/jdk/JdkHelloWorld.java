@@ -61,7 +61,7 @@ public class JdkHelloWorld {
         JdkHelloWorld helloWorld = new JdkHelloWorld();
         System.out.println("   ***"+fileName+" line count="+helloWorld.readFile(fileName));
 
-        String url = "http://www.google.com";
+        String url = "https://www.google.com";
         System.out.println("   ***"+url+" line count="+helloWorld.readUrl(url));
 
         url =  "http://example.com";
