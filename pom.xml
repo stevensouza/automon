@@ -98,6 +98,8 @@
 
         <!-- Add more properties for other plugin and dependency versions -->
         <aspectj-maven-plugin.version>1.14</aspectj-maven-plugin.version>
+        <!-- fix to newer version -->
+        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
     </properties>
 
     <build>
@@ -189,7 +191,6 @@
                             <goals>
                                 <goal>exec</goal>
                             </goals>
-
                         </execution>
                     </executions>
                     <configuration>
@@ -213,6 +214,30 @@
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <!-- The maven shade plugin bundles all jars into one big jar (uber jar) making deployment and execution easier.
+                     The mainClass element is defined so you can execute the jar without specifying the class.  To run this jar
+                     simply type: java -Dorg.automon="sysout" -jar target/spring_aop-1.0.2-SNAPSHOT.jar
+                     or more generally  java -jar myuber.jar arg1,arg2
+                    -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven-shade-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <createDependencyReducedPom>false</createDependencyReducedPom>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <shadedClassifierName>shaded</shadedClassifierName>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -304,7 +329,7 @@
                 <groupId>com.jamonapi</groupId>
                 <artifactId>jamon</artifactId>
                 <version>${jamonapi.version}</version>
-                <scope>provided</scope>
+<!--                <scope>provided</scope>-->
             </dependency>
 
             <dependency>
@@ -367,7 +392,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>

@@ -1,64 +1,51 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.automon</groupId>
-    <artifactId>automon_parent</artifactId>
+    <parent>
+        <groupId>org.automon</groupId>
+        <artifactId>automon_parent</artifactId>
+        <version>1.0.4-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>helloworld_woven</artifactId>
     <version>1.0.4-SNAPSHOT</version>
-  </parent>
+    <packaging>jar</packaging>
+    <name>helloworld_woven</name>
 
-  <artifactId>helloworld_woven</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>helloworld_woven</name>
-
-  <description>Weave HelloWorld class with the automon aspect.
-      This is an example of compile time weaving.
+    <description>Weave HelloWorld class with the automon aspect. This is an example of compile time weaving.
     </description>
 
-  <properties>
-      <assertj.version>3.12.2</assertj.version>
-      <aspectj.version>1.9.3</aspectj.version>
-      <mojo.ajc.version>1.7</mojo.ajc.version>
-      <mojo.execution.version>1.3.2</mojo.execution.version>
-  </properties>
+    <!--    <properties>-->
+    <!--        <assertj.version>3.12.2</assertj.version>-->
+    <!--        <aspectj.version>1.9.3</aspectj.version>-->
+    <!--        <mojo.ajc.version>1.7</mojo.ajc.version>-->
+    <!--        <mojo.execution.version>1.3.2</mojo.execution.version>-->
+    <!--    </properties>-->
 
     <build>
         <plugins>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>${mojo.ajc.version}</version>
 
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
-                            <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>dev.aspectj</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
                 <configuration>
                     <!-- because this project has no sources it is required that forceAjcCompile is true.
                     Alternatively having one dummy class works. -->
                     <forceAjcCompile>true</forceAjcCompile>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <complianceLevel>${jdk.version}</complianceLevel>
-
-                        <aspectLibraries>
-                            <aspectLibrary>
-                              <groupId>org.automon</groupId>
-                              <artifactId>automon</artifactId>
-                            </aspectLibrary>
-                        </aspectLibraries>
+                    <!-- The following are the aspect libraries that you would want to weave into your code-->
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>org.automon</groupId>
+                            <artifactId>automon</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <!-- The following is the code you would like to weave by the aspect libraries-->
                     <weaveDependencies>
-
                         <weaveDependency>
-                          <groupId>org.automon</groupId>
-                          <artifactId>helloworld_unwoven</artifactId>
+                            <groupId>org.automon</groupId>
+                            <artifactId>helloworld_unwoven</artifactId>
                         </weaveDependency>
                     </weaveDependencies>
 
@@ -69,15 +56,6 @@
                 <!-- if this doesn't run try to go to the parent directory and run 'mvn clean install' first -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>${mojo.execution.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-
-                    </execution>
-                </executions>
                 <configuration>
                     <!-- generates class path with all dependencies as well as generated class -->
                     <commandlineArgs>100</commandlineArgs>
@@ -92,41 +70,34 @@
                     </systemProperties>
                 </configuration>
             </plugin>
-    <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
+            <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
             </plugin>
+
         </plugins>
     </build>
 
-  <dependencies>
+    <dependencies>
 
-      <dependency>
-          <groupId>org.automon</groupId>
-          <artifactId>helloworld_unwoven</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>org.automon</groupId>
+            <artifactId>helloworld_unwoven</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-      <dependency>
-        <groupId>org.automon</groupId>
-        <artifactId>automon</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>org.automon</groupId>
+            <artifactId>automon</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-      <dependency>
-          <groupId>org.aspectj</groupId>
-          <artifactId>aspectjrt</artifactId>
-          <version>${aspectj.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
 
-      <dependency>
-          <groupId>org.assertj</groupId>
-          <artifactId>assertj-core</artifactId>
-          <version>${assertj.version}</version>
-          <scope>test</scope>
-      </dependency>
-
-  </dependencies>
+    </dependencies>
 </project>
