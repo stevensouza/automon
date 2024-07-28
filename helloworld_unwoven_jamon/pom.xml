@@ -67,6 +67,7 @@
     </build>
 
     <dependencies>
+
         <dependency>
             <groupId>org.automon</groupId>
             <artifactId>automon</artifactId>
@@ -88,6 +89,4 @@
         </dependency>
 
     </dependencies>
-
-
 </project>

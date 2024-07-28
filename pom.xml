@@ -57,7 +57,6 @@
 
     <properties>
         <automon.version>1.0.4-SNAPSHOT</automon.version>
-        <revision>1.0.4-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jdk.version>1.8</jdk.version>
@@ -96,6 +95,9 @@
         <!--        obsolete remove support -->
         <statsd.version>3.1.0</statsd.version>
         <micrometer.version>1.13.2</micrometer.version>
+        <hsqldb.version>2.3.2</hsqldb.version>
+        <servlet.version>2.4</servlet.version>
+        <jsp.version>2.0</jsp.version>
 
         <!-- Add more properties for other plugin and dependency versions -->
         <aspectj-maven-plugin.version>1.14</aspectj-maven-plugin.version>
@@ -164,23 +166,23 @@
                     </executions>
                 </plugin>
 
-            <!--   Define the class to run and any arguments in child poms.
-                                - mvn exec:java (compiles and runs if executed from child dir)
-                                - mvn exec:java -Dexec.args="arg1 arg2 arg3" (provide different args)
-                                - mvn exec:java -Dexec.mainClass="com.example.YourMainClass" (provide different class)
+                <!--   Define the class to run and any arguments in child poms.
+                                    - mvn exec:java (compiles and runs if executed from child dir)
+                                    - mvn exec:java -Dexec.args="arg1 arg2 arg3" (provide different args)
+                                    - mvn exec:java -Dexec.mainClass="com.example.YourMainClass" (provide different class)
 
-                                Configure in child class like the following:
-                                <plugin>
-                                    <groupId>org.codehaus.mojo</groupId>
-                                    <artifactId>exec-maven-plugin</artifactId>
-                                    <configuration>
-                                        <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
-                                        <arguments>
-                                            <argument>5</argument>
-                                        </arguments>
-                                    </configuration>
-                                </plugin>
-            -->
+                                    Configure in child class like the following:
+                                    <plugin>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>exec-maven-plugin</artifactId>
+                                        <configuration>
+                                            <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
+                                            <arguments>
+                                                <argument>5</argument>
+                                            </arguments>
+                                        </configuration>
+                                    </plugin>
+                -->
 
 
                 <plugin>
@@ -288,7 +290,6 @@
     <dependencyManagement>
         <dependencies>
 
-
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
@@ -330,7 +331,7 @@
                 <groupId>com.jamonapi</groupId>
                 <artifactId>jamon</artifactId>
                 <version>${jamonapi.version}</version>
-<!--                <scope>provided</scope>-->
+                <!--                <scope>provided</scope>-->
             </dependency>
 
             <dependency>
@@ -406,6 +407,26 @@
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.0-api</artifactId>
                 <version>${jpa.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${hsqldb.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${jsp.version}</version>
                 <scope>provided</scope>
             </dependency>
 
