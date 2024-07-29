@@ -17,15 +17,6 @@
     may also use load time weaving (LTW) with spring.
     </description>
 
-  <properties>
-    <spring.version>5.3.19</spring.version>
-    <aspectj.version>1.9.3</aspectj.version>
-    <mojo.ajc.version>1.7</mojo.ajc.version>
-    <mojo.execution.version>1.3.2</mojo.execution.version>
-    <maven.compiler.version>3.2</maven.compiler.version>
-    <maven.surefire.version>2.18.1</maven.surefire.version>
-  </properties>
-
   <build>
       <plugins>
 
@@ -36,51 +27,24 @@
      Expecting to find 2 arguments to bind by name in advice, but actually found 1 arguments.
 -->
         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
+            <groupId>dev.aspectj</groupId>
             <artifactId>aspectj-maven-plugin</artifactId>
-            <version>${mojo.ajc.version}</version>
-
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
-                        <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <!-- because this project has no sources it is required that forceAjcCompile is true.
-                Alternatively having one dummy class works. -->
-                <source>${jdk.version}</source>
-                <target>${jdk.version}</target>
-                <complianceLevel>${jdk.version}</complianceLevel>
-            </configuration>
         </plugin>
 
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-surefire-plugin</artifactId>
-              <version>${maven.surefire.version}</version>
           </plugin>
 
           <plugin>
               <!-- if this doesn't run try to go to the parent directory and run 'mvn clean install' first -->
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>exec-maven-plugin</artifactId>
-              <version>${mojo.execution.version}</version>
-              <executions>
-                  <execution>
-                      <goals>
-                          <goal>exec</goal>
-                      </goals>
-
-                  </execution>
-              </executions>
               <configuration>
-                  <!-- generates class path with all dependencies as well as generated class -->
-                  <commandlineArgs>100</commandlineArgs>
-                  <classpathScope>runtime</classpathScope>
                   <mainClass>com.stevesouza.spring.HelloWorld</mainClass>
+                  <arguments>
+                      <argument>5</argument>
+                  </arguments>
                   <systemProperties>
                       <property>
                           <!-- note assuming the proper jars are in the classpath you could use jamon, javasimon, metrics, nullimp, sysout -->
@@ -108,13 +72,11 @@
       <dependency>
           <groupId>org.aspectj</groupId>
           <artifactId>aspectjrt</artifactId>
-          <version>${aspectj.version}</version>
       </dependency>
 
       <dependency>
           <groupId>org.aspectj</groupId>
           <artifactId>aspectjweaver</artifactId>
-          <version>${aspectj.version}</version>
       </dependency>
 
 
