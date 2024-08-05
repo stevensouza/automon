@@ -5,9 +5,10 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.implementations.OpenMon;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -15,13 +16,13 @@ import static org.mockito.Mockito.*;
 public class AspectJBaseTest {
     private OpenMon openMon = mock(OpenMon.class);
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         MyAspectJTestAspect aspect = Aspects.aspectOf(MyAspectJTestAspect.class);
         aspect.setOpenMon(openMon);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
 
     }

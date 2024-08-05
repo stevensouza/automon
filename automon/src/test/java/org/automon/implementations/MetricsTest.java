@@ -3,9 +3,10 @@ package org.automon.implementations;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import org.aspectj.lang.JoinPoint;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -17,14 +18,14 @@ public class MetricsTest {
     private JoinPoint jp = mock(JoinPoint.class);
     private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Metrics.setMetricRegistry(new MetricRegistry());
         JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
         when(staticPart.toString()).thenReturn(SharedConstants.LABEL);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         Metrics.setMetricRegistry(new MetricRegistry());
     }

@@ -6,9 +6,10 @@
 package org.automon.implementations;
 
 import org.automon.utils.AutomonPropertiesLoader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,12 +20,12 @@ public class StatsDTest {
 
     private StatsD statsd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         if (statsd != null) {
             statsd.close();

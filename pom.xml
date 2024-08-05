@@ -55,54 +55,76 @@
         <module>spring_aop</module>
     </modules>
 
+    <!--TODO: in  the following complete means the artifact is up to date and
+    no more research has to be done.  some things need to be done
+    - latest library that supports jdk 1.8 (need to upgrade to go higher)
+    - libraries that are no longer updated
+    - libraries i no longer wish to support
+    - libraries whos artifact/groups have changed names/locations
+-->
     <properties>
         <automon.version>1.0.4-SNAPSHOT</automon.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jdk.version>1.8</jdk.version>
+        <jdk.version>17</jdk.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
+<!--        complete-->
         <maven.javadoc.plugin.version>3.8.0</maven.javadoc.plugin.version>
+        <!--        complete-->
         <maven.source.plugin.version>3.3.1</maven.source.plugin.version>
-        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+        <!--        complete-->
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+        <!--        complete-->
         <surefire.version>3.3.1</surefire.version>
+        <!-- complete -->
+        <aspectj-maven-plugin.version>1.14</aspectj-maven-plugin.version>
+        <!-- complete -->
+        <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
 
+        <!--        complete-->
         <metrics.version>4.2.26</metrics.version>
         <jamonapi.version>2.82</jamonapi.version>
+<!--        complete-->
         <javasimon.version>4.2.0</javasimon.version>
+<!--        complete-->
         <assertj.version>3.26.3</assertj.version>
-        <!--        fix-->
-        <aspectj.version>1.9.3</aspectj.version>
-        <!--        fix-->
-        <mojo.ajc.version>1.7</mojo.ajc.version>
-        <!--        fix-->
+        <!--        complete -->
+        <aspectj.version>1.9.22.1</aspectj.version>
+        <!--        complete/remove -->
+<!--        <mojo.ajc.version>1.7</mojo.ajc.version>-->
+        <!--        complete -->
         <mojo.execution.version>3.3.0</mojo.execution.version>
-        <!--        fix this is the last version that supports jdk 1.8. go to 5.12.0 if i can get to compile with a higher version-->
-        <mockito.version>4.11.0</mockito.version>
+        <!--        completed - fix this is the last version that supports jdk 1.8. go to 5.12.0 if i can get to compile with a higher version-->
+        <mockito.version>5.12.0</mockito.version>
         <!--        fix - junit 5 supports only higher jdk's-->
-        <junit.version>4.13.2</junit.version>
+        <junit.version>5.10.3</junit.version>
         <!--        fix - remove - no longer released-->
         <perf4j.version>0.9.16</perf4j.version>
+<!--        complete-->
         <newrelic.version>8.13.0</newrelic.version>
         <!--        latest is 4.0.1 but should i support? also they changed the maven repo for it -->
         <ejb.version>3.2.2</ejb.version>
         <!--        6.1.10 needs java 17-->
         <spring.version>5.3.37</spring.version>
-        <spring.aop.version>1.9.3</spring.aop.version>
-        <!--        moved.  do i need to support?-->
+<!--        is this needed or just use aspectj version?-->
+        <spring.aop.version>${aspectj.version}</spring.aop.version>
+        <!--        moved where it is located.  do i need to support?-->
         <jaxrs.version>2.1.1</jaxrs.version>
+<!--        ?-->
         <jpa.version>1.0.1.Final</jpa.version>
-        <!--        obsolete remove support -->
+        <!--        obsolete. remove support? -->
         <statsd.version>3.1.0</statsd.version>
+<!--        complete-->
         <micrometer.version>1.13.2</micrometer.version>
-        <hsqldb.version>2.3.2</hsqldb.version>
+<!--      fix -   note 2.7.3 is the latest version but requires a higher version of jdk (11)
+2.5.2 is the latest that supports jdk 1.8 -->
+        <hsqldb.version>2.5.2</hsqldb.version>
+<!--        fix - relocated in maven to https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api-->
         <servlet.version>2.4</servlet.version>
+<!--        fix - relocated in maven to https://mvnrepository.com/artifact/jakarta.servlet.jsp/jakarta.servlet.jsp-api-->
         <jsp.version>2.0</jsp.version>
-
-        <!-- Add more properties for other plugin and dependency versions -->
-        <aspectj-maven-plugin.version>1.14</aspectj-maven-plugin.version>
-        <!-- fix to newer version -->
-        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
+        <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
     </properties>
 
     <build>
@@ -146,10 +168,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven.javadoc.plugin.version}</version>
-                    <!-- The following is needed for jdk 1.8 javadocs generation or failure. -->
-                    <!--                <configuration>-->
-                    <!--                    <additionalparam>-Xdoclint:none</additionalparam>-->
-                    <!--                </configuration>-->
                 </plugin>
 
                 <plugin>
@@ -183,8 +201,6 @@
                                         </configuration>
                                     </plugin>
                 -->
-
-
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
@@ -207,6 +223,22 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.version}</version>
+                </plugin>
+
+                <plugin>
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>
@@ -258,10 +290,10 @@
         </repository>
     </distributionManagement>
 
-    <profiles>
-        <!--
+<!--    <profiles>
+        &lt;!&ndash;
              Profile for releases to sign artifacts
-        -->
+        &ndash;&gt;
         <profile>
             <id>release</id>
             <build>
@@ -270,7 +302,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.2.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -285,7 +317,7 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
+    </profiles>-->
 
     <dependencyManagement>
         <dependencies>
@@ -319,10 +351,24 @@
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
-
+<!--
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>-->
+            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>

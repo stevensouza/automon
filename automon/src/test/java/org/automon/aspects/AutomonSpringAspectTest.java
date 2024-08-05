@@ -5,9 +5,11 @@ import org.automon.implementations.Jamon;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
 import org.automon.utils.Utils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -21,14 +23,14 @@ public class AutomonSpringAspectTest {
 
     private ApplicationContext context;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         context = new ClassPathXmlApplicationContext("applicationContext.xml");
         AutomonSpringAspect aspect = context.getBean("automonSpringAspect", AutomonSpringAspect.class);
         aspect.setOpenMon(openMon);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 

@@ -3,7 +3,8 @@ package org.automon.implementations;
 import org.aspectj.lang.JoinPoint;
 import org.automon.utils.AutomonExpirable;
 import org.automon.utils.Expirable;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;

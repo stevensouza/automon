@@ -2,9 +2,10 @@ package org.automon.aspects;
 
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -14,11 +15,11 @@ public class AutomonAspectBaseTest {
     private OpenMon openMon = mock(OpenMon.class);
     private AutomonAspectBase automonAspectBase = new AutomonAspectBase();
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 

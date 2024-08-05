@@ -2,9 +2,10 @@ package org.automon.utils;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.CodeSignature;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ import static org.mockito.Mockito.when;
 
 public class UtilsTest {
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
 
     }
