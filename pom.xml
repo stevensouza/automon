@@ -97,10 +97,8 @@
         <mojo.execution.version>3.3.0</mojo.execution.version>
         <!--        completed - fix this is the last version that supports jdk 1.8. go to 5.12.0 if i can get to compile with a higher version-->
         <mockito.version>5.12.0</mockito.version>
-        <!--        fix - junit 5 supports only higher jdk's-->
+        <!--       complete fix - junit 5 supports only higher jdk's-->
         <junit.version>5.10.3</junit.version>
-        <!--        fix - remove - no longer released-->
-        <perf4j.version>0.9.16</perf4j.version>
 <!--        complete-->
         <newrelic.version>8.13.0</newrelic.version>
         <!--        latest is 4.0.1 but should i support? also they changed the maven repo for it -->
@@ -405,13 +403,6 @@
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-core</artifactId>
                 <version>${micrometer.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.perf4j</groupId>
-                <artifactId>perf4j</artifactId>
-                <version>${perf4j.version}</version>
                 <scope>provided</scope>
             </dependency>
 

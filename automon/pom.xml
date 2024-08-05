@@ -94,11 +94,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.perf4j</groupId>
-            <artifactId>perf4j</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.newrelic.agent.java</groupId>
             <artifactId>newrelic-api</artifactId>
         </dependency>

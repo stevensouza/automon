@@ -30,11 +30,6 @@ public abstract class Annotations {
     public void metrics() {
     }
 
-
-    @Pointcut("within(@org.perf4j.aop.Profiled *) || @annotation(org.perf4j.aop.Profiled)")
-    public void perf4j() {
-    }
-
     @Pointcut("within(@com.newrelic.api.agent.Trace *) || @annotation(com.newrelic.api.agent.Trace)")
     public void newrelic() {
     }
