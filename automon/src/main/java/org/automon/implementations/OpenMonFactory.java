@@ -25,7 +25,6 @@ public class OpenMonFactory {
     public static final String SYSOUT = "org.automon.implementations.SysOut";
     public static final String NULL_IMP = "org.automon.implementations.NullImp";
     public static final String NEW_RELIC = "org.automon.implementations.NewRelicImp";
-    public static final String STATSD = "org.automon.implementations.StatsD";
     public static final String MICROMETER = "org.automon.implementations.Micrometer";
 
     private Map<String, String> openMonFactoryMap = new HashMap<String, String>();
@@ -39,7 +38,6 @@ public class OpenMonFactory {
         add(JAVA_SIMON);
         add(METRICS);
         add(NEW_RELIC);
-        add(STATSD);
         add(SYSOUT);
         add(NULL_IMP);
     }
@@ -98,7 +96,7 @@ public class OpenMonFactory {
     public OpenMon getFirstInstance() {
         // note for some reason the NewRelic exception is not caught and exits the program so i put it last
         // This is a hack though and I need to see why it is not being caught.  
-        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, STATSD, MICROMETER, NEW_RELIC);
+        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, MICROMETER, NEW_RELIC);
         if (openMon == null) {
             return defaultOpenMon;
         }
