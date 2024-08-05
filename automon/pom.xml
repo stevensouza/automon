@@ -113,10 +113,5 @@
             <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-        </dependency>
-
     </dependencies>
 </project>

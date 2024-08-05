@@ -68,9 +68,7 @@ within a type as well as any types that inherit from it.:
         <pointcut name="metrics_annotations" expression="org.automon.pointcuts.Annotations.metrics()"/>
         <pointcut name="newrelic_annotations" expression="org.automon.pointcuts.Annotations.newrelic()"/>
         <pointcut name="spring_annotations" expression="org.automon.pointcuts.Annotations.spring()"/>
-        <pointcut name="jaxrs_annotations" expression="org.automon.pointcuts.Annotations.jaxrs()"/>
-        <pointcut name="jpa_annotations" expression="org.automon.pointcuts.Annotations.jpa()"/>
-        
+
         <!-- jdk pointcuts: -->
         <pointcut name="jdbc" expression="org.automon.pointcuts.Jdk.jdbc()"/>
         <pointcut name="io" expression="org.automon.pointcuts.Jdk.io()"/>

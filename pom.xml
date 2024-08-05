@@ -91,8 +91,6 @@
         <assertj.version>3.26.3</assertj.version>
         <!--        complete -->
         <aspectj.version>1.9.22.1</aspectj.version>
-        <!--        complete/remove -->
-<!--        <mojo.ajc.version>1.7</mojo.ajc.version>-->
         <!--        complete -->
         <mojo.execution.version>3.3.0</mojo.execution.version>
         <!--        completed - fix this is the last version that supports jdk 1.8. go to 5.12.0 if i can get to compile with a higher version-->
@@ -105,10 +103,6 @@
         <spring.version>5.3.37</spring.version>
 <!--        is this needed or just use aspectj version?-->
         <spring.aop.version>${aspectj.version}</spring.aop.version>
-        <!--        moved where it is located.  do i need to support?-->
-        <jaxrs.version>2.1.1</jaxrs.version>
-<!--        ?-->
-        <jpa.version>1.0.1.Final</jpa.version>
         <!--        obsolete. remove support? -->
         <statsd.version>3.1.0</statsd.version>
 <!--        complete-->
@@ -422,20 +416,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>javax.ws.rs-api</artifactId>
-                <version>${jaxrs.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.0-api</artifactId>
-                <version>${jpa.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
