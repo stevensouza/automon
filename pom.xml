@@ -100,7 +100,7 @@
 <!--        complete-->
         <newrelic.version>8.13.0</newrelic.version>
         <!--        6.1.10 needs java 17-->
-        <spring.version>5.3.37</spring.version>
+        <spring.version>6.1.10</spring.version>
 <!--        is this needed or just use aspectj version?-->
         <spring.aop.version>${aspectj.version}</spring.aop.version>
 <!--        complete-->
