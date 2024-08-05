@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AutomonExpirableTest {
 
     @Test
-    public void testDefaultState() throws Exception {
+    public void testDefaultState() {
         AutomonExpirable expirable = new AutomonExpirable();
         assertThat(expirable.getArgNamesAndValues()).isNull();
         assertThat(expirable.getThrowable()).isNull();
@@ -20,9 +20,9 @@ public class AutomonExpirableTest {
     }
 
     @Test
-    public void testSetArgNamesAndValues() throws Exception {
+    public void testSetArgNamesAndValues() {
         AutomonExpirable expirable = new AutomonExpirable();
-        List<String> args = new ArrayList<String>();
+        List<String> args = new ArrayList<>();
         args.add("fname: Steve");
         expirable.setArgNamesAndValues(args);
         assertThat(expirable.getArgNamesAndValues()).isEqualTo(args);
@@ -31,7 +31,7 @@ public class AutomonExpirableTest {
 
 
     @Test
-    public void testSetThrowable() throws Exception {
+    public void testSetThrowable() {
         AutomonExpirable expirable = new AutomonExpirable();
         Throwable t = new RuntimeException("my exception");
         expirable.setThrowable(t);
@@ -40,10 +40,10 @@ public class AutomonExpirableTest {
     }
 
     @Test
-    public void testThrowableAndArgs() throws Exception {
+    public void testThrowableAndArgs() {
         AutomonExpirable expirable = new AutomonExpirable();
 
-        List<String> args = new ArrayList<String>();
+        List<String> args = new ArrayList<>();
         args.add("fname: Steve");
         expirable.setArgNamesAndValues(args);
 

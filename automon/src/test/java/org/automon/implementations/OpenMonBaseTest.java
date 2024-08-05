@@ -26,7 +26,7 @@ public class OpenMonBaseTest {
     };
 
     @Test
-    public void testException() throws Exception {
+    public void testException() {
         JoinPoint jp = mock(JoinPoint.class);
         RuntimeException runtimeException = new RuntimeException("my exception");
         openMon.exception(jp, runtimeException);
@@ -47,7 +47,7 @@ public class OpenMonBaseTest {
     }
 
     @Test
-    public void testGetLabels() throws Exception {
+    public void testGetLabels() {
         RuntimeException runtimeException = new RuntimeException("my exception");
         List<String> labels = openMon.getLabels(runtimeException);
         assertThat(labels).containsOnly("java.lang.RuntimeException", OpenMon.EXCEPTION_LABEL);

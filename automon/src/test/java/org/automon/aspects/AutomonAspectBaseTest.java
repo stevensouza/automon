@@ -12,8 +12,8 @@ import static org.mockito.Mockito.mock;
 
 public class AutomonAspectBaseTest {
 
-    private OpenMon openMon = mock(OpenMon.class);
-    private AutomonAspectBase automonAspectBase = new AutomonAspectBase();
+    private final OpenMon openMon = mock(OpenMon.class);
+    private final AutomonAspectBase automonAspectBase = new AutomonAspectBase();
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -24,7 +24,7 @@ public class AutomonAspectBaseTest {
     }
 
     @Test
-    public void testSetOpenMon() throws Exception {
+    public void testSetOpenMon() {
         OpenMon nullMon = new NullImp();
         automonAspectBase.setOpenMon(nullMon);
         assertThat(automonAspectBase.isEnabled()).isFalse();

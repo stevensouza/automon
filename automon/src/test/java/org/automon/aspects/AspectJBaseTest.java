@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class AspectJBaseTest {
-    private OpenMon openMon = mock(OpenMon.class);
+    private final OpenMon openMon = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -28,7 +28,7 @@ public class AspectJBaseTest {
     }
 
     @Test
-    public void testSys_monitorMethods() throws Exception {
+    public void testSys_monitorMethods() {
         HelloWorld obj = new HelloWorld();
         obj.hello();
         obj.world();
@@ -40,7 +40,7 @@ public class AspectJBaseTest {
     }
 
     @Test
-    public void testSys_monitorFields() throws Exception {
+    public void testSys_monitorFields() {
         HelloWorld obj = new HelloWorld();
         obj.setPlanet("earth"); // sets - instance var which matches pointcut. method itself doesn't count as it isn't public and so missed the pointcut
         System.out.println(obj.getPlanet()); // get access for instance variable.  method doesn't match pointcut
@@ -51,7 +51,7 @@ public class AspectJBaseTest {
     }
 
     @Test
-    public void testReturnValue() throws Exception {
+    public void testReturnValue() {
         HelloWorld obj = new HelloWorld();
         String testString = obj.getString();
         assertThat(testString).isEqualTo(HelloWorld.RETURN_VALUE);
@@ -61,7 +61,7 @@ public class AspectJBaseTest {
     }
 
     @Test
-    public void testSys_exceptionsPublic() throws Exception {
+    public void testSys_exceptionsPublic() {
         HelloWorld obj = new HelloWorld();
         try {
             obj.throwException();
@@ -75,7 +75,7 @@ public class AspectJBaseTest {
     }
 
     @Test
-    public void testSys_exceptionsProtected() throws Exception {
+    public void testSys_exceptionsProtected() {
         HelloWorld obj = new HelloWorld();
         try {
             obj.throwOtherException(); // won't be monitored as it is not public

@@ -7,10 +7,10 @@ import static org.mockito.Mockito.when;
 
 public class TimeExpirableTest {
 
-    private static long MIN_IN_MS = 60000;
+    private static final long MIN_IN_MS = 60000;
 
     @Test
-    public void testHasExpired() throws Exception {
+    public void testHasExpired() {
         TimeExpirable expirable = new TimeExpirable(0);
         assertThat(expirable.isExpired()).isTrue();
 
@@ -19,13 +19,13 @@ public class TimeExpirableTest {
     }
 
     @Test
-    public void testConvertToMs() throws Exception {
+    public void testConvertToMs() {
         assertThat(TimeExpirable.convertToMs(0)).describedAs("Should convert from minutes to ms.").isEqualTo(0);
         assertThat(TimeExpirable.convertToMs(1)).describedAs("Should convert from minutes to ms.").isEqualTo(MIN_IN_MS);
     }
 
     @Test
-    public void testHasExpired_SimulatingExpiration() throws Exception {
+    public void testHasExpired_SimulatingExpiration() {
         TimeExpirable.Now now = mock(TimeExpirable.Now.class);
         long time = System.currentTimeMillis();
         when(now.now()).thenReturn(time);
@@ -36,7 +36,7 @@ public class TimeExpirableTest {
 
 
     @Test
-    public void testHasExpired_SimulatingNonExpiration() throws Exception {
+    public void testHasExpired_SimulatingNonExpiration() {
         TimeExpirable.Now now = mock(TimeExpirable.Now.class);
         long time = System.currentTimeMillis();
         when(now.now()).thenReturn(time);

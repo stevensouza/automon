@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class MetricsAnnotationsTest {
     private static final RuntimeException EXCEPTION = new RuntimeException("my exception");
-    private OpenMon openMon = mock(OpenMon.class);
+    private final OpenMon openMon = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -31,7 +31,7 @@ public class MetricsAnnotationsTest {
 
 
     @Test
-    public void testAnnotated_Class() throws Exception {
+    public void testAnnotated_Class() {
         MetricsAnnotatedClass obj = new MetricsAnnotatedClass();
         obj.annotatedClass_method1(); // monitored
         obj.annotatedClass_method2(); // monitored
@@ -41,7 +41,7 @@ public class MetricsAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Class_Exceptions() throws Exception {
+    public void testAnnotated_Class_Exceptions() {
         MetricsAnnotatedClass obj = new MetricsAnnotatedClass();
         try {
             obj.myException(EXCEPTION);
@@ -55,7 +55,7 @@ public class MetricsAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods() throws Exception {
+    public void testAnnotated_Methods() {
         MetricsAnnotatedMethod obj = new MetricsAnnotatedMethod();
         obj.annotatedMethod(); // monitored
         obj.nonAnnotatedMethod(); // not monitored
@@ -64,7 +64,7 @@ public class MetricsAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods_Exceptions() throws Exception {
+    public void testAnnotated_Methods_Exceptions() {
         MetricsAnnotatedMethod obj = new MetricsAnnotatedMethod();
         try {
             obj.myException(EXCEPTION); // monitored

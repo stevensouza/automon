@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class JamonAnnotationsTest {
     private static final RuntimeException EXCEPTION = new RuntimeException("my exception");
-    private OpenMon openMon = mock(OpenMon.class);
+    private final OpenMon openMon = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -31,7 +31,7 @@ public class JamonAnnotationsTest {
 
 
     @Test
-    public void testAnnotated_Class() throws Exception {
+    public void testAnnotated_Class() {
         JamonAnnotatedClass obj = new JamonAnnotatedClass();
         obj.annotatedClass_method1(); // monitored
         obj.annotatedClass_method2(); // monitored
@@ -41,7 +41,7 @@ public class JamonAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Class_Exceptions() throws Exception {
+    public void testAnnotated_Class_Exceptions() {
         JamonAnnotatedClass obj = new JamonAnnotatedClass();
         try {
             obj.myException(EXCEPTION);
@@ -55,7 +55,7 @@ public class JamonAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods() throws Exception {
+    public void testAnnotated_Methods() {
         JamonAnnotatedMethod obj = new JamonAnnotatedMethod();
         obj.annotatedMethod(); // monitored
         obj.nonAnnotatedMethod(); // not monitored
@@ -65,7 +65,7 @@ public class JamonAnnotationsTest {
 
 
     @Test
-    public void testAnnotated_Methods_Exceptions() throws Exception {
+    public void testAnnotated_Methods_Exceptions() {
         JamonAnnotatedMethod obj = new JamonAnnotatedMethod();
         try {
             obj.myException(EXCEPTION); // monitored

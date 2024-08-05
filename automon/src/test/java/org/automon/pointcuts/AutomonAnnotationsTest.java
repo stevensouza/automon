@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class AutomonAnnotationsTest {
     private static final RuntimeException EXCEPTION = new RuntimeException("my exception");
-    private OpenMon openMon = mock(OpenMon.class);
+    private final OpenMon openMon = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -31,7 +31,7 @@ public class AutomonAnnotationsTest {
 
 
     @Test
-    public void testAnnotated_Class() throws Exception {
+    public void testAnnotated_Class() {
         AutomonAnnotatedClass obj = new AutomonAnnotatedClass(); // monitored
         obj.annotatedClass_method1(); // monitored
         obj.annotatedClass_method2(); // monitored
@@ -41,7 +41,7 @@ public class AutomonAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Class_Exceptions() throws Exception {
+    public void testAnnotated_Class_Exceptions() {
         AutomonAnnotatedClass obj = new AutomonAnnotatedClass(); // monitored
         try {
             obj.myException(EXCEPTION); // monitored
@@ -56,7 +56,7 @@ public class AutomonAnnotationsTest {
     }
 
     @Test
-    public void testAnnotated_Methods() throws Exception {
+    public void testAnnotated_Methods() {
         AutomonAnnotatedMethod obj = new AutomonAnnotatedMethod();
         obj.annotatedMethod(); // monitored
         obj.nonAnnotatedMethod(); // not monitored
@@ -66,7 +66,7 @@ public class AutomonAnnotationsTest {
 
 
     @Test
-    public void testAnnotated_Constructor() throws Exception {
+    public void testAnnotated_Constructor() {
         AutomonAnnotatedMethod obj = new AutomonAnnotatedMethod(); // not monitored
         obj = new AutomonAnnotatedMethod("monitor me!"); // monitored
         verify(openMon).start(any(JoinPoint.StaticPart.class));
@@ -75,7 +75,7 @@ public class AutomonAnnotationsTest {
 
 
     @Test
-    public void testAnnotated_Methods_Exceptions() throws Exception {
+    public void testAnnotated_Methods_Exceptions() {
         AutomonAnnotatedMethod obj = new AutomonAnnotatedMethod();
         try {
             obj.myException(EXCEPTION); // monitored

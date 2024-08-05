@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 public class OpenMonFactoryTest {
 
     private OpenMonFactory factory;
-    private OpenMon defaultValue = mock(OpenMon.class);
+    private final OpenMon defaultValue = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -23,7 +23,7 @@ public class OpenMonFactoryTest {
     }
 
     @Test
-    public void testDefault() throws Exception {
+    public void testDefault() {
         // test valid values loaded by default with fully qualified class path.
         assertThat(factory.getInstance(OpenMonFactory.JAMON)).isInstanceOf(Jamon.class);
         assertThat(factory.getInstance(OpenMonFactory.JAVA_SIMON)).isInstanceOf(JavaSimon.class);
@@ -43,7 +43,7 @@ public class OpenMonFactoryTest {
     }
 
     @Test
-    public void testAddMultiple() throws Exception {
+    public void testAddMultiple() {
         factory.reset();
         factory.add(OpenMonFactory.JAMON, OpenMonFactory.JAVA_SIMON);
         assertThat(factory.getInstance(OpenMonFactory.JAMON)).isInstanceOf(Jamon.class);
@@ -52,18 +52,18 @@ public class OpenMonFactoryTest {
     }
 
     @Test
-    public void testGetLastToken() throws Exception {
+    public void testGetLastToken() {
         assertThat(OpenMonFactory.getJustClassName("com.mypackage.Jamon")).isEqualTo("Jamon");
         assertThat(OpenMonFactory.getJustClassName("Jamon")).isEqualTo("Jamon");
     }
 
     @Test
-    public void testToString() throws Exception {
+    public void testToString()  {
         assertThat(factory.toString()).contains("jamon, javasimon, metrics, micrometer, newrelicimp, nullimp, statsd, sysout");
     }
 
     @Test
-    public void testGetFirstInstance() throws Exception {
+    public void testGetFirstInstance()  {
         assertThat(factory.getFirstInstance()).isNotNull();
         assertThat(factory.getFirstInstance()).isNotEqualTo(defaultValue);
     }

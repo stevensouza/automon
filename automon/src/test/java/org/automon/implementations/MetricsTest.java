@@ -14,9 +14,9 @@ import static org.mockito.Mockito.when;
 
 
 public class MetricsTest {
-    private Metrics openMon = new Metrics();
-    private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
+    private final Metrics openMon = new Metrics();
+    private final JoinPoint jp = mock(JoinPoint.class);
+    private final JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -31,27 +31,27 @@ public class MetricsTest {
     }
 
     @Test
-    public void testStart() throws Exception {
+    public void testStart()  {
         Timer mon = openMon.start(staticPart);
         assertThat(mon.getCount()).describedAs("The timer shouldn't have completed").isEqualTo(0);
     }
 
     @Test
-    public void testStop() throws Exception {
+    public void testStop()  {
         Timer mon = openMon.start(staticPart);
         openMon.stop(mon);
         assertThat(mon.getCount()).describedAs("The timer should have completed/been stopped").isEqualTo(1);
     }
 
     @Test
-    public void testStopWithException() throws Exception {
+    public void testStopWithException()  {
         Timer mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(mon.getCount()).describedAs("The timer should have completed/been stopped").isEqualTo(1);
     }
 
     @Test
-    public void testException() throws Exception {
+    public void testException() {
         MetricRegistry metricRegistry = openMon.getMetricRegistry();
         assertThat(metricRegistry.counter(SharedConstants.EXCEPTION_LABEL).getCount()).describedAs("No exception should exist yet").isEqualTo(0);
         assertThat(metricRegistry.counter(OpenMon.EXCEPTION_LABEL).getCount()).describedAs("No general exception should exist yet").isEqualTo(0);
@@ -62,7 +62,7 @@ public class MetricsTest {
 
 
     @Test
-    public void setMetricRegistry() throws Exception {
+    public void setMetricRegistry()  {
         MetricRegistry newMetricRegistry = new MetricRegistry();
         Metrics.setMetricRegistry(newMetricRegistry);
         assertThat(Metrics.getMetricRegistry()).isEqualTo(newMetricRegistry);

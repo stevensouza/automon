@@ -16,9 +16,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class JamonTest {
-    private Jamon openMon = new Jamon();
-    private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
+    private final Jamon openMon = new Jamon();
+    private final JoinPoint jp = mock(JoinPoint.class);
+    private final JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -32,7 +32,7 @@ public class JamonTest {
     }
 
     @Test
-    public void testStart() throws Exception {
+    public void testStart() {
         Monitor mon = openMon.start(staticPart);
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(SharedConstants.LABEL);
         assertThat(mon.getUnits()).describedAs("The units should be for time").isEqualTo("ms.");
@@ -40,7 +40,7 @@ public class JamonTest {
     }
 
     @Test
-    public void testStop() throws Exception {
+    public void testStop() {
         Monitor mon = openMon.start(staticPart);
         openMon.stop(mon);
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(SharedConstants.LABEL);
@@ -49,7 +49,7 @@ public class JamonTest {
     }
 
     @Test
-    public void testStopWithException() throws Exception {
+    public void testStopWithException() {
         Monitor mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(mon.getLabel()).describedAs("The label should match passed in label").isEqualTo(SharedConstants.LABEL);
@@ -61,7 +61,7 @@ public class JamonTest {
     }
 
     @Test
-    public void testException() throws Exception {
+    public void testException() {
         assertThat(MonitorFactory.exists(SharedConstants.EXCEPTION_LABEL, "Exception")).describedAs("The exception monitor should not exist yet").isFalse();
         openMon.exception(jp, SharedConstants.EXCEPTION);
         assertThat(MonitorFactory.getMonitor(SharedConstants.EXCEPTION_LABEL, "Exception").getHits()).describedAs("One exception should have been thrown").isEqualTo(1);

@@ -18,8 +18,8 @@ import static org.mockito.Mockito.*;
 
 public class AutomonSpringAspectTest {
 
-    private Throwable exception = HelloWorld.TEST_RUNTIME_EXCEPTION;
-    private OpenMon openMon = mock(OpenMon.class);
+    private final Throwable exception = HelloWorld.TEST_RUNTIME_EXCEPTION;
+    private final OpenMon openMon = mock(OpenMon.class);
 
     private ApplicationContext context;
 
@@ -36,7 +36,7 @@ public class AutomonSpringAspectTest {
 
 
     @Test
-    public void testMonitorPerformance() throws Throwable {
+    public void testMonitorPerformance() {
         HelloWorld monitorMe = context.getBean("monitorMe", HelloWorld.class);
         Object START_CONTEXT = new Object();
         when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);
@@ -48,7 +48,7 @@ public class AutomonSpringAspectTest {
     }
 
     @Test
-    public void testMonitorExceptions() throws Throwable {
+    public void testMonitorExceptions() {
         Object START_CONTEXT = new Object();
         when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);
         HelloWorld monitorMe = context.getBean("monitorMe", HelloWorld.class);

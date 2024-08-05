@@ -22,15 +22,15 @@ public class ExpiringMapTest {
     }
 
     @Test
-    public void testRemove_IfEmpty() throws Exception {
-        ExpiringMap<String, Expirable> map = new ExpiringMap<String, Expirable>();
+    public void testRemove_IfEmpty() {
+        ExpiringMap<String, Expirable> map = new ExpiringMap<>();
         map.removeOldEntries();
         // no exception should be throw
     }
 
     @Test
-    public void testRemove_Every() throws Exception {
-        ExpiringMap<String, Expirable> map = new ExpiringMap<String, Expirable>();
+    public void testRemove_Every() {
+        ExpiringMap<String, Expirable> map = new ExpiringMap<>();
         Expirable object1 = mock(Expirable.class);
         when(object1.isExpired()).thenReturn(true);
         // Note the sequence is to input the new value and then remove any so if an object is put in already in an
@@ -42,8 +42,8 @@ public class ExpiringMapTest {
     }
 
     @Test
-    public void testRemove_None() throws Exception {
-        ExpiringMap<String, Expirable> map = new ExpiringMap<String, Expirable>();
+    public void testRemove_None() {
+        ExpiringMap<String, Expirable> map = new ExpiringMap<>();
         Expirable object1 = mock(Expirable.class);
         when(object1.isExpired()).thenReturn(false);
         // Note the sequence is to input the new value and then remove any so if an object is put in already in an
@@ -55,8 +55,8 @@ public class ExpiringMapTest {
     }
 
     @Test
-    public void testRemove_Expired() throws Exception {
-        ExpiringMap<String, Expirable> map = new ExpiringMap<String, Expirable>();
+    public void testRemove_Expired() {
+        ExpiringMap<String, Expirable> map = new ExpiringMap<>();
         Expirable object1 = mock(Expirable.class);
         Expirable object2 = mock(Expirable.class);
         Expirable object3 = mock(Expirable.class);

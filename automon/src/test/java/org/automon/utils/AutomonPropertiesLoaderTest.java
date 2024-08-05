@@ -23,7 +23,7 @@ public class AutomonPropertiesLoaderTest {
     }
 
     @Test
-    public void testDefaults() throws Exception {
+    public void testDefaults() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader();
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEmpty();
@@ -31,7 +31,7 @@ public class AutomonPropertiesLoaderTest {
 
 
     @Test
-    public void testNoExists() throws Exception {
+    public void testNoExists() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader();
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty("I_DO_NOT_EXIST")).isNull();
@@ -39,7 +39,7 @@ public class AutomonPropertiesLoaderTest {
 
 
     @Test
-    public void testFromConfigFile() throws Exception {
+    public void testFromConfigFile() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon.xml");
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo("org.mypackage.MyOpenMon");
@@ -47,21 +47,21 @@ public class AutomonPropertiesLoaderTest {
 
 
     @Test
-    public void testFromConfigFileWithScheme1() throws Exception {
+    public void testFromConfigFileWithScheme1() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("file:automon.xml");
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo("org.mypackage.MyOpenMon");
     }
 
     @Test
-    public void testFromConfigFileWithScheme2() throws Exception {
+    public void testFromConfigFileWithScheme2() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("file://automon.xml");
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo("org.mypackage.MyOpenMon");
     }
 
     @Test
-    public void testFromConfigFileMimicNullFile() throws Exception {
+    public void testFromConfigFileMimicNullFile() {
         // mimics when property System.getProperty("org.aspectj.weaver.loadtime.configuration") returns null.
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader((String) null, "automon.xml");
         Properties properties = loader.getProperties();
@@ -69,7 +69,7 @@ public class AutomonPropertiesLoaderTest {
     }
 
     @Test
-    public void testFromConfigFilesThatDoNotExist() throws Exception {
+    public void testFromConfigFilesThatDoNotExist() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon1.properties", "automon2.properties");
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEmpty();
@@ -77,7 +77,7 @@ public class AutomonPropertiesLoaderTest {
 
 
     @Test
-    public void testFromSystemProperties() throws Exception {
+    public void testFromSystemProperties() {
         AutomonPropertiesLoader.SysProperty sysProperty = mock(AutomonPropertiesLoader.SysProperty.class);
         Properties props = new Properties();
         props.put(AutomonPropertiesLoader.CONFIGURED_OPEN_MON, "com.mypackage.SystemPropertyPrecedence");
@@ -90,7 +90,7 @@ public class AutomonPropertiesLoaderTest {
     }
 
     @Test
-    public void testFromSystemProperties_StatsD() throws Exception {
+    public void testFromSystemProperties_StatsD() {
         AutomonPropertiesLoader.SysProperty sysProperty = mock(AutomonPropertiesLoader.SysProperty.class);
         Properties props = new Properties();
         props.put("org.automon.statsd.noexist", "mynoexist_value");

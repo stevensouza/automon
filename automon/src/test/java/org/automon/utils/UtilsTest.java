@@ -28,39 +28,39 @@ public class UtilsTest {
     }
 
     @Test
-    public void testBasicThrowableLabel() throws Exception {
+    public void testBasicThrowableLabel() {
         RuntimeException runtimeException = new RuntimeException("My RTE exception");
         assertThat(Utils.getLabel(runtimeException)).isEqualTo("java.lang.RuntimeException");
     }
 
     @Test
-    public void testSqlThrowableLabel() throws Exception {
+    public void testSqlThrowableLabel() {
         SQLException sqlException = new SQLException("My SQL exception", "Login failure", 400);
         assertThat(Utils.getLabel(sqlException)).isEqualTo("java.sql.SQLException,ErrorCode=400,SQLState=Login failure");
     }
 
     @Test
-    public void testArgNameValuePairs_Empty() throws Exception {
+    public void testArgNameValuePairs_Empty() {
         JoinPoint jp = mock(JoinPoint.class);
         assertThat(Utils.getArgNameValuePairs(jp)).isEmpty();
     }
 
     @Test
-    public void testArgNameValuePairs_ArgValueNoArgName() throws Exception {
+    public void testArgNameValuePairs_ArgValueNoArgName() {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
         assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve");
     }
 
     @Test
-    public void testArgNameValuePairs_ArgValueNoArgName_multiple() throws Exception {
+    public void testArgNameValuePairs_ArgValueNoArgName_multiple() {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
         assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve", "1: 20");
     }
 
     @Test
-    public void testArgNameValuePairs_ArgValueAndArgName() throws Exception {
+    public void testArgNameValuePairs_ArgValueAndArgName() {
         JoinPoint jp = mock(JoinPoint.class);
         CodeSignature signature = mock(CodeSignature.class);
         when(jp.getSignature()).thenReturn(signature);
@@ -70,7 +70,7 @@ public class UtilsTest {
     }
 
     @Test
-    public void testArgNameValuePairs_ArgValueAndArgName_multiple() throws Exception {
+    public void testArgNameValuePairs_ArgValueAndArgName_multiple() {
         JoinPoint jp = mock(JoinPoint.class);
         CodeSignature signature = mock(CodeSignature.class);
         when(jp.getSignature()).thenReturn(signature);
@@ -80,8 +80,8 @@ public class UtilsTest {
     }
 
     @Test
-    public void testArgNameValuePairsToString() throws Exception {
-        List<String> args = new ArrayList<String>();
+    public void testArgNameValuePairsToString() {
+        List<String> args = new ArrayList<>();
         assertThat(Utils.argNameValuePairsToString(null)).isEqualTo(Utils.UNKNOWN);
         assertThat(Utils.argNameValuePairsToString(args)).contains("Parameter");
         args.add("fname: Steve");
@@ -90,20 +90,18 @@ public class UtilsTest {
     }
 
     @Test
-    public void testToStringWithLimit() throws Exception {
+    public void testToStringWithLimit() {
         assertThat(Utils.toStringWithLimit(null)).isEqualTo(Utils.NULL_STR);
         assertThat(Utils.toStringWithLimit("hi")).describedAs("Normal length string").isEqualTo("hi");
         StringBuilder sb = new StringBuilder();
         int SIZE = 1000;
-        for (int i = 0; i < SIZE; i++) {
-            sb.append("A");
-        }
+        sb.append("A".repeat(SIZE));
         assertThat(Utils.toStringWithLimit(sb.toString()).length()).describedAs("Long strings should be truncated").isLessThan(SIZE);
         assertThat(Utils.toStringWithLimit(sb.toString())).describedAs("String too long should be truncated").endsWith(Utils.DEFAULT_MAX_STRING_ENDING);
     }
 
     @Test
-    public void testGetExceptionTrace() throws Exception {
+    public void testGetExceptionTrace() {
         assertThat(Utils.getExceptionTrace(null)).isEqualTo(Utils.UNKNOWN);
         RuntimeException e = new RuntimeException("my exception");
         assertThat(Utils.getExceptionTrace(e)).contains("java.lang.RuntimeException: my exception");
@@ -111,7 +109,7 @@ public class UtilsTest {
     }
 
     @Test
-    public void testTokenize() throws Exception {
+    public void testTokenize() {
         String[] array = Utils.tokenize("com.jamonapi.MonitorFactory", "[.]");
         assertThat(array).containsExactly("com", "jamonapi", "MonitorFactory");
         array = Utils.tokenize("jamon , javasimon", ",");
@@ -119,7 +117,7 @@ public class UtilsTest {
     }
 
     @Test
-    public void testStripFileScheme() throws Exception {
+    public void testStripFileScheme() {
         assertThat(Utils.stripFileScheme("myfile.dat")).isEqualTo("myfile.dat");
         assertThat(Utils.stripFileScheme("file:myfile.dat")).isEqualTo("myfile.dat");
         assertThat(Utils.stripFileScheme("file://myfile.dat")).isEqualTo("myfile.dat");
@@ -134,8 +132,8 @@ public class UtilsTest {
     }
 
     @Test
-    public void removeClassNamesFromList() throws Exception {
-        List<String> list = new ArrayList<String>();
+    public void removeClassNamesFromList() {
+        List<String> list = new ArrayList<>();
         list.add("MyClass1");
         list.add("MyClass2");
         list.add("com.mypackage1.MyClass1");

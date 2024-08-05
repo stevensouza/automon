@@ -19,9 +19,9 @@ import static org.mockito.Mockito.*;
 
 public class AutomonAspectTest {
 
-    private MyInheritedAutomonAspect aspect = Aspects.aspectOf(MyInheritedAutomonAspect.class);
-    private Throwable exception = new RuntimeException("my exception");
-    private OpenMon openMon = mock(OpenMon.class);
+    private final MyInheritedAutomonAspect aspect = Aspects.aspectOf(MyInheritedAutomonAspect.class);
+    private final Throwable exception = new RuntimeException("my exception");
+    private final OpenMon openMon = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -33,38 +33,38 @@ public class AutomonAspectTest {
     }
 
     @Test
-    public void testIsEnabled() throws Exception {
+    public void testIsEnabled() {
         assertThat(aspect.isEnabled()).describedAs("Should be disabled").isTrue();
         aspect.setOpenMon(OpenMonFactory.NULL_IMP);
         assertThat(aspect.isEnabled()).describedAs("Should be enabled").isFalse();
     }
 
     @Test
-    public void testSetOpenMon() throws Exception {
+    public void testSetOpenMon() {
         aspect.setOpenMon(openMon);
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isEqualTo(openMon);
     }
 
     @Test
-    public void testSetOpenMonWithString() throws Exception {
+    public void testSetOpenMonWithString() {
         aspect.setOpenMon(OpenMonFactory.JAMON);
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
     }
 
     @Test
-    public void testSetOpenMonWithNull() throws Exception {
+    public void testSetOpenMonWithNull() {
         aspect.setOpenMon((String) null);
         assertThat(aspect.getOpenMon()).describedAs("Should not be null").isNotNull();
         assertThat(aspect.getOpenMon()).describedAs("Should have found one of the default implementations in the classpath").isNotInstanceOf(NullImp.class);
     }
 
     @Test
-    public void testGetOpenMonFactory() throws Exception {
+    public void testGetOpenMonFactory() {
         assertThat(aspect.getOpenMonFactory()).isNotNull();
     }
 
     @Test
-    public void testMonitorPerformance() throws Throwable {
+    public void testMonitorPerformance() {
         HiWorld hi = new HiWorld();
         Object START_CONTEXT = new Object();
         when(openMon.start(any(JoinPoint.StaticPart.class))).thenReturn(START_CONTEXT);

@@ -16,9 +16,9 @@ import static org.mockito.Mockito.when;
 
 
 public class MicrometerTest {
-    private Micrometer openMon = new Micrometer();
-    private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
+    private final Micrometer openMon = new Micrometer();
+    private final JoinPoint jp = mock(JoinPoint.class);
+    private final JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -32,13 +32,13 @@ public class MicrometerTest {
     }
 
     @Test
-    public void testStart() throws Exception {
+    public void testStart() {
         TimerContext mon = openMon.start(staticPart);
         assertThat(openMon.getTimer(staticPart.toString()).count()).describedAs("A timer that wasn't started should not have a count").isEqualTo(0);
     }
 
     @Test
-    public void testStop() throws Exception {
+    public void testStop() {
         TimerContext mon = openMon.start(staticPart);
         sleep(250);
         openMon.stop(mon);
@@ -67,7 +67,7 @@ public class MicrometerTest {
     }
 
     @Test
-    public void testStopWithException() throws Exception {
+    public void testStopWithException() {
         TimerContext mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(openMon.getTimer(staticPart.toString()).count())
@@ -75,7 +75,7 @@ public class MicrometerTest {
     }
 
     @Test
-    public void testException() throws Exception {
+    public void testException() {
         assertThat(openMon.getCounter(SharedConstants.EXCEPTION_LABEL).count())
                 .describedAs("No exception should exist yet").isEqualTo(0);
         openMon.exception(jp, SharedConstants.EXCEPTION);
@@ -85,7 +85,7 @@ public class MicrometerTest {
 
 
     @Test
-    public void setMetricRegistry() throws Exception {
+    public void setMetricRegistry() {
         MeterRegistry registry = new SimpleMeterRegistry();
         Micrometer.setMeterRegistry(registry);
         assertThat(Micrometer.getMeterRegistry()).isEqualTo(registry);

@@ -15,9 +15,9 @@ import static org.mockito.Mockito.when;
 
 
 public class JavaSimonTest {
-    private JavaSimon openMon = new JavaSimon();
-    private JoinPoint jp = mock(JoinPoint.class);
-    private JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
+    private final JavaSimon openMon = new JavaSimon();
+    private final JoinPoint jp = mock(JoinPoint.class);
+    private final JoinPoint.StaticPart staticPart = mock(JoinPoint.StaticPart.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -31,14 +31,14 @@ public class JavaSimonTest {
     }
 
     @Test
-    public void testStart() throws Exception {
+    public void testStart() {
         Split mon = openMon.start(staticPart);
         assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(1);
         assertThat(mon.getStopwatch().getCounter()).describedAs("The monitor should not have finished").isEqualTo(0);
     }
 
     @Test
-    public void testStop() throws Exception {
+    public void testStop() {
         Split mon = openMon.start(staticPart);
         openMon.stop(mon);
         assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(0);
@@ -46,7 +46,7 @@ public class JavaSimonTest {
     }
 
     @Test
-    public void testStopWithException() throws Exception {
+    public void testStopWithException() {
         Split mon = openMon.start(staticPart);
         openMon.stop(mon, new RuntimeException("my exception"));
         assertThat(mon.getStopwatch().getActive()).describedAs("The monitor should have been started").isEqualTo(0);
@@ -54,7 +54,7 @@ public class JavaSimonTest {
     }
 
     @Test
-    public void testException() throws Exception {
+    public void testException() {
         Counter mon = SimonManager.getCounter(openMon.cleanExceptionForSimon(SharedConstants.EXCEPTION_LABEL));
         Counter monGeneral = SimonManager.getCounter(OpenMon.EXCEPTION_LABEL);
         assertThat(mon.getCounter()).describedAs("The exception monitor should not have been created yet").isEqualTo(0);
