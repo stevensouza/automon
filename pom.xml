@@ -101,8 +101,6 @@
         <junit.version>5.10.3</junit.version>
 <!--        complete-->
         <newrelic.version>8.13.0</newrelic.version>
-        <!--        latest is 4.0.1 but should i support? also they changed the maven repo for it -->
-        <ejb.version>3.2.2</ejb.version>
         <!--        6.1.10 needs java 17-->
         <spring.version>5.3.37</spring.version>
 <!--        is this needed or just use aspectj version?-->
@@ -417,13 +415,6 @@
                 <groupId>com.timgroup</groupId>
                 <artifactId>java-statsd-client</artifactId>
                 <version>${statsd.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.ejb</groupId>
-                <artifactId>javax.ejb-api</artifactId>
-                <version>${ejb.version}</version>
                 <scope>provided</scope>
             </dependency>
 
