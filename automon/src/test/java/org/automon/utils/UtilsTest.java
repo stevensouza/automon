@@ -112,8 +112,8 @@ public class UtilsTest {
     public void testTokenize() {
         String[] array = Utils.tokenize("com.jamonapi.MonitorFactory", "[.]");
         assertThat(array).containsExactly("com", "jamonapi", "MonitorFactory");
-        array = Utils.tokenize("jamon , javasimon", ",");
-        assertThat(array).containsExactly("jamon", "javasimon");
+        array = Utils.tokenize("jamon , metrics", ",");
+        assertThat(array).containsExactly("jamon", "metrics");
     }
 
     @Test

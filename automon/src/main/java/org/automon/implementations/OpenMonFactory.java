@@ -17,10 +17,9 @@ import java.util.*;
 public class OpenMonFactory {
 
     /**
-     * Note the short form is also put in the factory: jamon, javasimon, ...
+     * Note the short form is also put in the factory: jamon, ...
      */
     public static final String JAMON = "org.automon.implementations.Jamon";
-    public static final String JAVA_SIMON = "org.automon.implementations.JavaSimon";
     public static final String METRICS = "org.automon.implementations.Metrics";
     public static final String SYSOUT = "org.automon.implementations.SysOut";
     public static final String NULL_IMP = "org.automon.implementations.NullImp";
@@ -35,7 +34,6 @@ public class OpenMonFactory {
         this.defaultOpenMon = defaultOpenMon;
         add(JAMON);
         add(MICROMETER);
-        add(JAVA_SIMON);
         add(METRICS);
         add(NEW_RELIC);
         add(SYSOUT);
@@ -96,7 +94,7 @@ public class OpenMonFactory {
     public OpenMon getFirstInstance() {
         // note for some reason the NewRelic exception is not caught and exits the program so i put it last
         // This is a hack though and I need to see why it is not being caught.  
-        OpenMon openMon = Utils.createFirst(METRICS, JAMON, JAVA_SIMON, MICROMETER, NEW_RELIC);
+        OpenMon openMon = Utils.createFirst(METRICS, JAMON, MICROMETER, NEW_RELIC);
         if (openMon == null) {
             return defaultOpenMon;
         }

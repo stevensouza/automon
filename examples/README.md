@@ -29,7 +29,7 @@ The following is an example of invoking a program with LTW:
 **java -Dorg.automon=sysout -Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml -javaagent:libs/aspectjweaver.jar -classpath libs/automon-1.0.jar**:libs/playground-1.0.jar com.stevesouza.automon.annotations.AnnotationTester
 
 * **-Dorg.automon=sysout** - Specifies what implementation should be used to monitor your program. In this case we are simply
-printing all method invocations with System.out.println(..).  Should you specify one of the other monitoring options such as jamon, javasimon, metrics
+printing all method invocations with System.out.println(..).  Should you specify one of the other monitoring options such as jamon, metrics
 make sure you include those jars in the classpath too. If this parameter is not specified then Automon will look in the classpath for any
 default implementations (as of 1.0 that is Jamon, JavaSimon, Yammer Metrics) and use the first one it finds or disable Automon if
 none are found.

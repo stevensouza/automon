@@ -12,7 +12,7 @@ on the rich pointcut language.  This file also has various pointcuts that may be
 is defined which will monitor any code that has any of the JDKs ejb annotations (Stateless, Stateful etc).
 
 
-If 'org.automon' is not specified anywhere the current implementations (for example jamon, javasimon, yammer metrics) will be
+If 'org.automon' is not specified anywhere the current implementations (for example jamon, yammer metrics) will be
 attempted to be created.  The first one that succeeds will be used (for example by putting the jamon jar in the classpath
 it could be created).  If none is created Automon is disabled.
 
@@ -21,7 +21,7 @@ comments section of this file then it will be used to configure the Automon moni
 You can also specify your own OpenMon implementation as long as it has a fully qualified classname (i.e. com.mypackage.MyClass) and
 a noarg constructor.  It can also be specified by the command line parameter: -Dorg.automon=sysout
 
-Current choices include the following though you can provide your own implementation of org.automon.implementations.OpenMon:  jamon, metrics, javasimon, nullimp, sysout
+Current choices include the following though you can provide your own implementation of org.automon.implementations.OpenMon:  jamon, metrics, nullimp, sysout
 
 Here are a few pointcut examples. Note I think AND/OR must be in uppercase.
 
@@ -64,7 +64,6 @@ within a type as well as any types that inherit from it.:
         <!-- annotation pointcuts -->
         <pointcut name="jamon_annotations" expression="org.automon.pointcuts.Annotations.jamon()"/>
         <pointcut name="automon_annotations" expression="org.automon.pointcuts.Annotations.automon()"/>
-        <pointcut name="javasimon_annotations" expression="org.automon.pointcuts.Annotations.javasimon()"/>
         <pointcut name="metrics_annotations" expression="org.automon.pointcuts.Annotations.metrics()"/>
         <pointcut name="newrelic_annotations" expression="org.automon.pointcuts.Annotations.newrelic()"/>
         <pointcut name="spring_annotations" expression="org.automon.pointcuts.Annotations.spring()"/>

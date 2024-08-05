@@ -77,7 +77,6 @@
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
         <metrics.version>4.2.26</metrics.version>
         <jamonapi.version>2.82</jamonapi.version>
-        <javasimon.version>4.2.0</javasimon.version>
         <assertj.version>3.26.3</assertj.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <mojo.execution.version>3.3.0</mojo.execution.version>
@@ -344,13 +343,6 @@
                 <artifactId>jamon</artifactId>
                 <version>${jamonapi.version}</version>
                 <!--                <scope>provided</scope>-->
-            </dependency>
-
-            <dependency>
-                <groupId>org.javasimon</groupId>
-                <artifactId>javasimon-core</artifactId>
-                <version>${javasimon.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>

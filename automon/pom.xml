@@ -74,11 +74,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.javasimon</groupId>
-            <artifactId>javasimon-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
         </dependency>

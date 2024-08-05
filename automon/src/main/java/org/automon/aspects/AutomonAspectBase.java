@@ -65,7 +65,7 @@ public class AutomonAspectBase {
      * in then use the default of iterating each of the preinstalled OpenMon types attempting to create them until one succeeds.
      * If one doesn't succeed then it would mean the proper jar is not available. If all of these fail then simply disable.
      *
-     * @param openMonKey Something like jamon, metrics, javasimon
+     * @param openMonKey Something like jamon, metrics...
      */
     public void setOpenMon(String openMonKey) {
         if (openMonKey == null || openMonKey.trim().equals("")) {

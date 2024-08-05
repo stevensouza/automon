@@ -22,10 +22,6 @@ public abstract class Annotations {
     public void jamon() {
     }
 
-    @Pointcut("within(@org.javasimon.aop.Monitored *) || @annotation(org.javasimon.aop.Monitored)")
-    public void javasimon() {
-    }
-
     @Pointcut("within(@com.codahale.metrics.annotation.Timed *) || @annotation(com.codahale.metrics.annotation.Timed)")
     public void metrics() {
     }

@@ -26,7 +26,6 @@ public class OpenMonFactoryTest {
     public void testDefault() {
         // test valid values loaded by default with fully qualified class path.
         assertThat(factory.getInstance(OpenMonFactory.JAMON)).isInstanceOf(Jamon.class);
-        assertThat(factory.getInstance(OpenMonFactory.JAVA_SIMON)).isInstanceOf(JavaSimon.class);
         assertThat(factory.getInstance(OpenMonFactory.METRICS)).isInstanceOf(Metrics.class);
         assertThat(factory.getInstance(OpenMonFactory.SYSOUT)).isInstanceOf(SysOut.class);
         assertThat(factory.getInstance(OpenMonFactory.NULL_IMP)).isInstanceOf(NullImp.class);
@@ -44,9 +43,8 @@ public class OpenMonFactoryTest {
     @Test
     public void testAddMultiple() {
         factory.reset();
-        factory.add(OpenMonFactory.JAMON, OpenMonFactory.JAVA_SIMON);
+        factory.add(OpenMonFactory.JAMON);
         assertThat(factory.getInstance(OpenMonFactory.JAMON)).isInstanceOf(Jamon.class);
-        assertThat(factory.getInstance(OpenMonFactory.JAVA_SIMON)).isInstanceOf(JavaSimon.class);
         assertThat(factory.getInstance("I_DO_NOT_EXIST")).isEqualTo(defaultValue);
     }
 
@@ -58,7 +56,7 @@ public class OpenMonFactoryTest {
 
     @Test
     public void testToString()  {
-        assertThat(factory.toString()).contains("jamon, javasimon, metrics, micrometer, newrelicimp, nullimp, sysout");
+        assertThat(factory.toString()).contains("jamon, metrics, micrometer, newrelicimp, nullimp, sysout");
     }
 
     @Test

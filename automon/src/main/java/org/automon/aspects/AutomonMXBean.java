@@ -16,7 +16,7 @@ public interface AutomonMXBean {
      * Dynamically chang the implementation of {@link org.automon.implementations.OpenMon}.  This also allows Automon to be
      * disabled/enabled at runtime.
      *
-     * @param openMon A string such as jamon, metrics, javasimon
+     * @param openMon A string such as jamon, metrics, ...
      */
     public void setOpenMon(String openMon);
 

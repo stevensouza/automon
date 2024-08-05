@@ -57,7 +57,7 @@
                     <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
                     <systemProperties>
                         <property>
-                            <!-- note assuming the proper jars are in the classpath you could use jamon, javasimon, metrics, nullimp, sysout -->
+                            <!-- note assuming the proper jars are in the classpath you could use jamon, metrics, nullimp, sysout -->
                             <key>org.automon</key>
                             <value>sysout</value>
                         </property>
