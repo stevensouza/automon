@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,21 +44,22 @@ public class UtilsTest {
     @Test
     public void testArgNameValuePairs_Empty() {
         JoinPoint jp = mock(JoinPoint.class);
-        assertThat(Utils.getArgNameValuePairs(jp)).isEmpty();
+        assertThat(Utils.paramsToMap(jp)).isEmpty();
     }
 
     @Test
     public void testArgNameValuePairs_ArgValueNoArgName() {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
-        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve");
+
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("param0","Steve"));
     }
 
     @Test
     public void testArgNameValuePairs_ArgValueNoArgName_multiple() {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("0: Steve", "1: 20");
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("param0", "Steve"), entry("param1",20));
     }
 
     @Test
@@ -66,7 +69,7 @@ public class UtilsTest {
         when(jp.getSignature()).thenReturn(signature);
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
-        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("firstName: Steve");
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName","Steve"));
     }
 
     @Test
@@ -76,7 +79,7 @@ public class UtilsTest {
         when(jp.getSignature()).thenReturn(signature);
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName", "number"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.getArgNameValuePairs(jp)).containsExactly("firstName: Steve", "number: 20");
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName","Steve"), entry("number",20));
     }
 
     @Test

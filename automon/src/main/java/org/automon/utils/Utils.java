@@ -131,7 +131,7 @@ public class Utils {
     }
 
     /**
-     * This method extracts method arguments and their values from the JoinPoint
+     * This method extracts method parameters/arguments and their values from the JoinPoint
      * and returns a read-only map containing them.
      * Terminology Clarification:
      *
@@ -141,7 +141,7 @@ public class Utils {
      * @param joinPoint The JoinPoint object containing the execution context
      * @return A read-only map of argument names to their corresponding values
      */
-    public static Map<String, Object> toMap(JoinPoint joinPoint) {
+    public static Map<String, Object> paramsToMap(JoinPoint joinPoint) {
         Map<String, Object> argsMap = new HashMap<>();
         Object[] argValues = joinPoint.getArgs();
         if (argValues == null || argValues.length == 0) {

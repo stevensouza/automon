@@ -60,7 +60,7 @@ public class LogTracingHelper {
      * @return This LogTracingHelper instance
      */
     public LogTracingHelper withParameters(JoinPoint joinPoint) {
-        MDC.put(PARAMETERS, Utils.toMap(joinPoint).toString());
+        MDC.put(PARAMETERS, Utils.paramsToMap(joinPoint).toString());
         return this;
     }
 
