@@ -77,6 +77,8 @@
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
         <metrics.version>4.2.26</metrics.version>
         <jamonapi.version>2.82</jamonapi.version>
+        <log4j.version>2.23.1</log4j.version>
+        <slf4j.version>2.0.13</slf4j.version>
         <assertj.version>3.26.3</assertj.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <mojo.execution.version>3.3.0</mojo.execution.version>
@@ -399,6 +401,29 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j2-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-ext -->
+            <!--      NDC capabilities-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-ext</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

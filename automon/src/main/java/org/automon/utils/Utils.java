@@ -100,7 +100,7 @@ public class Utils {
 
 
     /**
-     * <p>If appropriate for the given {@link org.aspectj.lang.JoinPoint} return argument names and values
+     * <p>If appropriate for the given {@link JoinPoint} return argument names and values
      * in a list of Strings.</p>
      *
      * <p>Example for the following method - printName(String fname, String lname)<br>
@@ -129,6 +129,44 @@ public class Utils {
 
         return list;
     }
+
+    /**
+     * This method extracts method arguments and their values from the JoinPoint
+     * and returns a read-only map containing them.
+     * Terminology Clarification:
+     *
+     * Parameter (Formal Parameter): A variable declared in the method signature that acts as a placeholder for the value that will be passed in during the method call.
+     * Argument (Actual Parameter): The actual value (data) that is passed into the method when it is called. This value is assigned to the corresponding parameter.
+     *
+     * @param joinPoint The JoinPoint object containing the execution context
+     * @return A read-only map of argument names to their corresponding values
+     */
+    public static Map<String, Object> toMap(JoinPoint joinPoint) {
+        Map<String, Object> argsMap = new HashMap<>();
+        Object[] argValues = joinPoint.getArgs();
+        if (argValues == null || argValues.length == 0) {
+            return argsMap;
+        }
+
+        Signature signature = joinPoint.getSignature();
+        // https://javadoc.io/doc/org.aspectj/aspectjweaver/1.8.11/org/aspectj/lang/reflect/CodeSignature.html
+        if (signature instanceof CodeSignature codeSignature) {
+            String[] parameterNames = codeSignature.getParameterNames();
+
+            for (int i = 0; i < argValues.length; i++) {
+                argsMap.put(parameterNames[i], argValues[i]);
+            }
+        } else {
+            for (int i = 0; i < argValues.length; i++) {
+                argsMap.put("param" + i, argValues[i]);
+            }
+        }
+
+        // Return a read-only version of the map for efficiency
+        return Collections.unmodifiableMap(argsMap);
+    }
+
+
 
     /**
      * Convert a list to a formatted string.
