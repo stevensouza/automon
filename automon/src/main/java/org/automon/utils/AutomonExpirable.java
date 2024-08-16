@@ -1,7 +1,7 @@
 package org.automon.utils;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class AutomonExpirable extends TimeExpirable {
     private Throwable throwable;
-    private List<String> argNamesAndValues;
+    private Map<String, Object> argNamesAndValues;
 
     // holds a reference that will be displayed in jamon fifo buffers etc. Because
     // jamon can be clustered with hazelcast the data must be serializable hence
@@ -29,11 +29,11 @@ public class AutomonExpirable extends TimeExpirable {
         super(expirationIntervalInMinutes);
     }
 
-    public List<String> getArgNamesAndValues() {
+    public Map<String, Object> getArgNamesAndValues() {
         return argNamesAndValues;
     }
 
-    public void setArgNamesAndValues(List<String> argNamesAndValues) {
+    public void setArgNamesAndValues(Map<String, Object>  argNamesAndValues) {
         this.argNamesAndValues = argNamesAndValues;
     }
 

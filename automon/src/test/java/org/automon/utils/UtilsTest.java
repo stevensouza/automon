@@ -2,18 +2,17 @@ package org.automon.utils;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.CodeSignature;
-
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
+import static org.automon.utils.Utils.LINE_SEPARATOR;
+import static org.automon.utils.Utils.UNKNOWN;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,14 +51,14 @@ public class UtilsTest {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
 
-        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("param0","Steve"));
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("param0", "Steve"));
     }
 
     @Test
     public void testArgNameValuePairs_ArgValueNoArgName_multiple() {
         JoinPoint jp = mock(JoinPoint.class);
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("param0", "Steve"), entry("param1",20));
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("param0", "Steve"), entry("param1", 20));
     }
 
     @Test
@@ -69,7 +68,7 @@ public class UtilsTest {
         when(jp.getSignature()).thenReturn(signature);
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve"});
-        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName","Steve"));
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName", "Steve"));
     }
 
     @Test
@@ -79,18 +78,41 @@ public class UtilsTest {
         when(jp.getSignature()).thenReturn(signature);
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName", "number"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
-        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName","Steve"), entry("number",20));
+        assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName", "Steve"), entry("number", 20));
     }
 
     @Test
-    public void testArgNameValuePairsToString() {
-        List<String> args = new ArrayList<>();
-        assertThat(Utils.argNameValuePairsToString(null)).isEqualTo(Utils.UNKNOWN);
-        assertThat(Utils.argNameValuePairsToString(args)).contains("Parameter");
-        args.add("fname: Steve");
-        args.add("lname: Souza");
-        assertThat(Utils.argNameValuePairsToString(args)).contains("Parameter", "fname: Steve", "lname: Souza");
+    void testArgNameValuePairsNull() {
+        String result = Utils.argNameValuePairsToString(null);
+        assertThat(result).isEqualTo(UNKNOWN);
     }
+
+    @Test
+    void testArgNameValuePairsEmptyArgs() {
+        Map<String, Object> args = new HashMap<>();
+        String result = Utils.argNameValuePairsToString(args);
+        assertThat(result).isEqualTo("=== Parameters ===" + LINE_SEPARATOR + LINE_SEPARATOR);
+    }
+
+    @Test
+    void testArgNameValuePairsMultipleArgs() {
+        // note any map can be used.  LinkedHashMap was used in this test to guarantee
+        // the resulting string is in the correct order.
+        Map<String, Object> args = new LinkedHashMap<>();
+        args.put("filename", "report.txt");
+        args.put("max_records", 1000);
+        args.put("user_id", "johndoe123");
+
+        String expected = "=== Parameters ===" + LINE_SEPARATOR +
+                "filename: report.txt" + LINE_SEPARATOR +
+                "max_records: 1000" + LINE_SEPARATOR +
+                "user_id: johndoe123" + LINE_SEPARATOR +
+                LINE_SEPARATOR;
+
+        String result = Utils.argNameValuePairsToString(args);
+        assertThat(result).isEqualTo(expected);
+    }
+
 
     @Test
     public void testToStringWithLimit() {
@@ -105,7 +127,7 @@ public class UtilsTest {
 
     @Test
     public void testGetExceptionTrace() {
-        assertThat(Utils.getExceptionTrace(null)).isEqualTo(Utils.UNKNOWN);
+        assertThat(Utils.getExceptionTrace(null)).isEqualTo(UNKNOWN);
         RuntimeException e = new RuntimeException("my exception");
         assertThat(Utils.getExceptionTrace(e)).contains("java.lang.RuntimeException: my exception");
         assertThat(Utils.getExceptionTrace(e)).contains(getClass().getName());

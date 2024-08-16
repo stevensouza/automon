@@ -98,38 +98,6 @@ public class Utils {
                 replace(",SQLState=", "-SQLState ");
     }
 
-
-    /**
-     * <p>If appropriate for the given {@link JoinPoint} return argument names and values
-     * in a list of Strings.</p>
-     *
-     * <p>Example for the following method - printName(String fname, String lname)<br>
-     * fname: Steve<br>
-     * lname: Souza<br>
-     * </p>
-     *
-     * <p>Under certain circumstances for example if the code was compiled without retaining parameters a
-     * parameter name of the format arg0 or even 0 might appear.</p>
-     *
-     * @param jp
-     * @return A list containing strings of the format: argName: argValue
-     */
-    public static List<String> getArgNameValuePairs(JoinPoint jp) {
-        List<String> list = new ArrayList<String>();
-        Object[] argValues = jp.getArgs();
-        if (argValues == null || argValues.length == 0) {
-            return list;
-        }
-
-        Object[] argNames = getParameterNames(argValues, jp);
-        for (int i = 0; i < argValues.length; i++) {
-            String argName = (argNames[i] == null) ? "" + i : argNames[i].toString();
-            list.add("" + argName + ": " + toStringWithLimit(argValues[i]));
-        }
-
-        return list;
-    }
-
     /**
      * This method extracts method parameters/arguments and their values from the JoinPoint
      * and returns a read-only map containing them.
@@ -169,28 +137,41 @@ public class Utils {
 
 
     /**
-     * Convert a list to a formatted string.
+     * Convert a Map to a formatted string
      *
      * @param args assumed to be parameter key value pairs
-     * @return String representing the argName, argValue pairs
+     * @return String representing the argName, argValue pairs. Example of what it could return:
+     *      === Parameters ===
+     *      filename: report.txt
+     *      max_records: 1000
+     *      user_id: johndoe123
      */
-    public static String argNameValuePairsToString(List<String> args) {
+    public static String argNameValuePairsToString(Map<String, Object> args) {
         if (args == null) {
             return UNKNOWN;
         }
 
         StringBuilder sb = new StringBuilder();
         sb.append("=== Parameters ===").append(LINE_SEPARATOR);
-        for (String str : args) {
-            sb.append(str).append(LINE_SEPARATOR);
+
+        for (Map.Entry<String, Object> entry : args.entrySet()) {
+            sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(LINE_SEPARATOR);
         }
+
         return sb.append(LINE_SEPARATOR).toString();
     }
 
     /**
-     * Turns a single method parameter into a string. To keep
-     * the functionality safe we truncate overly long strings and
-     * ignore any exceptions.
+     * Converts a single method parameter to a string representation with length limiting.
+     *
+     * @param parameter The object to convert to a string.
+     * @return A string representation of the parameter, with the following characteristics:
+     *         - Returns NULL_STR for null parameters.
+     *         - Truncates strings longer than DEFAULT_ARG_STRING_MAX_LENGTH and appends DEFAULT_MAX_STRING_ENDING.
+     *         - Returns UNKNOWN if any exception occurs during conversion.
+     * <p>
+     * This method ensures safe functionality by handling null values, limiting string length,
+     * and catching all exceptions to prevent method failure.
      */
     public static String toStringWithLimit(Object parameter) {
         if (parameter == null) {

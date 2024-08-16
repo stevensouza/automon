@@ -75,7 +75,7 @@ public class Jamon extends OpenMonBase<Monitor> {
     private AutomonExpirable populateExceptionContext(JoinPoint jp, Throwable throwable) {
         AutomonExpirable exceptionContext = get(throwable);
         if (exceptionContext.getArgNamesAndValues() == null) {
-            exceptionContext.setArgNamesAndValues(Utils.getArgNameValuePairs(jp));
+            exceptionContext.setArgNamesAndValues(Utils.paramsToMap(jp));
             // note this will replace the jamon details of Throwable that was set in the stop method above.
             exceptionContext.setJamonDetails(exceptionContext.toString());
         }

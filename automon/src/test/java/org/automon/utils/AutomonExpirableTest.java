@@ -3,7 +3,9 @@ package org.automon.utils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,8 +24,8 @@ public class AutomonExpirableTest {
     @Test
     public void testSetArgNamesAndValues() {
         AutomonExpirable expirable = new AutomonExpirable();
-        List<String> args = new ArrayList<>();
-        args.add("fname: Steve");
+        Map<String, Object> args = new HashMap<>();
+        args.put("fname", "Steve");
         expirable.setArgNamesAndValues(args);
         assertThat(expirable.getArgNamesAndValues()).isEqualTo(args);
         assertThat(expirable.toString()).contains("fname: Steve");
@@ -43,8 +45,8 @@ public class AutomonExpirableTest {
     public void testThrowableAndArgs() {
         AutomonExpirable expirable = new AutomonExpirable();
 
-        List<String> args = new ArrayList<>();
-        args.add("fname: Steve");
+        Map<String, Object> args = new HashMap<>();
+        args.put("fname", "Steve");
         expirable.setArgNamesAndValues(args);
 
         Throwable t = new RuntimeException("my exception");
