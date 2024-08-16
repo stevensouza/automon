@@ -7,17 +7,16 @@ import org.slf4j.NDC;
 import java.util.UUID;
 
 /**
- * LogTracingHelper provides utility methods for managing logging context in AspectJ.
- * It uses SLF4J's MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context)
- * to store and remove various pieces of information related to application execution.
- *
- * Note this class is thread safe due to its use of the thread safe NDC, and MDC which
- * stores unique information for each logging thread. Note all values in NDC and MDC must be
- * cleared at the end of an invocation process.
- *
- * One singleton instance of this class will suffice for all loggers in the application due to the
- * use of MDC, and NDC and so this class uses the singleton pattern to disallow direct creation of an
- * instance.
+ * LogTracingHelper provides utility methods for managing logging context in AspectJ applications.
+ * It utilizes SLF4J's MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context)
+ * to store and manage various pieces of information related to application execution.
+ * <p>
+ * This class is thread-safe due to its use of the thread-safe NDC, and MDC which
+ * stores unique information for each logging thread. All values in NDC and MDC must be
+ * cleared at the end of an invocation process to prevent memory leaks.
+ * <p>
+ * This class follows the singleton pattern, as a single instance suffices for all loggers
+ * in the application due to the use of MDC and NDC.
  */
 public class LogTracingHelper {
 
@@ -35,7 +34,7 @@ public class LogTracingHelper {
     private static final String CONSTRUCTOR_EXECUTION_KIND = "constructor-execution";
 
     // Private static instance of the class, initialized only once
-    private static LogTracingHelper helper = new LogTracingHelper();
+    private static final LogTracingHelper INSTANCE = new LogTracingHelper();
 
     /**
      * Private constructor to prevent external instantiation.
@@ -48,7 +47,7 @@ public class LogTracingHelper {
      * @return The single instance of LogTracingHelper.
      */
     public static LogTracingHelper getInstance() {
-        return helper;
+        return INSTANCE;
     }
 
     /**
@@ -92,15 +91,16 @@ public class LogTracingHelper {
 
     /**
      * Adds execution time to the MDC.
-     * Note: This method currently uses a random value and should be replaced with actual timing logic.
      * Example MDC entry: "executionTimeMs" : "42"
      *
+     * @param milliseconds The execution time in milliseconds
      * @return This LogTracingHelper instance
      */
-    public LogTracingHelper withExecutionTime(int milliseconds) {
+    public LogTracingHelper withExecutionTime(long milliseconds) {
         MDC.put(EXECUTION_TIME_MS, String.valueOf(milliseconds));
         return this;
     }
+
 
     /**
      * Adds a unique request ID to the MDC.
@@ -252,7 +252,16 @@ public class LogTracingHelper {
         return this;
     }
 
-    // note although the 2nd arg is of type JoinPoint.EnclosingStaticPart it doesn't seem to work.
+    /**
+     * Sets up basic context information in MDC and NDC.
+     * note although the 2nd arg should be of type JoinPoint.EnclosingStaticPart that doesn't compile. The
+     * results would be the same but the exact type would allow for users to not incorrectly swap the arguments.
+     *
+     * @param thisJoinPointStaticPart The static part of the current join point
+     * @param thisEnclosingJoinPointStaticPart The static part of the enclosing join point
+     * @return This LogTracingHelper instance
+     */
+    //
     public LogTracingHelper basicContext(JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         withSignature(thisJoinPointStaticPart).
         withKind(thisJoinPointStaticPart);
@@ -264,6 +273,14 @@ public class LogTracingHelper {
         return this;
     }
 
+    /**
+     * Sets up full context information in MDC and NDC.
+     *
+     * @param joinPoint The current join point
+     * @param thisJoinPointStaticPart The static part of the current join point
+     * @param thisEnclosingJoinPointStaticPart The static part of the enclosing join point
+     * @return This LogTracingHelper instance
+     */
     public LogTracingHelper fullContext(JoinPoint joinPoint, JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         return  withEnclosingSignature(thisEnclosingJoinPointStaticPart).
                 withKind(thisJoinPointStaticPart).
@@ -273,6 +290,20 @@ public class LogTracingHelper {
                 withThis(joinPoint);
     }
 
+    /**
+     * Removes the basic context information from MDC and NDC.
+     * This method clears the following elements:
+     * <ul>
+     *   <li>Enclosing signature</li>
+     *   <li>Execution time</li>
+     *   <li>Join point kind</li>
+     *   <li>Method signature (from NDC)</li>
+     * </ul>
+     * Note: If an MDC element does not exist, its removal is safe and won't throw an exception,
+     * as per SLF4J documentation.
+     *
+     * @return This LogTracingHelper instance for method chaining
+     */
     public LogTracingHelper removeBasicContext() {
         return removeEnclosingSignature().
                 removeExecutionTime().
@@ -280,7 +311,24 @@ public class LogTracingHelper {
                 removeSignature();
     }
 
-    // note if MDC element does not exist it is still ok to remove (i.e. no exceptions per slf4j docs)
+    /**
+     * Removes the full context information from MDC and NDC.
+     * This method clears all elements set by the fullContext method, including:
+     * <ul>
+     *   <li>Enclosing signature</li>
+     *   <li>Execution time</li>
+     *   <li>Join point kind</li>
+     *   <li>Method parameters</li>
+     *   <li>Return value</li>
+     *   <li>Method signature (from NDC)</li>
+     *   <li>Target object</li>
+     *   <li>'This' object</li>
+     * </ul>
+     * Note: If an MDC element does not exist, its removal is safe and won't throw an exception,
+     * as per SLF4J documentation.
+     *
+     * @return This LogTracingHelper instance for method chaining
+     */
     public LogTracingHelper removeFullContext() {
         return removeEnclosingSignature().
                 removeExecutionTime().
@@ -300,6 +348,12 @@ public class LogTracingHelper {
         return METHOD_EXECUTION_KIND.equals(kind) || CONSTRUCTOR_EXECUTION_KIND.equals(kind);
     }
 
+    /**
+     * Converts a string to an integer, returning a default value if conversion fails.
+     *
+     * @param value The string to convert
+     * @return The integer value, or 0 if conversion fails
+     */
     private static int getStringAsNumberOrDefault(String value) {
         if (value == null) {
             return 0;
