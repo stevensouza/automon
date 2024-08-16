@@ -28,7 +28,7 @@ public class AutomonExpirableTest {
         args.put("fname", "Steve");
         expirable.setArgNamesAndValues(args);
         assertThat(expirable.getArgNamesAndValues()).isEqualTo(args);
-        assertThat(expirable.toString()).contains("fname: Steve");
+        assertThat(expirable.toString()).contains("fname=Steve");
     }
 
 
@@ -52,7 +52,7 @@ public class AutomonExpirableTest {
         Throwable t = new RuntimeException("my exception");
         expirable.setThrowable(t);
 
-        assertThat(expirable.toString()).contains("fname: Steve");
+        assertThat(expirable.toString()).contains("fname=Steve");
         assertThat(expirable.toString()).contains("java.lang.RuntimeException: my exception", getClass().getName());
     }
 

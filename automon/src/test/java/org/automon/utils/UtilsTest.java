@@ -104,9 +104,9 @@ public class UtilsTest {
         args.put("user_id", "johndoe123");
 
         String expected = "=== Parameters ===" + LINE_SEPARATOR +
-                "filename: report.txt" + LINE_SEPARATOR +
-                "max_records: 1000" + LINE_SEPARATOR +
-                "user_id: johndoe123" + LINE_SEPARATOR +
+                "filename=report.txt" + LINE_SEPARATOR +
+                "max_records=1000" + LINE_SEPARATOR +
+                "user_id=johndoe123" + LINE_SEPARATOR +
                 LINE_SEPARATOR;
 
         String result = Utils.argNameValuePairsToString(args);

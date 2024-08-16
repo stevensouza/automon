@@ -155,7 +155,7 @@ public class Utils {
         sb.append("=== Parameters ===").append(LINE_SEPARATOR);
 
         for (Map.Entry<String, Object> entry : args.entrySet()) {
-            sb.append(entry.getKey()).append(": ").append(entry.getValue()).append(LINE_SEPARATOR);
+            sb.append(entry.getKey()).append("=").append(entry.getValue()).append(LINE_SEPARATOR);
         }
 
         return sb.append(LINE_SEPARATOR).toString();

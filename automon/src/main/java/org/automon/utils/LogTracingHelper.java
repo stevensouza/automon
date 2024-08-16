@@ -20,18 +20,18 @@ import java.util.UUID;
  */
 public class LogTracingHelper {
 
-    private static final String PARAMETERS = "parameters";
-    private static final String EXECUTION_TIME_MS = "executionTimeMs";
-    private static final String REQUEST_ID = "requestId";
-    private static final String KIND = "kind";
-    private static final String THIS = "this";
-    private static final String TARGET = "target";
-    private static final String ENCLOSING_SIGNATURE = "enclosingSignature";
-    private static final String RETURN_VALUE = "returnValue";
+    static final String PARAMETERS = "parameters";
+    static final String EXECUTION_TIME_MS = "executionTimeMs";
+    static final String REQUEST_ID = "requestId";
+    static final String KIND = "kind";
+    static final String THIS = "this";
+    static final String TARGET = "target";
+    static final String ENCLOSING_SIGNATURE = "enclosingSignature";
+    static final String RETURN_VALUE = "returnValue";
 
     // aspectj 'kinds' that are needed to determine how logging/tracing should behave
-    private static final String METHOD_EXECUTION_KIND = "method-execution";
-    private static final String CONSTRUCTOR_EXECUTION_KIND = "constructor-execution";
+    static final String METHOD_EXECUTION_KIND = "method-execution";
+    static final String CONSTRUCTOR_EXECUTION_KIND = "constructor-execution";
 
     // Private static instance of the class, initialized only once
     private static final LogTracingHelper INSTANCE = new LogTracingHelper();
@@ -44,6 +44,7 @@ public class LogTracingHelper {
 
     /**
      * Public static method to get the single instance of the class.
+     *
      * @return The single instance of LogTracingHelper.
      */
     public static LogTracingHelper getInstance() {
@@ -257,14 +258,14 @@ public class LogTracingHelper {
      * note although the 2nd arg should be of type JoinPoint.EnclosingStaticPart that doesn't compile. The
      * results would be the same but the exact type would allow for users to not incorrectly swap the arguments.
      *
-     * @param thisJoinPointStaticPart The static part of the current join point
+     * @param thisJoinPointStaticPart          The static part of the current join point
      * @param thisEnclosingJoinPointStaticPart The static part of the enclosing join point
      * @return This LogTracingHelper instance
      */
     //
     public LogTracingHelper basicContext(JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         withSignature(thisJoinPointStaticPart).
-        withKind(thisJoinPointStaticPart);
+                withKind(thisJoinPointStaticPart);
         if (isKindExecution(thisJoinPointStaticPart.getKind()))
             removeEnclosingSignature();
         else
@@ -276,13 +277,13 @@ public class LogTracingHelper {
     /**
      * Sets up full context information in MDC and NDC.
      *
-     * @param joinPoint The current join point
-     * @param thisJoinPointStaticPart The static part of the current join point
+     * @param joinPoint                        The current join point
+     * @param thisJoinPointStaticPart          The static part of the current join point
      * @param thisEnclosingJoinPointStaticPart The static part of the enclosing join point
      * @return This LogTracingHelper instance
      */
     public LogTracingHelper fullContext(JoinPoint joinPoint, JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
-        return  withEnclosingSignature(thisEnclosingJoinPointStaticPart).
+        return withEnclosingSignature(thisEnclosingJoinPointStaticPart).
                 withKind(thisJoinPointStaticPart).
                 withParameters(joinPoint).
                 withSignature(thisJoinPointStaticPart).
@@ -354,7 +355,7 @@ public class LogTracingHelper {
      * @param value The string to convert
      * @return The integer value, or 0 if conversion fails
      */
-     static int getStringAsNumberOrDefault(String value) {
+    static int getStringAsNumberOrDefault(String value) {
         if (value == null) {
             return 0;
         } else {
