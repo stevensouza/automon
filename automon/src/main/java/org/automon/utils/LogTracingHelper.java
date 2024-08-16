@@ -354,7 +354,7 @@ public class LogTracingHelper {
      * @param value The string to convert
      * @return The integer value, or 0 if conversion fails
      */
-    private static int getStringAsNumberOrDefault(String value) {
+     static int getStringAsNumberOrDefault(String value) {
         if (value == null) {
             return 0;
         } else {
