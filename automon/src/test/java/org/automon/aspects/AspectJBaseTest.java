@@ -43,9 +43,9 @@ public class AspectJBaseTest {
     public void testSys_monitorFields() {
         HelloWorld obj = new HelloWorld();
         obj.setPlanet("earth"); // sets - instance var which matches pointcut. method itself doesn't count as it isn't public and so missed the pointcut
-        System.out.println(obj.getPlanet()); // get access for instance variable.  method doesn't match pointcut
+        System.out.println(obj.getPlanet()); // get access for instance variable.  method doesn't match pointcut as it isn't public
 
-        // start/stop pair should be called once for the constructor, and twice instance variable get and set access
+        // start/stop pair should be called once for the constructor, and twice for instance variable get and set access
         verify(openMon, times(3)).start(any(JoinPoint.StaticPart.class));
         verify(openMon, times(3)).stop(any());
     }
@@ -104,7 +104,7 @@ public class AspectJBaseTest {
     static class MyAspectJTestAspect extends AspectJBase {
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
-        @Pointcut("this(HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
+        @Pointcut("this(org.automon.aspects.HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
                 "org.automon.pointcuts.Select.publicMethod() || " +
                 "org.automon.pointcuts.Select.fieldGet() || " +
                 "org.automon.pointcuts.Select.fieldSet()  " +
@@ -113,7 +113,7 @@ public class AspectJBaseTest {
         }
 
         //public pointcut user_exceptions() : this(HelloWorld) && org.automon.pointcuts.Select.publicMethod();
-        @Pointcut("this(HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
+        @Pointcut("this(org.automon.aspects.HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
         public void user_exceptions() {
         }
     }
