@@ -265,7 +265,7 @@ public class LogTracingHelper {
     //
     public LogTracingHelper basicContext(JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         withSignature(thisJoinPointStaticPart).
-                withKind(thisJoinPointStaticPart);
+        withKind(thisJoinPointStaticPart);
         if (isKindExecution(thisJoinPointStaticPart.getKind()))
             removeEnclosingSignature();
         else
