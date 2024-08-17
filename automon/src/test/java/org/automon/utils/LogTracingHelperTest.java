@@ -146,8 +146,8 @@ class LogTracingHelperTest {
         Object[] args = {"value1"}; // Sample arguments
         when(joinPoint.getArgs()).thenReturn(args);
         when(staticPart.getKind()).thenReturn("method-execution");
-        when(joinPoint.getThis()).thenReturn(new Object());
-        when(joinPoint.getTarget()).thenReturn(new Object());
+        when(joinPoint.getThis()).thenReturn("myThisString");
+        when(joinPoint.getTarget()).thenReturn("myTargetString");
 
         MethodSignature signature = mock(MethodSignature.class);
         when(signature.toShortString()).thenReturn("myMethod()");
@@ -165,8 +165,8 @@ class LogTracingHelperTest {
             mdcMock.verify(() -> MDC.put(eq(ENCLOSING_SIGNATURE), eq("enclosingMethod()")));
             mdcMock.verify(() -> MDC.put(eq(KIND), eq("method-execution")));
             mdcMock.verify(() -> MDC.put(eq(PARAMETERS), eq("{param0=value1}")));
-            mdcMock.verify(() -> MDC.put(eq(TARGET), any(String.class)));
-            mdcMock.verify(() -> MDC.put(eq(THIS), any(String.class)));
+            mdcMock.verify(() -> MDC.put(eq(TARGET), eq("myTargetString")));
+            mdcMock.verify(() -> MDC.put(eq(THIS),  eq("myThisString")));
             ndcMock.verify(() -> NDC.push(eq("myMethod()")));
         }
     }
