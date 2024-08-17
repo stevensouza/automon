@@ -110,7 +110,7 @@ public class Utils {
      * @return A read-only map of argument names to their corresponding values
      */
     public static Map<String, Object> paramsToMap(JoinPoint joinPoint) {
-        Map<String, Object> argsMap = new HashMap<>();
+        Map<String, Object> argsMap = new LinkedHashMap<>();
         Object[] argValues = joinPoint.getArgs();
         if (argValues == null || argValues.length == 0) {
             return argsMap;
