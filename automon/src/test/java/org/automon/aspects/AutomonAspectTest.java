@@ -34,9 +34,9 @@ public class AutomonAspectTest {
 
     @Test
     public void testIsEnabled() {
-        assertThat(aspect.isEnabled()).describedAs("Should be disabled").isTrue();
+        assertThat(aspect.isEnabled()).describedAs("Should be enabled").isTrue();
         aspect.setOpenMon(OpenMonFactory.NULL_IMP);
-        assertThat(aspect.isEnabled()).describedAs("Should be enabled").isFalse();
+        assertThat(aspect.isEnabled()).describedAs("Should be disabled").isFalse();
     }
 
     @Test
@@ -145,7 +145,7 @@ public class AutomonAspectTest {
         public void user_exceptions() {
         }
 
-        @Pointcut("execution(* HiWorld.*(..))")
+        @Pointcut("execution(* org.automon.aspects.HiWorld.*(..))")
         public void hiWorld() {
         }
     }

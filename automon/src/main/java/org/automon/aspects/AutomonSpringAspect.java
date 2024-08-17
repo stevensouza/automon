@@ -44,7 +44,7 @@ public class AutomonSpringAspect extends AutomonAspectBase {
      * Note arguments are passed on to {@link org.automon.implementations.OpenMon#exception(org.aspectj.lang.JoinPoint, Throwable)}
      *
      * @param pjp
-     * @param exception
+     * @param exceptionArg
      */
     public void throwing(JoinPoint pjp, Throwable exceptionArg) {
         getOpenMon().exception(pjp, exceptionArg);

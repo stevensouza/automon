@@ -72,7 +72,6 @@ public class JamonTest {
         assertThat(map.get(SharedConstants.EXCEPTION).getArgNamesAndValues()).describedAs("Arg names and values should have been set").isNotNull();
         assertThat(map.size()).isEqualTo(1);
         map.forEach((throwable,automonExpirable)->assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(String.class));
-
     }
 
 }
