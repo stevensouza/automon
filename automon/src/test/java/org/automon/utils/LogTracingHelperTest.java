@@ -13,14 +13,13 @@ import static org.automon.utils.LogTracingHelper.*;
 import static org.mockito.Mockito.*;
 
 class LogTracingHelperTest {
-    private LogTracingHelper logTracingHelper;
+    private final LogTracingHelper logTracingHelper = LogTracingHelper.getInstance();;
     private JoinPoint joinPoint;
     private JoinPoint.StaticPart staticPart;
     private JoinPoint.StaticPart enclosingStaticPart;
 
     @BeforeEach
     void setUp() {
-        logTracingHelper = LogTracingHelper.getInstance();
         joinPoint = mock(JoinPoint.class);
         staticPart = mock(JoinPoint.StaticPart.class);
         enclosingStaticPart = mock(JoinPoint.StaticPart.class);
@@ -297,8 +296,7 @@ class LogTracingHelperTest {
     void testAutoCloseable() {
         try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class);
              MockedStatic<NDC> ndcMock = mockStatic(NDC.class)) {
-            final LogTracingHelper helper = LogTracingHelper.getInstance();
-            try (helper) {
+            try (logTracingHelper) {
                 System.out.println("LogTracingHelper.close() is automatically called at end of block (AutoCloseable)");
             }
 
