@@ -43,30 +43,4 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
         return returnValue;
     }
 
-    /**
-     * AfterThrowing advice for handling exceptions.
-     * Logs the exception along with its canonical name and any additional MDC/NDC from the {@link #around} method
-     * above. Example output which uses SLF4J's MDC and NDC.
-     *
-     * <p>
-     *  2024-08-18 10:45:31,129 ERROR c.s.a.l.a.a.TracingAllAspect - AFTER: MDC={NDC0=MyLoggerClassAll.main(..), NDC1=MyLoggerClassAll.runtimeException(), enclosingSignature=MyLoggerClassAll.runtimeException(), exception=java.lang.RuntimeException, kind=method-execution, parameters={message=steve}, target=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258, this=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258}
-     *  java.lang.RuntimeException: runtimeException
-     *   at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.runtimeException_aroundBody6(MyLoggerClassAll.java:21) ~[classes/:?]
-     *   at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.runtimeException_aroundBody7$advice(MyLoggerClassAll.java:22) ~[classes/:?]
-     *   at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.runtimeException(MyLoggerClassAll.java:1) [classes/:?]
-     *   at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.main_aroundBody8(MyLoggerClassAll.java:37) [classes/:?]
-     *   at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.main_aroundBody9$advice(MyLoggerClassAll.java:22) [classes/:?]
-     *   at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.main(MyLoggerClassAll.java:1) [classes/:?]     * </p>
-     * </p>
-     * @param throwable The thrown exception.
-     */
-    after() throwing(Throwable throwable) : trace() {
-        // note the helper object is AutoCloseable which will clear up the NDC/MDC appropriately.
-        // using this ensures if an exception is thrown it is still cleaned up.
-        try (helper) {
-            helper.withException(throwable.getClass().getCanonicalName());
-            LOGGER.error(AFTER, throwable);
-        }
-    }
-
 }
