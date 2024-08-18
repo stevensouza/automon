@@ -91,6 +91,14 @@ class LogTracingHelperTest {
     }
 
     @Test
+    void testWithException() {
+        try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class)) {
+            logTracingHelper.withException("java.lang.Exception");
+            mdcMock.verify(() -> MDC.put(eq(EXCEPTION), eq("java.lang.Exception")));
+        }
+    }
+
+    @Test
     void testWithKind() {
         when(staticPart.getKind()).thenReturn("method-execution");
 
@@ -124,7 +132,7 @@ class LogTracingHelperTest {
 
 
     @Test
-    void testBasicContext() {
+    void testWithBasicContext() {
         when(staticPart.getKind()).thenReturn("method-execution");
         MethodSignature signature = mock(MethodSignature.class);
         when(signature.toShortString()).thenReturn("myMethod()");
@@ -133,7 +141,7 @@ class LogTracingHelperTest {
         try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class);
              MockedStatic<NDC> ndcMock = mockStatic(NDC.class)) {
 
-            logTracingHelper.basicContext(staticPart, enclosingStaticPart);
+            logTracingHelper.withBasicContext(staticPart, enclosingStaticPart);
 
             mdcMock.verify(() -> MDC.put(eq(KIND), eq("method-execution")));
             mdcMock.verify(() -> MDC.remove(eq("enclosingSignature")));
@@ -142,7 +150,7 @@ class LogTracingHelperTest {
     }
 
     @Test
-    void testFullContext() {
+    void testWithFullContext() {
         Object[] args = {"value1"}; // Sample arguments
         when(joinPoint.getArgs()).thenReturn(args);
         when(staticPart.getKind()).thenReturn("method-execution");
@@ -160,7 +168,7 @@ class LogTracingHelperTest {
         try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class);
              MockedStatic<NDC> ndcMock = mockStatic(NDC.class)) {
 
-            logTracingHelper.fullContext(joinPoint, staticPart, enclosingStaticPart);
+            logTracingHelper.withFullContext(joinPoint, staticPart, enclosingStaticPart);
 
             mdcMock.verify(() -> MDC.put(eq(ENCLOSING_SIGNATURE), eq("enclosingMethod()")));
             mdcMock.verify(() -> MDC.put(eq(KIND), eq("method-execution")));
@@ -237,6 +245,14 @@ class LogTracingHelperTest {
     }
 
     @Test
+    void testRemoveException() {
+        try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class)) {
+            logTracingHelper.removeException();
+            mdcMock.verify(() -> MDC.remove(eq(EXCEPTION)));
+        }
+    }
+
+    @Test
     void testRemoveThis() {
         try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class)) {
             logTracingHelper.removeThis();
@@ -245,7 +261,7 @@ class LogTracingHelperTest {
     }
 
     @Test
-    void testRemoveBasicContext() {
+    void testRemoveWithBasicContext() {
         try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class);
              MockedStatic<NDC> ndcMock = mockStatic(NDC.class)) {
 
@@ -267,6 +283,28 @@ class LogTracingHelperTest {
 
             mdcMock.verify(() -> MDC.remove(eq(ENCLOSING_SIGNATURE)));
             mdcMock.verify(() -> MDC.remove(eq(EXECUTION_TIME_MS)));
+            mdcMock.verify(() -> MDC.remove(eq(EXCEPTION)));
+            mdcMock.verify(() -> MDC.remove(eq(KIND)));
+            mdcMock.verify(() -> MDC.remove(eq(PARAMETERS)));
+            mdcMock.verify(() -> MDC.remove(eq(RETURN_VALUE)));
+            mdcMock.verify(() -> MDC.remove(eq(TARGET)));
+            mdcMock.verify(() -> MDC.remove(eq(THIS)));
+            ndcMock.verify(NDC::pop);
+        }
+    }
+
+    @Test
+    void testAutoCloseable() {
+        try (MockedStatic<MDC> mdcMock = mockStatic(MDC.class);
+             MockedStatic<NDC> ndcMock = mockStatic(NDC.class)) {
+            final LogTracingHelper helper = LogTracingHelper.getInstance();
+            try (helper) {
+                System.out.println("LogTracingHelper.close() is automatically called at end of block (AutoCloseable)");
+            }
+
+            mdcMock.verify(() -> MDC.remove(eq(ENCLOSING_SIGNATURE)));
+            mdcMock.verify(() -> MDC.remove(eq(EXECUTION_TIME_MS)));
+            mdcMock.verify(() -> MDC.remove(eq(EXCEPTION)));
             mdcMock.verify(() -> MDC.remove(eq(KIND)));
             mdcMock.verify(() -> MDC.remove(eq(PARAMETERS)));
             mdcMock.verify(() -> MDC.remove(eq(RETURN_VALUE)));

@@ -18,7 +18,7 @@ import java.util.UUID;
  * This class follows the singleton pattern, as a single instance suffices for all loggers
  * in the application due to the use of MDC and NDC.
  */
-public class LogTracingHelper {
+public class LogTracingHelper implements AutoCloseable {
 
     static final String PARAMETERS = "parameters";
     static final String EXECUTION_TIME_MS = "executionTimeMs";
@@ -28,6 +28,7 @@ public class LogTracingHelper {
     static final String TARGET = "target";
     static final String ENCLOSING_SIGNATURE = "enclosingSignature";
     static final String RETURN_VALUE = "returnValue";
+    static final String EXCEPTION = "exception";
 
     // aspectj 'kinds' that are needed to determine how logging/tracing should behave
     static final String METHOD_EXECUTION_KIND = "method-execution";
@@ -91,6 +92,18 @@ public class LogTracingHelper {
     }
 
     /**
+     * Adds the exception class name as a string to the MDC.
+     * Example MDC entry: "exception" : "com.stevesouza.MyException"
+     *
+     * @param exceptionClassStr The exception class name
+     * @return This LogTracingHelper instance
+     */
+    public LogTracingHelper withException(String exceptionClassStr) {
+        MDC.put(EXCEPTION, exceptionClassStr);
+        return this;
+    }
+
+    /**
      * Adds execution time to the MDC.
      * Example MDC entry: "executionTimeMs" : "42"
      *
@@ -118,6 +131,7 @@ public class LogTracingHelper {
      * Adds the return value as a string to the MDC.
      * Example MDC entry: "returnValue" : "John Smith"
      *
+     * @param retValue The return value for the pointcut (call, execution, assignment,...)
      * @return This LogTracingHelper instance
      */
     public LogTracingHelper withReturnValue(String retValue) {
@@ -204,6 +218,16 @@ public class LogTracingHelper {
     }
 
     /**
+     * Removes the exception name from the MDC.
+     *
+     * @return This LogTracingHelper instance
+     */
+    public LogTracingHelper removeException() {
+        MDC.remove(EXCEPTION);
+        return this;
+    }
+
+    /**
      * Removes the execution time from the MDC.
      *
      * @return This LogTracingHelper instance
@@ -262,10 +286,9 @@ public class LogTracingHelper {
      * @param thisEnclosingJoinPointStaticPart The static part of the enclosing join point
      * @return This LogTracingHelper instance
      */
-    //
-    public LogTracingHelper basicContext(JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
+    public LogTracingHelper withBasicContext(JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         withSignature(thisJoinPointStaticPart).
-        withKind(thisJoinPointStaticPart);
+                withKind(thisJoinPointStaticPart);
         if (isKindExecution(thisJoinPointStaticPart.getKind()))
             removeEnclosingSignature();
         else
@@ -282,7 +305,7 @@ public class LogTracingHelper {
      * @param thisEnclosingJoinPointStaticPart The static part of the enclosing join point
      * @return This LogTracingHelper instance
      */
-    public LogTracingHelper fullContext(JoinPoint joinPoint, JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
+    public LogTracingHelper withFullContext(JoinPoint joinPoint, JoinPoint.StaticPart thisJoinPointStaticPart, JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         return withEnclosingSignature(thisEnclosingJoinPointStaticPart).
                 withKind(thisJoinPointStaticPart).
                 withParameters(joinPoint).
@@ -291,11 +314,13 @@ public class LogTracingHelper {
                 withThis(joinPoint);
     }
 
+
     /**
      * Removes the basic context information from MDC and NDC.
      * This method clears the following elements:
      * <ul>
      *   <li>Enclosing signature</li>
+     *   <li>Exception</li>
      *   <li>Execution time</li>
      *   <li>Join point kind</li>
      *   <li>Method signature (from NDC)</li>
@@ -307,6 +332,7 @@ public class LogTracingHelper {
      */
     public LogTracingHelper removeBasicContext() {
         return removeEnclosingSignature().
+                removeException().
                 removeExecutionTime().
                 removeKind().
                 removeSignature();
@@ -317,6 +343,7 @@ public class LogTracingHelper {
      * This method clears all elements set by the fullContext method, including:
      * <ul>
      *   <li>Enclosing signature</li>
+     *   <li>Exception</li>
      *   <li>Execution time</li>
      *   <li>Join point kind</li>
      *   <li>Method parameters</li>
@@ -332,6 +359,7 @@ public class LogTracingHelper {
      */
     public LogTracingHelper removeFullContext() {
         return removeEnclosingSignature().
+                removeException().
                 removeExecutionTime().
                 removeKind().
                 removeParameters().
@@ -339,6 +367,14 @@ public class LogTracingHelper {
                 removeSignature().
                 removeTarget().
                 removeThis();
+    }
+
+    /**
+     * Removes the full context information from MDC and NDC by calling @link(#removeFullConext)
+     */
+    @Override
+    public void close() {
+        removeFullContext();
     }
 
     private String objectToString(Object obj) {
