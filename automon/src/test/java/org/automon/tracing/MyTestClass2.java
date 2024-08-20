@@ -1,23 +1,25 @@
 package org.automon.tracing;
 
-public class MyTestClass {
+public class MyTestClass2 {
 
     public String name() {
         return "name: " + first("steve") + " " + last("souza");
     }
 
-    public void exceptions() {
+    public int exceptions() {
         try {
-            checkedException();
+            checkedException("jeff");
         } catch (Exception e) {
             // gobble
         }
 
         try {
-            runTimeException();
+            runTimeException("beck");
         } catch (RuntimeException e) {
             // gobble
         }
+
+        return 2;
     }
 
     String first(String name) {
@@ -28,11 +30,11 @@ public class MyTestClass {
         return name;
     }
 
-    void runTimeException() {
+    void runTimeException(String lname) {
         throw new RuntimeException("runTimeException");
     }
 
-    void checkedException() throws Exception {
+    void checkedException(String fname) throws Exception {
         throw new MyException("checkedException");
     }
 
@@ -42,6 +44,8 @@ public class MyTestClass {
         }
     }
 
-
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ".toString()";
+    }
 }

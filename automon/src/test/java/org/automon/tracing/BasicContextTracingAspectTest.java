@@ -45,15 +45,7 @@ class BasicContextTracingAspectTest {
                 "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), executionTimeMs=#}"
         };
 
-        for (int i = 0; i < logEvents.size(); i++) {
-            // executionTime=105 can vary so normalizing it for the assertions to executionTime=#
-            String actualMessage = logEvents.get(i).getMessage().getFormattedMessage();
-            actualMessage = actualMessage.replaceAll("executionTimeMs=\\d+", "executionTimeMs=#");
-
-            assertThat(actualMessage).
-                    describedAs("Each log event should start with this text (excludes ending newlines in check)").
-                    startsWith(expectedMessages[i]);
-        }
+        assertLogEvents(logEvents, expectedMessages);
     }
 
     @Test
@@ -75,6 +67,10 @@ class BasicContextTracingAspectTest {
                 "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), executionTimeMs=#}"
         };
 
+        assertLogEvents(logEvents, expectedMessages);
+    }
+
+    private static void assertLogEvents(List<LogEvent> logEvents, String[] expectedMessages) {
         for (int i = 0; i < logEvents.size(); i++) {
             // executionTime=105 can vary so normalizing it for the assertions to executionTime=#
             String actualMessage = logEvents.get(i).getMessage().getFormattedMessage();
