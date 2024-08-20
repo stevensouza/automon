@@ -6,22 +6,6 @@ public class MyTestClass {
         return "name: " + first("steve") + " " + last("souza");
     }
 
-    public String first(String name) {
-        return name;
-    }
-
-    public String last(String name) {
-        return name;
-    }
-
-    public void runTimeException() {
-        throw new RuntimeException("runTimeException");
-    }
-
-    public void checkedException() throws Exception {
-        throw new MyException("checkedException");
-    }
-
     public void exceptions() {
         try {
             checkedException();
@@ -34,6 +18,22 @@ public class MyTestClass {
         } catch (RuntimeException e) {
             // gobble
         }
+    }
+
+    private String first(String name) {
+        return name;
+    }
+
+    private String last(String name) {
+        return name;
+    }
+
+    private void runTimeException() {
+        throw new RuntimeException("runTimeException");
+    }
+
+    private void checkedException() throws Exception {
+        throw new MyException("checkedException");
     }
 
     public static class MyException extends Exception {
