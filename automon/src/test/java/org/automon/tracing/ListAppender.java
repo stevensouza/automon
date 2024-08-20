@@ -60,7 +60,9 @@ public class ListAppender extends AbstractAppender {
     }
 
     /**
-     * Appends a log event to the internal list.
+     * Appends a log event to the internal list. Note a new Log4JLogEvent is made as the LogEvent passed
+     * just contains the message from the log line (such as logger.info("just this") and it does not
+     * contain the extra info such as NDC, MDC from the log4j2-test.xml file.
      *
      * @param event The log event to append.
      */
@@ -69,6 +71,7 @@ public class ListAppender extends AbstractAppender {
         Layout<? extends Serializable> layout = getLayout();
         if (layout != null) { // Check if layout is configured
             String formattedMessage = (String) layout.toSerializable(event);
+            // format the raw message with the ListAppender layout.
             LogEvent formattedEvent  = new Log4jLogEvent.Builder(event).
                     setMessage(new SimpleMessage(formattedMessage)).
                     build();
