@@ -10,8 +10,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -26,10 +24,11 @@ class BasicContextTracingAspectTest {
 
     @AfterEach
     void tearDown() {
+        getListAppender().clear();
     }
 
     @Test
-    public void testLogMessages() {
+    public void testLogInfo() {
         MyTestClass myTestClass = new MyTestClass();
         myTestClass.name();
 
@@ -44,6 +43,36 @@ class BasicContextTracingAspectTest {
                 "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.last(..), kind=method-execution}",
                 "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.last(..), executionTimeMs=#, kind=method-execution}",
                 "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), executionTimeMs=#}"
+        };
+
+        for (int i = 0; i < logEvents.size(); i++) {
+            // executionTime=105 can vary so normalizing it for the assertions to executionTime=#
+            String actualMessage = logEvents.get(i).getMessage().getFormattedMessage();
+            actualMessage = actualMessage.replaceAll("executionTimeMs=\\d+", "executionTimeMs=#");
+
+            assertThat(actualMessage).
+                    describedAs("Each log event should start with this text (excludes ending newlines in check)").
+                    startsWith(expectedMessages[i]);
+        }
+    }
+
+    @Test
+    public void testLogError() {
+        MyTestClass myTestClass = new MyTestClass();
+        myTestClass.exceptions();
+
+        List<LogEvent> logEvents = getListAppender().getEvents();
+        assertThat(logEvents).hasSize(6);
+
+        // Define expected log messages (with executionTimeMs replaced)
+        // Note ERRORS due to methods that throw both RuntimeExceptions and Exceptions (a checked custom exception)
+        String[] expectedMessages = {
+                "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), kind=method-execution}",
+                "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.checkedException(), kind=method-execution}",
+                "ERROR o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.checkedException(), exception=org.automon.tracing.MyTestClass.MyException, kind=method-execution}",
+                "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.runTimeException(), kind=method-execution}",
+                "ERROR o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.runTimeException(), exception=java.lang.RuntimeException, kind=method-execution}",
+                "INFO  o.a.t.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), executionTimeMs=#}"
         };
 
         for (int i = 0; i < logEvents.size(); i++) {
