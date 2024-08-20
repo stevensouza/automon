@@ -1,0 +1,45 @@
+<Configuration status="WARN"  monitorInterval="60" layout="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n">
+<!--    <Properties>-->
+<!--        <Property name="logPath">logs</Property>-->
+<!--    </Properties>-->
+
+<!--    If you want date of the log message to appear. I don't as that is more difficult to test for.-->
+<!--        %style{%date{DEFAULT}}{yellow}-->
+    <Properties>
+        <Property name="LOG_PATTERN">%-5level %c{1.} - %message: MDC=%X %n</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <ListAppender name="ListAppender" >
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </ListAppender>
+
+
+        <Console name="JsonAppender" target="SYSTEM_OUT">
+            <JsonTemplateLayout eventTemplateUri="classpath:mylog4j_format.json" locationInfoEnabled="true">
+                <EventTemplateAdditionalField key="host" value="www.automon.org"/>
+<!--                <EventTemplateAdditionalField key="method" value="${source:methodName}"/>-->
+            </JsonTemplateLayout>
+        </Console>
+
+<!--        Async appender is not needed but probably a good idea in a production application -->
+        <Async name="AsyncAppender">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="JsonAppender"/>
+        </Async>
+
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="ListAppender"/>
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="JsonAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
