@@ -13,7 +13,7 @@ public interface AutomonMXBean {
     public boolean isEnabled();
 
     /**
-     * Dynamically chang the implementation of {@link org.automon.implementations.OpenMon}.  This also allows Automon to be
+     * Dynamically change the implementation of {@link org.automon.implementations.OpenMon}.  This also allows Automon to be
      * disabled/enabled at runtime.
      *
      * @param openMon A string such as jamon, metrics, ...
