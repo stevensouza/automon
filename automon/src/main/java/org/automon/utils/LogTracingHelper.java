@@ -20,15 +20,15 @@ import java.util.UUID;
  */
 public class LogTracingHelper implements AutoCloseable {
 
-    static final String PARAMETERS = "parameters";
-    static final String EXECUTION_TIME_MS = "executionTimeMs";
-    static final String REQUEST_ID = "requestId";
-    static final String KIND = "kind";
-    static final String THIS = "this";
-    static final String TARGET = "target";
-    static final String ENCLOSING_SIGNATURE = "enclosingSignature";
-    static final String RETURN_VALUE = "returnValue";
-    static final String EXCEPTION = "exception";
+    public static String PARAMETERS = "parameters";
+    public static String EXECUTION_TIME_MS = "executionTimeMs";
+    public static String REQUEST_ID = "requestId";
+    public static String KIND = "kind";
+    public static String THIS = "this";
+    public static String TARGET = "target";
+    public static String ENCLOSING_SIGNATURE = "enclosingSignature";
+    public static String RETURN_VALUE = "returnValue";
+    public static String EXCEPTION = "exception";
 
     // aspectj 'kinds' that are needed to determine how logging/tracing should behave
     static final String METHOD_EXECUTION_KIND = "method-execution";
@@ -375,6 +375,26 @@ public class LogTracingHelper implements AutoCloseable {
     @Override
     public void close() {
         removeFullContext();
+    }
+
+    /**
+     * Prepends the given prefix to the beginning of each of the static variables in this class.
+     * For example by passing in "automon" the results would be "automon.kind", "automon.this" etc.
+     * Note if this is called multiple times it will keep prepending. For example a second call would
+     * result in "automon.automon.kind".
+     *
+     * @param prefix The prefix to prepend. If you want a dot it must be included.
+     */
+    public static void applyPrefix(String prefix) {
+        PARAMETERS = prefix +  PARAMETERS;
+        EXECUTION_TIME_MS = prefix + EXECUTION_TIME_MS;
+        REQUEST_ID = prefix + REQUEST_ID;
+        KIND = prefix + KIND;
+        THIS = prefix + THIS;
+        TARGET = prefix + TARGET;
+        ENCLOSING_SIGNATURE = prefix + ENCLOSING_SIGNATURE;
+        RETURN_VALUE = prefix + RETURN_VALUE;
+        EXCEPTION = prefix + EXCEPTION;
     }
 
     private String objectToString(Object obj) {
