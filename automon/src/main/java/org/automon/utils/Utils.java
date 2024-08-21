@@ -270,7 +270,7 @@ public class Utils {
     }
 
     public static boolean hasPackageName(String className) {
-        return className == null ? false : className.contains(".");
+        return className != null && className.contains(".");
     }
 
     /**
