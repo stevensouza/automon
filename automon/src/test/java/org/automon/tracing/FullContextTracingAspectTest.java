@@ -71,18 +71,15 @@ class FullContextTracingAspectTest {
     }
 
     private static void assertLogEvents(List<LogEvent> logEvents, String[] expectedMessages) {
-        System.out.println("1***");
         for (int i = 0; i < logEvents.size(); i++) {
             // executionTime=105 can vary so normalizing it for the assertions to executionTime=#
             String actualMessage = logEvents.get(i).getMessage().getFormattedMessage();
             actualMessage = actualMessage.replaceAll("executionTimeMs=\\d+", "executionTimeMs=#");
 
-            System.out.println(actualMessage);
             assertThat(actualMessage).
                     describedAs("Each log event should start with this text (excludes ending newlines in check)").
                     startsWith(expectedMessages[i]);
         }
-        System.out.println("2***");
 
     }
 
