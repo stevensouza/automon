@@ -128,6 +128,16 @@
                                 <goal>test-compile</goal> <!-- use this goal to weave constructor your test classes -->
                             </goals>
                         </execution>
+                        <execution>
+                            <id>aspectj-ajdoc</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>aspectj-report</goal>
+                            </goals>
+                            <configuration>
+                                <verbose>true</verbose>
+                            </configuration>
+                        </execution>
                     </executions>
                 </plugin>
 
@@ -135,6 +145,19 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven.javadoc.plugin.version}</version>
+                    <configuration>
+                        <source>${jdk.version}</source> <!-- or your Java version -->
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                        <detectJavaApiLink>false</detectJavaApiLink>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>
@@ -194,9 +217,9 @@
 
                 <plugin>
                     <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -257,34 +280,35 @@
         </repository>
     </distributionManagement>
 
-<!--    <profiles>
-        &lt;!&ndash;
-             Profile for releases to sign artifacts
-        &ndash;&gt;
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+    <!--    <profiles>
+            &lt;!&ndash;
+                 Profile for releases to sign artifacts
+            &ndash;&gt;
+            <profile>
+                <id>release</id>
+                <build>
+                    <plugins>
 
-                </plugins>
-            </build>
-        </profile>
-    </profiles>-->
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-gpg-plugin</artifactId>
+                            <version>3.2.4</version>
+                            <executions>
+                                <execution>
+                                    <id>sign-artifacts</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>sign</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </build>
+            </profile>
+        </profiles>-->
 
     <dependencyManagement>
         <dependencies>
@@ -318,13 +342,13 @@
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
-<!--
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>-->
+            <!--
+                        <dependency>
+                            <groupId>junit</groupId>
+                            <artifactId>junit</artifactId>
+                            <version>${junit.version}</version>
+                            <scope>test</scope>
+                        </dependency>-->
             <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
