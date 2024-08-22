@@ -46,7 +46,7 @@ public class TestTracingAspectBase {
 
     @BeforeEach
     void setUp() {
-
+        TestTracingAspectBase.getListAppender().clear();
     }
 
     @AfterEach
