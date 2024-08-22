@@ -83,7 +83,6 @@ public class Utils {
      * This is done for sql exceptions of the format:
      * java.sql.SQLException,ErrorCode=400,SQLState=Login failure
      * <p>
-     * Note at the time of this writing JavaSimon uses this regular expression for labels: '[-_\[\]A-Za-z0-9.,@$%)(<>]+'
      *
      * @param exceptionLabel
      * @return
