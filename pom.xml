@@ -135,7 +135,7 @@
                                 <goal>aspectj-report</goal>
                             </goals>
                             <configuration>
-                                <verbose>true</verbose>
+                                <verbose>false</verbose>
                             </configuration>
                         </execution>
                     </executions>
