@@ -6,8 +6,20 @@
 # StatsD or JavaSimon could be done in a similar way. Note -Dorg.automon=metrics is not specified below.  Instead
 # Automon recognizes that Metrics is in the class path and so uses it.
 
-# java -Dorg.automon=metrics -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.4-SNAPSHOT.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.4-SNAPSHOT.jar:libs/metrics-core-3.1.0.jar com.stevesouza.helloworld.HelloWorld
-java -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.4-SNAPSHOT.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.4-SNAPSHOT.jar:libs/metrics-core-3.1.0.jar com.stevesouza.helloworld.HelloWorld
+# Source the shared script to define the function
+. ./set_versions.sh
 
-# to run the program in a loop for 1000 times (allows time to look at automon jmx in jconsole)
-# java -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml -javaagent:libs/aspectjweaver.jar -classpath ../automon/target/automon-1.0.4-SNAPSHOT.jar:../helloworld_unwoven/target/helloworld_unwoven-1.0.4-SNAPSHOT.jar:libs/metrics-core-3.1.0.jar com.stevesouza.helloworld.HelloWorld 1000
+# Call the function to set the variables
+set_versions
+
+num_loops="$1"
+if [ -z "$num_loops" ]; then
+    echo "Default num_loops of 5 will be used"
+    num_loops=5
+fi
+
+# Execute the Java command using the environment variables and the provided aop.xml file
+java   -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml \
+       -javaagent:libs/aspectjweaver-${ASPECTJ_VERSION}.jar \
+       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../helloworld_unwoven/target/helloworld_unwoven-${AUTOMON_VERSION}.jar:libs/metrics-core-3.1.0.jar \
+       com.stevesouza.helloworld.HelloWorld ${num_loops}
