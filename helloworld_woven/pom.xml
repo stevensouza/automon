@@ -45,7 +45,16 @@
 
                 </configuration>
             </plugin>
+<!--
 
+Calling from command line use mvn or ./mvnw (mvnw is checked into source control)
+  mvn exec:java
+  mvn exec:java -Dexec.args="20" -Dorg.automon=sysout
+
+In general:
+  mvn exec:java -Dexec.args="arg1 arg2" -DmyCustomProperty=someValue
+
+-->
             <plugin>
                 <!-- if this doesn't run try to go to the parent directory and run 'mvn clean install' first -->
                 <groupId>org.codehaus.mojo</groupId>

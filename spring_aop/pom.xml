@@ -13,6 +13,16 @@
     <build>
         <plugins>
             <plugin>
+                <!-- if this doesn't run try to go to the parent directory and run 'mvn clean install' first -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <!-- generates class path with all dependencies as well as generated class -->
+                    <classpathScope>compile</classpathScope>
+                    <mainClass>org.automon.spring_aop.SpringMain</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
                 <!-- The shade plugin bundles all jars into one big jar making deployment and execution easier.
                  The mainClass element is defined so you can execute the jar without specifying the class.  To run this jar
                  simply type: java -Dorg.automon="sysout" -jar target/spring_aop-1.0.2-SNAPSHOT.jar
