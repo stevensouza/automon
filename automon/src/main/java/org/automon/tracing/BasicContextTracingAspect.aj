@@ -13,7 +13,8 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
 
     /**
      * Around advice for tracing method execution.
-     * Logs method entry and exit, along with basic context information such as execution time.
+     * Adds NDC/MDC context on method entry and exit, along with other basic context information such as execution time.
+     * The information is conditionally logged if {@link #enableLogging(boolean)} is set.
      * See {@link org.automon.utils.LogTracingHelper#withBasicContext(JoinPoint.StaticPart, JoinPoint.StaticPart)}
      * for additional context being traced. Example output which uses SLF4J's MDC and NDC.
      *       <p>
@@ -30,13 +31,13 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      */
     Object around() : trace() {
             helper.withBasicContext(thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
-            LOGGER.info(BEFORE);
+            logBefore();
 
             long startTime = System.currentTimeMillis();
             Object returnValue =  proceed();
             helper.withExecutionTime(System.currentTimeMillis() - startTime);
 
-            LOGGER.info(AFTER);
+            logAfter();
             helper.removeBasicContext();
 
             return returnValue;

@@ -10,10 +10,11 @@ import org.aspectj.lang.JoinPoint;
  * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
  */
 public abstract aspect FullContextTracingAspect extends TracingAspect {
-    
+
     /**
      * Around advice for tracing method execution.
-     * Logs method entry and exit, along with basic context information such as execution time.
+     * Adds NDC/MDC context on method entry and exit, along with other context information such as execution time.
+     * The information is conditionally logged if {@link #enableLogging(boolean)} is set.
      * See {@link org.automon.utils.LogTracingHelper#withFullContext(JoinPoint, JoinPoint.StaticPart, JoinPoint.StaticPart)}
      * for additional context being traced. Example output which uses SLF4J's MDC and NDC.
      *       <p>
@@ -30,14 +31,14 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      */
     Object around() : trace() {
         helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
-        LOGGER.info(BEFORE);
+        logBefore();
 
         long startTime = System.currentTimeMillis();
         Object returnValue =  proceed();
         helper.withExecutionTime(System.currentTimeMillis() - startTime);
         helper.withReturnValue(objectToString(returnValue));
 
-        LOGGER.info(AFTER);
+        logAfter();
         helper.removeFullContext();
 
         return returnValue;
