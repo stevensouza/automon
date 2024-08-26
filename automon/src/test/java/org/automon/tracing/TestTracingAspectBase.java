@@ -5,6 +5,7 @@ import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
+import org.aspectj.lang.Aspects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -46,11 +47,18 @@ public class TestTracingAspectBase {
 
     @BeforeEach
     void setUp() {
-        TestTracingAspectBase.getListAppender().clear();
+        reset();
     }
 
     @AfterEach
     void tearDown() {
-        TestTracingAspectBase.getListAppender().clear();
+        reset();
     }
+
+    private static void reset() {
+        TestTracingAspectBase.getListAppender().clear();
+        BasicContextTracingAspectTest.BasicContext aspect = Aspects.aspectOf(BasicContextTracingAspectTest.BasicContext.class);
+        aspect.enableLogging(true);
+    }
+
 }

@@ -26,8 +26,8 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={NDC0=MyFullContextDataTestClass.firstName(..), enclosingSignature=MyFullContextDataTestClass.firstName(..), kind=method-execution, parameters={name=steve}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
-                "INFO  o.a.t.MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={NDC0=MyFullContextDataTestClass.firstName(..), NDC1=MyFullContextDataTestClass.hi(), enclosingSignature=MyFullContextDataTestClass.hi(), kind=method-execution, parameters={}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
+                "INFO  o.a.t.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), kind=method-execution, parameters={name=steve}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
+                "INFO  o.a.t.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), NDC1=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), kind=method-execution, parameters={}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
                 "INFO  o.a.t.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
         };
 
@@ -38,11 +38,30 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
     @Aspect
     static class FullContextData extends FullContextDataAspect {
 
-        @Pointcut("execution(* org.automon.tracing.MyFullContextDataTestClass.*(..)) &&" +
-                "!execution(* org.automon.tracing.MyFullContextDataTestClass.toString())")
+        @Pointcut("execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
+                "!execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.toString())")
         public void fullContextData() {
         }
 
+    }
+
+    public static class MyFullContextDataTestClass {
+        private final Logger logger = LoggerFactory.getLogger(MyFullContextDataTestClass.class);
+
+        public String firstName(String name) {
+            logger.info("In MyFullContextDataTestClass.firstName(..) method");
+            hi();
+            return name;
+        }
+
+        public void hi() {
+            logger.info("In MyFullContextDataTestClass.hi() method");
+        }
+
+        @Override
+        public String toString() {
+            return getClass().getSimpleName() + ".toString()";
+        }
     }
 
 }

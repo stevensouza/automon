@@ -15,7 +15,7 @@ public abstract aspect TracingAspect {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+    protected Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
 
     /**
      * Constant to indicate the "BEFORE" phase in tracing. For example entering a method.
