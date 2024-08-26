@@ -71,8 +71,34 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
     }
 
+    @Test
+    public void testEnableDisable() {
+        BasicContext aspect = new BasicContext();
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+
+        aspect.enableLogging(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
+        aspect.enableLogging(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+
+        aspect = new BasicContext(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+
+        aspect = new BasicContext(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
+    }
+
+
     @Aspect
     static class BasicContext extends BasicContextTracingAspect {
+
+        public BasicContext() {
+            super();
+        }
+
+        public BasicContext(boolean enable) {
+            super(enable);
+        }
 
         @Pointcut("execution(* org.automon.tracing.BasicContextTracingAspectTest.MyTestClass.*(..))")
         public void trace() {

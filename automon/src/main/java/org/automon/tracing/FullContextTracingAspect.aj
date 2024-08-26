@@ -19,6 +19,20 @@ import org.aspectj.lang.JoinPoint;
 public abstract aspect FullContextTracingAspect extends TracingAspect {
 
     /**
+     * Constructs a new `FullContextTracingAspect` with logging enabled by default.
+     */
+    public FullContextTracingAspect() {
+    }
+
+    /**
+     * Constructs a new `FullContextTracingAspect` with the specified logging enable flag.
+     *
+     * @param enable `true` to enable logging, `false` to disable logging.
+     */
+    public FullContextTracingAspect(boolean enable) {
+        super(enable);
+    }
+    /**
      * Around advice for tracing method execution.
      * Adds NDC/MDC context on method entry and exit, along with other context information such as execution time.
      * The information is conditionally logged if {@link #enableLogging(boolean)} is set.

@@ -35,7 +35,7 @@ public abstract aspect TracingAspect {
     private boolean loggingEnabled = true; // Default to logging enabled
 
     /**
-     * Constructs a new `BasicContextTracingAspect` with logging enabled by default.
+     * Constructs a new `TracingAspect` with logging enabled by default.
      */
     public TracingAspect() {
     }
