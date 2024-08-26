@@ -3,9 +3,16 @@ package org.automon.tracing;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * Aspect for basic context tracing using AOP (Aspect-Oriented Programming).
+ * <p>Aspect for basic context tracing using AOP (Aspect-Oriented Programming).
  * It provides `around` and `afterThrowing` advice to log method entry, exit, and exceptions,
  * along with basic context information like execution time.
+ * </p>
+ *
+ * <p>If {@link #enableLogging(boolean)}
+ * is set to false then only the MDC/NDC values will be set but the logging BEFORE/AFTER methods
+ * will not be called.  If any logging statements are run within the entered method the MDC/NDC values
+ * will be available.
+ * </p>
  *
  * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
  */

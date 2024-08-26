@@ -7,6 +7,13 @@ import org.aspectj.lang.JoinPoint;
  * It provides `around` and `afterThrowing` advice to log method entry, exit, and exceptions,
  * along with full context information like execution time.
  *
+ *  <p>If {@link #enableLogging(boolean)}
+ *  is set to false then only the MDC/NDC values will be set but the logging BEFORE/AFTER methods
+ *  will not be called.  If any logging statements are run within the entered method the MDC/NDC values
+ *  will be available. Note its behavior is similar to {@link FullContextDataAspect} if false is used except
+ *  it will also include 'executionTime' and the methods 'returnValue' in the MDC.
+ *  </p>
+ *
  * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
  */
 public abstract aspect FullContextTracingAspect extends TracingAspect {

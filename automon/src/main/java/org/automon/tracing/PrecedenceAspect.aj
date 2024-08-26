@@ -7,11 +7,12 @@ package org.automon.tracing;
 public aspect PrecedenceAspect {
 
     /**
-     * Declares the order in which aspects are applied.
+     * <p>Declares the order in which aspects are applied.
      * RequestIdAspect is given highest precedence, followed by all other aspects.
-     * <p>
-     * This ensures that the RequestIdAspect is always applied first, which is typically
+     * </p>
+     * <p>This ensures that the RequestIdAspect is always applied first, which is typically
      * desirable when tracking requests across multiple aspects or components.
+     * </p>
      */
     declare precedence: RequestIdAspect, *; // RequestIdAspect first, then all other aspects
 }

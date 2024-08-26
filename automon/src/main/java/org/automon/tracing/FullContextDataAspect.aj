@@ -4,9 +4,15 @@ package org.automon.tracing;
 import org.automon.utils.LogTracingHelper;
 
 /**
- * AspectJ aspect for managing contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context).
+ * <p>AspectJ aspect for managing contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context).
  * This aspect utilizes a `LogTracingHelper` to add relevant contextual information (potentially including request IDs)
  * to the MDC and/or NDC at the beginning of a request/operation, and removes it upon completion.
+ * </p>
+ *
+ *  <p>If you would like to log on method entry (BEFORE) and exit (AFTER) then use {@link FullContextTracingAspect}.
+ *  {@link FullContextTracingAspect} can enable/disable entry/exit logging.  If it is disabled it acts similarly
+ *  to this class except it adds 'executionTime' and the methods 'returnValue' to the MDC too.
+ *  </p>
  */
 public abstract aspect FullContextDataAspect {
     private static final LogTracingHelper helper = LogTracingHelper.getInstance();
