@@ -15,7 +15,7 @@ public abstract aspect TracingAspect {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
-    protected Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
 
     /**
      * Constant to indicate the "BEFORE" phase in tracing. For example entering a method.
@@ -31,6 +31,12 @@ public abstract aspect TracingAspect {
      * Helper instance for log tracing operations.
      */
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
+
+    /**
+     * The JMX MBean that controls whether this class is enabled or not (when disabled
+     * it is the equivalent of a noop)
+     */
+    protected final TraceControlMBean traceControl = new TraceControl();
 
     private boolean loggingEnabled = true; // Default to logging enabled
 
@@ -65,6 +71,29 @@ public abstract aspect TracingAspect {
      */
     public boolean isLoggingEnabled() {
         return loggingEnabled;
+    }
+
+
+    /**
+     * Checks if tracing is currently enabled via the JMX MBean. Note
+     * this can be embedded in pointcuts in the following way:
+     *  <pre>
+     *      pointcut enabledPointcut() : if(isEnabled()) && execution(* *(..));
+     *  </pre>
+     *
+     * @return `true` if tracing is enabled, `false` otherwise.
+     */
+    private boolean isEnabled() {
+        return traceControl.isEnabled();
+    }
+
+    /**
+     * Enables or disables tracing.
+     *
+     * @param enable `true` to enable tracing, `false` to disable.
+     */
+    public void enable(boolean enable) {
+        traceControl.enable(enable);
     }
 
     /**
