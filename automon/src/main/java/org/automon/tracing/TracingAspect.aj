@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
  * Abstract base aspect for tracing using AspectJ.
  * This class provides common functionality for tracing method executions.
  *
- * <p>Logging can be enabled or disabled using the `enableLogging` method or by providing the `enabled` flag in the constructor.</p>
+ * <p>Logging can be enableLogging or disabled using the `enableLogging` method or by providing the `enableLogging` flag in the constructor.</p>
  */
-public abstract aspect TracingAspect {
+public abstract aspect TracingAspect implements TraceControlMBean {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -33,67 +33,52 @@ public abstract aspect TracingAspect {
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
 
     /**
-     * The JMX MBean that controls whether this class is enabled or not (when disabled
-     * it is the equivalent of a noop)
+     * The JMX MBean that controls whether this class is enabled or not or whether logging
+     * is enabled or not (when disabled it is the equivalent of a noop)
      */
     protected final TraceControlMBean traceControl = new TraceControl();
 
-    private boolean loggingEnabled = true; // Default to logging enabled
-
     /**
-     * Constructs a new `TracingAspect` with logging enabled by default.
+     * Constructs a new `TracingAspect` with logging enableLogging by default.
      */
     public TracingAspect() {
     }
 
     /**
-     * Constructs a new `BasicContextTracingAspect` with the specified logging enabled flag.
+     * Constructs a new `BasicContextTracingAspect` with the specified logging enableLogging flag.
      *
-     * @param enabled `true` to enable logging, `false` to disable logging.
+     * @param enableLogging `true` to enable logging, `false` to disable logging.
      */
-    public TracingAspect(boolean enabled) {
-        this.loggingEnabled = enabled;
+    public TracingAspect(boolean enableLogging) {
+        enableLogging(enableLogging);
     }
 
     /**
-     * Enables or disables logging in this aspect.
-     *
-     * @param enabled `true` to enable logging, `false` to disable logging.
+     * {@inheritDoc}
      */
-    public void enableLogging(boolean enabled) {
-        this.loggingEnabled = enabled;
-    }
-
-    /**
-     * Gets the current logging enabled status.
-     *
-     * @return `true` if logging is enabled, `false` otherwise.
-     */
-    public boolean isLoggingEnabled() {
-        return loggingEnabled;
-    }
-
-
-    /**
-     * Checks if tracing is currently enabled via the JMX MBean. Note
-     * this can be embedded in pointcuts in the following way:
-     *  <pre>
-     *      pointcut enabledPointcut() : if(isEnabled()) && execution(* *(..));
-     *  </pre>
-     *
-     * @return `true` if tracing is enabled, `false` otherwise.
-     */
-    private boolean isEnabled() {
+    public boolean isEnabled() {
         return traceControl.isEnabled();
     }
 
     /**
-     * Enables or disables tracing.
-     *
-     * @param enable `true` to enable tracing, `false` to disable.
+     * {@inheritDoc}
      */
     public void enable(boolean enable) {
         traceControl.enable(enable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void enableLogging(boolean enableLogging) {
+        traceControl.enableLogging(enableLogging);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isLoggingEnabled() {
+        return traceControl.isLoggingEnabled();
     }
 
     /**
@@ -106,7 +91,7 @@ public abstract aspect TracingAspect {
      * AfterThrowing advice for handling exceptions.
      * Adds the collection context to the MDC/NDC context for the exception event to the existing
      * context already added from the method entry from the {@link #around} method and also conditionally logs the information if
-     * logging is enabled for this class.
+     * logging is enableLogging for this class.
      * The following Example outputs which use SLF4J's MDC and NDC.
      * <p>
      * basic context example
@@ -140,7 +125,7 @@ public abstract aspect TracingAspect {
         // using this ensures if an exception is thrown it is still cleaned up.
         try (helper) {
             helper.withException(throwable.getClass().getCanonicalName());
-            if (loggingEnabled) {
+            if (isLoggingEnabled()) {
                 LOGGER.error(AFTER, throwable);
             }
         }
@@ -148,20 +133,20 @@ public abstract aspect TracingAspect {
 
     /**
      * Logs a "BEFORE" message using the associated logger,
-     * but only if logging is currently enabled.
+     * but only if logging is currently enableLogging.
      */
     protected void logBefore() {
-        if (loggingEnabled) {
+        if (isLoggingEnabled()) {
             LOGGER.info(BEFORE);
         }
     }
 
     /**
      * Logs an "AFTER" message using the associated logger,
-     * but only if logging is currently enabled.
+     * but only if logging is currently enableLogging.
      */
     protected void logAfter() {
-        if (loggingEnabled) {
+        if (isLoggingEnabled()) {
             LOGGER.info(AFTER);
         }
     }

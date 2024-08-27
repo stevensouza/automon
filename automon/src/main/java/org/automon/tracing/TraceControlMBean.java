@@ -3,19 +3,19 @@ package org.automon.tracing;
 /**
  * JMX MBean interface for controlling the tracing aspect.
  */
-public interface TraceControlMBean {
+public interface TraceControlMBean extends AspectMBean {
 
     /**
-     * Enables or disables tracing.
+     * Enables or disables logging in this aspect.
      *
-     * @param enable `true` to enable tracing, `false` to disable.
+     * @param enabled `true` to enable logging, `false` to disable logging.
      */
-    void enable(boolean enable);
+    public void enableLogging(boolean enabled);
 
     /**
-     * Checks if tracing is currently enabled.
+     * Gets the current logging enabled status.
      *
-     * @return `true` if tracing is enabled, `false` otherwise.
+     * @return `true` if logging is enabled, `false` otherwise.
      */
-    boolean isEnabled();
+    public boolean isLoggingEnabled();
 }

@@ -3,26 +3,23 @@ package org.automon.tracing;
 /**
  * Implementation of the `TraceControlMBean` interface.
  */
-public class TraceControl implements TraceControlMBean {
+public class TraceControl extends AspectControl implements TraceControlMBean {
 
-    /**
-     * Flag indicating whether tracing is enabled.
-     */
-    private boolean enabled = false; 
+    private boolean loggingEnabled = true; // Default to logging enabled
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void enable(boolean enable) {
-        this.enabled = enable;
+    public void enableLogging(boolean enable) {
+        loggingEnabled = enable;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
     }
 }
