@@ -56,6 +56,23 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     @Test
+    public void testVarArgs() {
+        MyTestClass2 myTestClass = new MyTestClass2();
+        myTestClass.calculateSum(1,2,3);
+
+        List<LogEvent> logEvents = getListAppender().getEvents();
+        assertThat(logEvents).hasSize(2);
+
+       String[] expectedMessages = {
+                // note only beginning of log message is used as the var arg value/address can always be different.
+                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), kind=method-execution, parameters={numbers=[I@",
+                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), executionTimeMs=#, kind=method-execution, parameters={numbers=[I@"
+       };
+
+        assertLogEvents(logEvents, expectedMessages);
+    }
+
+    @Test
     public void testNoLogging() {
         FullContextTracingAspectTest.FullContext aspect = Aspects.aspectOf(FullContextTracingAspectTest.FullContext.class);
         aspect.enableLogging(false);
@@ -116,6 +133,20 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
         void checkedException(String fname) throws Exception {
             throw new MyException("checkedException");
+        }
+
+        /**
+         * Calculates the sum of all the integer arguments passed to it.
+         *
+         * @param numbers An arbitrary number of integer arguments.
+         * @return The sum of all the provided integers.
+         */
+        public int calculateSum(int... numbers) {
+            int sum = 0;
+            for (int num : numbers) {
+                sum += num;
+            }
+            return sum;
         }
 
         public static class MyException extends Exception {
