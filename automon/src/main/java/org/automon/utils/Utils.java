@@ -3,7 +3,7 @@ package org.automon.utils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.CodeSignature;
-import org.automon.aspects.AutomonMXBean;
+import org.automon.aspects.jmx.AutomonMXBean;
 
 import javax.management.JMX;
 import javax.management.MBeanServer;

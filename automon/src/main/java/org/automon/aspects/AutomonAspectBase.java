@@ -1,5 +1,7 @@
 package org.automon.aspects;
 
+import org.automon.aspects.jmx.AutomonJmx;
+import org.automon.aspects.jmx.AutomonMXBean;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;

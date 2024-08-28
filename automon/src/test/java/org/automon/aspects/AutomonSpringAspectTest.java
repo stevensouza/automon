@@ -1,6 +1,7 @@
 package org.automon.aspects;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.aspects.jmx.AutomonMXBean;
 import org.automon.implementations.Jamon;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;

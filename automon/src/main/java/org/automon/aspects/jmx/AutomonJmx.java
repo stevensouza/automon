@@ -1,4 +1,6 @@
-package org.automon.aspects;
+package org.automon.aspects.jmx;
+
+import org.automon.aspects.AutomonAspectBase;
 
 /**
  * Registers Automon aspects with jmx so they can be managed and viewed.

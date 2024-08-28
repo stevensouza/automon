@@ -1,4 +1,4 @@
-package org.automon.aspects;
+package org.automon.aspects.jmx;
 
 
 /**
@@ -27,7 +27,7 @@ public interface AutomonMXBean {
 
     /**
      * @return A list of all registered {@link org.automon.implementations.OpenMon}'s.
-     * Values here can be used in {@link org.automon.aspects.AutomonMXBean#setOpenMon(String)}
+     * Values here can be used in {@link AutomonMXBean#setOpenMon(String)}
      */
     public String getValidOpenMons();
 }

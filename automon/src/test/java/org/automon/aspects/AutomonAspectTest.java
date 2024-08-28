@@ -4,6 +4,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.aspects.jmx.AutomonMXBean;
 import org.automon.implementations.Jamon;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
