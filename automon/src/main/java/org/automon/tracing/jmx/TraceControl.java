@@ -1,4 +1,4 @@
-package org.automon.tracing;
+package org.automon.tracing.jmx;
 
 /**
  * Implementation of the `TraceControlMBean` interface.

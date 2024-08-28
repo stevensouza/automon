@@ -1,6 +1,6 @@
 package org.automon.tracing;
 
-import org.automon.tracing.TraceControl;
+import org.automon.tracing.jmx.TraceControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

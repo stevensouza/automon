@@ -6,8 +6,10 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.aspectj.lang.Aspects;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -60,5 +62,37 @@ public class TestTracingAspectBase {
         BasicContextTracingAspectTest.BasicContext aspect = Aspects.aspectOf(BasicContextTracingAspectTest.BasicContext.class);
         aspect.enableLogging(true);
     }
+/*
+
+    @Test
+    void testDefaultLoggingEnabled() {
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+    }
+
+    @Test
+    void testEnableLogging() {
+        aspect.enableLogging(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
+
+        aspect.enableLogging(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+    }
+
+    // Tests for AspectControl methods (inherited)
+    @Test
+    public void testDefaultEnabled() {
+        Assertions.assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
+    }
+
+    @Test
+    public void testEnable() {
+        aspect.enable(false);
+        Assertions.assertThat(aspect.isEnabled()).isFalse();
+
+        aspect.enable(true);
+        Assertions.assertThat(aspect.isEnabled()).isTrue();
+    }
+*/
+
 
 }

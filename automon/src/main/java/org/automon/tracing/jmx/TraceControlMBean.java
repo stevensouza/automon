@@ -1,4 +1,4 @@
-package org.automon.tracing;
+package org.automon.tracing.jmx;
 
 /**
  * JMX MBean interface for controlling the tracing aspect.

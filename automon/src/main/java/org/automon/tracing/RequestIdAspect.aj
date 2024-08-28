@@ -1,6 +1,8 @@
 package org.automon.tracing;
 
 
+import org.automon.tracing.jmx.AspectControl;
+import org.automon.tracing.jmx.AspectMBean;
 import org.automon.utils.LogTracingHelper;
 
 /**

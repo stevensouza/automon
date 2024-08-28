@@ -1,4 +1,4 @@
-package org.automon.tracing;
+package org.automon.tracing.jmx;
 
 public class AspectControl implements AspectMBean {
     /**

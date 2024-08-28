@@ -1,5 +1,7 @@
 package org.automon.tracing;
 
+import org.automon.tracing.jmx.TraceControl;
+import org.automon.tracing.jmx.TraceControlMBean;
 import org.automon.utils.LogTracingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
