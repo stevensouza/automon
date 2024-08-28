@@ -1,6 +1,7 @@
 package org.automon.tracing;
 
 
+import org.automon.tracing.jmx.AspectControl;
 import org.automon.utils.LogTracingHelper;
 
 /**
@@ -14,7 +15,7 @@ import org.automon.utils.LogTracingHelper;
  *  to this class except it adds 'executionTime' and the methods 'returnValue' to the MDC too.
  *  </p>
  */
-public abstract aspect FullContextDataAspect {
+public abstract aspect FullContextDataAspect extends AspectControl {
     private static final LogTracingHelper helper = LogTracingHelper.getInstance();
 
     /**

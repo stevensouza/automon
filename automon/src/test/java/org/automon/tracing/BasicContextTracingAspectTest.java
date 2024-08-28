@@ -4,6 +4,8 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,6 +13,54 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class BasicContextTracingAspectTest extends TestTracingAspectBase {
+
+    @BeforeEach
+    void setUp() {
+        reset();
+    }
+
+    @AfterEach
+    void tearDown() {
+        reset();
+    }
+
+    private BasicContext aspect = null;
+
+    private void reset() {
+        getListAppender().clear();
+        aspect = Aspects.aspectOf(BasicContext.class);
+        aspect.enable(true);
+        aspect.enableLogging(true);
+    }
+
+    @Test
+    void testDefaultLoggingEnabled() {
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+    }
+
+    @Test
+    void testEnableLogging() {
+        aspect.enableLogging(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
+
+        aspect.enableLogging(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
+    }
+
+    // Tests for AspectControl methods (inherited)
+    @Test
+    void testDefaultEnabled() {
+        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
+    }
+
+    @Test
+    void testEnable() {
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).isFalse();
+
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).isTrue();
+    }
 
     @Test
     public void testLogInfo() {

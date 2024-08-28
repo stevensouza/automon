@@ -7,6 +7,7 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.aspectj.lang.Aspects;
 import org.assertj.core.api.Assertions;
+import org.automon.tracing.jmx.AspectMBean;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class TestTracingAspectBase {
+public abstract class TestTracingAspectBase {
     protected static void assertLogEvents(List<LogEvent> logEvents, String[] expectedMessages) {
         for (int i = 0; i < logEvents.size(); i++) {
             // executionTime=105 can vary so normalizing it for the assertions to executionTime=#
@@ -46,53 +47,6 @@ public class TestTracingAspectBase {
         // Cast the Appender to ListAppender (assuming it's the correct type)
         return (ListAppender) appender;
     }
-
-    @BeforeEach
-    void setUp() {
-        reset();
-    }
-
-    @AfterEach
-    void tearDown() {
-        reset();
-    }
-
-    private static void reset() {
-        TestTracingAspectBase.getListAppender().clear();
-        BasicContextTracingAspectTest.BasicContext aspect = Aspects.aspectOf(BasicContextTracingAspectTest.BasicContext.class);
-        aspect.enableLogging(true);
-    }
-/*
-
-    @Test
-    void testDefaultLoggingEnabled() {
-        assertThat(aspect.isLoggingEnabled()).isTrue();
-    }
-
-    @Test
-    void testEnableLogging() {
-        aspect.enableLogging(false);
-        assertThat(aspect.isLoggingEnabled()).isFalse();
-
-        aspect.enableLogging(true);
-        assertThat(aspect.isLoggingEnabled()).isTrue();
-    }
-
-    // Tests for AspectControl methods (inherited)
-    @Test
-    public void testDefaultEnabled() {
-        Assertions.assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
-    }
-
-    @Test
-    public void testEnable() {
-        aspect.enable(false);
-        Assertions.assertThat(aspect.isEnabled()).isFalse();
-
-        aspect.enable(true);
-        Assertions.assertThat(aspect.isEnabled()).isTrue();
-    }
-*/
 
 
 }

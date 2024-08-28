@@ -1,8 +1,11 @@
 package org.automon.tracing;
 
 import org.apache.logging.log4j.core.LogEvent;
+import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,39 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class FullContextDataAspectTest extends TestTracingAspectBase {
+
+    @BeforeEach
+    void setUp() {
+        reset();
+    }
+
+    @AfterEach
+    void tearDown() {
+        reset();
+    }
+
+    private FullContextData aspect = null;
+
+    private void reset() {
+        getListAppender().clear();
+        aspect = Aspects.aspectOf(FullContextData.class);
+        aspect.enable(true);
+    }
+
+    // Tests for AspectControl methods (inherited)
+    @Test
+    void testDefaultEnabled() {
+        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
+    }
+
+    @Test
+    void testEnable() {
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).isFalse();
+
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).isTrue();
+    }
 
     @Test
     public void testFullContextData() {

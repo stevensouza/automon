@@ -1,6 +1,5 @@
-package org.automon.tracing;
+package org.automon.tracing.jmx;
 
-import org.automon.tracing.jmx.AspectControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
