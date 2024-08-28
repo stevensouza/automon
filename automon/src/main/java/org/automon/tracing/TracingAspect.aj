@@ -1,7 +1,6 @@
 package org.automon.tracing;
 
 import org.automon.tracing.jmx.TraceControl;
-import org.automon.tracing.jmx.TraceControlMBean;
 import org.automon.utils.LogTracingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Logging can be enableLogging or disabled using the `enableLogging` method or by providing the `enableLogging` flag in the constructor.</p>
  */
-public abstract aspect TracingAspect implements TraceControlMBean {
+public abstract aspect TracingAspect extends TraceControl {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -35,12 +34,6 @@ public abstract aspect TracingAspect implements TraceControlMBean {
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
 
     /**
-     * The JMX MBean that controls whether this class is enabled or not or whether logging
-     * is enabled or not (when disabled it is the equivalent of a noop)
-     */
-    protected final TraceControlMBean traceControl = new TraceControl();
-
-    /**
      * Constructs a new `TracingAspect` with logging enableLogging by default.
      */
     public TracingAspect() {
@@ -53,34 +46,6 @@ public abstract aspect TracingAspect implements TraceControlMBean {
      */
     public TracingAspect(boolean enableLogging) {
         enableLogging(enableLogging);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isEnabled() {
-        return traceControl.isEnabled();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void enable(boolean enable) {
-        traceControl.enable(enable);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void enableLogging(boolean enableLogging) {
-        traceControl.enableLogging(enableLogging);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isLoggingEnabled() {
-        return traceControl.isLoggingEnabled();
     }
 
     /**
@@ -122,7 +87,7 @@ public abstract aspect TracingAspect implements TraceControlMBean {
      *
      * @param throwable The thrown exception.
      */
-    after() throwing(Throwable throwable) : trace() {
+    after() throwing(Throwable throwable): trace() {
         // note the helper object is AutoCloseable which will clear up the NDC/MDC appropriately.
         // using this ensures if an exception is thrown it is still cleaned up.
         try (helper) {

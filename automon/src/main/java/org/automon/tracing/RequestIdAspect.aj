@@ -9,13 +9,8 @@ import org.automon.utils.LogTracingHelper;
  * AspectJ aspect for managing request IDs in the SLF4J MDC (Mapped Diagnostic Context).
  * This aspect adds a unique request ID to the MDC at the beginning of a request and removes it at the end.
  */
-public abstract aspect RequestIdAspect implements AspectMBean {
+public abstract aspect RequestIdAspect extends AspectControl {
     private static final LogTracingHelper helper = LogTracingHelper.getInstance();
-
-    /**
-     * The JMX MBean that controls whether this class is enable this aspect or not
-     */
-    protected final AspectMBean aspectControl = new AspectControl();
 
     /**
      * Pointcut that defines where the request ID should be added and removed.
@@ -39,17 +34,4 @@ public abstract aspect RequestIdAspect implements AspectMBean {
         helper.removeRequestId();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void enable(boolean enable) {
-        aspectControl.enable(enable);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isEnabled() {
-        return aspectControl.isEnabled();
-    }
 }
