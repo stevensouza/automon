@@ -14,35 +14,99 @@ import org.automon.utils.LogTracingHelper;
  *  {@link FullContextTracingAspect} can enable/disable entry/exit logging.  If it is disabled it acts similarly
  *  to this class except it adds 'executionTime' and the methods 'returnValue' to the MDC too.
  *  </p>
+ *
+ *  <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link AspectJmxController}</p>
+ *
+ *  <p>Note by default AspectJ aspects are singletons.</p>
  */
-public abstract aspect FullContextDataAspect extends AspectJmxController {
+public abstract aspect FullContextDataAspect {
     private static final LogTracingHelper helper = LogTracingHelper.getInstance();
+
+    /**
+     * The JMX controller responsible for managing tracing aspects.
+     * This controller is created as a singleton and provides access to
+     * tracing-related functionalities (such as enable/disable) through JMX.
+     */
+    private static final AspectJmxController jmxController = new AspectJmxController();
 
     /**
      * Abstract pointcut that defines the join points (method executions, etc.) where contextual data
      * should be managed (added and removed). This needs to be implemented in concrete subclasses
      * to target specific entry and exit points within your application.
+     * <p>
+     * <p>**Examples:**</p>
      *
-     * Example implementation (replace with your actual target):
-     *   pointcut fullContextData() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
+     *  <pre>
+     *      pointcut trace() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
+     *  </pre>
+     *
+     * <pre>
+     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * Alternatively the following equivalent approach could be used:
+     * <pre>
+     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * </pre>
+     *
      */
-    public abstract pointcut fullContextData();
+    public abstract pointcut trace();
 
     /**
-     * Before advice: Executed before the join point defined by `fullContextData()`.
+     * A pointcut that matches if tracing is enabled.
+     * <p>
+     * This pointcut can be used in conjunction with other pointcuts to conditionally apply advice
+     * only when tracing is enabled.
+     *
+     * <p>**Examples:**</p>
+     *
+     * <pre>
+     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * Alternatively the following equivalent approach could be used:
+     * <pre>
+     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * </pre>
+     */
+    public pointcut enabled() : if(isEnabled());
+
+
+
+    /**
+     * Before advice: Executed before the join point defined by {@link #trace()}.
      * Utilizes the `LogTracingHelper` to add contextual data (potentially including a request ID)
      * to the MDC and/or NDC.
      */
-    before(): fullContextData() {
+    before(): trace() {
         helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
     }
 
     /**
-     * After advice: Executed after the join point defined by `fullContextData()`.
+     * After advice: Executed after the join point defined by {@link #trace()}.
      * Utilizes the `LogTracingHelper` to remove the previously added contextual data from the
      * MDC and/or NDC.
      */
-    after(): fullContextData() {
+    after(): trace() {
         helper.removeFullContext();
+    }
+
+
+    /**
+     * Retrieves the singleton instance of the {@link AspectJmxController}.
+     *
+     * @return The JMX controller for tracing aspects.
+     */
+    protected static AspectJmxController getJmxController() {
+        return jmxController;
+    }
+
+    /**
+     * Checks if tracing is currently enabled.
+     *
+     * @return {@code true} if tracing is enabled, {@code false} otherwise.
+     */
+    public static boolean isEnabled() {
+        return jmxController.isEnabled();
     }
 }

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.tracing.jmx.TraceJmxController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,42 +26,44 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         reset();
     }
 
-    private FullContext aspect = null;
+
+    private TraceJmxController getJmx() {
+        return FullContext.getJmxController();
+    }
 
     private void reset() {
         getListAppender().clear();
-        aspect = Aspects.aspectOf(FullContext.class);
-        aspect.enable(true);
-        aspect.enableLogging(true);
+        getJmx().enable(true);
+        getJmx().enableLogging(true);
     }
 
     @Test
     void testDefaultLoggingEnabled() {
-        assertThat(aspect.isLoggingEnabled()).isTrue();
+        assertThat(getJmx().isLoggingEnabled()).isTrue();
     }
 
     @Test
     void testEnableLogging() {
-        aspect.enableLogging(false);
-        assertThat(aspect.isLoggingEnabled()).isFalse();
+        getJmx().enableLogging(false);
+        assertThat(getJmx().isLoggingEnabled()).isFalse();
 
-        aspect.enableLogging(true);
-        assertThat(aspect.isLoggingEnabled()).isTrue();
+        getJmx().enableLogging(true);
+        assertThat(getJmx().isLoggingEnabled()).isTrue();
     }
 
     // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectJmxController
+        assertThat(getJmx().isEnabled()).isTrue(); // Inherited from AspectJmxController
     }
 
     @Test
     void testEnable() {
-        aspect.enable(false);
-        assertThat(aspect.isEnabled()).isFalse();
+        getJmx().enable(false);
+        assertThat(getJmx().isEnabled()).isFalse();
 
-        aspect.enable(true);
-        assertThat(aspect.isEnabled()).isTrue();
+        getJmx().enable(true);
+        assertThat(getJmx().isEnabled()).isTrue();
     }
 
     @Test
@@ -109,16 +112,16 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     @Test
     public void testVarArgs() {
         MyTestClass2 myTestClass = new MyTestClass2();
-        myTestClass.calculateSum(1,2,3);
+        myTestClass.calculateSum(1, 2, 3);
 
         List<LogEvent> logEvents = getListAppender().getEvents();
         assertThat(logEvents).hasSize(2);
 
-       String[] expectedMessages = {
+        String[] expectedMessages = {
                 // note only beginning of log message is used as the var arg value/address can always be different.
                 "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), kind=method-execution, parameters={numbers=[I@",
                 "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), executionTimeMs=#, kind=method-execution, parameters={numbers=[I@"
-       };
+        };
 
         assertLogEvents(logEvents, expectedMessages);
     }
@@ -126,7 +129,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     @Test
     public void testNoLogging() {
         FullContextTracingAspectTest.FullContext aspect = Aspects.aspectOf(FullContextTracingAspectTest.FullContext.class);
-        aspect.enableLogging(false);
+        getJmx().enableLogging(false);
 
         MyTestClass2 myTestClass = new MyTestClass2();
         myTestClass.name();
@@ -142,7 +145,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     @Aspect
     static class FullContext extends FullContextTracingAspect {
 
-        @Pointcut("execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.*(..)) && !execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.toString())")
+        @Pointcut("enabled() && execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.*(..)) && !execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.toString())")
         public void trace() {
         }
 

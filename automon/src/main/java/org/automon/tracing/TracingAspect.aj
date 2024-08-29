@@ -11,8 +11,12 @@ import org.slf4j.LoggerFactory;
  * This class provides common functionality for tracing method executions.
  *
  * <p>Logging can be enableLogging or disabled using the `enableLogging` method or by providing the `enableLogging` flag in the constructor.</p>
+ *
+ * <p>This aspect has an associated JMX MBean that can be used to configure it.
+ * Note this aspect is created as a singleton as always is the case by default in aspectj.
+ * </p>
  */
-public abstract aspect TracingAspect extends TraceJmxController {
+public abstract aspect TracingAspect  {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -33,7 +37,12 @@ public abstract aspect TracingAspect extends TraceJmxController {
      */
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
 
-    protected static final TraceJmxController JMX_TRACE_JMX_CONTROLLER = new TraceJmxController();
+    /**
+     * The JMX controller responsible for managing tracing aspects.
+     * This controller is created as a singleton and provides access to
+     * tracing-related functionalities (such as enable/disable) through JMX.
+     */
+    private static final TraceJmxController jmxController = new TraceJmxController();
     /**
      * Constructs a new `TracingAspect` with logging enableLogging by default.
      */
@@ -46,14 +55,47 @@ public abstract aspect TracingAspect extends TraceJmxController {
      * @param enableLogging `true` to enable logging, `false` to disable logging.
      */
     public TracingAspect(boolean enableLogging) {
-        enableLogging(enableLogging);
+        jmxController.enableLogging(enableLogging);
     }
 
     /**
      * Abstract pointcut to be defined in concrete subaspects.
      * This pointcut determines which methods will be traced.
+     * <p>**Examples:**</p>
+     *
+     * <pre>
+     * pointcut trace() : execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * <pre>
+     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * Alternatively the following equivalent approach could be used:
+     * <pre>
+     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * </pre>
      */
     public abstract pointcut trace();
+
+    /**
+     * A pointcut that matches if tracing is enabled.
+     * <p>
+     * This pointcut can be used in conjunction with other pointcuts to conditionally apply advice
+     * only when tracing is enabled.
+     *
+     * <p>**Examples:**</p>
+     *
+     * <pre>
+     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * Alternatively the following equivalent approach could be used:
+     * <pre>
+     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * </pre>
+     */
+    public pointcut enabled() : if(isEnabled());
 
     /**
      * AfterThrowing advice for handling exceptions.
@@ -93,7 +135,7 @@ public abstract aspect TracingAspect extends TraceJmxController {
         // using this ensures if an exception is thrown it is still cleaned up.
         try (helper) {
             helper.withException(throwable.getClass().getCanonicalName());
-            if (isLoggingEnabled()) {
+            if (jmxController.isLoggingEnabled()) {
                 LOGGER.error(AFTER, throwable);
             }
         }
@@ -104,7 +146,7 @@ public abstract aspect TracingAspect extends TraceJmxController {
      * but only if logging is currently enableLogging.
      */
     protected void logBefore() {
-        if (isLoggingEnabled()) {
+        if (jmxController.isLoggingEnabled()) {
             LOGGER.info(BEFORE);
         }
     }
@@ -114,23 +156,39 @@ public abstract aspect TracingAspect extends TraceJmxController {
      * but only if logging is currently enableLogging.
      */
     protected void logAfter() {
-        if (isLoggingEnabled()) {
+        if (jmxController.isLoggingEnabled()) {
             LOGGER.info(AFTER);
         }
     }
 
+    /**
+     * Retrieves the singleton instance of the {@link TraceJmxController}.
+     *
+     * @return The JMX controller for tracing aspects.
+     */
     protected static TraceJmxController getJmxController() {
-        return JMX_TRACE_JMX_CONTROLLER;
+        return jmxController;
     }
 
+    /**
+     * Checks if tracing is currently enabled.
+     *
+     * @return {@code true} if tracing is enabled, {@code false} otherwise.
+     */
+    public static boolean isEnabled() {
+        return jmxController.isEnabled();
+    }
+
+    /**
+     * Converts an object to its string representation.
+     *
+     * @param obj The object to be converted.
+     * @return The string representation of the object, or "null" if the object is null.
+     */
     protected String objectToString(Object obj) {
         return obj == null ? "null" : obj.toString();
     }
 
-    public static boolean _isEnabled() {
-        return JMX_TRACE_JMX_CONTROLLER.isEnabled();
-    }
 
-    public pointcut enabled() : if(_isEnabled());
 
 }

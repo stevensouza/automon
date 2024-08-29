@@ -4,6 +4,7 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.tracing.jmx.AspectJmxController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,27 +27,29 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
         reset();
     }
 
-    private FullContextData aspect = null;
+
+    private AspectJmxController getJmx() {
+        return FullContextData.getJmxController();
+    }
 
     private void reset() {
         getListAppender().clear();
-        aspect = Aspects.aspectOf(FullContextData.class);
-        aspect.enable(true);
+        getJmx().enable(true);
     }
 
     // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectJmxController
+        assertThat(getJmx().isEnabled()).isTrue(); // Inherited from AspectJmxController
     }
 
     @Test
     void testEnable() {
-        aspect.enable(false);
-        assertThat(aspect.isEnabled()).isFalse();
+        getJmx().enable(false);
+        assertThat(getJmx().isEnabled()).isFalse();
 
-        aspect.enable(true);
-        assertThat(aspect.isEnabled()).isTrue();
+        getJmx().enable(true);
+        assertThat(getJmx().isEnabled()).isTrue();
     }
 
     @Test
@@ -74,9 +77,9 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
     @Aspect
     static class FullContextData extends FullContextDataAspect {
 
-        @Pointcut("execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
+        @Pointcut("enabled() && execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
                 "!execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.toString())")
-        public void fullContextData() {
+        public void trace() {
         }
 
     }
