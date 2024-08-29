@@ -1,9 +1,9 @@
 package org.automon.tracing.jmx;
 
 /**
- * Implementation of the `TraceControlMBean` interface.
+ * Implementation of the `TraceJmxControllerMBean` interface.
  */
-public class TraceControl extends AspectControl implements TraceControlMBean {
+public class TraceJmxController extends AspectJmxController implements TraceJmxControllerMBean {
 
     private boolean loggingEnabled = true; // Default to logging enabled
 

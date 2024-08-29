@@ -48,10 +48,10 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         assertThat(aspect.isLoggingEnabled()).isTrue();
     }
 
-    // Tests for AspectControl methods (inherited)
+    // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
+        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectJmxController
     }
 
     @Test

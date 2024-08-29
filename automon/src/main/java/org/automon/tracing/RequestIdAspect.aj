@@ -1,15 +1,14 @@
 package org.automon.tracing;
 
 
-import org.automon.tracing.jmx.AspectControl;
-import org.automon.tracing.jmx.AspectMBean;
+import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.utils.LogTracingHelper;
 
 /**
  * AspectJ aspect for managing request IDs in the SLF4J MDC (Mapped Diagnostic Context).
  * This aspect adds a unique request ID to the MDC at the beginning of a request and removes it at the end.
  */
-public abstract aspect RequestIdAspect extends AspectControl {
+public abstract aspect RequestIdAspect extends AspectJmxController {
     private static final LogTracingHelper helper = LogTracingHelper.getInstance();
 
     /**

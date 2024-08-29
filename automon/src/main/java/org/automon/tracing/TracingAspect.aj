@@ -1,6 +1,6 @@
 package org.automon.tracing;
 
-import org.automon.tracing.jmx.TraceControl;
+import org.automon.tracing.jmx.TraceJmxController;
 import org.automon.utils.LogTracingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Logging can be enableLogging or disabled using the `enableLogging` method or by providing the `enableLogging` flag in the constructor.</p>
  */
-public abstract aspect TracingAspect extends TraceControl {
+public abstract aspect TracingAspect extends TraceJmxController {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -33,6 +33,7 @@ public abstract aspect TracingAspect extends TraceControl {
      */
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
 
+    protected static final TraceJmxController JMX_TRACE_JMX_CONTROLLER = new TraceJmxController();
     /**
      * Constructs a new `TracingAspect` with logging enableLogging by default.
      */
@@ -118,8 +119,18 @@ public abstract aspect TracingAspect extends TraceControl {
         }
     }
 
+    protected static TraceJmxController getJmxController() {
+        return JMX_TRACE_JMX_CONTROLLER;
+    }
+
     protected String objectToString(Object obj) {
         return obj == null ? "null" : obj.toString();
     }
+
+    public static boolean _isEnabled() {
+        return JMX_TRACE_JMX_CONTROLLER.isEnabled();
+    }
+
+    public pointcut enabled() : if(_isEnabled());
 
 }

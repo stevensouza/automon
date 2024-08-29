@@ -34,10 +34,10 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         aspect.enable(true);
     }
 
-    // Tests for AspectControl methods (inherited)
+    // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
+        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectJmxController
     }
 
     @Test

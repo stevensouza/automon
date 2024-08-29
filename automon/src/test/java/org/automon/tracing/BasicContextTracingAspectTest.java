@@ -47,10 +47,10 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         assertThat(aspect.isLoggingEnabled()).isTrue();
     }
 
-    // Tests for AspectControl methods (inherited)
+    // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectControl
+        assertThat(aspect.isEnabled()).isTrue(); // Inherited from AspectJmxController
     }
 
     @Test
@@ -144,13 +144,14 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
         public BasicContext() {
             super();
+            getJmxController().enable(true);
         }
 
         public BasicContext(boolean enable) {
             super(enable);
         }
 
-        @Pointcut("execution(* org.automon.tracing.BasicContextTracingAspectTest.MyTestClass.*(..))")
+        @Pointcut("enabled() && execution(* org.automon.tracing.BasicContextTracingAspectTest.MyTestClass.*(..))")
         public void trace() {
         }
     }

@@ -1,6 +1,6 @@
 package org.automon.tracing.jmx;
 
-public class AspectControl implements AspectMBean {
+public class AspectJmxController implements AspectJmxControllerMBean {
     /**
      * Flag indicating whether tracing is enabled.
      */

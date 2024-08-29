@@ -5,12 +5,6 @@ import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
-import org.aspectj.lang.Aspects;
-import org.assertj.core.api.Assertions;
-import org.automon.tracing.jmx.AspectMBean;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

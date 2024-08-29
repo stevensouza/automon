@@ -1,6 +1,6 @@
 package org.automon.tracing.jmx;
 
-public interface AspectMBean {
+public interface AspectJmxControllerMBean {
     /**
      * Enables/disables the aspect.
      *

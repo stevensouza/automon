@@ -3,7 +3,7 @@ package org.automon.tracing.jmx;
 /**
  * JMX MBean interface for controlling the tracing aspect.
  */
-public interface TraceControlMBean extends AspectMBean {
+public interface TraceJmxControllerMBean extends AspectJmxControllerMBean {
 
     /**
      * Enables or disables logging in this aspect.
