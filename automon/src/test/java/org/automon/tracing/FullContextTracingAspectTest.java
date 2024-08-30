@@ -38,6 +38,46 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     @Test
+    void testNoArgConstructor_defaultsToEnabled() {
+        FullContext fc = new FullContext();
+
+        assertThat(FullContext.isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isLoggingEnabled()).isTrue();
+    }
+
+
+    @Test
+    void testOneParameterizedConstructor_setsEnabledState() {
+        FullContext fc = new FullContext(true);
+
+        assertThat(FullContext.isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isLoggingEnabled()).isTrue();
+
+        fc = new FullContext(false);
+
+        assertThat(FullContext.isEnabled()).isFalse();
+        assertThat(FullContext.getJmxController().isEnabled()).isFalse();
+        assertThat(FullContext.getJmxController().isLoggingEnabled()).isTrue();
+    }
+
+    @Test
+    void testTwoParameterizedConstructor_setsEnabledState() {
+        FullContext fc = new FullContext(true, true);
+
+        assertThat(FullContext.isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isLoggingEnabled()).isTrue();
+
+        fc = new FullContext(true, false);
+
+        assertThat(FullContext.isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isEnabled()).isTrue();
+        assertThat(FullContext.getJmxController().isLoggingEnabled()).isFalse();
+    }
+
+    @Test
     void testDefaultLoggingEnabled() {
         assertThat(getJmx().isLoggingEnabled()).isTrue();
     }
@@ -144,6 +184,21 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
     @Aspect
     static class FullContext extends FullContextTracingAspect {
+
+        // No-arg constructor
+        public FullContext() {
+            super(true, true); // Default to both tracing and logging enabled
+        }
+
+        // Single-argument constructor (enable tracing)
+        public FullContext(boolean enable) {
+            super(enable, true); // Default to logging enabled
+        }
+
+        // Two-argument constructor (enable tracing and logging)
+        public FullContext(boolean enable, boolean enableLogging) {
+            super(enable, enableLogging);
+        }
 
         @Pointcut("enabled() && execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.*(..)) && !execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.toString())")
         public void trace() {

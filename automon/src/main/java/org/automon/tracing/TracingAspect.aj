@@ -43,19 +43,36 @@ public abstract aspect TracingAspect  {
      * tracing-related functionalities (such as enable/disable) through JMX.
      */
     private static final TraceJmxController jmxController = new TraceJmxController();
+
     /**
-     * Constructs a new `TracingAspect` with logging enableLogging by default.
+     * Constructs a new `TracingAspect` in the enabled and logging states enabled.
      */
     public TracingAspect() {
+        this(true, true);
     }
 
     /**
-     * Constructs a new `BasicContextTracingAspect` with the specified logging enableLogging flag.
+     * Constructs a new `TracingAspect` in either enabled or disabled state. Logging/tracing
+     * defaults to 'true' however if the whole aspect is disabled logging still would not
+     * be called.
      *
-     * @param enableLogging `true` to enable logging, `false` to disable logging.
+     * @param enable `true` to enable the aspect, `false` to disable.
      */
-    public TracingAspect(boolean enableLogging) {
-        jmxController.enableLogging(enableLogging);
+    public TracingAspect(boolean enable) {
+        this(enable, true);
+    }
+
+    /**
+     * Constructs a new `TracingAspect`
+     *
+     * @param enable        `true` to enable the aspect, `false` to disable. This would disable both writing to
+     *                      MDC/NDC as well as calling the logging/tracing statements.
+     * @param enableLogging `true` to enable logging/tracing with slf4j, `false` to disable logging. Note typically
+     *                      the result is to still write to MDC/NDC if enableLogging is false.
+     */
+    public TracingAspect(boolean enable, boolean enableLogging) {
+        jmxController.enable(enable);     // Set overall tracing enabled state
+        jmxController.enableLogging(enableLogging); // Set logging enabled state
     }
 
     /**

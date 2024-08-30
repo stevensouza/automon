@@ -30,6 +30,23 @@ public abstract aspect FullContextDataAspect {
     private static final AspectJmxController jmxController = new AspectJmxController();
 
     /**
+     * Constructs a new `FullContextDataAspect` enabled by default.
+     */
+    public FullContextDataAspect() {
+        this(true); // Call the parameterized constructor with default 'true' value
+    }
+
+    /**
+     * Constructs a new `FullContextDataAspect` and sets the initial enable state of the associated
+     * `AspectJmxController`.
+     *
+     * @param enable The initial enable state for tracing.
+     */
+    public FullContextDataAspect(boolean enable) {
+        jmxController.enable(enable);
+    }
+
+    /**
      * Abstract pointcut that defines the join points (method executions, etc.) where contextual data
      * should be managed (added and removed). This needs to be implemented in concrete subclasses
      * to target specific entry and exit points within your application.
@@ -70,8 +87,6 @@ public abstract aspect FullContextDataAspect {
      * </pre>
      */
     public pointcut enabled() : if(isEnabled());
-
-
 
     /**
      * Before advice: Executed before the join point defined by {@link #trace()}.

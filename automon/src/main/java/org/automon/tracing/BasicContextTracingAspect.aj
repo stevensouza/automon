@@ -20,18 +20,29 @@ import org.aspectj.lang.JoinPoint;
 public abstract aspect BasicContextTracingAspect extends TracingAspect {
 
     /**
-     * Constructs a new `BasicContextTracingAspect` with logging enabled by default.
+     * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
     public BasicContextTracingAspect() {
+        super(true, true);
     }
 
     /**
-     * Constructs a new `BasicContextTracingAspect` with the specified logging enabled flag.
+     * Constructs a new `BasicContextTracingAspect` with the specified tracing enabled state and logging enabled by default.
      *
-     * @param enable `true` to enable logging, `false` to disable logging.
+     * @param enable `true` to enable tracing, `false` to disable tracing.
      */
     public BasicContextTracingAspect(boolean enable) {
-        super(enable);
+        super(enable, true);
+    }
+
+    /**
+     * Constructs a new `BasicContextTracingAspect` with the specified tracing and logging enabled states.
+     *
+     * @param enable        `true` to enable tracing, `false` to disable tracing.
+     * @param enableLogging `true` to enable logging, `false` to disable logging.
+     */
+    public BasicContextTracingAspect(boolean enable, boolean enableLogging) {
+        super(enable, enableLogging);
     }
 
     /**

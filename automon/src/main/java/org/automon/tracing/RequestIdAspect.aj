@@ -22,6 +22,23 @@ public abstract aspect RequestIdAspect {
     private static final AspectJmxController jmxController = new AspectJmxController();
 
     /**
+     * Constructs a new `RequestIdAspect` enabled by default.
+     */
+    public RequestIdAspect() {
+        this(true); // Call the parameterized constructor with default 'true' value
+    }
+
+    /**
+     * Constructs a new `RequestIdAspect` and sets the initial enable state of the associated
+     * `AspectJmxController`.
+     *
+     * @param enable The initial enable state for tracing.
+     */
+    public RequestIdAspect(boolean enable) {
+        jmxController.enable(enable);
+    }
+
+    /**
      * Pointcut that defines where the request ID should be added and removed.
      * This should be implemented to target the entry and exit points of requests in your application.
      * <p>

@@ -38,6 +38,27 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         getJmx().enable(true);
     }
 
+    @Test
+    void testNoArgConstructor_defaultsToEnabled() {
+        RequestId requestId = new RequestId();
+
+        assertThat(RequestId.isEnabled()).isTrue();
+        assertThat(RequestId.getJmxController().isEnabled()).isTrue();
+    }
+
+    @Test
+    void testParameterizedConstructor_setsEnabledState() {
+        RequestId requestId = new RequestId(true);
+
+        assertThat(RequestId.isEnabled()).isTrue();
+        assertThat(RequestId.getJmxController().isEnabled()).isTrue();
+
+        requestId = new RequestId(false);
+
+        assertThat(RequestId.isEnabled()).isFalse();
+        assertThat(RequestId.getJmxController().isEnabled()).isFalse();
+    }
+
     // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
@@ -75,6 +96,13 @@ class RequestIdAspectTest extends TestTracingAspectBase {
 
     @Aspect
     static class RequestId extends RequestIdAspect {
+
+        public RequestId() {
+        }
+
+        public RequestId(boolean enable) {
+            super(enable);
+        }
 
         @Pointcut("enabled() && execution(* org.automon.tracing.RequestIdAspectTest.MyRequestTestClass.firstName(..))")
         public void requestStart() {
