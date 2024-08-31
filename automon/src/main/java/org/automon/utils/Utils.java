@@ -101,7 +101,7 @@ public class Utils {
      * This method extracts method parameters/arguments and their values from the JoinPoint
      * and returns a read-only map containing them.
      * Terminology Clarification:
-     *
+     * <p>
      * Parameter (Formal Parameter): A variable declared in the method signature that acts as a placeholder for the value that will be passed in during the method call.
      * Argument (Actual Parameter): The actual value (data) that is passed into the method when it is called. This value is assigned to the corresponding parameter.
      *
@@ -134,16 +134,15 @@ public class Utils {
     }
 
 
-
     /**
      * Convert a Map to a formatted string
      *
      * @param args assumed to be parameter key value pairs
      * @return String representing the argName, argValue pairs. Example of what it could return:
-     *      === Parameters ===
-     *      filename: report.txt
-     *      max_records: 1000
-     *      user_id: johndoe123
+     * === Parameters ===
+     * filename: report.txt
+     * max_records: 1000
+     * user_id: johndoe123
      */
     public static String argNameValuePairsToString(Map<String, Object> args) {
         if (args == null) {
@@ -165,9 +164,9 @@ public class Utils {
      *
      * @param parameter The object to convert to a string.
      * @return A string representation of the parameter, with the following characteristics:
-     *         - Returns NULL_STR for null parameters.
-     *         - Truncates strings longer than DEFAULT_ARG_STRING_MAX_LENGTH and appends DEFAULT_MAX_STRING_ENDING.
-     *         - Returns UNKNOWN if any exception occurs during conversion.
+     * - Returns NULL_STR for null parameters.
+     * - Truncates strings longer than DEFAULT_ARG_STRING_MAX_LENGTH and appends DEFAULT_MAX_STRING_ENDING.
+     * - Returns UNKNOWN if any exception occurs during conversion.
      * <p>
      * This method ensures safe functionality by handling null values, limiting string length,
      * and catching all exceptions to prevent method failure.
@@ -227,45 +226,64 @@ public class Utils {
     }
 
     /**
-     * Pass in an aspect and return its jmx bean.
+     * Retrieves the JMX MBean associated with the given aspect.
      *
-     * @param aspect
-     * @return MxBean to manage the aspect
-     * @throws Exception if jmx commands fail
+     * @param aspect The aspect instance.
+     * @param <T> The type of the MBean interface.
+     * @return The MBean proxy to manage the aspect.
+     * @throws Exception If JMX commands fail (e.g., MBean not found, registration issues).
      */
-    public static AutomonMXBean getAutomonMxBean(Object aspect) throws Exception {
+    public static <T> T getMxBean(String purpose, Object aspect, Class<T> mxBeanInterface) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        AutomonMXBean mxbeanProxy = JMX.newMXBeanProxy(mBeanServer, getMxBeanObjectName(aspect), AutomonMXBean.class);
+        T mxbeanProxy = JMX.newMXBeanProxy(mBeanServer, getMxBeanObjectName(purpose, aspect), mxBeanInterface);
         return mxbeanProxy;
     }
 
-    // get the ObjectName that is used to refer to the 'aspect'
-    private static ObjectName getMxBeanObjectName(Object aspect) throws Exception {
-        String objectName = "org.automon:type=aspects,name=" + aspect;
-        return new ObjectName(objectName);
-    }
-
     /**
-     * @param aspect Aspect that we are registering the jmx bean for
-     * @param mxBean jmx bean use to manage and get information about the aspect
+     * Registers the given JMX MBean with the platform MBeanServer, associating it with the provided aspect.
+     * <p>
+     *     if JMX commands fail. The exception is not propagated as this error is not key to the operating of
+     *     Automon or the application. It should not fail as the exception is well formed and always the same.
+     * </p>
+     * @param aspect The aspect instance. It is used to generate the JMX name such as:
+     *               org.automon:type=aspect,purpose=monitor,name=org.automon.AutomonAspect@63f25932
+     *               It could technically be any object and toString will be called to get the name.
+     * @param mxBean The JMX MBean instance to register (it can be of any type)
+     * @param <T>    The type of the MBean interface.
      */
-    public static void registerWithJmx(Object aspect, AutomonMXBean mxBean) {
+    public static <T> void registerWithJmx(String purpose, Object aspect, T mxBean) {
         try {
             MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-            mBeanServer.registerMBean(mxBean, getMxBeanObjectName(aspect));
+            mBeanServer.registerMBean(mxBean, getMxBeanObjectName(purpose, aspect));
         } catch (Exception e) {
+            // nonpropagation of this exception is by design (see javadocs). Also any logging framework
+            // is not guaranteed to be there so one is not used.
             e.printStackTrace();
         }
+
     }
+
 
     /**
      * @param aspect unregister the passed in aspect.
-     * @throws Exception
+     * @throws Exception Thrown if the jmx bean has a naming error
      */
 
-    public static void unregisterWithJmx(Object aspect) throws Exception {
+    public static void unregisterWithJmx(String purpose, Object aspect) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        mBeanServer.unregisterMBean(getMxBeanObjectName(aspect));
+        mBeanServer.unregisterMBean(getMxBeanObjectName(purpose, aspect));
+    }
+
+    // get the ObjectName that is used to refer to the 'aspect' in jmx. Sample return value...
+    //    org.automon:type=aspect,purpose=monitor,name=org.automon.AutomonAspect@63f25932
+    private static ObjectName getMxBeanObjectName(String purpose, Object aspect) throws Exception {
+//        purpose=trace_log_full_context
+//        purpose=trace_log_basic_context
+//        purpose=trace_nolog_full_context
+        // purpose=request_id
+        // String message = String.format("Hello, %s! You are %d years old.", name, age);
+        String jmxName = String.format("org.automon:type=aspect,purpose=%s,name=%s", purpose, aspect.toString());
+        return new ObjectName(jmxName);
     }
 
     public static boolean hasPackageName(String className) {
@@ -276,7 +294,6 @@ public class Utils {
      * Take a variable list of fully qualified class names and return the first one.
      *
      * @param classNames com.package1.MyClass1, com.package2.MyClass2
-     * @param <T>
      * @return The first created class or none if all fail.
      */
     public static <T> T createFirst(String... classNames) {

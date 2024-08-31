@@ -17,6 +17,8 @@ import java.util.Properties;
 
 public class AutomonAspectBase {
 
+    public static final String PURPOSE = "monitor";
+
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
     private AutomonMXBean automonJmx = new AutomonJmx(this);
@@ -25,7 +27,7 @@ public class AutomonAspectBase {
     public AutomonAspectBase() {
         // Use the OpenMon the user selects and register the aspect with jmx
         initOpenMon();
-        Utils.registerWithJmx(this, automonJmx);
+        Utils.registerWithJmx(PURPOSE, this, automonJmx);
     }
 
     // use the specified Automon implementation 
