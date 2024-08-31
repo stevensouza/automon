@@ -256,7 +256,7 @@ public class Utils {
             MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
             mBeanServer.registerMBean(mxBean, getMxBeanObjectName(purpose, aspect));
         } catch (Exception e) {
-            // nonpropagation of this exception is by design (see javadocs). Also any logging framework
+            // non-propagation of this exception is by design (see javadocs). Also any logging framework
             // is not guaranteed to be there so one is not used.
             e.printStackTrace();
         }
@@ -277,11 +277,6 @@ public class Utils {
     // get the ObjectName that is used to refer to the 'aspect' in jmx. Sample return value...
     //    org.automon:type=aspect,purpose=monitor,name=org.automon.AutomonAspect@63f25932
     private static ObjectName getMxBeanObjectName(String purpose, Object aspect) throws Exception {
-//        purpose=trace_log_full_context
-//        purpose=trace_log_basic_context
-//        purpose=trace_nolog_full_context
-        // purpose=request_id
-        // String message = String.format("Hello, %s! You are %d years old.", name, age);
         String jmxName = String.format("org.automon:type=aspect,purpose=%s,name=%s", purpose, aspect.toString());
         return new ObjectName(jmxName);
     }

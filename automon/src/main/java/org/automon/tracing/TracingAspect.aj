@@ -1,7 +1,9 @@
 package org.automon.tracing;
 
+import org.automon.tracing.jmx.Purpose;
 import org.automon.tracing.jmx.TraceJmxController;
 import org.automon.utils.LogTracingHelper;
+import org.automon.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +45,12 @@ public abstract aspect TracingAspect  {
      * tracing-related functionalities (such as enable/disable) through JMX.
      */
     private static final TraceJmxController jmxController = new TraceJmxController();
+
+    /**
+     * Value that shows up in 'purpose' key when registering an aspect for JMX
+     */
+    protected Purpose purpose = new Purpose("trace");
+
 
     /**
      * Constructs a new `TracingAspect` in the enabled and logging states enabled.
@@ -176,6 +184,17 @@ public abstract aspect TracingAspect  {
         if (jmxController.isLoggingEnabled()) {
             LOGGER.info(AFTER);
         }
+    }
+
+
+    /**
+     * Registers the JMX controller associated with this aspect.
+     * <p>
+     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
+     * using the current `purpose` as part of the MBean's ObjectName.
+     */
+    protected void registerJmxController() {
+        Utils.registerWithJmx(purpose.getPurpose(), this, jmxController);
     }
 
     /**

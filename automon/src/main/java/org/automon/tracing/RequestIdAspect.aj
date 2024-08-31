@@ -2,7 +2,9 @@ package org.automon.tracing;
 
 
 import org.automon.tracing.jmx.AspectJmxController;
+import org.automon.tracing.jmx.Purpose;
 import org.automon.utils.LogTracingHelper;
+import org.automon.utils.Utils;
 
 /**
  * AspectJ aspect for managing request IDs in the SLF4J MDC (Mapped Diagnostic Context).
@@ -22,6 +24,12 @@ public abstract aspect RequestIdAspect {
     private static final AspectJmxController jmxController = new AspectJmxController();
 
     /**
+     * Value that shows up in 'purpose' key when registering an aspect for JMX
+     */
+    protected Purpose purpose = new Purpose("request_id");
+
+
+    /**
      * Constructs a new `RequestIdAspect` enabled by default.
      */
     public RequestIdAspect() {
@@ -36,6 +44,7 @@ public abstract aspect RequestIdAspect {
      */
     public RequestIdAspect(boolean enable) {
         jmxController.enable(enable);
+        registerJmxController();
     }
 
     /**
@@ -109,5 +118,15 @@ public abstract aspect RequestIdAspect {
      */
     public static boolean isEnabled() {
         return jmxController.isEnabled();
+    }
+
+    /**
+     * Registers the JMX controller associated with this aspect.
+     * <p>
+     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
+     * using the current `purpose` as part of the MBean's ObjectName.
+     */
+    protected void registerJmxController() {
+        Utils.registerWithJmx(purpose.getPurpose(), this, jmxController);
     }
 }

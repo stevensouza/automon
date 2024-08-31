@@ -1,6 +1,7 @@
 package org.automon.tracing;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.tracing.jmx.Purpose;
 
 /**
  * <p>Aspect for basic context tracing using AOP (Aspect-Oriented Programming).
@@ -23,7 +24,7 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
     public BasicContextTracingAspect() {
-        super(true, true);
+        this(true, true);
     }
 
     /**
@@ -32,7 +33,7 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      * @param enable `true` to enable tracing, `false` to disable tracing.
      */
     public BasicContextTracingAspect(boolean enable) {
-        super(enable, true);
+        this(enable, true);
     }
 
     /**
@@ -43,6 +44,8 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      */
     public BasicContextTracingAspect(boolean enable, boolean enableLogging) {
         super(enable, enableLogging);
+        purpose = new Purpose("trace_log_basic_context");
+        registerJmxController();
     }
 
     /**
