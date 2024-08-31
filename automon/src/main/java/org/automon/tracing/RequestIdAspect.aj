@@ -2,7 +2,6 @@ package org.automon.tracing;
 
 
 import org.automon.tracing.jmx.AspectJmxController;
-import org.automon.tracing.jmx.Purpose;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 
@@ -22,12 +21,6 @@ public abstract aspect RequestIdAspect {
      * tracing-related functionalities (such as enable/disable) through JMX.
      */
     private static final AspectJmxController jmxController = new AspectJmxController();
-
-    /**
-     * Value that shows up in 'purpose' key when registering an aspect for JMX
-     */
-    protected Purpose purpose = new Purpose("request_id");
-
 
     /**
      * Constructs a new `RequestIdAspect` enabled by default.
@@ -127,6 +120,6 @@ public abstract aspect RequestIdAspect {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx(purpose.getPurpose(), this, jmxController);
+        Utils.registerWithJmx("request_id", this, jmxController);
     }
 }

@@ -2,7 +2,6 @@ package org.automon.tracing;
 
 
 import org.automon.tracing.jmx.AspectJmxController;
-import org.automon.tracing.jmx.Purpose;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 
@@ -30,7 +29,6 @@ public abstract aspect FullContextDataAspect {
      * tracing-related functionalities (such as enable/disable) through JMX.
      */
     private static final AspectJmxController jmxController = new AspectJmxController();
-    protected Purpose purpose = new Purpose("trace_nolog_full_context");
 
     /**
      * Constructs a new `FullContextDataAspect` enabled by default.
@@ -136,6 +134,6 @@ public abstract aspect FullContextDataAspect {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx(purpose.getPurpose(), this, jmxController);
+        Utils.registerWithJmx("trace_nolog_full_context", this, jmxController);
     }
 }
