@@ -26,6 +26,8 @@ See ajc-aop.xml for more information and examples.
      classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
      -->
     <weaver options="-verbose -debug">
+        <!-- only weave classes within com.stevesouza and its subpackages. Note required per pointcut above but an optimization. -->
+        <include within="com.stevesouza..*"/>
         <!--<dump within="org.automon.implementations.*"/>-->
         <!--<dump within="org.automon.helloworld.*"/>-->
         <!-- Weave types that are within the javax.* or org.aspectj.*
