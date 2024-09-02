@@ -23,6 +23,11 @@ public abstract aspect RequestIdAspect {
     private static final AspectJmxController jmxController = new AspectJmxController();
 
     /**
+     * The value associated with the key 'purpose' in jmx registration.
+     */
+    private String purpose = "request_id";
+
+    /**
      * Constructs a new `RequestIdAspect` enabled by default.
      */
     public RequestIdAspect() {
@@ -120,6 +125,24 @@ public abstract aspect RequestIdAspect {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx("request_id", this, jmxController);
+        Utils.registerWithJmx(getPurpose(), this, jmxController);
+    }
+
+    /**
+     * Gets the purpose associated with this JMX registration.
+     *
+     * @return The value associated with the key 'purpose' in JMX registration.
+     */
+    public String getPurpose() {
+        return purpose;
+    }
+
+    /**
+     * Sets the purpose associated with this JMX registration.
+     *
+     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 }

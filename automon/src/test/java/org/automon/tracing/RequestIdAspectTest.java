@@ -5,6 +5,8 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.jmx.AspectJmxController;
+import org.automon.tracing.jmx.AspectJmxControllerMBean;
+import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,6 +75,15 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         getJmx().enable(true);
         assertThat(getJmx().isEnabled()).isTrue();
     }
+
+
+    @Test
+    public void testJmxRegistration() throws Throwable {
+        RequestId aspect = new RequestId();
+        AspectJmxControllerMBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AspectJmxControllerMBean.class);
+        assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
+    }
+
 
     @Test
     public void testRequestID() {

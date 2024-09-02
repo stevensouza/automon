@@ -5,6 +5,8 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.jmx.TraceJmxController;
+import org.automon.tracing.jmx.TraceJmxControllerMBean;
+import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -103,6 +105,14 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
         getJmx().enable(true);
         assertThat(getJmx().isEnabled()).isTrue();
+    }
+
+
+    @Test
+    public void testJmxRegistration() throws Throwable {
+        BasicContext aspect = new BasicContext();
+        TraceJmxControllerMBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, TraceJmxControllerMBean.class);
+        assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
     @Test

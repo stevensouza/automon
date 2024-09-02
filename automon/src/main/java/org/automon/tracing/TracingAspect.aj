@@ -46,6 +46,11 @@ public abstract aspect TracingAspect  {
     protected static final TraceJmxController jmxController = new TraceJmxController();
 
     /**
+     * The value associated with the key 'purpose' in jmx registration.
+     */
+    private String purpose = "trace";
+
+    /**
      * Constructs a new `TracingAspect` in the enabled and logging states enabled.
      */
     public TracingAspect() {
@@ -74,7 +79,6 @@ public abstract aspect TracingAspect  {
     public TracingAspect(boolean enable, boolean enableLogging) {
         jmxController.enable(enable);     // Set overall tracing enabled state
         jmxController.enableLogging(enableLogging); // Set logging enabled state
-        registerJmxController();
     }
 
     /**
@@ -188,7 +192,7 @@ public abstract aspect TracingAspect  {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx("trace", this, jmxController);
+        Utils.registerWithJmx(getPurpose(), this, jmxController);
     }
 
     /**
@@ -219,6 +223,22 @@ public abstract aspect TracingAspect  {
         return obj == null ? "null" : obj.toString();
     }
 
+    /**
+     * Gets the purpose associated with this JMX registration.
+     *
+     * @return The value associated with the key 'purpose' in JMX registration.
+     */
+    public String getPurpose() {
+        return purpose;
+    }
 
+    /**
+     * Sets the purpose associated with this JMX registration.
+     *
+     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
 
 }

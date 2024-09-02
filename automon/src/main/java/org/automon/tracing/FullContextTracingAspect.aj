@@ -19,7 +19,6 @@ import org.automon.utils.Utils;
  */
 public abstract aspect FullContextTracingAspect extends TracingAspect {
 
-
     /**
      * Constructs a new `FullContextTracingAspect` with both tracing and logging enabled by default.
      */
@@ -47,6 +46,8 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      */
     public FullContextTracingAspect(boolean enable, boolean enableLogging) {
         super(enable, enableLogging);
+        setPurpose("trace_log_full_context");
+        registerJmxController();
     }
 
     /**
@@ -80,16 +81,6 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
         helper.removeFullContext();
 
         return returnValue;
-    }
-
-    /**
-     * Registers the JMX controller associated with this aspect.
-     * <p>
-     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
-     * using the current `purpose` as part of the MBean's ObjectName.
-     */
-    protected void registerJmxController() {
-        Utils.registerWithJmx("trace_log_full_context", this, jmxController);
     }
 
 }

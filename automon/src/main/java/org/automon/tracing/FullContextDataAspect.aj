@@ -31,6 +31,11 @@ public abstract aspect FullContextDataAspect {
     private static final AspectJmxController jmxController = new AspectJmxController();
 
     /**
+     * The value associated with the key 'purpose' in jmx registration.
+     */
+    private String purpose = "trace_nolog_full_context";
+
+    /**
      * Constructs a new `FullContextDataAspect` enabled by default.
      */
     public FullContextDataAspect() {
@@ -134,6 +139,24 @@ public abstract aspect FullContextDataAspect {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx("trace_nolog_full_context", this, jmxController);
+        Utils.registerWithJmx(getPurpose(), this, jmxController);
+    }
+
+    /**
+     * Gets the purpose associated with this JMX registration.
+     *
+     * @return The value associated with the key 'purpose' in JMX registration.
+     */
+    public String getPurpose() {
+        return purpose;
+    }
+
+    /**
+     * Sets the purpose associated with this JMX registration.
+     *
+     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 }

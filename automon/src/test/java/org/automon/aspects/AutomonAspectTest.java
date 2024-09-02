@@ -113,7 +113,6 @@ public class AutomonAspectTest {
         assertThat(mxBean.getOpenMon()).
                 describedAs("Jmx version and aspect version should be the same").
                 isEqualTo(aspect.getOpenMon().toString());
-
     }
 
 

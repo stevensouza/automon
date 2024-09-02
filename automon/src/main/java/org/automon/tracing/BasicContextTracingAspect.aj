@@ -19,7 +19,6 @@ import org.automon.utils.Utils;
  * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
  */
 public abstract aspect BasicContextTracingAspect extends TracingAspect {
-
     /**
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
@@ -44,6 +43,8 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      */
     public BasicContextTracingAspect(boolean enable, boolean enableLogging) {
         super(enable, enableLogging);
+        setPurpose("trace_log_basic_context");
+        registerJmxController();
     }
 
     /**
@@ -78,13 +79,4 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
             return returnValue;
     }
 
-    /**
-     * Registers the JMX controller associated with this aspect.
-     * <p>
-     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
-     * using the current `purpose` as part of the MBean's ObjectName.
-     */
-    protected void registerJmxController() {
-        Utils.registerWithJmx("trace_log_basic_context", this, jmxController);
-    }
 }
