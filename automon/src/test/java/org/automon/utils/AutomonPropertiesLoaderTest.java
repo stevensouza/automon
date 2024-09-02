@@ -101,4 +101,28 @@ public class AutomonPropertiesLoaderTest {
         Properties properties = loader.getProperties();
         assertThat(properties.getProperty("org.automon.statsd.noexist")).isEqualTo("mynoexist_value");
     }
+
+    @Test
+    public void testGetBoolean_True() {
+        AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon.xml");
+
+        assertThat(loader.getBoolean("i do not exist")).
+                describedAs("If a property does not exist 'true' should be returned").
+                isTrue();
+        assertThat(loader.getBoolean("org.automon.tracing.BasicContextTracingAspect.enable")).
+                describedAs("This uses uppercase TRUE which should return boolean true").
+                isTrue();
+    }
+
+    @Test
+    public void testGetBoolean_False() {
+        AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon.xml");
+
+        assertThat(loader.getBoolean("org.automon.tracing.BasicContextTracingAspect.enableLogging")).
+                isFalse();
+        assertThat(loader.getBoolean("org.automon.tracing.BasicContextTracingAspect.test")).
+            describedAs("Any value other than 'true' is considered false").
+            isFalse();
+    }
+
 }

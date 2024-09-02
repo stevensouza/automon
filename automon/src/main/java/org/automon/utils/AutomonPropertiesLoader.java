@@ -4,15 +4,19 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * Load Automon properties.  The order of loading is to look in the file named automon.properties in the classpath.
- * Next look for system properties passed to the command line: (-DdistributedDataRefreshRateInMinutes=10).
- * These take precedence over the file.  If properties aren't in the file or passed in via the command line
- * then use defaults.
+ * Loads Automon properties with a prioritized strategy.
+ * The loading order is as follows:
+ * 1. System properties passed via command line (e.g., `-DdistributedDataRefreshRateInMinutes=10`)
+ * 2. Properties defined in a configuration file (searched in the order specified during instantiation)
+ * 3. Default properties if no file is found or properties are missing.
  */
 public class AutomonPropertiesLoader {
 
     private static final String EMPTY_DEFAULT_OPEN_MON = "";
     private String[] fileNames;
+    /**
+     * The Properties object holding Automon-specific properties.
+     */
     private Properties automonProps;
 
     // AspectJ property that specifies the xml config file used by AspectJ
@@ -56,6 +60,22 @@ public class AutomonPropertiesLoader {
             initialize();
         }
         return automonProps;
+    }
+
+    /**
+     * Retrieves a boolean property from the loaded Automon properties.
+     *
+     * @param key The key of the property to retrieve.
+     * @return `true` if the property value is "true" (case-insensitive), otherwise `false`.
+     * If the property is not found, the default value `true` is returned.
+     */
+    public boolean getBoolean(String key) {
+        if (automonProps == null) {
+            initialize();
+        }
+
+        String propertyValue = automonProps.getProperty(key, "true"); // Default to true if not found
+        return propertyValue.equalsIgnoreCase("true");
     }
 
 
@@ -121,7 +141,7 @@ public class AutomonPropertiesLoader {
                 input.close();
             }
         } catch (Throwable t) {
-
+            t.printStackTrace();
         }
     }
 
