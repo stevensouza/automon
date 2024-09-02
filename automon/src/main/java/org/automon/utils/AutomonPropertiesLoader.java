@@ -118,6 +118,7 @@ public class AutomonPropertiesLoader {
             }
         } catch (Throwable t) {
             // want to ignore exception and proceed with loading with CLI props or defaults.
+            t.printStackTrace();
         } finally {
             close(input);
         }

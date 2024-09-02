@@ -2,6 +2,7 @@ package org.automon.tracing;
 
 
 import org.automon.tracing.jmx.AspectJmxController;
+import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 
@@ -36,10 +37,11 @@ public abstract aspect FullContextDataAspect {
     private String purpose = "trace_nolog_full_context";
 
     /**
-     * Constructs a new `FullContextDataAspect` enabled by default.
+     *  Constructs a new `FullContextDataAspect` by looking in  automon properties and if it doesn't exist in there
+     *  default to enabled.
      */
     public FullContextDataAspect() {
-        this(true); // Call the parameterized constructor with default 'true' value
+        this(new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(FullContextDataAspect.class.getName())));
     }
 
     /**

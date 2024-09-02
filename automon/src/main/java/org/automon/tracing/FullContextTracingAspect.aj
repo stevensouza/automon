@@ -1,6 +1,7 @@
 package org.automon.tracing;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 
 /**
@@ -23,7 +24,9 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      * Constructs a new `FullContextTracingAspect` with both tracing and logging enabled by default.
      */
     public FullContextTracingAspect() {
-        super(true, true);
+        this(   new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(FullContextTracingAspect.class.getName())),
+                new AutomonPropertiesLoader().getBoolean(Utils.getEnableLoggingPropertyKey(FullContextTracingAspect.class.getName()))
+        );
     }
 
     /**

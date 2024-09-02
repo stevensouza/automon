@@ -2,6 +2,7 @@ package org.automon.tracing;
 
 
 import org.automon.tracing.jmx.AspectJmxController;
+import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 
@@ -28,10 +29,11 @@ public abstract aspect RequestIdAspect {
     private String purpose = "request_id";
 
     /**
-     * Constructs a new `RequestIdAspect` enabled by default.
+     * Constructs a new `RequestIdAspect` by looking in  automon properties and if it doesn't exist in there
+     * default to enabled.
      */
     public RequestIdAspect() {
-        this(true); // Call the parameterized constructor with default 'true' value
+        this(new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(RequestIdAspect.class.getName())));
     }
 
     /**
@@ -43,6 +45,11 @@ public abstract aspect RequestIdAspect {
     public RequestIdAspect(boolean enable) {
         jmxController.enable(enable);
         registerJmxController();
+        /*
+                Properties properties = new AutomonPropertiesLoader().getProperties();
+        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
+properties.getProperty(??, "true");
+         */
     }
 
     /**
@@ -145,4 +152,5 @@ public abstract aspect RequestIdAspect {
     public void setPurpose(String purpose) {
         this.purpose = purpose;
     }
+
 }

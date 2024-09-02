@@ -1,6 +1,7 @@
 package org.automon.tracing;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 
 /**
@@ -23,7 +24,9 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
     public BasicContextTracingAspect() {
-        this(true, true);
+        this(   new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(BasicContextTracingAspect.class.getName())),
+                new AutomonPropertiesLoader().getBoolean(Utils.getEnableLoggingPropertyKey(BasicContextTracingAspect.class.getName()))
+        );
     }
 
     /**
