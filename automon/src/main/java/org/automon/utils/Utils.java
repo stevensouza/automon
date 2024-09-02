@@ -326,4 +326,12 @@ public class Utils {
         }
     }
 
+    public static String getEnablePropertyKey(Object object) {
+        return (object == null) ? "" : object.toString()+".enable";
+    }
+
+    public static String getEnableLoggingPropertyKey(Object object) {
+        return (object == null) ? "" : object.toString()+".enableLogging";
+    }
+
 }
