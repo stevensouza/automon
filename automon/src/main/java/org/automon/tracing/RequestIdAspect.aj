@@ -30,10 +30,10 @@ public abstract aspect RequestIdAspect {
 
     /**
      * Constructs a new `RequestIdAspect` by looking in  automon properties and if it doesn't exist in there
-     * default to enabled.
+     * default to enable.
      */
     public RequestIdAspect() {
-        this(new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(RequestIdAspect.class.getName())));
+        this(Utils.shouldEnable(RequestIdAspect.class.getName()));
     }
 
     /**

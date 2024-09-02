@@ -24,8 +24,8 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
     public BasicContextTracingAspect() {
-        this(   new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(BasicContextTracingAspect.class.getName())),
-                new AutomonPropertiesLoader().getBoolean(Utils.getEnableLoggingPropertyKey(BasicContextTracingAspect.class.getName()))
+        this(Utils.shouldEnable(BasicContextTracingAspect.class.getName()),
+             Utils.shouldEnableLogging(BasicContextTracingAspect.class.getName())
         );
     }
 

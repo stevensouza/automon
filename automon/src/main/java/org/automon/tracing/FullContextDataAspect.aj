@@ -38,10 +38,10 @@ public abstract aspect FullContextDataAspect {
 
     /**
      *  Constructs a new `FullContextDataAspect` by looking in  automon properties and if it doesn't exist in there
-     *  default to enabled.
+     *  default to enable.
      */
     public FullContextDataAspect() {
-        this(new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(FullContextDataAspect.class.getName())));
+        this(Utils.shouldEnable(FullContextDataAspect.class.getName()));
     }
 
     /**

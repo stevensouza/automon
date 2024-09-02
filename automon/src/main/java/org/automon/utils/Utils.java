@@ -326,12 +326,21 @@ public class Utils {
         }
     }
 
-    public static String getEnablePropertyKey(Object object) {
-        return (object == null) ? "" : object.toString()+".enable";
+
+    // used to determine if aspect or logging is enabled or disabled by looking at
+    // properties. (i.e. org.automon.tracing.BasicContextTracingAspect.enable)
+    private static final AutomonPropertiesLoader AUTOMON_PROPERTIES = new AutomonPropertiesLoader();
+
+    // pass in MyClass.getClass().getName() typically.
+    public static boolean shouldEnable(Object object) {
+        String key= (object == null) ? "" : object+".enable";
+        return AUTOMON_PROPERTIES.getBoolean(key);
+
     }
 
-    public static String getEnableLoggingPropertyKey(Object object) {
-        return (object == null) ? "" : object.toString()+".enableLogging";
+    public static boolean shouldEnableLogging(Object object) {
+        String key = (object == null) ? "" : object+".enableLogging";
+        return AUTOMON_PROPERTIES.getBoolean(key);
     }
 
 }

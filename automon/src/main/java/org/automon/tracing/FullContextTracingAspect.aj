@@ -24,8 +24,8 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      * Constructs a new `FullContextTracingAspect` with both tracing and logging enabled by default.
      */
     public FullContextTracingAspect() {
-        this(   new AutomonPropertiesLoader().getBoolean(Utils.getEnablePropertyKey(FullContextTracingAspect.class.getName())),
-                new AutomonPropertiesLoader().getBoolean(Utils.getEnableLoggingPropertyKey(FullContextTracingAspect.class.getName()))
+        this(Utils.shouldEnable(FullContextTracingAspect.class.getName()),
+             Utils.shouldEnableLogging(FullContextTracingAspect.class.getName())
         );
     }
 

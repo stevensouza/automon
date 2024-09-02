@@ -118,7 +118,8 @@ public class AutomonPropertiesLoader {
             }
         } catch (Throwable t) {
             // want to ignore exception and proceed with loading with CLI props or defaults.
-            t.printStackTrace();
+            String message = String.format("error reading file=%s, exception=%s", fileName, t);
+            System.out.println(message);
         } finally {
             close(input);
         }

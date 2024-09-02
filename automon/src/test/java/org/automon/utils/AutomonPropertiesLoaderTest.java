@@ -125,4 +125,11 @@ public class AutomonPropertiesLoaderTest {
             isFalse();
     }
 
+    @Test
+    public void testInvalidFile() {
+        AutomonPropertiesLoader loader = new AutomonPropertiesLoader("invalid_file.xml");
+
+
+    }
+
 }
