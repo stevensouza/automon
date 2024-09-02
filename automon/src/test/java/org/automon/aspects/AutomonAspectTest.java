@@ -95,7 +95,7 @@ public class AutomonAspectTest {
 
     @Test
     public void testJmxRegistration() throws Throwable {
-        AutomonMXBean mxBean = Utils.getMxBean(MyInheritedAutomonAspect.PURPOSE, aspect, AutomonMXBean.class);
+        AutomonMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AutomonMXBean.class);
         mxBean.setOpenMon(OpenMonFactory.JAMON);
 
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);

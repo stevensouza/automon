@@ -17,7 +17,10 @@ import java.util.Properties;
 
 public class AutomonAspectBase {
 
-    public static final String PURPOSE = "monitor";
+    /**
+     * The value associated with the key 'purpose' in jmx registration.
+     */
+    private String purpose = "monitor";
 
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
@@ -27,7 +30,7 @@ public class AutomonAspectBase {
     public AutomonAspectBase() {
         // Use the OpenMon the user selects and register the aspect with jmx
         initOpenMon();
-        Utils.registerWithJmx(PURPOSE, this, automonJmx);
+        Utils.registerWithJmx(getPurpose(), this, automonJmx);
     }
 
     // use the specified Automon implementation 
@@ -81,6 +84,15 @@ public class AutomonAspectBase {
 
     public OpenMonFactory getOpenMonFactory() {
         return factory;
+    }
+
+    /**
+     * Gets the purpose associated with this JMX registration.
+     *
+     * @return The value associated with the key 'purpose' in JMX registration.
+     */
+    public String getPurpose() {
+        return purpose;
     }
 
 
