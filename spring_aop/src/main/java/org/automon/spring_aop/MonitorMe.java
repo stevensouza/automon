@@ -10,15 +10,15 @@ public class MonitorMe {
 
     public void myMethod() throws Exception {
         Thread.sleep(150);
-        System.out.println("exiting MonitorMe.myMethod()");
+        System.out.println(" exiting MonitorMe.myMethod() issued directly from MonitorMe class");
     }
 
 
     public void myName(String fname, String lname) {
-       System.out.println("exiting MonitorMe.myName(...)");
+       System.out.println("exiting MonitorMe.myName(...) issued directly from MonitorMe class");
     }
     
     public void myException()  throws Exception {
-           throw new Exception("testing excpeptions");
+           throw new Exception("testing exceptions");
     }
 }

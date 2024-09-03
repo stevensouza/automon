@@ -14,4 +14,4 @@ set_versions
 
 # Execute the Java command using the environment variables
 java   -Dorg.automon="sysout" \
-       -jar ../spring_aop/target/spring_aop-${AUTOMON_VERSION}.jar
+       -jar ../spring_aop/target/spring_aop-${AUTOMON_VERSION}-shaded.jar
