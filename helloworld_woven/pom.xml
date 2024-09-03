@@ -80,6 +80,39 @@ In general:
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
 
+            <!-- The shade plugin generates an uber jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <!-- Exclude all Spring dependencies -->
+                                    <exclude>org.springframework:*</exclude>
+                                    <!-- Exclude Hazelcast -->
+                                    <exclude>com.hazelcast:*</exclude>
+                                    <exclude>io.micrometer:*</exclude>
+                                    <exclude>com.jamonapi:*</exclude>
+                                    <!-- Exclude Log4j template -->
+                                    <exclude>org.apache.logging.log4j:log4j-layout-template-json</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -100,6 +133,7 @@ In general:
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

@@ -43,48 +43,57 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
 
-            <!--  the shade plugin generates an uber jar that you can run with the following command:  java -jar myuber.jar arg1,arg2-->
+            <!-- The shade plugin generates an uber jar -->
+            <!-- java -Dorg.automon=sysout -jar target/helloworld_woven-1.0.4-SNAPSHOT-shaded.jar 10           -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <configuration>
-                    <artifactSet>
-                        <excludes>
-                            <exclude>com.hazelcast:hazelcast-all</exclude>
-                        </excludes>
-                    </artifactSet>
-                    <transformers>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
-                        </transformer>
-                    </transformers>
-                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <!-- Exclude all Spring dependencies -->
+                                    <exclude>org.springframework:*</exclude>
+                                    <!-- Exclude Hazelcast -->
+                                    <exclude>com.hazelcast:*</exclude>
+                                    <exclude>io.micrometer:*</exclude>
+                                    <!-- Exclude Log4j template -->
+                                    <exclude>org.apache.logging.log4j:log4j-layout-template-json</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.stevesouza.jamon.JamonHelloWorld</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
-
         </plugins>
     </build>
 
     <dependencies>
-
         <dependency>
             <groupId>org.automon</groupId>
             <artifactId>automon</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.automon</groupId>
             <artifactId>helloworld_unwoven</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.jamonapi</groupId>
             <artifactId>jamon</artifactId>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>
