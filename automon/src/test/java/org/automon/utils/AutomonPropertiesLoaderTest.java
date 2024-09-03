@@ -109,7 +109,7 @@ public class AutomonPropertiesLoaderTest {
         assertThat(loader.getBoolean("i do not exist")).
                 describedAs("If a property does not exist 'true' should be returned").
                 isTrue();
-        assertThat(loader.getBoolean("org.automon.tracing.BasicContextTracingAspect.enable")).
+        assertThat(loader.getBoolean("org.automon.tracing.RequestIdAspect.enable")).
                 describedAs("This uses uppercase TRUE which should return boolean true").
                 isTrue();
     }
@@ -128,8 +128,7 @@ public class AutomonPropertiesLoaderTest {
     @Test
     public void testInvalidFile() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("invalid_file.xml");
-
-
+        assertThat(loader.getProperties().getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON)).isEqualTo("");
     }
 
 }

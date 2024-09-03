@@ -18,14 +18,16 @@ import static org.mockito.Mockito.when;
 
 public class UtilsTest {
 
+    private static final AutomonPropertiesLoader originalPropertiesLoader = Utils.AUTOMON_PROPERTIES;
+
     @BeforeEach
     public void setUp() throws Exception {
-
+        Utils.AUTOMON_PROPERTIES = originalPropertiesLoader;
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-
+        Utils.AUTOMON_PROPERTIES = originalPropertiesLoader;
     }
 
     @Test
@@ -201,5 +203,39 @@ public class UtilsTest {
         assertThat(Utils.formatExceptionForToolsWithLimitedCharacterSet(plainException)).describedAs("Nonsql exceptions should have no change").isEqualTo(plainException);
     }
 
+    @Test
+    public void testEnableDisableNoValues() {
+        assertThat(Utils.shouldEnable(null)).isTrue();
+        assertThat(Utils.shouldEnable("")).isTrue();
+        assertThat(Utils.shouldEnable("MyClass")).isTrue();
+
+        assertThat(Utils.shouldEnableLogging(null)).isTrue();
+        assertThat(Utils.shouldEnableLogging("")).isTrue();
+        assertThat(Utils.shouldEnableLogging("MyClass")).isTrue();
+    }
+
+    @Test
+    public void testEnableDisableFromConfigFile() {
+        Utils.AUTOMON_PROPERTIES = new AutomonPropertiesLoader("automon.xml");
+
+        // BasicContextTracingAspect assertions
+        assertThat(Utils.shouldEnable("org.automon.tracing.BasicContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnableLogging("org.automon.tracing.BasicContextTracingAspect")).isFalse();
+
+        // RequestIdAspect assertions
+        assertThat(Utils.shouldEnable("org.automon.tracing.RequestIdAspect")).isTrue();
+        assertThat(Utils.shouldEnableLogging("org.automon.tracing.RequestIdAspect")).isFalse();
+
+        // FullContextTracingAspect assertions
+        assertThat(Utils.shouldEnable("org.automon.tracing.FullContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnableLogging("org.automon.tracing.FullContextTracingAspect")).isFalse();
+
+        // MyAspect assertions
+        assertThat(Utils.shouldEnable("MyAspect")).isTrue();
+        assertThat(Utils.shouldEnableLogging("MyAspect")).
+                describedAs("This should default to true as it is not in the file").
+                isTrue();
+
+    }
 
 }

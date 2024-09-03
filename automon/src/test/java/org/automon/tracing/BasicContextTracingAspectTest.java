@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.jmx.TraceJmxController;
 import org.automon.tracing.jmx.TraceJmxControllerMBean;
+import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,8 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class BasicContextTracingAspectTest extends TestTracingAspectBase {
+
+    private static final AutomonPropertiesLoader originalPropertiesLoader = Utils.AUTOMON_PROPERTIES;
 
     @BeforeEach
     void setUp() {
@@ -32,6 +35,7 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     private void reset() {
+        Utils.AUTOMON_PROPERTIES = originalPropertiesLoader;
         getListAppender().clear();
         getJmx().enable(true);
         getJmx().enableLogging(true);
@@ -45,6 +49,17 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         assertThat(BasicContext.isEnabled()).isTrue();
         assertThat(BasicContext.getJmxController().isEnabled()).isTrue();
         assertThat(BasicContext.getJmxController().isLoggingEnabled()).isTrue();
+    }
+
+    @Test
+    void testNoArgConstructor_withEnableFromConfigFile() {
+        Utils.AUTOMON_PROPERTIES = new AutomonPropertiesLoader("automon.xml");
+
+        BasicContext bc = new BasicContext();
+
+        assertThat(BasicContext.isEnabled()).isFalse();
+        assertThat(BasicContext.getJmxController().isEnabled()).isFalse();
+        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isFalse();
     }
 
 
@@ -197,7 +212,6 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
         // No-arg constructor
         public BasicContext() {
-            super(true, true); // Default to both tracing and logging enabled
         }
 
         // Single-argument constructor (enable tracing)

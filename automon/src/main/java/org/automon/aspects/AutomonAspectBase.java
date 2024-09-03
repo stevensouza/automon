@@ -35,7 +35,7 @@ public class AutomonAspectBase {
 
     // use the specified Automon implementation 
     private void initOpenMon() {
-        Properties properties = new AutomonPropertiesLoader().getProperties();
+        Properties properties = Utils.AUTOMON_PROPERTIES.getProperties();
         String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
         // if the openMonString is a fully qualified classname then also register it in the factory i.e. com.mygreatcompany.MyOpenMon
         if (Utils.hasPackageName(openMonStr)) {

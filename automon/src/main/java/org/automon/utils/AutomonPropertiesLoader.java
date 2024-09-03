@@ -127,6 +127,19 @@ public class AutomonPropertiesLoader {
         return properties;
     }
 
+    /**
+     * Obtains an InputStream for reading a configuration file.
+     *
+     * <p>This method first checks if the specified file exists at the given path
+     * (if it's an absolute path) or in the current working directory (if it's a relative path).
+     * If it does, it creates a {@link BufferedInputStream} to read the file efficiently.
+     * If the file is not found in the current directory, it attempts to load it as a resource
+     * from the classpath using the class loader.</p>
+     *
+     * @param fileName The name of the configuration file.
+     * @return An InputStream for reading the configuration file, or {@code null} if the file cannot be found.
+     * @throws FileNotFoundException If the file exists but cannot be opened for reading.
+     */
     private InputStream getConfigFileInputStream(String fileName) throws FileNotFoundException {
         InputStream input = null;
         if (new File(fileName).exists()) {

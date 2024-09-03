@@ -198,7 +198,6 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
         // No-arg constructor
         public FullContext() {
-            super(true, true); // Default to both tracing and logging enabled
         }
 
         // Single-argument constructor (enable tracing)
