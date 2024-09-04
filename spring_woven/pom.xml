@@ -55,6 +55,34 @@
               </configuration>
           </plugin>
 
+          <plugin>
+              <!-- The shade plugin bundles all jars into one big jar making deployment and execution easier.
+               The mainClass element is defined so you can execute the jar without specifying the class.  To run this jar
+               simply type: java -Dorg.automon="sysout" -jar target/spring_aop-1.0.2-SNAPSHOT.jar
+              -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-shade-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <configuration>
+                          <transformers>
+                              <transformer
+                                      implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                  <resource>META-INF/spring.handlers</resource>
+                              </transformer>
+                              <transformer
+                                      implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                  <resource>META-INF/spring.schemas</resource>
+                              </transformer>
+                              <transformer
+                                      implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                  <mainClass>com.stevesouza.spring.HelloWorld</mainClass>
+                              </transformer>
+                          </transformers>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
 
       </plugins>
   </build>
@@ -72,11 +100,13 @@
       <dependency>
           <groupId>org.aspectj</groupId>
           <artifactId>aspectjrt</artifactId>
+          <scope>compile</scope>
       </dependency>
 
       <dependency>
           <groupId>org.aspectj</groupId>
           <artifactId>aspectjweaver</artifactId>
+          <scope>compile</scope>
       </dependency>
 
 
