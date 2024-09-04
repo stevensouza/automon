@@ -21,4 +21,8 @@ public class MonitorMe {
     public void myException()  throws Exception {
            throw new Exception("testing exceptions");
     }
+
+    public String bye(String message) {
+        return message+" world";
+    }
 }

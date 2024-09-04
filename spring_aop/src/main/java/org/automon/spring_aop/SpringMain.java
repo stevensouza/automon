@@ -23,5 +23,7 @@ public class SpringMain {
         } catch (Exception e) {
             
         }
+
+        monitorMe.bye("cruel");
     }
 }

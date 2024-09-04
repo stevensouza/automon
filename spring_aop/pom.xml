@@ -32,6 +32,16 @@
                 <executions>
                     <execution>
                         <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <!-- Exclude Hazelcast -->
+                                    <exclude>com.hazelcast:*</exclude>
+                                    <exclude>io.micrometer:*</exclude>
+                                    <exclude>com.jamonapi:*</exclude>
+                                    <!-- Exclude Log4j template -->
+                                    <exclude>org.apache.logging.log4j:log4j-layout-template-json</exclude>
+                                </excludes>
+                            </artifactSet>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
