@@ -15,7 +15,7 @@ public class MonitorMe {
 
 
     public void myName(String fname, String lname) {
-       System.out.println("exiting MonitorMe.myName(...) issued directly from MonitorMe class");
+       System.out.println(" exiting MonitorMe.myName(...) issued directly from MonitorMe class");
     }
     
     public void myException()  throws Exception {
