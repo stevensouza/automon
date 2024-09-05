@@ -15,6 +15,10 @@ public class HelloWorld {
         return "Souza";
     }
 
+    private String getMiddleName() {
+        return "Thomas";
+    }
+
     public void iMessedUp(String firstName, String lastName) {
         throw new RuntimeException("I really did it this time!");
     }
@@ -25,6 +29,7 @@ public class HelloWorld {
         for (int i=0;i<loops;i++) {
             System.out.println("     ** loop "+i+" of "+loops);
             System.out.println("      ** "+getFirstName());
+            System.out.println("      ** "+getMiddleName());
             System.out.println("      ** "+getLastName());
             try {
                 iMessedUp("Steve", "Souza");
