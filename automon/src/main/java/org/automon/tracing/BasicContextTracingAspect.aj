@@ -1,7 +1,6 @@
 package org.automon.tracing;
 
 import org.aspectj.lang.JoinPoint;
-import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 
 /**
