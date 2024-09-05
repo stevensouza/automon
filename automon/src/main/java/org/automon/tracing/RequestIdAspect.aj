@@ -45,11 +45,6 @@ public abstract aspect RequestIdAspect {
     public RequestIdAspect(boolean enable) {
         jmxController.enable(enable);
         registerJmxController();
-        /*
-                Properties properties = new AutomonPropertiesLoader().getProperties();
-        String openMonStr = properties.getProperty(AutomonPropertiesLoader.CONFIGURED_OPEN_MON);
-properties.getProperty(??, "true");
-         */
     }
 
     /**
