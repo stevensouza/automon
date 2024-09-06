@@ -14,6 +14,11 @@
     <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
     <bean id="automonSpringAspect" class="org.automon.aspects.AutomonSpringAspect"/>
     <bean id="traceSpringAspect" class="org.automon.spring_aop.SpringTraceAspect"/>
+    <bean id="abstractTracingAspect" class="org.automon.spring_aop.BasicContextTracingAspect" abstract="true" />
+    <bean id="delmeAspect" class="org.automon.spring_aop.Delme"/>
+
+
+    <!--    <bean id="concreteTracingAspect" class="org.automon.spring_aop.ConcreteTracingAspect" parent="abstractTracingAspect"/>-->
 
     <!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and
      Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.
@@ -31,6 +36,22 @@
     <aop:config>
         <aop:pointcut id="monitoredMethods" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
         <aop:pointcut id="exceptionTrackedMethods" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
+
+<!--        <aop:aspect ref="concreteTracingAspect">-->
+<!--            <aop:pointcut id="trace" expression="execution(* org.automon.spring_aop.MonitorMe.myName(..))"/>-->
+<!--        </aop:aspect>-->
+
+<!--        // In your AspectJ aspect-->
+<!--        @Around("trace()")-->
+<!--        public Object myAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {-->
+<!--        // ...-->
+<!--        }-->
+<!--        // In your Spring AOP XML-->
+<!--        <aop:around pointcut-ref="trace" method="myAroundAdvice"/>-->
+<!--        -->
+        <aop:aspect id="concreteTracingAspect" ref="abstractTracingAspect">
+            <aop:pointcut id="trace" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
+        </aop:aspect>
 
         <aop:aspect id="automonAspect" ref="automonSpringAspect">
             <aop:around pointcut-ref="monitoredMethods" method="monitor"/>
