@@ -1,7 +1,6 @@
 package org.automon.tracing;
 
 import org.apache.logging.log4j.core.LogEvent;
-import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.jmx.AspectJmxController;
@@ -116,7 +115,7 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         }
 
         @Pointcut("enabled() && execution(* org.automon.tracing.RequestIdAspectTest.MyRequestTestClass.firstName(..))")
-        public void requestStart() {
+        public void select() {
         }
 
     }

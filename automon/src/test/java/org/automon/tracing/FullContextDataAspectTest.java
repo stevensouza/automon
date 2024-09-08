@@ -117,7 +117,7 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
         @Pointcut("enabled() && execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
                 "!execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.toString())")
-        public void trace() {
+        public void select() {
         }
 
     }

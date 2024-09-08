@@ -21,20 +21,8 @@ import org.automon.utils.Utils;
  *
  *  <p>Note by default AspectJ aspects are singletons.</p>
  */
-public abstract aspect FullContextDataAspect {
-    private static final LogTracingHelper helper = LogTracingHelper.getInstance();
-
-    /**
-     * The JMX controller responsible for managing tracing aspects.
-     * This controller is created as a singleton and provides access to
-     * tracing-related functionalities (such as enable/disable) through JMX.
-     */
-    private static final AspectJmxController jmxController = new AspectJmxController();
-
-    /**
-     * The value associated with the key 'purpose' in jmx registration.
-     */
-    private String purpose = "trace_nolog_full_context";
+public privileged abstract aspect FullContextDataAspect extends BaseContextAspect {
+    static final String PURPOSE = "trace_nolog_full_context";
 
     /**
      *  Constructs a new `FullContextDataAspect` by looking in  automon properties and if it doesn't exist in there
@@ -51,32 +39,30 @@ public abstract aspect FullContextDataAspect {
      * @param enable The initial enable state for tracing.
      */
     public FullContextDataAspect(boolean enable) {
-        jmxController.enable(enable);
-        registerJmxController();
+        initialize(PURPOSE, enable);
     }
 
     /**
-     * Abstract pointcut that defines the join points (method executions, etc.) where contextual data
-     * should be managed (added and removed). This needs to be implemented in concrete subclasses
-     * to target specific entry and exit points within your application.
+     * Pointcut that defines where the request ID should be added and removed.
+     * This should be implemented to target the entry and exit points of requests in your application.
      * <p>
      * <p>**Examples:**</p>
      *
      *  <pre>
-     *      pointcut trace() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
+     *      pointcut select() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
      *  </pre>
      *
      * <pre>
-     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * pointcut select() : enabled() && execution(* com.example..*.*(..));
      * </pre>
      *
      * Alternatively the following equivalent approach could be used:
      * <pre>
-     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
      * </pre>
      *
      */
-    public abstract pointcut trace();
+    public abstract pointcut select();
 
     /**
      * A pointcut that matches if tracing is enabled.
@@ -87,78 +73,32 @@ public abstract aspect FullContextDataAspect {
      * <p>**Examples:**</p>
      *
      * <pre>
-     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * pointcut select() : enabled() && execution(* com.example..*.*(..));
      * </pre>
      *
      * Alternatively the following equivalent approach could be used:
      * <pre>
-     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
      * </pre>
      */
     public pointcut enabled() : if(isEnabled());
 
     /**
-     * Before advice: Executed before the join point defined by {@link #trace()}.
+     * Before advice: Executed before the join point defined by {@link #select()}.
      * Utilizes the `LogTracingHelper` to add contextual data (potentially including a request ID)
      * to the MDC and/or NDC.
      */
-    before(): trace() {
+    before(): select() {
         helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
     }
 
     /**
-     * After advice: Executed after the join point defined by {@link #trace()}.
+     * After advice: Executed after the join point defined by {@link #select()}.
      * Utilizes the `LogTracingHelper` to remove the previously added contextual data from the
      * MDC and/or NDC.
      */
-    after(): trace() {
+    after(): select() {
         helper.removeFullContext();
     }
 
-
-    /**
-     * Retrieves the singleton instance of the {@link AspectJmxController}.
-     *
-     * @return The JMX controller for tracing aspects.
-     */
-    protected static AspectJmxController getJmxController() {
-        return jmxController;
-    }
-
-    /**
-     * Checks if tracing is currently enabled.
-     *
-     * @return {@code true} if tracing is enabled, {@code false} otherwise.
-     */
-    public static boolean isEnabled() {
-        return jmxController.isEnabled();
-    }
-
-    /**
-     * Registers the JMX controller associated with this aspect.
-     * <p>
-     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
-     * using the current `purpose` as part of the MBean's ObjectName.
-     */
-    protected void registerJmxController() {
-        Utils.registerWithJmx(getPurpose(), this, jmxController);
-    }
-
-    /**
-     * Gets the purpose associated with this JMX registration.
-     *
-     * @return The value associated with the key 'purpose' in JMX registration.
-     */
-    public String getPurpose() {
-        return purpose;
-    }
-
-    /**
-     * Sets the purpose associated with this JMX registration.
-     *
-     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
-     */
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
 }
