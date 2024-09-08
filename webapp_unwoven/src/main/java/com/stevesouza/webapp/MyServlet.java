@@ -25,11 +25,11 @@ public class MyServlet extends HttpServlet {
         HelloWorld helloWorld = new HelloWorld();
         PrintWriter out = response.getWriter();
         out.println("Hello World & "+helloWorld.getFirstName()+" "+helloWorld.getLastName());
-        try {
-            helloWorld.iMessedUp("Steve","Souza");
-        } catch (Exception exception) {
-            // hidden exception
-        }
+//        try {
+//            helloWorld.iMessedUp("Steve","Souza");
+//        } catch (Exception exception) {
+//            // hidden exception
+//        }
 
         try {
             jdkInteractions(out);

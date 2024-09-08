@@ -14,8 +14,11 @@
     <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
     <bean id="automonSpringAspect" class="org.automon.aspects.AutomonSpringAspect"/>
     <bean id="traceSpringAspect" class="org.automon.spring_aop.SpringTraceAspect"/>
-    <bean id="abstractTracingAspect" class="org.automon.spring_aop.BasicContextTracingAspect" abstract="true" />
+    <bean id="baseAspect" class="org.automon.spring_aop.BasicContextTracingAspect" abstract="true" />
+    <bean id="abstractSpringTraceAspect" class="org.automon.spring_aop.AbstractSpringTraceAspect" abstract="true" />
+
     <bean id="delmeAspect" class="org.automon.spring_aop.Delme"/>
+
 
 
     <!--    <bean id="concreteTracingAspect" class="org.automon.spring_aop.ConcreteTracingAspect" parent="abstractTracingAspect"/>-->
@@ -49,8 +52,13 @@
 <!--        // In your Spring AOP XML-->
 <!--        <aop:around pointcut-ref="trace" method="myAroundAdvice"/>-->
 <!--        -->
-        <aop:aspect id="concreteTracingAspect" ref="abstractTracingAspect">
+<!--        <aop:aspect id="concreteTracingAspect" ref="abstractSpringTraceAspect">-->
+<!--            <aop:pointcut id="trace" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>-->
+<!--        </aop:aspect>-->
+
+        <aop:aspect id="concrete" ref="abstractSpringTraceAspect">
             <aop:pointcut id="trace" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
+            <aop:after-throwing pointcut-ref="exceptionTrackedMethods" method="afterThrowingAdvice" throwing="exception"/>
         </aop:aspect>
 
         <aop:aspect id="automonAspect" ref="automonSpringAspect">

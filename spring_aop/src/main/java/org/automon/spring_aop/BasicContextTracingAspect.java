@@ -1,11 +1,11 @@
 package org.automon.spring_aop;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.utils.Utils;
-import org.springframework.stereotype.Component;
 
 /**
  * Abstract base aspect for basic context tracing using Spring AOP and AspectJ annotations.
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
  * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
  */
 @Aspect
-@Component
 public abstract class BasicContextTracingAspect extends TracingAspect {
 
     /**
@@ -86,15 +85,15 @@ public abstract class BasicContextTracingAspect extends TracingAspect {
      * @return The result of the advised method execution.
      * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
      */
-    @Around("trace()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        helper.withSignature(joinPoint.getStaticPart()).
-                withKind(joinPoint.getStaticPart());
-//        helper.withBasicContext(joinPoint.getStaticPart(),  thisEnclosingJoinPointStaticPart);
+    @Around(value = "trace()")
+    public Object around(ProceedingJoinPoint jp) throws Throwable {
+        helper.withSignature(jp.getStaticPart()).
+                withKind(jp.getStaticPart());
+//        helper.withBasicContext(jp.getStaticPart(), jp.getStaticPart());
         logBefore();
 
         long startTime = System.currentTimeMillis();
-        Object returnValue = joinPoint.proceed();
+        Object returnValue = jp.proceed();
         helper.withExecutionTime(System.currentTimeMillis() - startTime);
 
         logAfter();

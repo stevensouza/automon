@@ -8,7 +8,7 @@ package org.automon.aspects;
  * <p>Note when a developer makes a concrete instance of this class they should provide pointcuts that they want to monitor
  * by implementing {@link AutomonAspect#user_monitor()} and {@link AutomonAspect#user_exceptions()}</p>
  */
-public abstract aspect AspectJBase extends AutomonAspect {
+privileged public abstract aspect AspectJBase extends AutomonAspect {
     public pointcut _sys_monitor() : _sys_pointcut();
 
     public pointcut _sys_exceptions() : _sys_pointcut();

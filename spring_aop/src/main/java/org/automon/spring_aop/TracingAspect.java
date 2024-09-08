@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
  * </p>
  */
 @Aspect
-@Component // Make it a Spring component for auto-detection
 public abstract class TracingAspect {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
