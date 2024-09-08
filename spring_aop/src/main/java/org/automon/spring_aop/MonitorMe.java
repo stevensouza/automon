@@ -23,6 +23,11 @@ public class MonitorMe {
     }
 
     public String bye(String message) {
-        return message+" world";
+
+        return message+" world "+hello();
+    }
+
+    private String hello() {
+        return "hello";
     }
 }
