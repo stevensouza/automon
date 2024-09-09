@@ -225,7 +225,7 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         }
 
         @Pointcut("enabled() && execution(* org.automon.tracing.BasicContextTracingAspectTest.MyTestClass.*(..))")
-        public void trace() {
+        public void select() {
         }
     }
 

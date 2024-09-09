@@ -211,7 +211,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         }
 
         @Pointcut("enabled() && execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.*(..)) && !execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.toString())")
-        public void trace() {
+        public void select() {
         }
 
     }

@@ -1,6 +1,7 @@
 package org.automon.tracing.spring;
 
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -10,39 +11,40 @@ import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.utils.Utils;
 
 /**
- * Spring AOP aspect for managing request IDs in the SLF4J MDC (Mapped Diagnostic Context).
- * This aspect adds a unique request ID to the MDC at the beginning of a request and removes it at the end.
+ * <p>Spring aspect for managing contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context).
+ * This aspect utilizes a `LogTracingHelper` to add relevant contextual information (potentially including request IDs)
+ * to the MDC and/or NDC at the beginning of a request/operation, and removes it upon completion.
+ * </p>
  *
- * <p>
- * Note it is best to use {@link org.automon.tracing.RequestIdAspect} when using aspectj directly as it allows for more pointcuts to be specified
- * such as non-public methods, variable assignment, calls and more that are not allowed in spring.  Use the Spring
- * version of this class when working with Spring AOP.  Note this class
- * can be used in spring apps if the full power of aspectj is required.  See Automon documentation for examples.
+ * <p>If you would like to log on method entry (BEFORE) and exit (AFTER) then use 'FullContextTracingAspect'.
+ * It can enable/disable entry/exit logging.  If it is disabled it acts similarly
+ * to this class except it adds 'executionTime' and the methods 'returnValue' to the MDC too.
  * </p>
  *
  * <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link AspectJmxController}</p>
+ *
  * <p>Note by default AspectJ aspects are singletons.</p>
  */
 @Aspect
-public  abstract class RequestIdAspect extends BaseContextAspect {
+public abstract class FullContextDataAspect extends BaseContextAspect {
 
-    static final String PURPOSE = "request_id_spring";
+    static final String PURPOSE = "trace_nolog_full_context_spring";
 
     /**
-     * Constructs a new `RequestIdAspect` by looking in  automon properties and if it doesn't exist in there
+     * Constructs a new `FullContextDataAspect` by looking in  automon properties and if it doesn't exist in there
      * default to enable.
      */
-    public RequestIdAspect() {
-        this(Utils.shouldEnable(RequestIdAspect.class.getName()));
+    public FullContextDataAspect() {
+        this(Utils.shouldEnable(FullContextDataAspect.class.getName()));
     }
 
     /**
-     * Constructs a new `RequestIdAspect` and sets the initial enable state of the associated
+     * Constructs a new `FullContextDataAspect` and sets the initial enable state of the associated
      * `AspectJmxController`.
      *
      * @param enable The initial enable state for tracing.
      */
-    public RequestIdAspect(boolean enable) {
+    public FullContextDataAspect(boolean enable) {
         initialize(PURPOSE, enable);
     }
 
@@ -52,19 +54,18 @@ public  abstract class RequestIdAspect extends BaseContextAspect {
      * <p>
      * <p>**Examples:**</p>
      *
-     *  <pre>
+     * <pre>
      *      pointcut select() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
      *  </pre>
      *
      * <pre>
      * pointcut select() : enabled() && execution(* com.example..*.*(..));
      * </pre>
-     *
+     * <p>
      * Alternatively the following equivalent approach could be used:
      * <pre>
      *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
      * </pre>
-     *
      */
     @Pointcut
     public abstract void select();
@@ -80,7 +81,6 @@ public  abstract class RequestIdAspect extends BaseContextAspect {
      * <pre>
      * pointcut select() : enabled() && execution(* com.example..*.*(..));
      * </pre>
-     *
      */
     @Pointcut("if()")
     public static boolean enabled() {
@@ -88,19 +88,24 @@ public  abstract class RequestIdAspect extends BaseContextAspect {
     }
 
     /**
-     * Advice to add a request ID to the MDC before the request is processed.
+     * Advice to full context to the MDC before the request is processed. Note it doesn't have staticEnclosingPart.
      */
     @Before("select()")
-    public void beforeAdvice() {
-        helper.withRequestId();
+    public void beforeAdvice(JoinPoint joinPoint) {
+        JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
+        helper.withKind(thisJoinPointStaticPart).
+                withParameters(joinPoint).
+                withSignature(thisJoinPointStaticPart).
+                withTarget(joinPoint).
+                withThis(joinPoint);
     }
 
     /**
-     * Advice to remove the request ID from the MDC after the request is processed.
+     * Advice to remove the full context from the MDC after the request is processed.
      */
     @After("select()")
     public void afterAdvice() {
-        helper.removeRequestId();
+        helper.removeFullContext();
     }
 
 }

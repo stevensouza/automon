@@ -21,30 +21,30 @@ public class SpringTraceAspect {
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
 
     @Pointcut("execution(* org.automon.spring_aop.MonitorMe.bye(..))")
-    public void trace() {}
+    public void select() {}
 
-    @Around("trace()")
+    @Around("select()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         LOGGER.info("Around method advice: {}", joinPoint); // Use LOGGER.info
         return joinPoint.proceed();
     }
 
-    @Before("trace()")
+    @Before("select()")
     public void beforeAdvice(JoinPoint joinPoint) {
         LOGGER.info("Before method execution: {}", joinPoint.getSignature()); // Use LOGGER.info
     }
 
-    @After("trace()")
+    @After("select()")
     public void afterAdvice(JoinPoint joinPoint) {
         LOGGER.info("After method execution: {}", joinPoint.getSignature()); // Use LOGGER.info
     }
 
-    @AfterReturning(pointcut = "trace()", returning = "result")
+    @AfterReturning(pointcut = "select()", returning = "result")
     public void afterReturningAdvice(JoinPoint joinPoint, Object result) {
         LOGGER.info("Method returned normally: {}, Result: {}", joinPoint.getSignature(), result); // Use LOGGER.info
     }
 
-    @AfterThrowing(pointcut = "trace()", throwing = "exception")
+    @AfterThrowing(pointcut = "select()", throwing = "exception")
     public void afterThrowingAdvice(JoinPoint joinPoint, Throwable exception) {
         LOGGER.error("Method threw exception: {}, Exception: {}", joinPoint.getSignature(), exception); // Use LOGGER.error
     }

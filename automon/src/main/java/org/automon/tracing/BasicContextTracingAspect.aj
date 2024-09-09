@@ -16,9 +16,9 @@ import org.automon.utils.Utils;
  * with a false value.
  * </p>
  *
- * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
+ * <p>Subclasses need to implement the `select()` pointcut to define the pointcuts to be traced.</p>
  */
-public abstract aspect BasicContextTracingAspect extends TracingAspect {
+public privileged abstract aspect BasicContextTracingAspect extends BaseTracingAspect {
     /**
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
@@ -67,7 +67,7 @@ public abstract aspect BasicContextTracingAspect extends TracingAspect {
      * @return The result of the advised method execution.
      * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
      */
-    Object around() : trace() {
+    Object around() : select() {
             helper.withBasicContext(thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
             logBefore();
 

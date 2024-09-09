@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * Note this aspect is created as a singleton as always is the case by default in aspectj.
  * </p>
  */
-public abstract aspect TracingAspect  {
+public privileged abstract aspect BaseTracingAspect {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -51,32 +51,32 @@ public abstract aspect TracingAspect  {
     private String purpose = "trace";
 
     /**
-     * Constructs a new `TracingAspect` in the enabled and logging states enabled.
+     * Constructs a new `BaseTracingAspect` in the enabled and logging states enabled.
      */
-    public TracingAspect() {
+    public BaseTracingAspect() {
         this(true, true);
     }
 
     /**
-     * Constructs a new `TracingAspect` in either enabled or disabled state. Logging/tracing
+     * Constructs a new `BaseTracingAspect` in either enabled or disabled state. Logging/tracing
      * defaults to 'true' however if the whole aspect is disabled logging still would not
      * be called.
      *
      * @param enable `true` to enable the aspect, `false` to disable.
      */
-    public TracingAspect(boolean enable) {
+    public BaseTracingAspect(boolean enable) {
         this(enable, true);
     }
 
     /**
-     * Constructs a new `TracingAspect`
+     * Constructs a new `BaseTracingAspect`
      *
      * @param enable        `true` to enable the aspect, `false` to disable. This would disable both writing to
      *                      MDC/NDC as well as calling the logging/tracing statements.
      * @param enableLogging `true` to enable logging/tracing with slf4j, `false` to disable logging. Note typically
      *                      the result is to still write to MDC/NDC if enableLogging is false.
      */
-    public TracingAspect(boolean enable, boolean enableLogging) {
+    public BaseTracingAspect(boolean enable, boolean enableLogging) {
         jmxController.enable(enable);     // Set overall tracing enabled state
         jmxController.enableLogging(enableLogging); // Set logging enabled state
     }
@@ -87,19 +87,19 @@ public abstract aspect TracingAspect  {
      * <p>**Examples:**</p>
      *
      * <pre>
-     * pointcut trace() : execution(* com.example..*.*(..));
+     * pointcut select() : execution(* com.example..*.*(..));
      * </pre>
      *
      * <pre>
-     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * pointcut select() : enabled() && execution(* com.example..*.*(..));
      * </pre>
-     *
+     *r
      * Alternatively the following equivalent approach could be used:
      * <pre>
-     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
      * </pre>
      */
-    public abstract pointcut trace();
+    public abstract pointcut select();
 
     /**
      * A pointcut that matches if tracing is enabled.
@@ -110,12 +110,12 @@ public abstract aspect TracingAspect  {
      * <p>**Examples:**</p>
      *
      * <pre>
-     * pointcut trace() : enabled() && execution(* com.example..*.*(..));
+     * pointcut select() : enabled() && execution(* com.example..*.*(..));
      * </pre>
      *
      * Alternatively the following equivalent approach could be used:
      * <pre>
-     *  pointcut trace() : if(isEnabled()) && execution(* com.example..*.*(..));
+     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
      * </pre>
      */
     public pointcut enabled() : if(isEnabled());
@@ -153,7 +153,7 @@ public abstract aspect TracingAspect  {
      *
      * @param throwable The thrown exception.
      */
-    after() throwing(Throwable throwable): trace() {
+    after() throwing(Throwable throwable): select() {
         // note the helper object is AutoCloseable which will clear up the NDC/MDC appropriately.
         // using this ensures if an exception is thrown it is still cleaned up.
         try (helper) {

@@ -22,7 +22,7 @@ import org.automon.utils.Utils;
  *  <p>Note by default AspectJ aspects are singletons.</p>
  */
 public privileged abstract aspect FullContextDataAspect extends BaseContextAspect {
-    static final String PURPOSE = "trace_nolog_full_context";
+    static final String PURPOSE = "trace_nolog_full_context_native";
 
     /**
      *  Constructs a new `FullContextDataAspect` by looking in  automon properties and if it doesn't exist in there

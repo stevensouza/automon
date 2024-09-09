@@ -1,7 +1,6 @@
 package org.automon.tracing;
 
 import org.aspectj.lang.JoinPoint;
-import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 
 /**
@@ -16,9 +15,9 @@ import org.automon.utils.Utils;
  * with a false value.
  * </p>
  *
- * <p>Subclasses need to implement the `trace()` pointcut to define the pointcuts to be traced.</p>
+ * <p>Subclasses need to implement the `select()` pointcut to define the pointcuts to be traced.</p>
  */
-public abstract aspect FullContextTracingAspect extends TracingAspect {
+public privileged abstract aspect FullContextTracingAspect extends BaseTracingAspect {
 
     /**
      * Constructs a new `FullContextTracingAspect` with both tracing and logging enabled by default.
@@ -34,7 +33,7 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      * and logging enabled by default.
      *
      * @param enable `true` to enable tracing, `false` to disable tracing.
-     * @see TracingAspect#TracingAspect(boolean)
+     * @see BaseTracingAspect#BaseTracingAspect(boolean)
      */
     public FullContextTracingAspect(boolean enable) {
         super(enable, true);
@@ -45,7 +44,7 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      *
      * @param enable        `true` to enable tracing, `false` to disable tracing.
      * @param enableLogging `true` to enable logging, `false` to disable logging.
-     * @see TracingAspect#TracingAspect(boolean, boolean)
+     * @see BaseTracingAspect#BaseTracingAspect(boolean, boolean)
      */
     public FullContextTracingAspect(boolean enable, boolean enableLogging) {
         super(enable, enableLogging);
@@ -71,7 +70,7 @@ public abstract aspect FullContextTracingAspect extends TracingAspect {
      * @return The result of the advised method execution.
      * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
      */
-    Object around() : trace() {
+    Object around() : select() {
         helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
         logBefore();
 
