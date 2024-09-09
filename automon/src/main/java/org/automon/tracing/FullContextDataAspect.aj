@@ -2,8 +2,6 @@ package org.automon.tracing;
 
 
 import org.automon.tracing.jmx.AspectJmxController;
-import org.automon.utils.AutomonPropertiesLoader;
-import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 
 /**
@@ -81,7 +79,7 @@ public privileged abstract aspect FullContextDataAspect extends BaseContextAspec
      *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
      * </pre>
      */
-    public pointcut enabled() : if(isEnabled());
+    public pointcut enabled(): if(isEnabled());
 
     /**
      * Before advice: Executed before the join point defined by {@link #select()}.

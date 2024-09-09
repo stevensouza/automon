@@ -19,22 +19,15 @@ import org.automon.utils.Utils;
  * <p>Subclasses need to implement the `select()` pointcut to define the pointcuts to be traced.</p>
  */
 public privileged abstract aspect BasicContextTracingAspect extends BaseTracingAspect {
+    static final String PURPOSE = "trace_log_basic_context_native";
+
     /**
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
     public BasicContextTracingAspect() {
         this(Utils.shouldEnable(BasicContextTracingAspect.class.getName()),
-             Utils.shouldEnableLogging(BasicContextTracingAspect.class.getName())
+                Utils.shouldEnableLogging(BasicContextTracingAspect.class.getName())
         );
-    }
-
-    /**
-     * Constructs a new `BasicContextTracingAspect` with the specified tracing enabled state and logging enabled by default.
-     *
-     * @param enable `true` to enable tracing, `false` to disable tracing.
-     */
-    public BasicContextTracingAspect(boolean enable) {
-        this(enable, true);
     }
 
     /**
@@ -44,10 +37,49 @@ public privileged abstract aspect BasicContextTracingAspect extends BaseTracingA
      * @param enableLogging `true` to enable logging, `false` to disable logging.
      */
     public BasicContextTracingAspect(boolean enable, boolean enableLogging) {
-        super(enable, enableLogging);
-        setPurpose("trace_log_basic_context");
-        registerJmxController();
+        initialize(PURPOSE, enable, enableLogging);
     }
+
+    /**
+     * Pointcut that defines where the request ID should be added and removed.
+     * This should be implemented to target the entry and exit points of requests in your application.
+     * <p>
+     * <p>**Examples:**</p>
+     *
+     *  <pre>
+     *      pointcut select() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
+     *  </pre>
+     *
+     * <pre>
+     * pointcut select() : enabled() && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * Alternatively the following equivalent approach could be used:
+     * <pre>
+     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     */
+    public abstract pointcut select();
+
+    /**
+     * A pointcut that matches if tracing is enabled.
+     * <p>
+     * This pointcut can be used in conjunction with other pointcuts to conditionally apply advice
+     * only when tracing is enabled.
+     *
+     * <p>**Examples:**</p>
+     *
+     * <pre>
+     * pointcut select() : enabled() && execution(* com.example..*.*(..));
+     * </pre>
+     *
+     * Alternatively the following equivalent approach could be used:
+     * <pre>
+     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * </pre>
+     */
+    public pointcut enabled() : if(isEnabled());
 
     /**
      * Around advice for tracing method execution.
@@ -67,18 +99,27 @@ public privileged abstract aspect BasicContextTracingAspect extends BaseTracingA
      * @return The result of the advised method execution.
      * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
      */
-    Object around() : select() {
-            helper.withBasicContext(thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
-            logBefore();
+    Object around(): select() {
+        helper.withBasicContext(thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
+        logBefore();
 
-            long startTime = System.currentTimeMillis();
-            Object returnValue =  proceed();
-            helper.withExecutionTime(System.currentTimeMillis() - startTime);
+        long startTime = System.currentTimeMillis();
+        Object returnValue = proceed();
+        helper.withExecutionTime(System.currentTimeMillis() - startTime);
 
-            logAfter();
-            helper.removeBasicContext();
+        logAfter();
+        helper.removeBasicContext();
 
-            return returnValue;
+        return returnValue;
     }
 
+    /**
+     *  AfterThrowing advice for handling exceptions.
+     *   Adds the collection context to the MDC/NDC context for the exception event to the existing
+     *   context already added from the method entry from the {@link #around} method and also conditionally logs the information if
+     *   logging is enableLogging for this class.
+     */
+    after() throwing(Throwable throwable): select() {
+        afterThrowing(throwable);
+    }
 }
