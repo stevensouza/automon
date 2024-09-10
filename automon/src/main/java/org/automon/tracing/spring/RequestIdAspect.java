@@ -14,7 +14,7 @@ import org.automon.utils.Utils;
  * This aspect adds a unique request ID to the MDC at the beginning of a request and removes it at the end.
  *
  * <p>
- * Note it is best to use {@link org.automon.tracing.RequestIdAspect} when using aspectj directly as it allows for more pointcuts to be specified
+ * Note it is best to use {@link org.automon.tracing.aspectj.RequestIdAspect} when using aspectj directly as it allows for more pointcuts to be specified
  * such as non-public methods, variable assignment, calls and more that are not allowed in spring.  Use the Spring
  * version of this class when working with Spring AOP.  Note this class
  * can be used in spring apps if the full power of aspectj is required.  See Automon documentation for examples.

@@ -109,7 +109,7 @@ public class AutomonPropertiesLoaderTest {
         assertThat(loader.getBoolean("i do not exist")).
                 describedAs("If a property does not exist 'true' should be returned").
                 isTrue();
-        assertThat(loader.getBoolean("org.automon.tracing.RequestIdAspect.enable")).
+        assertThat(loader.getBoolean("org.automon.tracing.aspectj.RequestIdAspect.enable")).
                 describedAs("This uses uppercase TRUE which should return boolean true").
                 isTrue();
     }
@@ -118,9 +118,9 @@ public class AutomonPropertiesLoaderTest {
     public void testGetBoolean_False() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon.xml");
 
-        assertThat(loader.getBoolean("org.automon.tracing.BasicContextTracingAspect.enableLogging")).
+        assertThat(loader.getBoolean("org.automon.tracing.aspectj.BasicContextTracingAspect.enableLogging")).
                 isFalse();
-        assertThat(loader.getBoolean("org.automon.tracing.BasicContextTracingAspect.test")).
+        assertThat(loader.getBoolean("org.automon.tracing.aspectj.BasicContextTracingAspect.test")).
             describedAs("Any value other than 'true' is considered false").
             isFalse();
     }

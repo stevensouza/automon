@@ -1,8 +1,9 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.tracing.TestTracingAspectBase;
 import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.tracing.jmx.AspectJmxControllerMBean;
 import org.automon.utils.Utils;
@@ -96,9 +97,9 @@ class RequestIdAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={requestId=",
-                "INFO  o.a.t.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={requestId=",
-                "INFO  o.a.t.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
+                "INFO  o.a.t.a.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={requestId=",
+                "INFO  o.a.t.a.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={requestId=",
+                "INFO  o.a.t.a.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -114,7 +115,7 @@ class RequestIdAspectTest extends TestTracingAspectBase {
             super(enable);
         }
 
-        @Pointcut("enabled() && execution(* org.automon.tracing.RequestIdAspectTest.MyRequestTestClass.firstName(..))")
+        @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.RequestIdAspectTest.MyRequestTestClass.firstName(..))")
         public void select() {
         }
 

@@ -1,9 +1,10 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.tracing.TestTracingAspectBase;
 import org.automon.tracing.jmx.TraceJmxController;
 import org.automon.tracing.jmx.TraceJmxControllerMBean;
 import org.automon.utils.Utils;
@@ -127,12 +128,12 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages (with executionTimeMs replaced)
         String[] expectedMessages = {
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.name(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.first(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.first(..), kind=method-execution, parameters={name=steve}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.first(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.first(..), executionTimeMs=#, kind=method-execution, parameters={name=steve}, returnValue=steve, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.last(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.last(..), kind=method-execution, parameters={name=souza}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.last(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.last(..), executionTimeMs=#, kind=method-execution, parameters={name=souza}, returnValue=souza, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), executionTimeMs=#, returnValue=name: steve souza}"
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.name(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.first(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.first(..), kind=method-execution, parameters={name=steve}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.first(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.first(..), executionTimeMs=#, kind=method-execution, parameters={name=steve}, returnValue=steve, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.last(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.last(..), kind=method-execution, parameters={name=souza}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), NDC1=FullContextTracingAspectTest.MyTestClass2.last(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.last(..), executionTimeMs=#, kind=method-execution, parameters={name=souza}, returnValue=souza, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.name(), executionTimeMs=#, returnValue=name: steve souza}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -149,12 +150,12 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         // Define expected log messages (with executionTimeMs replaced)
         // Note ERRORS due to methods that throw both RuntimeExceptions and Exceptions (a checked custom exception)
         String[] expectedMessages = {
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.exceptions(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.checkedException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.checkedException(..), kind=method-execution, parameters={fname=jeff}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "ERROR o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.checkedException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.checkedException(..), exception=org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.MyException, kind=method-execution, parameters={fname=jeff}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), kind=method-execution, parameters={lname=beck}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "ERROR o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), exception=java.lang.RuntimeException, kind=method-execution, parameters={lname=beck}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), executionTimeMs=#, returnValue=2}"
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.exceptions(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.checkedException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.checkedException(..), kind=method-execution, parameters={fname=jeff}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "ERROR o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.checkedException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.checkedException(..), exception=org.automon.tracing.aspectj.FullContextTracingAspectTest.MyTestClass2.MyException, kind=method-execution, parameters={fname=jeff}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), kind=method-execution, parameters={lname=beck}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "ERROR o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), NDC1=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.runTimeException(..), exception=java.lang.RuntimeException, kind=method-execution, parameters={lname=beck}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.exceptions(), executionTimeMs=#, returnValue=2}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -170,8 +171,8 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
         String[] expectedMessages = {
                 // note only beginning of log message is used as the var arg value/address can always be different.
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), kind=method-execution, parameters={numbers=[I@",
-                "INFO  o.a.t.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), executionTimeMs=#, kind=method-execution, parameters={numbers=[I@"
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), kind=method-execution, parameters={numbers=[I@",
+                "INFO  o.a.t.a.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), enclosingSignature=FullContextTracingAspectTest.MyTestClass2.calculateSum(..), executionTimeMs=#, kind=method-execution, parameters={numbers=[I@"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -210,7 +211,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
             super(enable, enableLogging);
         }
 
-        @Pointcut("enabled() && execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.*(..)) && !execution(* org.automon.tracing.FullContextTracingAspectTest.MyTestClass2.toString())")
+        @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.FullContextTracingAspectTest.MyTestClass2.*(..)) && !execution(* org.automon.tracing.aspectj.FullContextTracingAspectTest.MyTestClass2.toString())")
         public void select() {
         }
 

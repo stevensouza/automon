@@ -1,8 +1,9 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.tracing.TestTracingAspectBase;
 import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.tracing.jmx.AspectJmxControllerMBean;
 import org.automon.utils.Utils;
@@ -96,9 +97,9 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), kind=method-execution, parameters={name=steve}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
-                "INFO  o.a.t.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), NDC1=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), kind=method-execution, parameters={}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
-                "INFO  o.a.t.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
+                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), kind=method-execution, parameters={name=steve}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
+                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), NDC1=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), kind=method-execution, parameters={}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
+                "INFO  o.a.t.a.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -115,8 +116,8 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
             super(enable);
         }
 
-        @Pointcut("enabled() && execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
-                "!execution(* org.automon.tracing.FullContextDataAspectTest.MyFullContextDataTestClass.toString())")
+        @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
+                "!execution(* org.automon.tracing.aspectj.FullContextDataAspectTest.MyFullContextDataTestClass.toString())")
         public void select() {
         }
 

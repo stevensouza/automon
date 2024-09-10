@@ -22,7 +22,7 @@ public abstract class BaseContextAspect {
      *
      * @return The JMX controller for tracing aspects.
      */
-    protected static AspectJmxController getJmxController() {
+    public static AspectJmxController getJmxController() {
         return jmxController;
     }
 

@@ -158,7 +158,7 @@ public privileged abstract aspect BaseTracingAspect {
      *
      * @return The JMX controller for tracing aspects.
      */
-    protected static TraceJmxController getJmxController() {
+    public static TraceJmxController getJmxController() {
         return jmxController;
     }
 

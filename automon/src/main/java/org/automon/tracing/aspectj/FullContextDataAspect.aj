@@ -1,6 +1,7 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 
+import org.automon.tracing.BaseContextAspect;
 import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.utils.Utils;
 

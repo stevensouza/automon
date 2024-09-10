@@ -7,16 +7,16 @@ org.automon.statsd.prefix=mytestprefix
 org.automon.statsd.hostname=mytesthostname
 org.automon.statsd.port=9999
 
-org.automon.tracing.BasicContextTracingAspect.test=this_will_be_false
+org.automon.tracing.aspectj.BasicContextTracingAspect.test=this_will_be_false
 
-org.automon.tracing.BasicContextTracingAspect.enable=false
-org.automon.tracing.BasicContextTracingAspect.enableLogging=FALSE
+org.automon.tracing.aspectj.BasicContextTracingAspect.enable=false
+org.automon.tracing.aspectj.BasicContextTracingAspect.enableLogging=FALSE
 
-org.automon.tracing.RequestIdAspect.enable=TRUE
-org.automon.tracing.RequestIdAspect.enableLogging=FaLsE
+org.automon.tracing.aspectj.RequestIdAspect.enable=TRUE
+org.automon.tracing.aspectj.RequestIdAspect.enableLogging=FaLsE
 
-org.automon.tracing.FullContextTracingAspect.enable=this_will_be_false
-org.automon.tracing.FullContextTracingAspect.enableLogging=this_will_be_false
+org.automon.tracing.aspectj.FullContextTracingAspect.enable=this_will_be_false
+org.automon.tracing.aspectj.FullContextTracingAspect.enableLogging=this_will_be_false
 
 MyAspect=TRue
 

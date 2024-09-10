@@ -1,6 +1,7 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.tracing.BaseTracingAspect;
 import org.automon.utils.Utils;
 
 /**

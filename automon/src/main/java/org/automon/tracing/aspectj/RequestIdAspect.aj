@@ -1,6 +1,7 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 
+import org.automon.tracing.BaseContextAspect;
 import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.utils.Utils;
 
@@ -10,7 +11,7 @@ import org.automon.utils.Utils;
  * </p>
  *
  * <p>
- * Note it is best to use {@link org.automon.tracing.RequestIdAspect}  when using aspectj directly as it allows for more pointcuts to be specified
+ * Note it is best to use {@link RequestIdAspect}  when using aspectj directly as it allows for more pointcuts to be specified
  * such as non-public methods, variable assignment, calls and more that are not allowed in spring.  Use the Spring
  * version of this class when working with Spring AOP.  Note this class
  * can be used in spring apps if the full power of aspectj is required.  See Automon documentation for examples.
