@@ -238,6 +238,7 @@
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
+                        <compilerArgument>-parameters</compilerArgument>
                     </configuration>
                 </plugin>
 

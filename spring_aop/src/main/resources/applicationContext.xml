@@ -12,8 +12,14 @@
 
     <!-- monitoMe is the bean we will monitor -->
     <bean id="monitorMe" class="org.automon.spring_aop.MonitorMe"/>
+
+    <!--    aspects from automon (observability, requestid and tracing)-->
     <bean id="automonSpringAspect" class="org.automon.aspects.AutomonSpringAspect"/>
     <bean id="traceSpringAspect" class="org.automon.spring_aop.SpringTraceAspect"/>
+    <bean id="automonFullContextTraceAspect" class="org.automon.spring_aop.FullContextTrace"/>
+
+    <!--    other demo aspect defined in this project entirely -->
+    <bean id="automonRequestAspect" class="org.automon.spring_aop.RequestId"/>
 
     <!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and
      Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.

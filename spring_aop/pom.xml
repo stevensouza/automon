@@ -20,6 +20,13 @@
                     <!-- generates class path with all dependencies as well as generated class -->
                     <classpathScope>compile</classpathScope>
                     <mainClass>org.automon.spring_aop.SpringMain</mainClass>
+                    <systemProperties>
+                        <property>
+                            <!-- note assuming the proper jars are in the classpath you could use jamon, metrics, nullimp, sysout -->
+                            <key>org.automon</key>
+                            <value>sysout</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
