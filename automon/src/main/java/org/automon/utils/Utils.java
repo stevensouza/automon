@@ -116,23 +116,26 @@ public class Utils {
         }
 
         Signature signature = joinPoint.getSignature();
+
+        String[] parameterNames = null;
         // https://javadoc.io/doc/org.aspectj/aspectjweaver/1.8.11/org/aspectj/lang/reflect/CodeSignature.html
         if (signature instanceof CodeSignature codeSignature) {
-            String[] parameterNames = codeSignature.getParameterNames();
+            parameterNames = codeSignature.getParameterNames();
+        }
 
-            for (int i = 0; i < argValues.length; i++) {
-                argsMap.put(parameterNames[i], argValues[i]);
-            }
-        } else {
+        // If parameterNames is null (or signature wasn't CodeSignature), use default naming
+        if (parameterNames == null) {
             for (int i = 0; i < argValues.length; i++) {
                 argsMap.put("param" + i, argValues[i]);
             }
+        } else { // Otherwise, use the retrieved parameter names
+            for (int i = 0; i < argValues.length; i++) {
+                argsMap.put(parameterNames[i], argValues[i]);
+            }
         }
 
-        // Return a read-only version of the map for efficiency
         return Collections.unmodifiableMap(argsMap);
     }
-
 
     /**
      * Convert a Map to a formatted string
