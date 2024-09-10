@@ -24,7 +24,7 @@ import org.automon.utils.Utils;
  * <p>Note by default AspectJ aspects are singletons.</p>
  */
 @Aspect
-public  abstract class RequestIdAspect extends BaseContextAspect {
+public abstract class RequestIdAspect extends BaseContextAspect {
 
     static final String PURPOSE = "request_id_spring";
 
