@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * Note this aspect is created as a singleton as always is the case by default in aspectj.
  * </p>
  */
-public privileged abstract aspect BaseTracingAspect {
+public class BaseTracingAspect {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -56,26 +56,6 @@ public privileged abstract aspect BaseTracingAspect {
         jmxController.enableLogging(enableLogging); // Set logging enabled state
         registerJmxController();
     }
-
-    /**
-     * Abstract pointcut to be defined in concrete subaspects.
-     * This pointcut determines which methods will be traced.
-     * <p>**Examples:**</p>
-     *
-     * <pre>
-     * pointcut select() : execution(* com.example..*.*(..));
-     * </pre>
-     *
-     * <pre>
-     * pointcut select() : enabled() && execution(* com.example..*.*(..));
-     * </pre>
-     *r
-     * Alternatively the following equivalent approach could be used:
-     * <pre>
-     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
-     * </pre>
-     */
-    public abstract pointcut select();
 
 
     /**

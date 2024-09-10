@@ -27,6 +27,11 @@ public class HelloWorld {
         throw new MyCheckedException(message);
     }
 
+    public void iMessedUp(String firstName, String lastName) {
+       iMessedUp_RuntimeException(firstName, lastName);
+    }
+
+
     public void run(String[] args) throws InterruptedException {
         int loops = (args==null || args.length==0) ? 1 : Integer.valueOf(args[0]);
         System.out.println("start: "+new Date());

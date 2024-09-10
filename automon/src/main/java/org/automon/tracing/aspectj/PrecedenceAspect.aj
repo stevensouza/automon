@@ -1,4 +1,4 @@
-package org.automon.tracing;
+package org.automon.tracing.aspectj;
 
 /**
  * AspectJ aspect that declares precedence for other aspects in the system.

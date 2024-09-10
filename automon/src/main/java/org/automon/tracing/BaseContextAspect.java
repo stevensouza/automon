@@ -4,7 +4,7 @@ import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 
-public abstract class BaseContextAspect {
+public class BaseContextAspect {
     protected static final LogTracingHelper helper = LogTracingHelper.getInstance();
     /**
      * The JMX controller responsible for managing tracing aspects.
