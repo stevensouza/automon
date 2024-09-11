@@ -26,9 +26,9 @@ public privileged abstract aspect BasicContextTracingAspect extends BaseTracingA
      * Constructs a new `BasicContextTracingAspect` with both tracing and logging enabled by default.
      */
     public BasicContextTracingAspect() {
-        this(Utils.shouldEnable(BasicContextTracingAspect.class.getName()),
-                Utils.shouldEnableLogging(BasicContextTracingAspect.class.getName())
-        );
+        initialize(PURPOSE,
+                Utils.shouldEnable(getClass().getName()),
+                Utils.shouldEnableLogging(getClass().getName()));
     }
 
     /**

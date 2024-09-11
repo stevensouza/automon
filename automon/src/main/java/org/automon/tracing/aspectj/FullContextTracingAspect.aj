@@ -24,8 +24,9 @@ public privileged abstract aspect FullContextTracingAspect extends BaseTracingAs
      * Constructs a new `FullContextTracingAspect` with both tracing and logging enabled by default.
      */
     public FullContextTracingAspect() {
-        this(Utils.shouldEnable(FullContextTracingAspect.class.getName()),
-             Utils.shouldEnableLogging(FullContextTracingAspect.class.getName())
+        initialize(PURPOSE,
+                Utils.shouldEnable(getClass().getName()),
+                Utils.shouldEnableLogging(getClass().getName())
         );
     }
 

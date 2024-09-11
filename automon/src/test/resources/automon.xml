@@ -7,11 +7,12 @@ org.automon.statsd.prefix=mytestprefix
 org.automon.statsd.hostname=mytesthostname
 org.automon.statsd.port=9999
 
+the following are used in AutomonPropertiesLoaderTest...
 org.automon.tracing.aspectj.BasicContextTracingAspect.test=this_will_be_false
-
-org.automon.tracing.aspectj.BasicContextTracingAspect.enable=false
 org.automon.tracing.aspectj.BasicContextTracingAspect.enableLogging=FALSE
 
+The following are used in UtilsTest
+org.automon.tracing.aspectj.BasicContextTracingAspect.enable=false
 org.automon.tracing.aspectj.RequestIdAspect.enable=TRUE
 org.automon.tracing.aspectj.RequestIdAspect.enableLogging=FaLsE
 
@@ -19,5 +20,10 @@ org.automon.tracing.aspectj.FullContextTracingAspect.enable=this_will_be_false
 org.automon.tracing.aspectj.FullContextTracingAspect.enableLogging=this_will_be_false
 
 MyAspect=TRue
+
+The following is used in BasicContextTracingAspectTest
+org.automon.tracing.aspectj.BasicContextTracingAspectTest$BasicContext.enable=false
+org.automon.tracing.aspectj.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
+
 
 -->

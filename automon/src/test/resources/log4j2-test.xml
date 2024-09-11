@@ -17,6 +17,18 @@
 
         <ListAppender name="ListAppender" >
             <PatternLayout pattern="${LOG_PATTERN}"/>
+
+            <!--
+            This messages is created when Tracing aspects are created and I don't want to check for it specifically
+            mainly because it only turns up on aspect instantiation and the order of tests in junit is random
+            and so also would be the aspect instantiation so the tests randomly put this message in.
+            The message is still written to the log using the other appenders.
+            See BasicContextTracingAspectTest and FullContextTracingAspectTest for examples tests that need this filtering.
+            Here is what it would look like:
+
+            INFO  o.a.t.a.BasicContextTracingAspectTest$BasicContext - Aspect configuration and JMX registration - AspectPurpose: trace_log_basic_context_native, isEnabled: true, isLoggingEnabled: true: MDC={}
+            -->
+            <RegexFilter regex=".*AspectPurpose:.*" onMatch="DENY" onMismatch="ACCEPT"/>
         </ListAppender>
 
 

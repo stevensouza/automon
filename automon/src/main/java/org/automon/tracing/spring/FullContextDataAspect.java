@@ -35,7 +35,7 @@ public abstract class FullContextDataAspect extends BaseContextAspect {
      * default to enable.
      */
     public FullContextDataAspect() {
-        this(Utils.shouldEnable(FullContextDataAspect.class.getName()));
+        initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
     }
 
     /**

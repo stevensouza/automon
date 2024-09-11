@@ -33,7 +33,7 @@ public abstract class RequestIdAspect extends BaseContextAspect {
      * default to enable.
      */
     public RequestIdAspect() {
-        this(Utils.shouldEnable(RequestIdAspect.class.getName()));
+        initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
     }
 
     /**

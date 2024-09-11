@@ -28,7 +28,7 @@ public privileged abstract aspect FullContextDataAspect extends BaseContextAspec
      *  default to enable.
      */
     public FullContextDataAspect() {
-        this(Utils.shouldEnable(FullContextDataAspect.class.getName()));
+        initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
     }
 
     /**

@@ -3,8 +3,15 @@ package org.automon.tracing;
 import org.automon.tracing.jmx.AspectJmxController;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaseContextAspect {
+    /**
+     * Logger instance for the aspect, using the aspect's class name.
+     */
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+
     protected static final LogTracingHelper helper = LogTracingHelper.getInstance();
     /**
      * The JMX controller responsible for managing tracing aspects.
@@ -49,6 +56,9 @@ public class BaseContextAspect {
         setPurpose(purpose);
         jmxController.enable(enable);
         registerJmxController();
+
+        LOGGER.info("Aspect configuration and JMX registration - AspectPurpose: {}, isEnabled: {}",
+                purpose, jmxController.isEnabled());
     }
 
     /**

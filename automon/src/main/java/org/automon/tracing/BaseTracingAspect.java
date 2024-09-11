@@ -55,6 +55,9 @@ public class BaseTracingAspect {
         jmxController.enable(enable);     // Set overall tracing enabled state
         jmxController.enableLogging(enableLogging); // Set logging enabled state
         registerJmxController();
+
+        LOGGER.info("Aspect configuration and JMX registration - AspectPurpose: {}, isEnabled: {}, isLoggingEnabled: {}",
+                 purpose, jmxController.isEnabled(), jmxController.isLoggingEnabled());
     }
 
 
