@@ -11,8 +11,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.automon.utils.Utils.LINE_SEPARATOR;
-import static org.automon.utils.Utils.UNKNOWN;
+import static org.automon.utils.Utils.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -81,6 +80,29 @@ public class UtilsTest {
         when(signature.getParameterNames()).thenReturn(new String[]{"firstName", "number"});
         when(jp.getArgs()).thenReturn(new Object[]{"Steve", 20});
         assertThat(Utils.paramsToMap(jp)).containsExactly(entry("firstName", "Steve"), entry("number", 20));
+    }
+
+    @Test
+    void testParamsToMap_NullParameterNames() {
+        // Note this can happen if code is not compiled to have method argument/parameter names..
+        // i.e. class.method(String name) - name wouldn't be available in code. in this case param0 would
+        // would be used instead. The example below simulates a 2 arg method.
+        // Arrange
+        JoinPoint joinPoint = mock(JoinPoint.class);
+        CodeSignature codeSignature = mock(CodeSignature.class); // Mock as CodeSignature
+        when(joinPoint.getSignature()).thenReturn(codeSignature);
+        when(codeSignature.getParameterNames()).thenReturn(null); // Explicitly set parameterNames to null
+        Object[] argValues = {"value1", 2};
+        when(joinPoint.getArgs()).thenReturn(argValues);
+
+        // Act
+        Map<String, Object> result = Utils.paramsToMap(joinPoint);
+
+        // Assert
+        assertThat(result).containsExactly(
+                entry("param0", "value1"),
+                entry("param1", 2)
+        );
     }
 
     @Test
