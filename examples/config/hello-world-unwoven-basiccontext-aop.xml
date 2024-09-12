@@ -19,18 +19,27 @@ does any other log statements the MDC/NDC info would be logged in them.
 com.myorganization.MyTracingBasicContextAspect.enable=true
 com.myorganization.MyTracingBasicContextAspect.enableLogging=true
 
-
+Note precedence can be implicit (order the aspects appear in the file) or explicit as follows:
+          <declare precedence>
+            com.myorganization.MyRequestIdAspect, com.myorganization.MyTracingBasicContextAspect
+          </declare precedence>
 -->
 <aspectj>
   <aspects>
       <!-- note both annotation style (spring) and native style aspects will work. They are named the same but in
       different packages (*aspectj.* or *.spring.*). Both are below and one is commented out
       -->
+<!--      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.tracing.spring.RequestIdAspect">-->
+      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.tracing.aspectj.RequestIdAspect">
+          <pointcut name="select"  expression="enabled() AND execution(* com.stevesouza.helloworld.HelloWorld.main(..))"/>
+      </concrete-aspect>
 
+      <!-- Sample possible output: c.m.MyTracingBasicContextAspect INFO 11:36:59.507 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), executionTimeMs=5049} -->
       <!--<concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">-->
       <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
-      <pointcut name="select"  expression="enabled() AND execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
-     </concrete-aspect>
+            <pointcut name="select"  expression="enabled() AND execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
+      </concrete-aspect>
+
   </aspects>
     <!--
       The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
