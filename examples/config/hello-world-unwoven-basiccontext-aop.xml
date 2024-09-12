@@ -10,13 +10,26 @@ Note you can specify any openmon by putting this argument in the first column in
 
 See ajc-aop.xml for more information and examples.
 
+Note these are not required but if they are put in this xml the are not comments but used to enable/disable tracing.
+Simply turn to false if you want to disable. Note setting enable=false doesn't do anything except allow the pointcuts to
+check to only match if it is enabled (see example below with enabled() AND...).  Logging can be enabled/disabled
+indepedently of setting enable. The effect of this would be to write to the MDC/NDC but not log it. However if the program
+does any other log statements the MDC/NDC info would be logged in them.
+
+com.myorganization.MyTracingBasicContextAspect.enable=true
+com.myorganization.MyTracingBasicContextAspect.enableLogging=true
+
+
 -->
 <aspectj>
   <aspects>
-      <!--  If you want to use more than just method pointcuts use AspectJBase -->
-      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">-->
-     <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
-        <pointcut name="select"  expression="execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
+      <!-- note both annotation style (spring) and native style aspects will work. They are named the same but in
+      different packages (*aspectj.* or *.spring.*). Both are below and one is commented out
+      -->
+
+      <!--<concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">-->
+      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
+      <pointcut name="select"  expression="enabled() AND execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
      </concrete-aspect>
   </aspects>
     <!--
