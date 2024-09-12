@@ -1,11 +1,16 @@
 package com.stevesouza.helloworld;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 
 /**
  * Program used as basis for simple Automon example programs
  */
 public class HelloWorld {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorld.class.getName());
 
     public String getFirstName() {
         return "Steve";
@@ -58,6 +63,7 @@ public class HelloWorld {
     }
 
     public static void main(String[] args) throws Exception {
+        LOGGER.info("This program is a basic program that can be used to test aspects");
         HelloWorld helloWorld = new HelloWorld();
         helloWorld.run(args);
     }
