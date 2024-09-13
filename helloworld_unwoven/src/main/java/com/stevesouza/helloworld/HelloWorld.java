@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class HelloWorld {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorld.class.getName());
+    private static Logger LOGGER = LoggerFactory.getLogger(HelloWorld.class.getName());
 
     public String getFirstName() {
         return "Steve";
