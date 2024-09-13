@@ -13,8 +13,7 @@
     <packaging>jar</packaging>
     <name>helloworld_unwoven_jamon</name>
     <description>This pom simply has an unwoven HelloWorld class, that also registers jamon as jmx so users can see
-        automon and jamon
-        integration. The resulting jar can be used to test AspectJ load time weaving.
+        automon and jamon integration. The resulting jar can be used to test AspectJ load time weaving.
     </description>
 
 
