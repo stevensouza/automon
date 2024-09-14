@@ -88,27 +88,31 @@ public  abstract class FullContextTracingAspect extends BaseTracingAspect {
      */
     @Around("select()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-        JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
+        if (isEnabled()) {
+            JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
 
-        // note helper.withFullContext(..) is not called directly as the annotation style aspects don't have
-        // thisEnclosingJoinPointStaticPart so the call that needs this as an argument is not called below.
-        // Other than that the following is the same as helper.withFullContext(..). 
-        helper.withKind(thisJoinPointStaticPart).
-                withParameters(joinPoint).
-                withSignature(thisJoinPointStaticPart).
-                withTarget(joinPoint).
-                withThis(joinPoint);
-        logBefore();
+            // note helper.withFullContext(..) is not called directly as the annotation style aspects don't have
+            // thisEnclosingJoinPointStaticPart so the call that needs this as an argument is not called below.
+            // Other than that the following is the same as helper.withFullContext(..).
+            helper.withKind(thisJoinPointStaticPart).
+                    withParameters(joinPoint).
+                    withSignature(thisJoinPointStaticPart).
+                    withTarget(joinPoint).
+                    withThis(joinPoint);
+            logBefore();
 
-        long startTime = System.currentTimeMillis();
-        Object returnValue =  joinPoint.proceed();
-        helper.withExecutionTime(System.currentTimeMillis() - startTime);
-        helper.withReturnValue(objectToString(returnValue));
+            long startTime = System.currentTimeMillis();
+            Object returnValue = joinPoint.proceed();
+            helper.withExecutionTime(System.currentTimeMillis() - startTime);
+            helper.withReturnValue(objectToString(returnValue));
 
-        logAfter();
-        helper.removeFullContext();
+            logAfter();
+            helper.removeFullContext();
 
-        return returnValue;
+            return returnValue;
+        } else {
+            return joinPoint.proceed();
+        }
     }
 
     /**
@@ -119,7 +123,9 @@ public  abstract class FullContextTracingAspect extends BaseTracingAspect {
      */
     @AfterThrowing(pointcut = "select()", throwing = "throwable")
     public void afterThrowingAdvice(Throwable throwable) {
-        afterThrowing(throwable);
+        if (isEnabled()) {
+            afterThrowing(throwable);
+        }
     }
 
 }

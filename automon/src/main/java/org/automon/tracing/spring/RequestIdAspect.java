@@ -74,7 +74,9 @@ public abstract class RequestIdAspect extends BaseContextAspect {
      */
     @Before("select()")
     public void beforeAdvice() {
-        helper.withRequestId();
+        if (isEnabled()) {
+            helper.withRequestId();
+        }
     }
 
     /**
@@ -82,7 +84,9 @@ public abstract class RequestIdAspect extends BaseContextAspect {
      */
     @After("select()")
     public void afterAdvice() {
-        helper.removeRequestId();
+        if (isEnabled()) {
+            helper.removeRequestId();
+        }
     }
 
 }

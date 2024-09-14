@@ -141,6 +141,17 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     @Test
+    public void testDisable() {
+        getJmx().enable(false);
+        MyTestClass2 myTestClass = new MyTestClass2();
+        myTestClass.name();
+
+        List<LogEvent> logEvents = getListAppender().getEvents();
+        assertThat(logEvents).hasSize(0);
+    }
+
+
+    @Test
     public void testLogError() {
         MyTestClass2 myTestClass = new MyTestClass2();
         myTestClass.exceptions();

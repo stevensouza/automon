@@ -92,23 +92,27 @@ public abstract class BasicContextTracingAspect extends BaseTracingAspect {
 
     @Around("select()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-        JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
+        if (isEnabled()) {
+            JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
 
-        // note helper.withBasicContext(..) is not called directly as the annotation style aspects don't have
-        // thisEnclosingJoinPointStaticPart so the call that needs this as an argument is not called below.
-        // Other than that the following is the same as helper.withBasicContext(..).
-        helper.withKind(thisJoinPointStaticPart).
-                withSignature(thisJoinPointStaticPart);
-        logBefore();
+            // note helper.withBasicContext(..) is not called directly as the annotation style aspects don't have
+            // thisEnclosingJoinPointStaticPart so the call that needs this as an argument is not called below.
+            // Other than that the following is the same as helper.withBasicContext(..).
+            helper.withKind(thisJoinPointStaticPart).
+                    withSignature(thisJoinPointStaticPart);
+            logBefore();
 
-        long startTime = System.currentTimeMillis();
-        Object returnValue = joinPoint.proceed();
-        helper.withExecutionTime(System.currentTimeMillis() - startTime);
+            long startTime = System.currentTimeMillis();
+            Object returnValue = joinPoint.proceed();
+            helper.withExecutionTime(System.currentTimeMillis() - startTime);
 
-        logAfter();
-        helper.removeBasicContext();
+            logAfter();
+            helper.removeBasicContext();
 
-        return returnValue;
+            return returnValue;
+        } else {
+            return joinPoint.proceed();
+        }
     }
 
     /**
@@ -119,6 +123,8 @@ public abstract class BasicContextTracingAspect extends BaseTracingAspect {
      */
     @AfterThrowing(pointcut = "select()", throwing = "throwable")
     public void afterThrowingAdvice(Throwable throwable) {
-        afterThrowing(throwable);
+        if (isEnabled()) {
+            afterThrowing(throwable);
+        }
     }
 }

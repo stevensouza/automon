@@ -41,7 +41,6 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         getListAppender().clear();
         getJmx().enable(true);
         getJmx().enableLogging(true);
-        BasicContextTracingAspectTest.BasicContext.enable(true);
     }
 
 
@@ -192,9 +191,8 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     @Test
-    public void testEnablePointcut() {
-        BasicContextTracingAspectTest.BasicContext.enable(false);
-
+    public void testDisable() {
+        getJmx().enable(false);
         MyTestClass myTestClass = new MyTestClass();
         myTestClass.name();
         myTestClass.exceptions();
@@ -203,7 +201,6 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         assertThat(logEvents).
                 describedAs("The aspect is disabled and there is an enabled() pointcut so there should be no logging events").
                 hasSize(0);
-
     }
 
     @Test
@@ -240,19 +237,10 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
             super(enable, enableLogging);
         }
 
-        @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.BasicContextTracingAspectTest.MyTestClass.*(..))")
+        @Pointcut("execution(* org.automon.tracing.aspectj.BasicContextTracingAspectTest.MyTestClass.*(..))")
         public void select() {
         }
 
-        @Pointcut("if()")
-        public static boolean enabled() {
-            return enabled;
-        }
-
-        private static boolean enabled = true;
-        public static void enable(boolean enable) {
-            enabled = enable;
-        }
     }
 
     public static class MyTestClass {

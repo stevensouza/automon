@@ -82,17 +82,21 @@ public privileged abstract aspect BasicContextTracingAspect extends BaseTracingA
      * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
      */
     Object around(): select() {
-        helper.withBasicContext(thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
-        logBefore();
+        if (isEnabled()) {
+            helper.withBasicContext(thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
+            logBefore();
 
-        long startTime = System.currentTimeMillis();
-        Object returnValue = proceed();
-        helper.withExecutionTime(System.currentTimeMillis() - startTime);
+            long startTime = System.currentTimeMillis();
+            Object returnValue = proceed();
+            helper.withExecutionTime(System.currentTimeMillis() - startTime);
 
-        logAfter();
-        helper.removeBasicContext();
+            logAfter();
+            helper.removeBasicContext();
 
-        return returnValue;
+            return returnValue;
+        } else {
+            return proceed();
+        }
     }
 
     /**
@@ -102,6 +106,8 @@ public privileged abstract aspect BasicContextTracingAspect extends BaseTracingA
      *   logging is enableLogging for this class.
      */
     after() throwing(Throwable throwable): select() {
-        afterThrowing(throwable);
+        if (isEnabled()) {
+            afterThrowing(throwable);
+        }
     }
 }

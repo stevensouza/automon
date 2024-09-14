@@ -68,14 +68,18 @@ public privileged abstract aspect RequestIdAspect extends BaseContextAspect {
      * Advice to add a request ID to the MDC before the request is processed.
      */
     before(): select() {
-        helper.withRequestId();
+        if (isEnabled()) {
+            helper.withRequestId();
+        }
     }
 
     /**
      * Advice to remove the request ID from the MDC after the request is processed.
      */
     after(): select() {
-        helper.removeRequestId();
+        if (isEnabled()) {
+            helper.removeRequestId();
+        }
     }
 
 }

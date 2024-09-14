@@ -75,12 +75,14 @@ public abstract class FullContextDataAspect extends BaseContextAspect {
      */
     @Before("select()")
     public void beforeAdvice(JoinPoint joinPoint) {
-        JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
-        helper.withKind(thisJoinPointStaticPart).
-                withParameters(joinPoint).
-                withSignature(thisJoinPointStaticPart).
-                withTarget(joinPoint).
-                withThis(joinPoint);
+        if (isEnabled()) {
+            JoinPoint.StaticPart thisJoinPointStaticPart = joinPoint.getStaticPart();
+            helper.withKind(thisJoinPointStaticPart).
+                    withParameters(joinPoint).
+                    withSignature(thisJoinPointStaticPart).
+                    withTarget(joinPoint).
+                    withThis(joinPoint);
+        }
     }
 
     /**
@@ -88,7 +90,9 @@ public abstract class FullContextDataAspect extends BaseContextAspect {
      */
     @After("select()")
     public void afterAdvice() {
-        helper.removeFullContext();
+        if (isEnabled()) {
+            helper.removeFullContext();
+        }
     }
 
 }

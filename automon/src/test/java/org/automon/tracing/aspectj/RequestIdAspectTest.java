@@ -107,6 +107,27 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         assertLogEvents(logEvents, expectedMessages);
     }
 
+    @Test
+    public void testDisable() {
+        getJmx().enable(false);
+        MyRequestTestClass myTestClass = new MyRequestTestClass();
+        myTestClass.firstName("steve");
+        final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+        LOGGER.info("MDC={requestId=#UUID should now be removed");
+
+        List<LogEvent> logEvents = getListAppender().getEvents();
+        assertThat(logEvents).hasSize(3);
+
+        // Define expected log messages up to requestId removed as it is always a unique UUID
+        String[] expectedMessages = {
+                "INFO  o.a.t.a.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={}",
+                "INFO  o.a.t.a.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={}",
+                "INFO  o.a.t.a.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
+        };
+
+        assertLogEvents(logEvents, expectedMessages);
+    }
+
     @Aspect
     static class RequestId extends RequestIdAspect {
 

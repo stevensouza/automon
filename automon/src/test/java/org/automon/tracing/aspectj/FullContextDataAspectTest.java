@@ -107,6 +107,28 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
         assertLogEvents(logEvents, expectedMessages);
     }
 
+    @Test
+    public void testDisabled() {
+        getJmx().enable(false);
+        MyFullContextDataTestClass myTestClass = new MyFullContextDataTestClass();
+        myTestClass.firstName("steve");
+
+        final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+        LOGGER.info("MDC/NDC should now be removed");
+
+        List<LogEvent> logEvents = getListAppender().getEvents();
+        assertThat(logEvents).hasSize(3);
+
+        // Define expected log messages up to requestId removed as it is always a unique UUID
+        String[] expectedMessages = {
+                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={}",
+                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={}",
+                "INFO  o.a.t.a.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
+        };
+
+        assertLogEvents(logEvents, expectedMessages);
+    }
+
 
     @Aspect
     static class FullContextData extends FullContextDataAspect {

@@ -81,18 +81,22 @@ public privileged abstract aspect FullContextTracingAspect extends BaseTracingAs
      * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
      */
     Object around() : select() {
-        helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
-        logBefore();
+        if (isEnabled()) {
+            helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
+            logBefore();
 
-        long startTime = System.currentTimeMillis();
-        Object returnValue =  proceed();
-        helper.withExecutionTime(System.currentTimeMillis() - startTime);
-        helper.withReturnValue(objectToString(returnValue));
+            long startTime = System.currentTimeMillis();
+            Object returnValue = proceed();
+            helper.withExecutionTime(System.currentTimeMillis() - startTime);
+            helper.withReturnValue(objectToString(returnValue));
 
-        logAfter();
-        helper.removeFullContext();
+            logAfter();
+            helper.removeFullContext();
 
-        return returnValue;
+            return returnValue;
+        } else {
+            return proceed();
+        }
     }
 
     /**
@@ -102,7 +106,9 @@ public privileged abstract aspect FullContextTracingAspect extends BaseTracingAs
      *   logging is enableLogging for this class.
      */
     after() throwing(Throwable throwable): select() {
-        afterThrowing(throwable);
+        if (isEnabled()) {
+            afterThrowing(throwable);
+        }
     }
 
 }

@@ -69,7 +69,9 @@ public privileged abstract aspect FullContextDataAspect extends BaseContextAspec
      * to the MDC and/or NDC.
      */
     before(): select() {
-        helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
+        if (isEnabled()) {
+            helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
+        }
     }
 
     /**
@@ -78,7 +80,9 @@ public privileged abstract aspect FullContextDataAspect extends BaseContextAspec
      * MDC and/or NDC.
      */
     after(): select() {
-        helper.removeFullContext();
+        if (isEnabled()) {
+            helper.removeFullContext();
+        }
     }
 
 }
