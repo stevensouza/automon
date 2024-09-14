@@ -17,7 +17,7 @@ import org.automon.aspects.SpringBase;
 */
 
 @Aspect
-public class MyAspect extends SpringBase {
+public class MonitoringAspect extends SpringBase {
 
   @Pointcut("profile()")
   public void user_monitor() {
