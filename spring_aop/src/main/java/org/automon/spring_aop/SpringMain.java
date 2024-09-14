@@ -24,6 +24,6 @@ public class SpringMain {
             
         }
 
-        monitorMe.bye("cruel");
+        monitorMe.bye("cruel world!");
     }
 }

@@ -1,4 +1,4 @@
-package org.automon.spring_aop;
+package org.automon.spring_aop.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
