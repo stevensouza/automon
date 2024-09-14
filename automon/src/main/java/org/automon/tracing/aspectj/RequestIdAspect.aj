@@ -65,25 +65,6 @@ public privileged abstract aspect RequestIdAspect extends BaseContextAspect {
     public abstract pointcut select();
 
     /**
-     * A pointcut that matches if tracing is enabled.
-     * <p>
-     * This pointcut can be used in conjunction with other pointcuts to conditionally apply advice
-     * only when tracing is enabled.
-     *
-     * <p>**Examples:**</p>
-     *
-     * <pre>
-     * pointcut select() : enabled() && execution(* com.example..*.*(..));
-     * </pre>
-     *
-     * Alternatively the following equivalent approach could be used:
-     * <pre>
-     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
-     * </pre>
-     */
-    public pointcut enabled() : if(isEnabled());
-
-    /**
      * Advice to add a request ID to the MDC before the request is processed.
      */
     before(): select() {

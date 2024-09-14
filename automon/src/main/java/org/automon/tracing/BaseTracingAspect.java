@@ -43,7 +43,7 @@ public class BaseTracingAspect {
      * This controller is created as a singleton and provides access to
      * tracing-related functionalities (such as enable/disable) through JMX.
      */
-    protected static final TraceJmxController jmxController = new TraceJmxController();
+    protected final TraceJmxController jmxController = new TraceJmxController();
 
     /**
      * The value associated with the key 'purpose' in jmx registration.
@@ -141,7 +141,7 @@ public class BaseTracingAspect {
      *
      * @return The JMX controller for tracing aspects.
      */
-    public static TraceJmxController getJmxController() {
+    public TraceJmxController getJmxController() {
         return jmxController;
     }
 
@@ -150,7 +150,7 @@ public class BaseTracingAspect {
      *
      * @return {@code true} if tracing is enabled, {@code false} otherwise.
      */
-    public static boolean isEnabled() {
+    public boolean isEnabled() {
         return jmxController.isEnabled();
     }
 

@@ -1,6 +1,7 @@
 package org.automon.tracing.aspectj;
 
 import org.apache.logging.log4j.core.LogEvent;
+import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.TestTracingAspectBase;
@@ -31,7 +32,8 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
 
     private AspectJmxController getJmx() {
-        return FullContextData.getJmxController();
+        FullContextDataAspectTest.FullContextData aspect = Aspects.aspectOf(FullContextDataAspectTest.FullContextData.class);
+        return aspect.getJmxController();
     }
 
     private void reset() {
@@ -44,21 +46,21 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
     void testNoArgConstructor_defaultsToEnabled() {
         FullContextData fcd = new FullContextData();
 
-        assertThat(FullContextData.isEnabled()).isTrue();
-        assertThat(FullContextData.getJmxController().isEnabled()).isTrue();
+        assertThat(fcd.isEnabled()).isTrue();
+        assertThat(fcd.getJmxController().isEnabled()).isTrue();
     }
 
     @Test
     void testParameterizedConstructor_setsEnabledState() {
         FullContextData fcd = new FullContextData(true);
 
-        assertThat(FullContextData.isEnabled()).isTrue();
-        assertThat(FullContextData.getJmxController().isEnabled()).isTrue();
+        assertThat(fcd.isEnabled()).isTrue();
+        assertThat(fcd.getJmxController().isEnabled()).isTrue();
 
         fcd = new FullContextData(false);
 
-        assertThat(FullContextData.isEnabled()).isFalse();
-        assertThat(FullContextData.getJmxController().isEnabled()).isFalse();
+        assertThat(fcd.isEnabled()).isFalse();
+        assertThat(fcd.getJmxController().isEnabled()).isFalse();
     }
 
     // Tests for AspectJmxController methods (inherited)
@@ -116,7 +118,7 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
             super(enable);
         }
 
-        @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
+        @Pointcut("execution(* org.automon.tracing.aspectj.FullContextDataAspectTest.MyFullContextDataTestClass.*(..)) &&" +
                 "!execution(* org.automon.tracing.aspectj.FullContextDataAspectTest.MyFullContextDataTestClass.toString())")
         public void select() {
         }

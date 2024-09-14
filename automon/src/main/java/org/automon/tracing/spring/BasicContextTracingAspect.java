@@ -72,24 +72,6 @@ public abstract class BasicContextTracingAspect extends BaseTracingAspect {
     public abstract void select();
 
     /**
-     * A pointcut that matches if tracing is enabled.
-     * <p>
-     * This pointcut can be used in conjunction with other pointcuts to conditionally apply advice
-     * only when tracing is enabled.
-     *
-     * <p>**Examples:**</p>
-     *
-     * <pre>
-     * pointcut select() : enabled() && execution(* com.example..*.*(..));
-     * </pre>
-     *
-     */
-    @Pointcut("if()")
-    public static boolean enabled() {
-        return isEnabled();
-    }
-
-    /**
      * Around advice for tracing method execution.
      * Adds NDC/MDC context on method entry and exit, along with other basic context information such as execution time.
      * The information is conditionally logged if {@link org.automon.tracing.jmx.TraceJmxController#enableLogging(boolean)} is set.

@@ -1,6 +1,7 @@
 package org.automon.tracing.aspectj;
 
 import org.apache.logging.log4j.core.LogEvent;
+import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.TestTracingAspectBase;
@@ -31,7 +32,8 @@ class RequestIdAspectTest extends TestTracingAspectBase {
 
 
     private AspectJmxController getJmx() {
-        return RequestId.getJmxController();
+        RequestIdAspectTest.RequestId aspect = Aspects.aspectOf(RequestIdAspectTest.RequestId.class);
+        return aspect.getJmxController();
     }
 
 
@@ -44,21 +46,21 @@ class RequestIdAspectTest extends TestTracingAspectBase {
     void testNoArgConstructor_defaultsToEnabled() {
         RequestId requestId = new RequestId();
 
-        assertThat(RequestId.isEnabled()).isTrue();
-        assertThat(RequestId.getJmxController().isEnabled()).isTrue();
+        assertThat(requestId.isEnabled()).isTrue();
+        assertThat(requestId.getJmxController().isEnabled()).isTrue();
     }
 
     @Test
     void testParameterizedConstructor_setsEnabledState() {
         RequestId requestId = new RequestId(true);
 
-        assertThat(RequestId.isEnabled()).isTrue();
-        assertThat(RequestId.getJmxController().isEnabled()).isTrue();
+        assertThat(requestId.isEnabled()).isTrue();
+        assertThat(requestId.getJmxController().isEnabled()).isTrue();
 
         requestId = new RequestId(false);
 
-        assertThat(RequestId.isEnabled()).isFalse();
-        assertThat(RequestId.getJmxController().isEnabled()).isFalse();
+        assertThat(requestId.isEnabled()).isFalse();
+        assertThat(requestId.getJmxController().isEnabled()).isFalse();
     }
 
     // Tests for AspectJmxController methods (inherited)
@@ -115,7 +117,7 @@ class RequestIdAspectTest extends TestTracingAspectBase {
             super(enable);
         }
 
-        @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.RequestIdAspectTest.MyRequestTestClass.firstName(..))")
+        @Pointcut("execution(* org.automon.tracing.aspectj.RequestIdAspectTest.MyRequestTestClass.firstName(..))")
         public void select() {
         }
 

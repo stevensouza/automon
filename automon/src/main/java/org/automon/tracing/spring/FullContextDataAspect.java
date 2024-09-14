@@ -71,23 +71,6 @@ public abstract class FullContextDataAspect extends BaseContextAspect {
     public abstract void select();
 
     /**
-     * A pointcut that matches if tracing is enabled.
-     * <p>
-     * This pointcut can be used in conjunction with other pointcuts to conditionally apply advice
-     * only when tracing is enabled.
-     *
-     * <p>**Examples:**</p>
-     *
-     * <pre>
-     * pointcut select() : enabled() && execution(* com.example..*.*(..));
-     * </pre>
-     */
-    @Pointcut("if()")
-    public static boolean enabled() {
-        return isEnabled();
-    }
-
-    /**
      * Advice to full context to the MDC before the request is processed. Note it doesn't have staticEnclosingPart.
      */
     @Before("select()")

@@ -32,7 +32,8 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     private TraceJmxController getJmx() {
-        return BasicContext.getJmxController();
+        BasicContextTracingAspectTest.BasicContext aspect = Aspects.aspectOf(BasicContextTracingAspectTest.BasicContext.class);
+        return aspect.getJmxController();
     }
 
     private void reset() {
@@ -40,6 +41,7 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         getListAppender().clear();
         getJmx().enable(true);
         getJmx().enableLogging(true);
+        BasicContextTracingAspectTest.BasicContext.enable(true);
     }
 
 
@@ -47,9 +49,9 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
     void testNoArgConstructor_defaultsToEnabled() {
         BasicContext bc = new BasicContext();
 
-        assertThat(BasicContext.isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
     }
 
     @Test
@@ -58,40 +60,40 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
         BasicContext bc = new BasicContext();
 
-        assertThat(BasicContext.isEnabled()).isFalse();
-        assertThat(BasicContext.getJmxController().isEnabled()).isFalse();
-        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isFalse();
+        assertThat(bc.isEnabled()).isFalse();
+        assertThat(bc.getJmxController().isEnabled()).isFalse();
+        assertThat(bc.getJmxController().isLoggingEnabled()).isFalse();
     }
 
 
     @Test
     void testOneParameterizedConstructor_setsEnabledState() {
-        BasicContext fcd = new BasicContext(true);
+        BasicContext bc = new BasicContext(true);
 
-        assertThat(BasicContext.isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
 
-        fcd = new BasicContext(false);
+        bc = new BasicContext(false);
 
-        assertThat(BasicContext.isEnabled()).isFalse();
-        assertThat(BasicContext.getJmxController().isEnabled()).isFalse();
-        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isFalse();
+        assertThat(bc.getJmxController().isEnabled()).isFalse();
+        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
     }
 
     @Test
     void testTwoParameterizedConstructor_setsEnabledState() {
-        BasicContext fcd = new BasicContext(true, true);
+        BasicContext bc = new BasicContext(true, true);
 
-        assertThat(BasicContext.isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
 
-        fcd = new BasicContext(true, false);
+        bc = new BasicContext(true, false);
 
-        assertThat(BasicContext.isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isEnabled()).isTrue();
-        assertThat(BasicContext.getJmxController().isLoggingEnabled()).isFalse();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isEnabled()).isTrue();
+        assertThat(bc.getJmxController().isLoggingEnabled()).isFalse();
     }
 
     @Test
@@ -176,7 +178,6 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testNoLogging() {
-        BasicContextTracingAspectTest.BasicContext aspect = Aspects.aspectOf(BasicContextTracingAspectTest.BasicContext.class);
         getJmx().enableLogging(false);
 
         MyTestClass myTestClass = new MyTestClass();
@@ -191,26 +192,40 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
     }
 
     @Test
+    public void testEnablePointcut() {
+        BasicContextTracingAspectTest.BasicContext.enable(false);
+
+        MyTestClass myTestClass = new MyTestClass();
+        myTestClass.name();
+        myTestClass.exceptions();
+
+        List<LogEvent> logEvents = getListAppender().getEvents();
+        assertThat(logEvents).
+                describedAs("The aspect is disabled and there is an enabled() pointcut so there should be no logging events").
+                hasSize(0);
+
+    }
+
+    @Test
     public void testEnableDisable() {
         BasicContext aspect = new BasicContext();
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        assertThat(aspect.getJmxController().isLoggingEnabled()).isTrue();
 
-        getJmx().enableLogging(false);
-        assertThat(getJmx().isLoggingEnabled()).isFalse();
-        getJmx().enableLogging(true);
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        aspect.getJmxController().enableLogging(false);
+        assertThat(aspect.getJmxController().isLoggingEnabled()).isFalse();
+        aspect.getJmxController().enableLogging(true);
+        assertThat(aspect.getJmxController().isLoggingEnabled()).isTrue();
 
         aspect = new BasicContext(true, true);
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        assertThat(aspect.getJmxController().isLoggingEnabled()).isTrue();
 
         aspect = new BasicContext(true, false);
-        assertThat(getJmx().isLoggingEnabled()).isFalse();
+        assertThat(aspect.getJmxController().isLoggingEnabled()).isFalse();
     }
 
 
     @Aspect
     static class BasicContext extends BasicContextTracingAspect {
-
         // No-arg constructor
         public BasicContext() {
         }
@@ -227,6 +242,16 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
         @Pointcut("enabled() && execution(* org.automon.tracing.aspectj.BasicContextTracingAspectTest.MyTestClass.*(..))")
         public void select() {
+        }
+
+        @Pointcut("if()")
+        public static boolean enabled() {
+            return enabled;
+        }
+
+        private static boolean enabled = true;
+        public static void enable(boolean enable) {
+            enabled = enable;
         }
     }
 
