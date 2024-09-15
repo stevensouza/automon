@@ -13,19 +13,9 @@ public class RequestIdTrace extends RequestIdAspect {
 // that are supported such as execution/call/get/set/constructors/static initialization ...
 //     @Pointcut("within(com.stevesouza.helloworld.HelloWorld+)")
 
-    private static RequestIdTrace INSTANCE;
-
-    public RequestIdTrace() {
-        INSTANCE = this;
-    }
-
-    @Pointcut("enabled() && execution(* com.stevesouza.helloworld.HelloWorld.*(..))")
+    @Pointcut("execution(* com.stevesouza.helloworld.HelloWorld.*(..))")
     public void select() {
 
     }
 
-    @Pointcut("if()")
-    public static boolean enabled() {
-        return INSTANCE.isEnabled();
-    }
 }

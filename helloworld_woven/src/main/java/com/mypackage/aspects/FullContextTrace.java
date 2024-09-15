@@ -16,6 +16,12 @@ public class FullContextTrace extends FullContextTracingAspect {
 // that are supported such as execution/call/get/set/constructors/static initialization ...
 //     @Pointcut("within(com.stevesouza.helloworld.HelloWorld+)")
 
+// Note the following apporach is not required as running the code or not based on the enabled/disabled
+// status of the aspect works for all of automon's aspects with no other special handling.  However, I am
+// including the following approach which offers an alternative approach for quickly not matching the pointcut
+// itself if the aspect is disabled.  In general this approach is not needed though.  See BasicContextTrace for the
+// more typical and simple way that an aspect should be created.
+
     private static FullContextTrace INSTANCE;
 
     public FullContextTrace() {

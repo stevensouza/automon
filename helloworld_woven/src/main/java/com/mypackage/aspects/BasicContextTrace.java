@@ -15,19 +15,10 @@ public class BasicContextTrace extends BasicContextTracingAspect {
 // that are supported such as execution/call/get/set/constructors/static initialization ...
 //     @Pointcut("within(com.stevesouza.helloworld.HelloWorld+)")
 
-    private static BasicContextTrace INSTANCE;
 
-    public BasicContextTrace() {
-        INSTANCE = this;
-    }
-
-    @Pointcut("enabled() && execution(* com.stevesouza.helloworld.HelloWorld.getMiddleName())")
+    @Pointcut("execution(* com.stevesouza.helloworld.HelloWorld.getMiddleName())")
     public void select() {
 
     }
 
-    @Pointcut("if()")
-    public static boolean enabled() {
-        return INSTANCE.isEnabled();
-    }
 }

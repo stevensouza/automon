@@ -15,6 +15,4 @@ if [ -z "$num_loops" ]; then
 fi
 
 # Execute the Java command
-java   -Dorg.automon=sysout  \
-       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../helloworld_woven/target/helloworld_woven-${AUTOMON_VERSION}.jar:libs/aspectjrt.jar \
-       com.stevesouza.helloworld.HelloWorld ${num_loops}
+java -jar -Dorg.automon=sysout  ../helloworld_woven//target/helloworld_woven-${AUTOMON_VERSION}-shaded.jar ${num_loops}

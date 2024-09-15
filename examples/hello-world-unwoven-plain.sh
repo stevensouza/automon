@@ -15,5 +15,4 @@ if [ -z "$num_loops" ]; then
 fi
 
 # Execute the Java command
-java   -classpath ../helloworld_unwoven/target/helloworld_unwoven-${AUTOMON_VERSION}.jar \
-       com.stevesouza.helloworld.HelloWorld ${num_loops}
+java -jar ../helloworld_unwoven/target/helloworld_unwoven-${AUTOMON_VERSION}-shaded.jar ${num_loops}
