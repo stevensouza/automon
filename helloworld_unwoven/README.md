@@ -7,4 +7,4 @@ Tracing aspects.  You can run this program in various ways.
   - replace '1.0.4-SNAPSHOT' with current version
 - In various scripts that use this jar as a basis for load time weaving (LTW). For example
   hello-world-tracebasiccontext-ltw.sh.
-- In various maven modules of this project.
+- In various maven modules of this project that have 'helloword_unwoven' as a dependency.
