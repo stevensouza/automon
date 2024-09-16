@@ -13,7 +13,8 @@
   <packaging>jar</packaging>
   <name>spring_woven</name>
 
-  <description>Weave HelloWorld class with the automon aspect in a spring application.  This is compile time weaving.  Note you
+  <description>Weave HelloWorld class with the automon aspect in a spring application.
+      This is compile time weaving, so it doesn't do the typical weaving done by spring.  Note you
     may also use load time weaving (LTW) with spring.
     </description>
 
