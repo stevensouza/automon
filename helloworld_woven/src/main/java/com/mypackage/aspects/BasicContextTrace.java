@@ -16,7 +16,8 @@ public class BasicContextTrace extends BasicContextTracingAspect {
 //     @Pointcut("within(com.stevesouza.helloworld.HelloWorld+)")
 
 
-    @Pointcut("execution(* com.stevesouza.helloworld.HelloWorld.getMiddleName())")
+    // note the following is a private method so the annotation style aspects work at compile time (at least)
+    @Pointcut("execution(* com.stevesouza.helloworld.HelloWorld.iMessedUp_RuntimeException(..))")
     public void select() {
 
     }
