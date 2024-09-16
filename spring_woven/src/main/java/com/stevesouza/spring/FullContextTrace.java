@@ -11,7 +11,7 @@ public class FullContextTrace extends FullContextTracingAspect {
     //  Example with debug enabled: parameters={fname=steve, lname=souza}
     // Without debug enabled you will still see the values but with generic parameter names such as
     //  parameters={param0=steve, param1=souza}
-    @Pointcut("execution(public * com.stevesouza.helloworld.HelloWorld.*(..))")
+    @Pointcut("execution(* com.stevesouza.spring.HelloWorld.*(..))")
     public void select() {
 
     }

@@ -108,6 +108,16 @@ In general:
                                     <mainClass>com.stevesouza.helloworld.HelloWorld</mainClass>
                                 </transformer>
                             </transformers>
+                            <!--                          The following is due to a bug in fat/shaded jar generation when log4j is included-->
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>**/Log4j2Plugins.dat</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+
                         </configuration>
                     </execution>
                 </executions>

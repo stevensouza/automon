@@ -5,20 +5,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.aspects.SpringBase;
 
-/**
- <pre>
-  <aspectj>
-    <aspects>
-       <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
-          <pointcut name="user_monitor"       expression="profile()"/>
-          <pointcut name="user_exceptions"    expression="profile()"/>
-          <pointcut name="profile" expression="execution(public * com.stevesouza.helloworld.HelloWorld.*(..))"/>
-       </concrete-aspect>
-    </aspects>
-  </aspectj>
- </pre>
-*/
-
 @Aspect
 public class MySpringAspect extends SpringBase {
 
@@ -30,7 +16,7 @@ public class MySpringAspect extends SpringBase {
   public void user_exceptions() {
   }
 
-  @Pointcut("execution(* *.*(..))")
+  @Pointcut("execution(* HelloWorld.*(..))")
   //@Pointcut("bean(hellWorld)")
   public void profile() {
   }

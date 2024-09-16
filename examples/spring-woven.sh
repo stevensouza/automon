@@ -10,6 +10,4 @@
 set_versions
 
 # Execute the Java command using the environment variables
-java   -Dorg.automon=sysout  \
-       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../spring_woven/target/spring_woven-${AUTOMON_VERSION}.jar:libs/aspectjrt.jar:libs/spring-core-4.1.1.RELEASE.jar:libs/spring-context-4.1.1.RELEASE.jar:libs/spring-beans-4.1.1.RELEASE.jar:libs/commons-logging-api-1.1.jar:libs/spring-expression-4.1.1.RELEASE.jar \
-       com.stevesouza.spring.HelloWorld
+java -Dorg.automon=sysout -jar ../spring_woven/target/spring_woven-${AUTOMON_VERSION}-shaded.jar
