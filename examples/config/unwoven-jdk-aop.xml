@@ -12,9 +12,11 @@ See ajc-aop.xml for more information and examples.
 
 The example below monitors call to jdk io and net classes from within the 'org.automon.jdk' package and any of its subclasses
 
+Multiple aspects are executed in the order they appear in this file unless precedence is set.
 -->
 <aspectj>
   <aspects>
+
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
       <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">-->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">
@@ -33,12 +35,21 @@ The example below monitors call to jdk io and net classes from within the 'org.a
          <pointcut name="automon" expression="org.automon.pointcuts.SpringSelect.automon()"/>
 
      </concrete-aspect>
+
+      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
+          <pointcut name="select"  expression="execution(* com.stevesouza.jdk.*.*(..))"/>
+      </concrete-aspect>
+
   </aspects>
     <!--
       The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
      classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
      -->
-    <!--<weaver options="-verbose -debug">-->
+<!--    <weaver options="-verbose -debug">-->
+    <weaver>
+
+        <include within="com.stevesouza.jdk.*"/>
+
         <!--<dump within="org.automon.implementations.*"/>-->
         <!--<dump within="org.automon.helloworld.*"/>-->
         <!-- Weave types that are within the javax.* or org.aspectj.*
@@ -50,6 +61,6 @@ The example below monitors call to jdk io and net classes from within the 'org.a
 
         <!-- Do not weave types within the "bar" pakage -->
         <!--<exclude within="bar.*"/>-->
-    <!--</weaver>-->
+    </weaver>
 </aspectj>
 

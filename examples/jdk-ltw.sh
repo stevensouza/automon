@@ -12,7 +12,9 @@ set_versions
 
 # Execute the Java command using the environment variables and the provided aop.xml file
 java   -Dorg.automon=sysout  \
+       -Dlog4j.configurationFile=config/log4j2.xml \
        -Dorg.aspectj.weaver.loadtime.configuration=file:config/unwoven-jdk-aop.xml \
        -javaagent:libs/aspectjweaver-${ASPECTJ_VERSION}.jar \
-       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../unwoven_jdk/target/unwoven_jdk-${AUTOMON_VERSION}.jar:libs/hsqldb-2.3.2.jar \
+       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../unwoven_jdk/target/unwoven_jdk-${AUTOMON_VERSION}-shaded.jar \
        com.stevesouza.jdk.JdkHelloWorld README.md
+

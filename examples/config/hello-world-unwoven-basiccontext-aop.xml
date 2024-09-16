@@ -31,13 +31,13 @@ Note precedence can be implicit (order the aspects appear in the file) or explic
       -->
 <!--      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.tracing.spring.RequestIdAspect">-->
       <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.tracing.aspectj.RequestIdAspect">
-          <pointcut name="select"  expression="enabled() AND execution(* com.stevesouza.helloworld.HelloWorld.main(..))"/>
+          <pointcut name="select"  expression="execution(* com.stevesouza.helloworld.HelloWorld.main(..))"/>
       </concrete-aspect>
 
       <!-- Sample possible output: c.m.MyTracingBasicContextAspect INFO 11:36:59.507 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), executionTimeMs=5049} -->
       <!--<concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">-->
       <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
-            <pointcut name="select"  expression="enabled() AND execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
+            <pointcut name="select"  expression="execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
       </concrete-aspect>
 
   </aspects>
@@ -45,7 +45,9 @@ Note precedence can be implicit (order the aspects appear in the file) or explic
       The following lets you more clearly see what the weaver is doing.  You can use dump to write the woven
      classes to disk.  This can be useful to view the woven classes in a decompiler tool like JD-GUI.
      -->
-    <weaver options="-verbose -debug">
+<!--    <weaver options="-verbose -debug">-->
+
+    <weaver>
         <!-- only weave classes within com.stevesouza and its subpackages. Note required per pointcut above but an optimization. -->
         <include within="com.stevesouza..*"/>
         <!--<dump within="org.automon.implementations.*"/>-->
