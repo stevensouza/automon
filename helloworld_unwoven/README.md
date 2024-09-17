@@ -5,6 +5,7 @@ Tracing aspects.  You can run this program in various ways.
 - mvn exec:java
 - java -jar target/helloworld_unwoven-1.0.4-SNAPSHOT-shaded.jar 
   - replace '1.0.4-SNAPSHOT' with current version
+- In examples directory: ./hello-world-unwoven-plain.sh
 - In various scripts that use this jar as a basis for load time weaving (LTW). For example
-  hello-world-tracebasiccontext-ltw.sh.
+  ./hello-world-tracebasiccontext-ltw.sh.
 - In various maven modules of this project that have 'helloword_unwoven' as a dependency.

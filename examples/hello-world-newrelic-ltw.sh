@@ -21,5 +21,5 @@ fi
 # Execute the Java command using the environment variables and the provided aop.xml file
 java   -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml \
        -javaagent:libs/aspectjweaver-${ASPECTJ_VERSION}.jar \
-       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../helloworld_unwoven/target/helloworld_unwoven-${AUTOMON_VERSION}.jar:libs/newrelic-api-3.29.0.jar \
+       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../helloworld_unwoven/target/helloworld_unwoven-${AUTOMON_VERSION}-shaded.jar:libs/newrelic-api-3.29.0.jar \
        com.stevesouza.helloworld.HelloWorld ${num_loops}

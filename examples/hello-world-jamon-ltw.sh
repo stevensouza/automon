@@ -19,7 +19,7 @@ if [ -z "$num_loops" ]; then
 fi
 
 # Execute the Java command using the environment variables and the provided aop.xml file
-java   -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml \
+java  -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-aop.xml \
        -javaagent:libs/aspectjweaver-${ASPECTJ_VERSION}.jar \
-       -classpath ../automon/target/automon-${AUTOMON_VERSION}.jar:../helloworld_unwoven/target/helloworld_unwoven-${AUTOMON_VERSION}.jar:../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-${AUTOMON_VERSION}.jar:libs/jamon-2.81.jar \
+       -classpath ../helloworld_unwoven_jamon/target/helloworld_unwoven_jamon-${AUTOMON_VERSION}-shaded.jar \
        com.stevesouza.jamon.JamonHelloWorld ${num_loops}
