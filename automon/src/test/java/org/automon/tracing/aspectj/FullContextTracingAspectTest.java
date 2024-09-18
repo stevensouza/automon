@@ -250,7 +250,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
             return 2;
         }
 
-        String first(String name) {
+        private String first(String name) {
             return name;
         }
 

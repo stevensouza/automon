@@ -156,7 +156,7 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
             return name;
         }
 
-        public void hi() {
+        private void hi() {
             logger.info("In MyFullContextDataTestClass.hi() method");
         }
 

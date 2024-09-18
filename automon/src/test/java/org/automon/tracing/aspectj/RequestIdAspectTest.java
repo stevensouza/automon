@@ -153,7 +153,7 @@ class RequestIdAspectTest extends TestTracingAspectBase {
             return name;
         }
 
-        public void hi() {
+        private void hi() {
             logger.info("In MyRequestTestClass.hi() method");
         }
     }

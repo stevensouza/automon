@@ -1,17 +1,21 @@
 <!--
 Can put properties in an xml file. In comments...Could also use a properties file.
 
+1)
 org.automon=org.mypackage.MyOpenMon
 
 org.automon.statsd.prefix=mytestprefix
 org.automon.statsd.hostname=mytesthostname
 org.automon.statsd.port=9999
 
-the following are used in AutomonPropertiesLoaderTest...
+2) the following are used in AutomonPropertiesLoaderTest...
 org.automon.tracing.aspectj.BasicContextTracingAspect.test=this_will_be_false
 org.automon.tracing.aspectj.BasicContextTracingAspect.enableLogging=FALSE
 
-The following are used in UtilsTest
+org.automon.tracing.spring.BasicContextTracingAspect.test=this_will_be_false
+org.automon.tracing.spring.BasicContextTracingAspect.enableLogging=FALSE
+
+3) The following are used in UtilsTest
 org.automon.tracing.aspectj.BasicContextTracingAspect.enable=false
 org.automon.tracing.aspectj.RequestIdAspect.enable=TRUE
 org.automon.tracing.aspectj.RequestIdAspect.enableLogging=FaLsE
@@ -19,11 +23,21 @@ org.automon.tracing.aspectj.RequestIdAspect.enableLogging=FaLsE
 org.automon.tracing.aspectj.FullContextTracingAspect.enable=this_will_be_false
 org.automon.tracing.aspectj.FullContextTracingAspect.enableLogging=this_will_be_false
 
-MyAspect=TRue
+org.automon.tracing.spring.BasicContextTracingAspect.enable=false
+org.automon.tracing.spring.RequestIdAspect.enable=TRUE
+org.automon.tracing.spring.RequestIdAspect.enableLogging=FaLsE
 
+org.automon.tracing.spring.FullContextTracingAspect.enable=this_will_be_false
+org.automon.tracing.spring.FullContextTracingAspect.enableLogging=this_will_be_false
+
+4)
 The following is used in BasicContextTracingAspectTest
 org.automon.tracing.aspectj.BasicContextTracingAspectTest$BasicContext.enable=false
 org.automon.tracing.aspectj.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
 
+org.automon.tracing.spring.BasicContextTracingAspectTest$BasicContext.enable=false
+org.automon.tracing.spring.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
 
+5)
+MyAspect=TRue
 -->

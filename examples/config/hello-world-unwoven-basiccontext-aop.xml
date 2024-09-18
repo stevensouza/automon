@@ -36,7 +36,7 @@ Note precedence can be implicit (order the aspects appear in the file) or explic
 
       <!-- Sample possible output: c.m.MyTracingBasicContextAspect INFO 11:36:59.507 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), executionTimeMs=5049} -->
       <!--<concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">-->
-      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
+      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">
             <pointcut name="select"  expression="execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
       </concrete-aspect>
 
