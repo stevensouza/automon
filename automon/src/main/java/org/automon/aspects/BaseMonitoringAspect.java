@@ -1,6 +1,5 @@
 package org.automon.aspects;
 
-import org.automon.aspects.jmx.AutomonJmx;
 import org.automon.aspects.jmx.AutomonMXBean;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
@@ -15,17 +14,19 @@ import java.util.Properties;
  * with jmx</p>
  */
 
-public class BaseMonitoringAspect {
+public class BaseMonitoringAspect implements AutomonMXBean {
 
     /**
      * The value associated with the key 'purpose' in jmx registration.
      */
     protected String purpose = "monitor";
+    /**
+     * Flag indicating whether tracing is enabled.
+     */
+    private boolean enabled = true;
 
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
-    protected final AutomonMXBean jmxController = new AutomonJmx(this);
-
 
     // use the specified Automon implementation 
     private void initOpenMon() {
@@ -40,7 +41,7 @@ public class BaseMonitoringAspect {
 
     protected void initialize(String purpose, boolean enable) {
         // Use the OpenMon the user selects and register the aspect with jmx
-        jmxController.enable(enable);
+        enable(enable);
         initOpenMon();
         setPurpose(purpose);
         registerJmxController();
@@ -53,24 +54,29 @@ public class BaseMonitoringAspect {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx(getPurpose(), this, jmxController);
+        Utils.registerWithJmx(getPurpose(), this, this);
     }
 
+    @Override
     public boolean isEnabled() {
-        return jmxController.isEnabled();
+        return enabled;
     }
 
+    @Override
     public void enable(boolean enable) {
-        jmxController.enable(enable);
+        this.enabled = enable;
     }
 
     /**
      * Retrieve current monitoring implementation
-     *
-     * @return
      */
     public OpenMon getOpenMon() {
         return openMon;
+    }
+
+    @Override
+    public String getOpenMonString() {
+        return openMon.toString();
     }
 
     /**
@@ -90,6 +96,7 @@ public class BaseMonitoringAspect {
      *
      * @param openMonKey Something like jamon, metrics...
      */
+    @Override
     public void setOpenMon(String openMonKey) {
         if (openMonKey == null || openMonKey.trim().isEmpty()) {
             this.openMon = factory.getFirstInstance();
@@ -100,6 +107,11 @@ public class BaseMonitoringAspect {
 
     public OpenMonFactory getOpenMonFactory() {
         return factory;
+    }
+
+    @Override
+    public String getValidOpenMons() {
+        return factory.toString();
     }
 
     /**
@@ -120,8 +132,4 @@ public class BaseMonitoringAspect {
         this.purpose = purpose;
     }
 
-
-    public AutomonMXBean getJmxController() {
-        return jmxController;
-    }
 }

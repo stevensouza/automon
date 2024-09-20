@@ -18,7 +18,7 @@ import org.automon.utils.Utils;
 
 @Aspect
 public abstract class MonitoringAspect extends BaseMonitoringAspect {
-    static final String PURPOSE = "monitor_native";
+    static final String PURPOSE = "monitor_spring";
 
     public MonitoringAspect() {
         initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
