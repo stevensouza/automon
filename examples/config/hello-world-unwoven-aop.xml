@@ -14,8 +14,8 @@ See ajc-aop.xml for more information and examples.
 <aspectj>
   <aspects>
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
-      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.MonitoringAspect">-->
-     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoringing.MonitoringAspect">-->
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoring.SpringBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
         <pointcut name="profile"            expression="within(com.stevesouza.helloworld.HelloWorld+)"/>

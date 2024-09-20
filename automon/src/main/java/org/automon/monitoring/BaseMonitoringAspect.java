@@ -1,6 +1,6 @@
-package org.automon.aspects;
+package org.automon.monitoring;
 
-import org.automon.aspects.jmx.AutomonMXBean;
+import org.automon.jmx.AutomonMXBean;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;

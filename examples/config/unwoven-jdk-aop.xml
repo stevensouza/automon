@@ -18,8 +18,8 @@ Multiple aspects are executed in the order they appear in this file unless prece
   <aspects>
 
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
-      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">-->
-     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoringing.SpringBase">-->
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoring.AspectJBase">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
         <pointcut name="profile"            expression="within(com.stevesouza.jdk..*) AND jdk() AND !automon()"/>

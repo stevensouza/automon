@@ -1,4 +1,4 @@
-package org.automon.aspects.jmx;
+package org.automon.jmx;
 
 
 

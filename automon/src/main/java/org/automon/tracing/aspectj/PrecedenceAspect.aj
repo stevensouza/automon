@@ -14,5 +14,5 @@ public aspect PrecedenceAspect {
      * desirable when tracking requests across multiple aspects or components.
      * </p>
      */
-    declare precedence: RequestIdAspect, *; // RequestIdAspect first, then all other aspects
+    declare precedence: RequestIdAspect, *; // RequestIdAspect first, then all other monitoring
 }

@@ -1,4 +1,4 @@
-package org.automon.aspects;
+package org.automon.monitoring;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

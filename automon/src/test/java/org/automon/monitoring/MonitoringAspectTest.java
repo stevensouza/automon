@@ -1,10 +1,10 @@
-package org.automon.aspects;
+package org.automon.monitoring;
 
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.jmx.AutomonMXBean;
+import org.automon.jmx.AutomonMXBean;
 import org.automon.implementations.Jamon;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
@@ -149,7 +149,7 @@ public class MonitoringAspectTest {
 
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
-        @Pointcut("this(org.automon.aspects.HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
+        @Pointcut("this(org.automon.monitoring.HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
                 "org.automon.pointcuts.Select.publicMethod() || " +
                 "org.automon.pointcuts.Select.fieldGet() || " +
                 "org.automon.pointcuts.Select.fieldSet()  " +
