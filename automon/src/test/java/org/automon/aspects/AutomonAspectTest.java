@@ -101,7 +101,7 @@ public class AutomonAspectTest {
 
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
 
-        assertThat(mxBean.getOpenMon()).
+        assertThat(mxBean.getOpenMonString()).
                 describedAs("Jmx version and aspect version should be the same").
                 isEqualTo(aspect.getOpenMon().toString());
 
@@ -111,10 +111,12 @@ public class AutomonAspectTest {
         mxBean.enable(false);
         assertThat(mxBean.isEnabled()).describedAs("Should be disabled").isFalse();
         assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
-        assertThat(mxBean.getOpenMon()).
+        assertThat(mxBean.getOpenMonString()).
                 describedAs("Jmx version and aspect version should be the same").
                 isEqualTo(aspect.getOpenMon().toString());
     }
+
+
 
 
     /**
@@ -129,8 +131,7 @@ public class AutomonAspectTest {
      * warning that there was no match.
      */
     @Aspect
-//    static class MyInheritedMonitoringAspect extends AutomonAspectJAspect {
-        static class MyInheritedMonitoringAspect extends AutomonSpringAspect {
+        static class MyInheritedMonitoringAspect extends MonitoringAspect {
 
         @Pointcut("execution(* org.automon.aspects.HiWorld.*(..))")
         public void select() {

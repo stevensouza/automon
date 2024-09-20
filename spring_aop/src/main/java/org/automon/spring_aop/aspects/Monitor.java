@@ -2,9 +2,7 @@ package org.automon.spring_aop.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.AutomonSpringAspect;
-import org.automon.tracing.spring.RequestIdAspect;
-import org.springframework.core.annotation.Order;
+import org.automon.aspects.MonitoringAspect;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class Monitor extends AutomonSpringAspect {
+public class Monitor extends MonitoringAspect {
 //    @Pointcut("bean(execution(* org.automon.spring_aop.MonitorMe.*(..)))")
 //  Spring allows the special bean construct. bean(*) also works for all beans. Other examples
     // of the bean pointcut follow:

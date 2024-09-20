@@ -249,7 +249,7 @@ public class Utils {
      *     Automon or the application. It should not fail as the exception is well formed and always the same.
      * </p>
      * @param aspect The aspect instance. It is used to generate the JMX name such as:
-     *               org.automon:type=aspect,purpose=monitor,name=org.automon.AutomonAspectJAspect@63f25932
+     *               org.automon:type=aspect,purpose=monitor,name=org.automon.ConcreteMonitoringAspect@63f25932
      *               It could technically be any object and toString will be called to get the name.
      * @param mxBean The JMX MBean instance to register (it can be of any type)
      * @param <T>    The type of the MBean interface.
@@ -278,7 +278,7 @@ public class Utils {
     }
 
     // get the ObjectName that is used to refer to the 'aspect' in jmx. Sample return value...
-    //    org.automon:type=aspect,purpose=monitor,name=org.automon.AutomonAspectJAspect@63f25932
+    //    org.automon:type=aspect,purpose=monitor,name=org.automon.ConcreteMonitoringAspect@63f25932
     private static ObjectName getMxBeanObjectName(String purpose, Object aspect) throws Exception {
         String jmxName = String.format("org.automon:type=aspect,purpose=%s,name=%s", purpose, aspect.toString());
         return new ObjectName(jmxName);

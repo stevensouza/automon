@@ -35,7 +35,7 @@ public class AutomonJmx implements AutomonMXBean {
     }
 
     @Override
-    public String getOpenMon() {
+    public String getOpenMonString() {
         return baseMonitoringAspect.getOpenMon().toString();
     }
 

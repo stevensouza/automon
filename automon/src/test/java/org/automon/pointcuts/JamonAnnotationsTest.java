@@ -4,12 +4,11 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.AutomonAspectJAspect;
+import org.automon.aspects.MonitoringAspect;
 import org.automon.implementations.OpenMon;
-
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -97,7 +96,7 @@ public class JamonAnnotationsTest {
      * warning that there was no match.
      */
     @Aspect
-    static class MyJamonTestAspect extends AutomonAspectJAspect {
+    static class MyJamonTestAspect extends MonitoringAspect {
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
         @Pointcut("within(org.automon.pointcuts.JamonAnnotated*) && " +

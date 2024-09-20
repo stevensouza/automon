@@ -17,14 +17,14 @@ import org.automon.utils.Utils;
  */
 
 @Aspect
-public abstract class AutomonSpringAspect extends BaseMonitoringAspect {
+public abstract class MonitoringAspect extends BaseMonitoringAspect {
     static final String PURPOSE = "monitor_native";
 
-    public AutomonSpringAspect() {
+    public MonitoringAspect() {
         initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
     }
 
-    public AutomonSpringAspect(boolean enable) {
+    public MonitoringAspect(boolean enable) {
         initialize(PURPOSE, enable);
     }
 

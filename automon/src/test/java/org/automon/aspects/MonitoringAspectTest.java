@@ -4,27 +4,57 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.aspects.jmx.AutomonMXBean;
+import org.automon.implementations.Jamon;
 import org.automon.implementations.OpenMon;
-
+import org.automon.implementations.OpenMonFactory;
+import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class AspectJBaseTest {
+public class MonitoringAspectTest {
+
+    private final Throwable exception = HelloWorld.TEST_RUNTIME_EXCEPTION;
     private final OpenMon openMon = mock(OpenMon.class);
+    private final MyInheritedMonitoringAspect aspect = Aspects.aspectOf(MyInheritedMonitoringAspect.class);
+
+    private ApplicationContext context;
 
     @BeforeEach
     public void setUp() throws Exception {
-        MyAspectJTestAspect aspect = Aspects.aspectOf(MyAspectJTestAspect.class);
         aspect.setOpenMon(openMon);
         aspect.enable(true);
     }
 
     @AfterEach
     public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void testJmxRegistration() throws Throwable {
+        AutomonMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AutomonMXBean.class);
+        mxBean.setOpenMon(OpenMonFactory.JAMON);
+
+        assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
+
+        assertThat(mxBean.getOpenMonString()).
+                describedAs("Jmx version and aspect version should be the same").
+                isEqualTo(aspect.getOpenMon().toString());
+
+        assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
+        assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
+
+        mxBean.enable(false);
+        assertThat(mxBean.isEnabled()).describedAs("Should be disabled").isFalse();
+        assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
+        assertThat(mxBean.getOpenMonString()).
+                describedAs("Jmx version and aspect version should be the same").
+                isEqualTo(aspect.getOpenMon().toString());
 
     }
 
@@ -89,20 +119,9 @@ public class AspectJBaseTest {
         verify(openMon, never()).exception(any(JoinPoint.class), eq(HelloWorld.TEST_RUNTIME_EXCEPTION));
     }
 
-
-    /**
-     * Note1: I had to use an @Aspect annotated aspect vs the native aspect here.  The problem was that in test it appeared that the java compiler
-     * would run before ajc, and so any 'aspect' classes wouldn't be available when the tests were run.  Using @Aspect let javac compile them.
-     * This is also good as it shows java developers how to inherit from the aspects.
-     * <p>
-     * Note2: The @Override annotation was not used below as it will not compile with ajc.
-     * <p>
-     * Note3: I also couldn't think of a way to disable all monitoring without the following pointcuts
-     * Tried if(false) and within(com.idontexist.IDont) - The second might work thought it gave a
-     * warning that there was no match.
-     */
     @Aspect
-    static class MyAspectJTestAspect extends AutomonAspectJAspect {
+    static class MyInheritedMonitoringAspect extends MonitoringAspect {
+
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
         @Pointcut("this(org.automon.aspects.HelloWorld) && (org.automon.pointcuts.Select.constructor() || " +
@@ -112,11 +131,6 @@ public class AspectJBaseTest {
                 " ) ")
         public void select() {
         }
-
-        //public pointcut user_exceptions() : this(HelloWorld) && org.automon.pointcuts.Select.publicMethod();
-//        @Pointcut("this(org.automon.aspects.HelloWorld) && org.automon.pointcuts.Select.publicMethod()")
-//        public void user_exceptions() {
-//        }
     }
 
 }

@@ -15,19 +15,10 @@
 
     <!-- Enable AspectJ auto-proxying - Looks for any aspect annotated with @Aspect and loads it -->
     <aop:aspectj-autoproxy/>
+<!--    To use native AspectJ weaver with spring (would allow a wider range of pointcuts such as privates and other -->
+<!--    than 'execution' the following can be used (you need to use a java agent for this approach to work. -->
+<!--    <context:load-time-weaver aspectj-weaving="on"/>-->
 
-    <!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and
-     Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.
-       - 'monitoredMethods' is a pointcut that tracks execution time of the methods.
-       - 'exceptionTrackedMethods' is a pointcut that tracks any exceptions that are thronw.
-     Typically both of these pointcuts would be the same though they don't need to be.
-
-     There are many ways of defining aspectJ pointcut syntax.  For example annotations or packages
-     can be specified. You can also use the '||' conditional to monitor many beans.
-
-     Example1: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe)"/>
-     Example2: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe4) || bean(monitorMe3)"/>
-    -->
 
 </beans>
 

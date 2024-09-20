@@ -3,7 +3,7 @@ package org.automon.aspects.jmx;
 
 
 /**
- * Jmx bean that allows AutomonAspectJAspect to be configured from a jmx console like visualvm, or jconsole
+ * Jmx bean that allows MonitoringAspect to be configured from a jmx console like visualvm, or jconsole
  */
 public interface AutomonMXBean  {
     /**
@@ -30,7 +30,7 @@ public interface AutomonMXBean  {
     /**
      * @return The current {@link org.automon.implementations.OpenMon}.
      */
-    public String getOpenMon();
+    public String getOpenMonString();
 
     /**
      * @return A list of all registered {@link org.automon.implementations.OpenMon}'s.
