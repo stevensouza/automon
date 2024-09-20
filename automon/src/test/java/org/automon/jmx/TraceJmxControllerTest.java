@@ -1,4 +1,4 @@
-package org.automon.tracing.jmx;
+package org.automon.jmx;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

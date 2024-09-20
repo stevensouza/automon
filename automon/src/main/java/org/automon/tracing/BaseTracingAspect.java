@@ -1,6 +1,6 @@
 package org.automon.tracing;
 
-import org.automon.tracing.jmx.TraceJmxController;
+import org.automon.jmx.TraceJmxController;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 import org.slf4j.Logger;

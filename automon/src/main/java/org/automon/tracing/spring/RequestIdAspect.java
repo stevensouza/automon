@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.BaseContextAspect;
-import org.automon.tracing.jmx.AspectJmxController;
+import org.automon.jmx.AspectJmxController;
 import org.automon.utils.Utils;
 
 /**

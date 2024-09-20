@@ -1,6 +1,7 @@
 package org.automon.tracing.aspectj;
 
 import org.aspectj.lang.JoinPoint;
+import org.automon.jmx.TraceJmxControllerMBean;
 import org.automon.tracing.BaseTracingAspect;
 import org.automon.utils.Utils;
 
@@ -10,10 +11,10 @@ import org.automon.utils.Utils;
  * along with basic context information like execution time.
  * </p>
  *
- * <p>If the {@link org.automon.tracing.jmx.TraceJmxControllerMBean#enableLogging(boolean)}
+ * <p>If the {@link TraceJmxControllerMBean#enableLogging(boolean)}
  * is set to false then only the MDC/NDC values will be set but the logging BEFORE/AFTER methods
  * will not be called.  If any logging statements are run within the entered method the MDC/NDC values
- * will be available. The aspect can be completely disabled by calling {@link org.automon.tracing.jmx.TraceJmxControllerMBean#enable(boolean)}
+ * will be available. The aspect can be completely disabled by calling {@link TraceJmxControllerMBean#enable(boolean)}
  * with a false value.
  * </p>
  *
