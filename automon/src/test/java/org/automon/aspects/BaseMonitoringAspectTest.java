@@ -10,10 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class AutomonAspectBaseTest {
+public class BaseMonitoringAspectTest {
 
     private final OpenMon openMon = mock(OpenMon.class);
-    private final AutomonAspectBase automonAspectBase = new AutomonAspectBase();
+    private final BaseMonitoringAspect baseMonitoringAspect = new BaseMonitoringAspect();
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -26,13 +26,11 @@ public class AutomonAspectBaseTest {
     @Test
     public void testSetOpenMon() {
         OpenMon nullMon = new NullImp();
-        automonAspectBase.setOpenMon(nullMon);
-        assertThat(automonAspectBase.isEnabled()).isFalse();
-        assertThat(automonAspectBase.getOpenMon()).isEqualTo(nullMon);
+        baseMonitoringAspect.setOpenMon(nullMon);
+        assertThat(baseMonitoringAspect.getOpenMon()).isEqualTo(nullMon);
 
-        automonAspectBase.setOpenMon(openMon);
-        assertThat(automonAspectBase.isEnabled()).isTrue();
-        assertThat(automonAspectBase.getOpenMon()).isEqualTo(openMon);
+        baseMonitoringAspect.setOpenMon(openMon);
+        assertThat(baseMonitoringAspect.getOpenMon()).isEqualTo(openMon);
     }
 
 

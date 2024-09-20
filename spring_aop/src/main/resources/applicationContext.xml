@@ -16,8 +16,6 @@
     <!-- Enable AspectJ auto-proxying - Looks for any aspect annotated with @Aspect and loads it -->
     <aop:aspectj-autoproxy/>
 
-    <bean id="automonSpringAspect" class="org.automon.aspects.AutomonSpringAspect"/>
-
     <!-- Link the Automon Aspect to any beans you want monitored. Copy this into your applicationContext.xml and
      Define 'monitoredMethods' and 'exceptionTrackedMethods' pointcuts.
        - 'monitoredMethods' is a pointcut that tracks execution time of the methods.
@@ -30,15 +28,6 @@
      Example1: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe)"/>
      Example2: <aop:pointcut id="monitoredMethods" expression="bean(monitorMe4) || bean(monitorMe3)"/>
     -->
-    <aop:config>
-        <aop:pointcut id="monitoredMethods" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
-        <aop:pointcut id="exceptionTrackedMethods" expression="execution(* org.automon.spring_aop.MonitorMe.*(..))"/>
-
-        <aop:aspect id="automonAspect" ref="automonSpringAspect">
-            <aop:around pointcut-ref="monitoredMethods" method="monitor"/>
-            <aop:after-throwing pointcut-ref="exceptionTrackedMethods" method="throwing" throwing="exceptionArg"/>
-        </aop:aspect>
-    </aop:config>
 
 </beans>
 

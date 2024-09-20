@@ -4,7 +4,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.AspectJBase;
+import org.automon.aspects.AutomonAspectJAspect;
 import org.automon.implementations.OpenMon;
 
 import org.junit.jupiter.api.AfterEach;
@@ -20,7 +20,7 @@ public class AutomonAnnotationsTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        MyAutomonTestAspect aspect = Aspects.aspectOf(MyAutomonTestAspect.class);
+        MyMonitoringAspect aspect = Aspects.aspectOf(MyMonitoringAspect.class);
         aspect.setOpenMon(openMon);
     }
 
@@ -107,23 +107,15 @@ public class AutomonAnnotationsTest {
      * warning that there was no match.
      */
     @Aspect
-    static class MyAutomonTestAspect extends AspectJBase {
+    static class MyMonitoringAspect extends AutomonAspectJAspect {
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
-        @Pointcut("monitorAnnotations()")
-        public void user_monitor() {
-        }
-
-        //public pointcut user_exceptions() : this(HelloWorld) && org.automon.pointcuts.Select.publicMethod();
-        @Pointcut("monitorAnnotations()")
-        public void user_exceptions() {
-        }
 
         @Pointcut("within(org.automon.pointcuts.AutomonAnnotated*) && " +
                 "(org.automon.pointcuts.Select.publicConstructor() || org.automon.pointcuts.SpringSelect.publicMethod()) &&  " +
                 "org.automon.pointcuts.Annotations.automon()"
         )
-        public void monitorAnnotations() {
+        public void select() {
         }
     }
 }

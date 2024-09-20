@@ -20,13 +20,14 @@ import static org.mockito.Mockito.*;
 
 public class AutomonAspectTest {
 
-    private final MyInheritedAutomonAspect aspect = Aspects.aspectOf(MyInheritedAutomonAspect.class);
+    private final MyInheritedMonitoringAspect aspect = Aspects.aspectOf(MyInheritedMonitoringAspect.class);
     private final Throwable exception = new RuntimeException("my exception");
     private final OpenMon openMon = mock(OpenMon.class);
 
     @BeforeEach
     public void setUp() throws Exception {
         aspect.setOpenMon(openMon);
+        aspect.enable(true);
     }
 
     @AfterEach
@@ -36,7 +37,7 @@ public class AutomonAspectTest {
     @Test
     public void testIsEnabled() {
         assertThat(aspect.isEnabled()).describedAs("Should be enabled").isTrue();
-        aspect.setOpenMon(OpenMonFactory.NULL_IMP);
+        aspect.enable(false);
         assertThat(aspect.isEnabled()).describedAs("Should be disabled").isFalse();
     }
 
@@ -107,7 +108,7 @@ public class AutomonAspectTest {
         assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
         assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
 
-        mxBean.setOpenMon(OpenMonFactory.NULL_IMP);
+        mxBean.enable(false);
         assertThat(mxBean.isEnabled()).describedAs("Should be disabled").isFalse();
         assertThat(mxBean.isEnabled()).describedAs("Both should be the same").isEqualTo(aspect.isEnabled());
         assertThat(mxBean.getOpenMon()).
@@ -128,25 +129,11 @@ public class AutomonAspectTest {
      * warning that there was no match.
      */
     @Aspect
-    static class MyInheritedAutomonAspect extends AutomonAspect {
-        @Pointcut("hiWorld()")
-        public void _sys_monitor() {
-        }
-
-        @Pointcut("hiWorld()")
-        public void user_monitor() {
-        }
-
-        @Pointcut("hiWorld()")
-        public void _sys_exceptions() {
-        }
-
-        @Pointcut("hiWorld()")
-        public void user_exceptions() {
-        }
+//    static class MyInheritedMonitoringAspect extends AutomonAspectJAspect {
+        static class MyInheritedMonitoringAspect extends AutomonSpringAspect {
 
         @Pointcut("execution(* org.automon.aspects.HiWorld.*(..))")
-        public void hiWorld() {
+        public void select() {
         }
     }
 

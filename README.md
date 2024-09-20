@@ -119,3 +119,59 @@ at admin@automon.org.
 Thanks, and happy monitoring!
 
 Steve
+
+```mermaid
+%%{init: { 'themeVariables': { 'fontSize': '10px' } } }%%
+
+classDiagram
+AutomonAspectBase <|-- AutomonAspect
+AutomonAspect <|-- AspectJBase
+AutomonAspect <|-- SpringBase
+AutomonAspectBase <|-- AutomonSpringAspect
+
+
+    class AutomonAspectBase {
+        <<abstract>>
+        +start(): void
+        +stop(): void
+        -configuration: Object
+    }
+    
+    class AutomonAspect {
+        <<abstract>>
+        <<aspect>>
+        +privileged(): void
+        #pointcut(): void
+        -aspectOf(): AutomonAspect
+        #user_monitor(): void
+        #user_exceptions(): void
+    }
+    
+    class AspectJBase {
+        <<abstract>>
+        <<aspect>>
+        +before(): void
+        +after(): void
+        #aroundAdvice(): Object
+        __
+        "Uses unrestricted AspectJ pointcut syntax"
+        "More powerful than Spring-limited syntax"
+        "Concrete classes should implement:"
+        "- user_monitor()"
+        "- user_exceptions()"
+    }
+    
+    class AutomonSpringAspect {
+        +monitor(): void
+        -springContext: ApplicationContext
+    }
+    
+    class SpringBase {
+        <<abstract>>
+        <<aspect>>
+        +beforeAdvice(): void
+        +afterAdvice(): void
+        #aroundAdvice(): Object
+        -initializeSpringContext(): void
+    }
+```

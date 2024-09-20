@@ -1,16 +1,23 @@
 package org.automon.aspects.jmx;
 
 
+
 /**
- * Jmx bean that allows AutomonAspect to be configured from a jmx console like visualvm, or jconsole
+ * Jmx bean that allows AutomonAspectJAspect to be configured from a jmx console like visualvm, or jconsole
  */
-public interface AutomonMXBean {
+public interface AutomonMXBean  {
     /**
      * Note if Automon is disabled all of its methods become noops.
      *
      * @return true if Automon is enabled.
      */
     public boolean isEnabled();
+
+    /**
+     * Enables/disables the aspect.
+     *
+     */
+    public void enable(boolean enable);
 
     /**
      * Dynamically change the implementation of {@link org.automon.implementations.OpenMon}.  This also allows Automon to be

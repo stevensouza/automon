@@ -4,7 +4,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.AspectJBase;
+import org.automon.aspects.AutomonAspectJAspect;
 import org.automon.implementations.OpenMon;
 
 import org.junit.jupiter.api.AfterEach;
@@ -96,23 +96,15 @@ public class MetricsAnnotationsTest {
      * warning that there was no match.
      */
     @Aspect
-    static class MyMetricsTestAspect extends AspectJBase {
+    static class MyMetricsTestAspect extends AutomonAspectJAspect {
         // Note this(HelloWorld) only gets instance accesses (not static).  within(HelloWorld) would also get static
         // accesses to fields and methods.
-        @Pointcut("monitorAnnotations()")
-        public void user_monitor() {
-        }
-
-        //public pointcut user_exceptions() : this(HelloWorld) && org.automon.pointcuts.Select.publicMethod();
-        @Pointcut("monitorAnnotations()")
-        public void user_exceptions() {
-        }
 
         @Pointcut("within(org.automon.pointcuts.MetricsAnnotated*) && " +
                 "org.automon.pointcuts.Select.publicMethod() && " +
                 "org.automon.pointcuts.Annotations.metrics()"
         )
-        public void monitorAnnotations() {
+        public void select() {
         }
     }
 }

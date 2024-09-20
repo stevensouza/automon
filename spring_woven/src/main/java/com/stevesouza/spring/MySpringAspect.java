@@ -3,22 +3,14 @@ package com.stevesouza.spring;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.aspects.SpringBase;
+import org.automon.aspects.AutomonAspectJAspect;
 
 @Aspect
-public class MySpringAspect extends SpringBase {
-
-  @Pointcut("profile()")
-  public void user_monitor() {
-  }
-
-  @Pointcut("profile()")
-  public void user_exceptions() {
-  }
+public class MySpringAspect extends AutomonAspectJAspect {
 
   @Pointcut("execution(* HelloWorld.*(..))")
   //@Pointcut("bean(hellWorld)")
-  public void profile() {
+  public void select() {
   }
 
 }

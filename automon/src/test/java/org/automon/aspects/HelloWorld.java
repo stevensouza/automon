@@ -1,10 +1,13 @@
 package org.automon.aspects;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Test class that is advised to see if aspects are working properly
  * <p>
  * Created by stevesouza on 3/3/15.
  */
+@Component("monitorMe")
 public class HelloWorld {
 
     public static final RuntimeException TEST_RUNTIME_EXCEPTION = new RuntimeException("testing throwing exceptions");

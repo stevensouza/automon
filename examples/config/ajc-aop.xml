@@ -52,8 +52,8 @@ within a type as well as any types that inherit from it.:
 <aspectj>
   <aspects>
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
-      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.AspectJBase">-->
-     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.SpringBase">
+      <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.MonitoringAspect">-->
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.MonitoringAspect">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
         <pointcut name="profile"            expression="automon_annotations()"/>
@@ -115,7 +115,6 @@ within a type as well as any types that inherit from it.:
          <pointcut name="packageFieldGet" expression="org.automon.pointcuts.Select.packageFieldGet()"/>
 
          <!-- 3rd party jars -->
-         <pointcut name="hbase" expression="org.automon.pointcuts.Libraries.hbase()"/>
          <pointcut name="automon" expression="org.automon.pointcuts.SpringSelect.automon()"/>
 
      </concrete-aspect>

@@ -15,23 +15,17 @@ import java.util.Properties;
  * with jmx</p>
  */
 
-public class AutomonAspectBase {
+public class BaseMonitoringAspect {
 
     /**
      * The value associated with the key 'purpose' in jmx registration.
      */
-    private String purpose = "monitor";
+    protected String purpose = "monitor";
 
     private OpenMonFactory factory = new OpenMonFactory(new NullImp());
     private OpenMon openMon = new NullImp();
-    private AutomonMXBean automonJmx = new AutomonJmx(this);
+    protected final AutomonMXBean jmxController = new AutomonJmx(this);
 
-
-    public AutomonAspectBase() {
-        // Use the OpenMon the user selects and register the aspect with jmx
-        initOpenMon();
-        Utils.registerWithJmx(getPurpose(), this, automonJmx);
-    }
 
     // use the specified Automon implementation 
     private void initOpenMon() {
@@ -44,8 +38,30 @@ public class AutomonAspectBase {
         setOpenMon(openMonStr);
     }
 
+    protected void initialize(String purpose, boolean enable) {
+        // Use the OpenMon the user selects and register the aspect with jmx
+        jmxController.enable(enable);
+        initOpenMon();
+        setPurpose(purpose);
+        registerJmxController();
+    }
+
+    /**
+     * Registers the JMX controller associated with this aspect.
+     * <p>
+     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
+     * using the current `purpose` as part of the MBean's ObjectName.
+     */
+    protected void registerJmxController() {
+        Utils.registerWithJmx(getPurpose(), this, jmxController);
+    }
+
     public boolean isEnabled() {
-        return !(openMon instanceof NullImp);
+        return jmxController.isEnabled();
+    }
+
+    public void enable(boolean enable) {
+        jmxController.enable(enable);
     }
 
     /**
@@ -75,7 +91,7 @@ public class AutomonAspectBase {
      * @param openMonKey Something like jamon, metrics...
      */
     public void setOpenMon(String openMonKey) {
-        if (openMonKey == null || openMonKey.trim().equals("")) {
+        if (openMonKey == null || openMonKey.trim().isEmpty()) {
             this.openMon = factory.getFirstInstance();
         } else {
             this.openMon = factory.getInstance(openMonKey);
@@ -95,5 +111,17 @@ public class AutomonAspectBase {
         return purpose;
     }
 
+    /**
+     * Sets the purpose associated with this JMX registration.
+     *
+     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
 
+
+    public AutomonMXBean getJmxController() {
+        return jmxController;
+    }
 }
