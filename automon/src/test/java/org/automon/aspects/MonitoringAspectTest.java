@@ -64,7 +64,6 @@ public class MonitoringAspectTest {
     public void testJmxRegistration() throws Throwable {
         AutomonMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AutomonMXBean.class);
         mxBean.setOpenMon(OpenMonFactory.JAMON);
-        Thread.sleep(1000000);
 
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
 
