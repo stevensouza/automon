@@ -28,11 +28,11 @@ public class ListAppender extends AbstractAppender {
     /**
      * Constructs a new ListAppender with the given name, filter, layout, ignoreExceptions flag, and properties.
      *
-     * @param name            The name of the appender.
-     * @param filter          The filter to apply to log events (optional).
-     * @param layout          The layout to use for formatting log events (optional).
+     * @param name             The name of the appender.
+     * @param filter           The filter to apply to log events (optional).
+     * @param layout           The layout to use for formatting log events (optional).
      * @param ignoreExceptions Whether the appender should ignore exceptions during appending.
-     * @param properties      Additional properties for the appender.
+     * @param properties       Additional properties for the appender.
      */
     protected ListAppender(String name, Filter filter, Layout<? extends Serializable> layout,
                            boolean ignoreExceptions, Property[] properties) {
@@ -42,11 +42,11 @@ public class ListAppender extends AbstractAppender {
     /**
      * Factory method for creating ListAppender instances.
      *
-     * @param name            The name of the appender.
+     * @param name             The name of the appender.
      * @param ignoreExceptions Whether the appender should ignore exceptions during appending.
-     * @param layout          The layout to use for formatting log events (optional).
-     * @param filter          The filter to apply to log events (optional).
-     * @param properties      Additional properties for the appender (optional).
+     * @param layout           The layout to use for formatting log events (optional).
+     * @param filter           The filter to apply to log events (optional).
+     * @param properties       Additional properties for the appender (optional).
      * @return A new ListAppender instance.
      */
     @PluginFactory
@@ -72,7 +72,7 @@ public class ListAppender extends AbstractAppender {
         if (layout != null) { // Check if layout is configured
             String formattedMessage = (String) layout.toSerializable(event);
             // format the raw message with the ListAppender layout.
-            LogEvent formattedEvent  = new Log4jLogEvent.Builder(event).
+            LogEvent formattedEvent = new Log4jLogEvent.Builder(event).
                     setMessage(new SimpleMessage(formattedMessage)).
                     build();
             events.add(formattedEvent.toImmutable()); // Store an immutable copy of the event

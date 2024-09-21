@@ -6,6 +6,8 @@ package org.automon.aspects.tracing.spring;
  */
 public class MyTestClass {
 
+    private String name;
+
     public String name() {
         return "name: " + first("steve") + " " + last("souza");
     }
@@ -23,8 +25,6 @@ public class MyTestClass {
             // gobble
         }
     }
-
-    private String name;
 
     private String first(String name) {
         this.name = name;

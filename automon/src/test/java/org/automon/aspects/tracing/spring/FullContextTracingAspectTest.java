@@ -223,5 +223,5 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         }
 
     }
-    
+
 }

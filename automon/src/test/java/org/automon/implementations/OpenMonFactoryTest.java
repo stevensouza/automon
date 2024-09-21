@@ -1,16 +1,16 @@
 package org.automon.implementations;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class OpenMonFactoryTest {
 
-    private OpenMonFactory factory;
     private final OpenMon defaultValue = mock(OpenMon.class);
+    private OpenMonFactory factory;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -55,12 +55,12 @@ public class OpenMonFactoryTest {
     }
 
     @Test
-    public void testToString()  {
+    public void testToString() {
         assertThat(factory.toString()).contains("jamon, metrics, micrometer, newrelicimp, nullimp, sysout");
     }
 
     @Test
-    public void testGetFirstInstance()  {
+    public void testGetFirstInstance() {
         assertThat(factory.getFirstInstance()).isNotNull();
         assertThat(factory.getFirstInstance()).isNotEqualTo(defaultValue);
     }

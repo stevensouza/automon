@@ -4,10 +4,9 @@ import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 import org.aspectj.lang.JoinPoint;
 import org.automon.utils.AutomonExpirable;
-
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
@@ -57,7 +56,7 @@ public class JamonTest {
         assertThat(mon.getHits()).describedAs("The monitor should have finished and recorded hits").isEqualTo(1);
         Map<Throwable, AutomonExpirable> map = openMon.getExceptionsMap();
         assertThat(map.size()).isEqualTo(1);
-        map.forEach((throwable,automonExpirable)->assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(RuntimeException.class));
+        map.forEach((throwable, automonExpirable) -> assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(RuntimeException.class));
     }
 
     @Test
@@ -71,7 +70,7 @@ public class JamonTest {
         assertThat(map.get(SharedConstants.EXCEPTION).getThrowable()).describedAs("Throwable should have been set").isEqualTo(SharedConstants.EXCEPTION);
         assertThat(map.get(SharedConstants.EXCEPTION).getArgNamesAndValues()).describedAs("Arg names and values should have been set").isNotNull();
         assertThat(map.size()).isEqualTo(1);
-        map.forEach((throwable,automonExpirable)->assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(String.class));
+        map.forEach((throwable, automonExpirable) -> assertThat(automonExpirable.getJamonDetails().get()).isInstanceOf(String.class));
     }
 
 }

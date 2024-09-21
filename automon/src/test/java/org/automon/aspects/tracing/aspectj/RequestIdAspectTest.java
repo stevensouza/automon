@@ -32,7 +32,6 @@ class RequestIdAspectTest extends TestTracingAspectBase {
     }
 
 
-
     private void reset() {
         getListAppender().clear();
         aspect.enable(true);

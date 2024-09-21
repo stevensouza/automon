@@ -2,10 +2,9 @@ package org.automon.aspects.monitoring;
 
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
-
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

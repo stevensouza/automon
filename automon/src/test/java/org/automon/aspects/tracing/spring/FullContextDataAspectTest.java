@@ -19,7 +19,8 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class FullContextDataAspectTest extends TestTracingAspectBase {
 
-    private final  FullContextData aspect = Aspects.aspectOf(FullContextData.class);;
+    private final FullContextData aspect = Aspects.aspectOf(FullContextData.class);
+
     @BeforeEach
     void setUp() {
         reset();

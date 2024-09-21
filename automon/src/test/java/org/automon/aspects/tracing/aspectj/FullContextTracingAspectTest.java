@@ -4,8 +4,8 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.jmx.TracingMXBean;
 import org.automon.aspects.tracing.TestTracingAspectBase;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -274,15 +274,15 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
             return sum;
         }
 
+        @Override
+        public String toString() {
+            return getClass().getSimpleName() + ".toString()";
+        }
+
         public static class MyException extends Exception {
             public MyException(String message) {
                 super(message);
             }
-        }
-
-        @Override
-        public String toString() {
-            return getClass().getSimpleName() + ".toString()";
         }
     }
 }
