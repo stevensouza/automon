@@ -136,14 +136,14 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages (with executionTimeMs replaced)
         String[] expectedMessages = {
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), NDC2=MyTestClass.name, kind=field-set}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), NDC2=MyTestClass.name, executionTimeMs=#, kind=field-set}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), executionTimeMs=#}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.last(..), kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.last(..), executionTimeMs=#, kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), executionTimeMs=#}"
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), NDC2=MyTestClass.name, kind=field-set}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), NDC2=MyTestClass.name, executionTimeMs=#, kind=field-set}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.first(..), executionTimeMs=#}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.last(..), kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), NDC1=MyTestClass.last(..), executionTimeMs=#, kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.name(), executionTimeMs=#}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -160,12 +160,12 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         // Define expected log messages (with executionTimeMs replaced)
         // Note ERRORS due to methods that throw both RuntimeExceptions and Exceptions (a checked custom exception)
         String[] expectedMessages = {
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.checkedException(), kind=method-execution}",
-                "ERROR o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.checkedException(), exception=spring.org.automon.aspects.tracing.MyTestClass.MyException, kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.runTimeException(), kind=method-execution}",
-                "ERROR o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.runTimeException(), exception=java.lang.RuntimeException, kind=method-execution}",
-                "INFO  o.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), executionTimeMs=#}"
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.checkedException(), kind=method-execution}",
+                "ERROR o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.checkedException(), exception=org.automon.aspects.tracing.spring.MyTestClass.MyException, kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - BEFORE: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.runTimeException(), kind=method-execution}",
+                "ERROR o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), NDC1=MyTestClass.runTimeException(), exception=java.lang.RuntimeException, kind=method-execution}",
+                "INFO  o.a.a.t.s.BasicContextTracingAspectTest$BasicContext - AFTER: MDC={NDC0=MyTestClass.exceptions(), executionTimeMs=#}"
         };
 
         assertLogEvents(logEvents, expectedMessages);

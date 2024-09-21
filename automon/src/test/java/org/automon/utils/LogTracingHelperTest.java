@@ -13,7 +13,7 @@ import static org.automon.utils.LogTracingHelper.*;
 import static org.mockito.Mockito.*;
 
 class LogTracingHelperTest {
-    private final LogTracingHelper logTracingHelper = LogTracingHelper.getInstance();;
+    private final LogTracingHelper logTracingHelper = LogTracingHelper.getInstance();
     private JoinPoint joinPoint;
     private JoinPoint.StaticPart staticPart;
     private JoinPoint.StaticPart enclosingStaticPart;
@@ -173,7 +173,7 @@ class LogTracingHelperTest {
             mdcMock.verify(() -> MDC.put(eq(KIND), eq("method-execution")));
             mdcMock.verify(() -> MDC.put(eq(PARAMETERS), eq("{param0=value1}")));
             mdcMock.verify(() -> MDC.put(eq(TARGET), eq("myTargetString")));
-            mdcMock.verify(() -> MDC.put(eq(THIS),  eq("myThisString")));
+            mdcMock.verify(() -> MDC.put(eq(THIS), eq("myThisString")));
             ndcMock.verify(() -> NDC.push(eq("myMethod()")));
         }
     }

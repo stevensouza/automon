@@ -9,34 +9,34 @@ org.automon.statsd.hostname=mytesthostname
 org.automon.statsd.port=9999
 
 2) the following are used in AutomonPropertiesLoaderTest...
-aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.test=this_will_be_false
-aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.enableLogging=FALSE
+org.automon.aspects.tracing.aspectj.BasicContextTracingAspect.test=this_will_be_false
+org.automon.aspects.tracing.aspectj.BasicContextTracingAspect.enableLogging=FALSE
 
-spring.org.automon.aspects.tracing.BasicContextTracingAspect.test=this_will_be_false
-spring.org.automon.aspects.tracing.BasicContextTracingAspect.enableLogging=FALSE
+org.automon.aspects.tracing.spring.BasicContextTracingAspect.test=this_will_be_false
+org.automon.aspects.tracing.spring.BasicContextTracingAspect.enableLogging=FALSE
 
 3) The following are used in UtilsTest
-aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.enable=false
-aspectj.org.automon.aspects.tracing.RequestIdAspect.enable=TRUE
-aspectj.org.automon.aspects.tracing.RequestIdAspect.enableLogging=FaLsE
+org.automon.aspects.tracing.aspectj.BasicContextTracingAspect.enable=false
+org.automon.aspects.tracing.aspectj.RequestIdAspect.enable=TRUE
+org.automon.aspects.tracing.aspectj.RequestIdAspect.enableLogging=FaLsE
 
-aspectj.org.automon.aspects.tracing.FullContextTracingAspect.enable=this_will_be_false
-aspectj.org.automon.aspects.tracing.FullContextTracingAspect.enableLogging=this_will_be_false
+org.automon.aspects.tracing.aspectj.FullContextTracingAspect.enable=this_will_be_false
+org.automon.aspects.tracing.aspectj.FullContextTracingAspect.enableLogging=this_will_be_false
 
-spring.org.automon.aspects.tracing.BasicContextTracingAspect.enable=false
-spring.org.automon.aspects.tracing.RequestIdAspect.enable=TRUE
-spring.org.automon.aspects.tracing.RequestIdAspect.enableLogging=FaLsE
+org.automon.aspects.tracing.spring.BasicContextTracingAspect.enable=false
+org.automon.aspects.tracing.spring.RequestIdAspect.enable=TRUE
+org.automon.aspects.tracing.spring.RequestIdAspect.enableLogging=FaLsE
 
-spring.org.automon.aspects.tracing.FullContextTracingAspect.enable=this_will_be_false
-spring.org.automon.aspects.tracing.FullContextTracingAspect.enableLogging=this_will_be_false
+org.automon.aspects.tracing.spring.FullContextTracingAspect.enable=this_will_be_false
+org.automon.aspects.tracing.spring.FullContextTracingAspect.enableLogging=this_will_be_false
 
 4)
 The following is used in BasicContextTracingAspectTest
-aspectj.org.automon.aspects.tracing.BasicContextTracingAspectTest$BasicContext.enable=false
-aspectj.org.automon.aspects.tracing.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
+org.automon.aspects.tracing.aspectj.BasicContextTracingAspectTest$BasicContext.enable=false
+org.automon.aspects.tracing.aspectj.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
 
-spring.org.automon.aspects.tracing.BasicContextTracingAspectTest$BasicContext.enable=false
-spring.org.automon.aspects.tracing.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
+org.automon.aspects.tracing.spring.BasicContextTracingAspectTest$BasicContext.enable=false
+org.automon.aspects.tracing.spring.BasicContextTracingAspectTest$BasicContext.enableLogging=FALSE
 
 5)
 MyAspect=TRue

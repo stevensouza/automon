@@ -11,7 +11,8 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.automon.utils.Utils.*;
+import static org.automon.utils.Utils.LINE_SEPARATOR;
+import static org.automon.utils.Utils.UNKNOWN;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -241,16 +242,16 @@ public class UtilsTest {
         Utils.AUTOMON_PROPERTIES = new AutomonPropertiesLoader("automon.xml");
 
         // BasicContextTracingAspect assertions
-        assertThat(Utils.shouldEnable("aspectj.org.automon.aspects.tracing.BasicContextTracingAspect")).isFalse();
-        assertThat(Utils.shouldEnableLogging("aspectj.org.automon.aspects.tracing.BasicContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnable("org.automon.aspects.tracing.aspectj.BasicContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnableLogging("org.automon.aspects.tracing.aspectj.BasicContextTracingAspect")).isFalse();
 
         // RequestIdAspect assertions
-        assertThat(Utils.shouldEnable("aspectj.org.automon.aspects.tracing.RequestIdAspect")).isTrue();
-        assertThat(Utils.shouldEnableLogging("aspectj.org.automon.aspects.tracing.RequestIdAspect")).isFalse();
+        assertThat(Utils.shouldEnable("org.automon.aspects.tracing.aspectj.RequestIdAspect")).isTrue();
+        assertThat(Utils.shouldEnableLogging("org.automon.aspects.tracing.aspectj.RequestIdAspect")).isFalse();
 
         // FullContextTracingAspect assertions
-        assertThat(Utils.shouldEnable("aspectj.org.automon.aspects.tracing.FullContextTracingAspect")).isFalse();
-        assertThat(Utils.shouldEnableLogging("aspectj.org.automon.aspects.tracing.FullContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnable("org.automon.aspects.tracing.aspectj.FullContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnableLogging("org.automon.aspects.tracing.aspectj.FullContextTracingAspect")).isFalse();
 
         // MyAspect assertions
         assertThat(Utils.shouldEnable("MyAspect")).isTrue();

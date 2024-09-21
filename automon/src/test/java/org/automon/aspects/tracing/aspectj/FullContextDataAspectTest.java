@@ -95,9 +95,9 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), kind=method-execution, parameters={name=steve}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
-                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), NDC1=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), kind=method-execution, parameters={}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
-                "INFO  o.a.t.a.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
+                "INFO  o.a.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), kind=method-execution, parameters={name=steve}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
+                "INFO  o.a.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={NDC0=FullContextDataAspectTest.MyFullContextDataTestClass.firstName(..), NDC1=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), enclosingSignature=FullContextDataAspectTest.MyFullContextDataTestClass.hi(), kind=method-execution, parameters={}, target=MyFullContextDataTestClass.toString(), this=MyFullContextDataTestClass.toString()}",
+                "INFO  o.a.a.t.a.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -117,9 +117,9 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={}",
-                "INFO  o.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={}",
-                "INFO  o.a.t.a.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
+                "INFO  o.a.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.firstName(..) method: MDC={}",
+                "INFO  o.a.a.t.a.FullContextDataAspectTest$MyFullContextDataTestClass - In MyFullContextDataTestClass.hi() method: MDC={}",
+                "INFO  o.a.a.t.a.FullContextDataAspectTest - MDC/NDC should now be removed: MDC={}"
         };
 
         assertLogEvents(logEvents, expectedMessages);

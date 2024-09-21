@@ -1,8 +1,8 @@
 package org.automon.utils;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
 
@@ -109,7 +109,7 @@ public class AutomonPropertiesLoaderTest {
         assertThat(loader.getBoolean("i do not exist")).
                 describedAs("If a property does not exist 'true' should be returned").
                 isTrue();
-        assertThat(loader.getBoolean("aspectj.org.automon.aspects.tracing.RequestIdAspect.enable")).
+        assertThat(loader.getBoolean("org.automon.aspects.tracing.aspectj.RequestIdAspect.enable")).
                 describedAs("This uses uppercase TRUE which should return boolean true").
                 isTrue();
     }
@@ -118,11 +118,11 @@ public class AutomonPropertiesLoaderTest {
     public void testGetBoolean_False() {
         AutomonPropertiesLoader loader = new AutomonPropertiesLoader("automon.xml");
 
-        assertThat(loader.getBoolean("aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.enableLogging")).
+        assertThat(loader.getBoolean("org.automon.aspects.tracing.aspectj.BasicContextTracingAspect.enableLogging")).
                 isFalse();
-        assertThat(loader.getBoolean("aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.test")).
-            describedAs("Any value other than 'true' is considered false").
-            isFalse();
+        assertThat(loader.getBoolean("org.automon.aspects.tracing.aspectj.BasicContextTracingAspect.test")).
+                describedAs("Any value other than 'true' is considered false").
+                isFalse();
     }
 
     @Test

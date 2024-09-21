@@ -92,9 +92,9 @@ class RequestIdAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={requestId=",
-                "INFO  o.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={requestId=",
-                "INFO  o.a.t.s.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
+                "INFO  o.a.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={requestId=",
+                "INFO  o.a.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={requestId=",
+                "INFO  o.a.a.t.s.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -113,9 +113,9 @@ class RequestIdAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages up to requestId removed as it is always a unique UUID
         String[] expectedMessages = {
-                "INFO  o.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={}",
-                "INFO  o.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={}",
-                "INFO  o.a.t.s.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
+                "INFO  o.a.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.firstName(..) method: MDC={}",
+                "INFO  o.a.a.t.s.RequestIdAspectTest$MyRequestTestClass - In MyRequestTestClass.hi() method: MDC={}",
+                "INFO  o.a.a.t.s.RequestIdAspectTest - MDC={requestId=#UUID should now be removed: MDC={}"
         };
 
         assertLogEvents(logEvents, expectedMessages);

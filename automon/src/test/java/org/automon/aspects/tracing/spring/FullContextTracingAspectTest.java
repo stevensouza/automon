@@ -123,14 +123,14 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
         // Define expected log messages (with executionTimeMs replaced)
         String[] expectedMessages = {
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), kind=method-execution, parameters={name=steve}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), NDC2=MyTestClass2.name, kind=field-set, parameters={param0=steve}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), NDC2=MyTestClass2.name, executionTimeMs=#, kind=field-set, parameters={param0=steve}, returnValue=null, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), executionTimeMs=#, returnValue=steve}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.last(..), kind=method-execution, parameters={name=souza}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.last(..), executionTimeMs=#, kind=method-execution, parameters={name=souza}, returnValue=souza, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), executionTimeMs=#, returnValue=name: steve souza}"
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), kind=method-execution, parameters={name=steve}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), NDC2=MyTestClass2.name, kind=field-set, parameters={param0=steve}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), NDC2=MyTestClass2.name, executionTimeMs=#, kind=field-set, parameters={param0=steve}, returnValue=null, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.first(..), executionTimeMs=#, returnValue=steve}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.last(..), kind=method-execution, parameters={name=souza}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), NDC1=MyTestClass2.last(..), executionTimeMs=#, kind=method-execution, parameters={name=souza}, returnValue=souza, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.name(), executionTimeMs=#, returnValue=name: steve souza}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -158,12 +158,12 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         // Define expected log messages (with executionTimeMs replaced)
         // Note ERRORS due to methods that throw both RuntimeExceptions and Exceptions (a checked custom exception)
         String[] expectedMessages = {
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.exceptions(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.checkedException(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "ERROR o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.checkedException(), exception=spring.org.automon.aspects.tracing.MyTestClass2.MyException, kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.runTimeException(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "ERROR o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.runTimeException(), exception=java.lang.RuntimeException, kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.exceptions(), executionTimeMs=#, returnValue=null}"
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.exceptions(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.checkedException(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "ERROR o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.checkedException(), exception=org.automon.aspects.tracing.spring.MyTestClass2.MyException, kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.runTimeException(), kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "ERROR o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.exceptions(), NDC1=MyTestClass2.runTimeException(), exception=java.lang.RuntimeException, kind=method-execution, parameters={}, target=MyTestClass2.toString(), this=MyTestClass2.toString()}",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.exceptions(), executionTimeMs=#, returnValue=null}"
         };
 
         assertLogEvents(logEvents, expectedMessages);
@@ -179,8 +179,8 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
         String[] expectedMessages = {
                 // note only beginning of log message is used as the var arg value/address can always be different.
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.calculateSum(..), kind=method-execution, parameters={numbers=[I@",
-                "INFO  o.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.calculateSum(..), executionTimeMs=#, kind=method-execution, parameters={numbers=[I@"
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - BEFORE: MDC={NDC0=MyTestClass2.calculateSum(..), kind=method-execution, parameters={numbers=[I@",
+                "INFO  o.a.a.t.s.FullContextTracingAspectTest$FullContext - AFTER: MDC={NDC0=MyTestClass2.calculateSum(..), executionTimeMs=#, kind=method-execution, parameters={numbers=[I@"
         };
 
         assertLogEvents(logEvents, expectedMessages);
