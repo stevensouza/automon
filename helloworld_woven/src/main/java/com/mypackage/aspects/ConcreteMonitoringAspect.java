@@ -2,7 +2,7 @@ package com.mypackage.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.monitoring.MonitoringAspect;
+import org.automon.aspects.monitoring.MonitoringAspect;
 
 @Aspect
 public class ConcreteMonitoringAspect extends MonitoringAspect {

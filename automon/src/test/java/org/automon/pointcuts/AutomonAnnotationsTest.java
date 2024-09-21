@@ -4,7 +4,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.monitoring.MonitoringAspect;
+import org.automon.aspects.monitoring.MonitoringAspect;
 import org.automon.implementations.OpenMon;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

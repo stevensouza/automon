@@ -36,7 +36,7 @@ Multiple aspects are executed in the order they appear in this file unless prece
 
      </concrete-aspect>
 
-      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.aspectj.BasicContextTracingAspect">
+      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="aspectj.org.automon.aspects.tracing.BasicContextTracingAspect">
           <pointcut name="select"  expression="execution(* com.stevesouza.jdk.*.*(..))"/>
       </concrete-aspect>
 

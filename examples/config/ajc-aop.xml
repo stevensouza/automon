@@ -53,7 +53,7 @@ within a type as well as any types that inherit from it.:
   <aspects>
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
       <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoringing.MonitoringAspect">-->
-     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoring.MonitoringAspect">
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.monitoring.MonitoringAspect">
         <pointcut name="user_monitor"       expression="profile()"/>
         <pointcut name="user_exceptions"    expression="profile()"/>
         <pointcut name="profile"            expression="automon_annotations()"/>

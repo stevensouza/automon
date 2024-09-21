@@ -2,7 +2,7 @@ package org.automon.spring_aop.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.tracing.spring.FullContextTracingAspect;
+import org.automon.aspects.tracing.spring.FullContextTracingAspect;
 import org.springframework.stereotype.Component;
 
 @Aspect

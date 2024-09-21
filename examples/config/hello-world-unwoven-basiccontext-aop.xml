@@ -29,14 +29,14 @@ Note precedence can be implicit (order the aspects appear in the file) or explic
       <!-- note both annotation style (spring) and native style aspects will work. They are named the same but in
       different packages (*aspectj.* or *.spring.*). Both are below and one is commented out
       -->
-<!--      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.tracing.spring.RequestIdAspect">-->
-      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.tracing.aspectj.RequestIdAspect">
+<!--      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="spring.org.automon.aspects.tracing.RequestIdAspect">-->
+      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="aspectj.org.automon.aspects.tracing.RequestIdAspect">
           <pointcut name="select"  expression="execution(* com.stevesouza.helloworld.HelloWorld.main(..))"/>
       </concrete-aspect>
 
       <!-- Sample possible output: c.m.MyTracingBasicContextAspect INFO 11:36:59.507 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), executionTimeMs=5049} -->
-      <!--<concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">-->
-      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="org.automon.tracing.spring.BasicContextTracingAspect">
+      <!--<concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="spring.org.automon.aspects.tracing.BasicContextTracingAspect">-->
+      <concrete-aspect name="com.myorganization.MyTracingBasicContextAspect" extends="spring.org.automon.aspects.tracing.BasicContextTracingAspect">
             <pointcut name="select"  expression="execution(* com.stevesouza.helloworld.HelloWorld.*(..))"/>
       </concrete-aspect>
 

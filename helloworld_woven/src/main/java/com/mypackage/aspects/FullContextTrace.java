@@ -2,7 +2,7 @@ package com.mypackage.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.tracing.aspectj.FullContextTracingAspect;
+import org.automon.aspects.tracing.aspectj.FullContextTracingAspect;
 
 /**
  * Sample outputs from this aspect...

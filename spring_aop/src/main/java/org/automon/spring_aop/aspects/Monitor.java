@@ -2,7 +2,7 @@ package org.automon.spring_aop.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.monitoring.MonitoringAspect;
+import org.automon.aspects.monitoring.MonitoringAspect;
 import org.springframework.stereotype.Component;
 
 /**

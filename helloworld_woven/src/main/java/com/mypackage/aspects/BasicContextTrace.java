@@ -2,7 +2,7 @@ package com.mypackage.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.tracing.spring.BasicContextTracingAspect;
+import org.automon.aspects.tracing.spring.BasicContextTracingAspect;
 
 /** Sample outputs from this aspect...
  * c.m.a.FullContextTrace INFO 09:12:29.877 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), executionTimeMs=5122, returnValue=null}

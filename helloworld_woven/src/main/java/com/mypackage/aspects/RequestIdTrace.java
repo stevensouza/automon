@@ -2,7 +2,7 @@ package com.mypackage.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.tracing.aspectj.RequestIdAspect;
+import org.automon.aspects.tracing.aspectj.RequestIdAspect;
 
 /** Sample outputs from this aspect...
  */

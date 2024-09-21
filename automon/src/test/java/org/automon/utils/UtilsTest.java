@@ -241,16 +241,16 @@ public class UtilsTest {
         Utils.AUTOMON_PROPERTIES = new AutomonPropertiesLoader("automon.xml");
 
         // BasicContextTracingAspect assertions
-        assertThat(Utils.shouldEnable("org.automon.tracing.aspectj.BasicContextTracingAspect")).isFalse();
-        assertThat(Utils.shouldEnableLogging("org.automon.tracing.aspectj.BasicContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnable("aspectj.org.automon.aspects.tracing.BasicContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnableLogging("aspectj.org.automon.aspects.tracing.BasicContextTracingAspect")).isFalse();
 
         // RequestIdAspect assertions
-        assertThat(Utils.shouldEnable("org.automon.tracing.aspectj.RequestIdAspect")).isTrue();
-        assertThat(Utils.shouldEnableLogging("org.automon.tracing.aspectj.RequestIdAspect")).isFalse();
+        assertThat(Utils.shouldEnable("aspectj.org.automon.aspects.tracing.RequestIdAspect")).isTrue();
+        assertThat(Utils.shouldEnableLogging("aspectj.org.automon.aspects.tracing.RequestIdAspect")).isFalse();
 
         // FullContextTracingAspect assertions
-        assertThat(Utils.shouldEnable("org.automon.tracing.aspectj.FullContextTracingAspect")).isFalse();
-        assertThat(Utils.shouldEnableLogging("org.automon.tracing.aspectj.FullContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnable("aspectj.org.automon.aspects.tracing.FullContextTracingAspect")).isFalse();
+        assertThat(Utils.shouldEnableLogging("aspectj.org.automon.aspects.tracing.FullContextTracingAspect")).isFalse();
 
         // MyAspect assertions
         assertThat(Utils.shouldEnable("MyAspect")).isTrue();

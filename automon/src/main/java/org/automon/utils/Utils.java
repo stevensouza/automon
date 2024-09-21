@@ -330,7 +330,7 @@ public class Utils {
 
 
     // used to determine if aspect or logging is enabled or disabled by looking at
-    // properties. (i.e. org.automon.tracing.aspectj.BasicContextTracingAspect.enable)
+    // properties. (i.e. aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.enable)
     public static AutomonPropertiesLoader AUTOMON_PROPERTIES = new AutomonPropertiesLoader();
 
     // pass in MyClass.getClass().getName() typically.
