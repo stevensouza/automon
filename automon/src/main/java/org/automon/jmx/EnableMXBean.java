@@ -1,6 +1,9 @@
 package org.automon.jmx;
 
-public interface AspectJmxControllerMBean {
+import javax.management.MXBean;
+
+@MXBean
+public interface EnableMXBean {
     /**
      * Enables/disables the aspect.
      *

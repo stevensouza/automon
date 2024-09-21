@@ -4,9 +4,8 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.automon.jmx.TracingMXBean;
 import org.automon.tracing.TestTracingAspectBase;
-import org.automon.jmx.TraceJmxController;
-import org.automon.jmx.TraceJmxControllerMBean;
 import org.automon.utils.AutomonPropertiesLoader;
 import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
@@ -20,6 +19,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
     private static final AutomonPropertiesLoader originalPropertiesLoader = Utils.AUTOMON_PROPERTIES;
+    private final BasicContext aspect = Aspects.aspectOf(BasicContext.class);
 
     @BeforeEach
     void setUp() {
@@ -31,16 +31,11 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         reset();
     }
 
-    private TraceJmxController getJmx() {
-        BasicContext aspect = Aspects.aspectOf(BasicContext.class);
-        return aspect.getJmxController();
-    }
-
     private void reset() {
         Utils.AUTOMON_PROPERTIES = originalPropertiesLoader;
         getListAppender().clear();
-        getJmx().enable(true);
-        getJmx().enableLogging(true);
+        aspect.enable(true);
+        aspect.enableLogging(true);
     }
 
 
@@ -49,8 +44,8 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         BasicContext bc = new BasicContext();
 
         assertThat(bc.isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.isLoggingEnabled()).isTrue();
     }
 
     @Test
@@ -60,8 +55,8 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         BasicContext bc = new BasicContext();
 
         assertThat(bc.isEnabled()).isFalse();
-        assertThat(bc.getJmxController().isEnabled()).isFalse();
-        assertThat(bc.getJmxController().isLoggingEnabled()).isFalse();
+        assertThat(bc.isEnabled()).isFalse();
+        assertThat(bc.isLoggingEnabled()).isFalse();
     }
 
 
@@ -70,14 +65,14 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         BasicContext bc = new BasicContext(true);
 
         assertThat(bc.isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.isLoggingEnabled()).isTrue();
 
         bc = new BasicContext(false);
 
         assertThat(bc.isEnabled()).isFalse();
-        assertThat(bc.getJmxController().isEnabled()).isFalse();
-        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isFalse();
+        assertThat(bc.isLoggingEnabled()).isTrue();
     }
 
     @Test
@@ -85,50 +80,49 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
         BasicContext bc = new BasicContext(true, true);
 
         assertThat(bc.isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.isLoggingEnabled()).isTrue();
 
         bc = new BasicContext(true, false);
 
         assertThat(bc.isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isEnabled()).isTrue();
-        assertThat(bc.getJmxController().isLoggingEnabled()).isFalse();
+        assertThat(bc.isEnabled()).isTrue();
+        assertThat(bc.isLoggingEnabled()).isFalse();
     }
 
     @Test
     void testDefaultLoggingEnabled() {
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        assertThat(aspect.isLoggingEnabled()).isTrue();
     }
 
     @Test
     void testEnableLogging() {
-        getJmx().enableLogging(false);
-        assertThat(getJmx().isLoggingEnabled()).isFalse();
+        aspect.enableLogging(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
 
-        getJmx().enableLogging(true);
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        aspect.enableLogging(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
     }
 
-    // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(getJmx().isEnabled()).isTrue(); // Inherited from AspectJmxController
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
     @Test
     void testEnable() {
-        getJmx().enable(false);
-        assertThat(getJmx().isEnabled()).isFalse();
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).isFalse();
 
-        getJmx().enable(true);
-        assertThat(getJmx().isEnabled()).isTrue();
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
 
     @Test
     public void testJmxRegistration() throws Throwable {
         BasicContext aspect = new BasicContext();
-        TraceJmxControllerMBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, TraceJmxControllerMBean.class);
+        TracingMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, TracingMXBean.class);
         assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
@@ -179,7 +173,7 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testNoLogging() {
-        getJmx().enableLogging(false);
+        aspect.enableLogging(false);
 
         MyTestClass myTestClass = new MyTestClass();
         myTestClass.name();
@@ -194,7 +188,7 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testDisable() {
-        getJmx().enable(false);
+        aspect.enable(false);
         MyTestClass myTestClass = new MyTestClass();
         myTestClass.name();
         myTestClass.exceptions();
@@ -208,18 +202,18 @@ class BasicContextTracingAspectTest extends TestTracingAspectBase {
     @Test
     public void testEnableDisable() {
         BasicContext aspect = new BasicContext();
-        assertThat(aspect.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(aspect.isLoggingEnabled()).isTrue();
 
-        aspect.getJmxController().enableLogging(false);
-        assertThat(aspect.getJmxController().isLoggingEnabled()).isFalse();
-        aspect.getJmxController().enableLogging(true);
-        assertThat(aspect.getJmxController().isLoggingEnabled()).isTrue();
+        aspect.enableLogging(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
+        aspect.enableLogging(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
 
         aspect = new BasicContext(true, true);
-        assertThat(aspect.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(aspect.isLoggingEnabled()).isTrue();
 
         aspect = new BasicContext(true, false);
-        assertThat(aspect.getJmxController().isLoggingEnabled()).isFalse();
+        assertThat(aspect.isLoggingEnabled()).isFalse();
     }
 
 

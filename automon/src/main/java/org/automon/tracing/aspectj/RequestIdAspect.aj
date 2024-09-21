@@ -2,7 +2,6 @@ package org.automon.tracing.aspectj;
 
 
 import org.automon.tracing.BaseContextAspect;
-import org.automon.jmx.AspectJmxController;
 import org.automon.utils.Utils;
 
 /**
@@ -17,7 +16,7 @@ import org.automon.utils.Utils;
  * can be used in spring apps if the full power of aspectj is required.  See Automon documentation for examples.
  * </p>
  *
- *  <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link AspectJmxController}</p>
+ *  <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link org.automon.jmx.EnableMXBean}</p>
  *  <p>Note by default AspectJ aspects are singletons.</p>
  */
 public privileged abstract aspect RequestIdAspect extends BaseContextAspect {
@@ -33,8 +32,7 @@ public privileged abstract aspect RequestIdAspect extends BaseContextAspect {
     }
 
     /**
-     * Constructs a new `RequestIdAspect` and sets the initial enable state of the associated
-     * `AspectJmxController`.
+     * Constructs a new `RequestIdAspect` and sets the initial enabled state
      *
      * @param enable The initial enable state for tracing.
      */

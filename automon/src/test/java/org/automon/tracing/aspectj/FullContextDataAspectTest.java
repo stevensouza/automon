@@ -5,8 +5,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.TestTracingAspectBase;
-import org.automon.jmx.AspectJmxController;
-import org.automon.jmx.AspectJmxControllerMBean;
+import org.automon.jmx.EnableMXBean;
 import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +19,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class FullContextDataAspectTest extends TestTracingAspectBase {
 
+    private final FullContextDataAspectTest.FullContextData aspect = Aspects.aspectOf(FullContextDataAspectTest.FullContextData.class);
     @BeforeEach
     void setUp() {
         reset();
@@ -31,14 +31,10 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
     }
 
 
-    private AspectJmxController getJmx() {
-        FullContextDataAspectTest.FullContextData aspect = Aspects.aspectOf(FullContextDataAspectTest.FullContextData.class);
-        return aspect.getJmxController();
-    }
 
     private void reset() {
         getListAppender().clear();
-        getJmx().enable(true);
+        aspect.enable(true);
     }
 
 
@@ -47,7 +43,7 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
         FullContextData fcd = new FullContextData();
 
         assertThat(fcd.isEnabled()).isTrue();
-        assertThat(fcd.getJmxController().isEnabled()).isTrue();
+        assertThat(fcd.isEnabled()).isTrue();
     }
 
     @Test
@@ -55,34 +51,34 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
         FullContextData fcd = new FullContextData(true);
 
         assertThat(fcd.isEnabled()).isTrue();
-        assertThat(fcd.getJmxController().isEnabled()).isTrue();
+        assertThat(fcd.isEnabled()).isTrue();
 
         fcd = new FullContextData(false);
 
         assertThat(fcd.isEnabled()).isFalse();
-        assertThat(fcd.getJmxController().isEnabled()).isFalse();
+        assertThat(fcd.isEnabled()).isFalse();
     }
 
-    // Tests for AspectJmxController methods (inherited)
+    // Tests for enabled
     @Test
     void testDefaultEnabled() {
-        assertThat(getJmx().isEnabled()).isTrue(); // Inherited from AspectJmxController
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
     @Test
     void testEnable() {
-        getJmx().enable(false);
-        assertThat(getJmx().isEnabled()).isFalse();
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).isFalse();
 
-        getJmx().enable(true);
-        assertThat(getJmx().isEnabled()).isTrue();
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
 
     @Test
     public void testJmxRegistration() throws Throwable {
         FullContextData aspect = new FullContextData();
-        AspectJmxControllerMBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AspectJmxControllerMBean.class);
+        EnableMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, EnableMXBean.class);
         assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
@@ -109,7 +105,7 @@ class FullContextDataAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testDisabled() {
-        getJmx().enable(false);
+        aspect.enable(false);
         MyFullContextDataTestClass myTestClass = new MyFullContextDataTestClass();
         myTestClass.firstName("steve");
 

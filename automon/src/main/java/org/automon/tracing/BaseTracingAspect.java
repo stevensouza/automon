@@ -1,6 +1,6 @@
 package org.automon.tracing;
 
-import org.automon.jmx.TraceJmxController;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.LogTracingHelper;
 import org.automon.utils.Utils;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * Note this aspect is created as a singleton as always is the case by default in aspectj.
  * </p>
  */
-public class BaseTracingAspect {
+public class BaseTracingAspect implements TracingMXBean {
     /**
      * Logger instance for the aspect, using the aspect's class name.
      */
@@ -34,16 +34,15 @@ public class BaseTracingAspect {
     protected static final String AFTER = "AFTER";
 
     /**
+     * Flag indicating whether tracing is enabled.
+     */
+    private boolean enabled = true;
+    private boolean loggingEnabled = true; // Default to logging enabled
+
+    /**
      * Helper instance for log tracing operations.
      */
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
-
-    /**
-     * The JMX controller responsible for managing tracing aspects.
-     * This controller is created as a singleton and provides access to
-     * tracing-related functionalities (such as enable/disable) through JMX.
-     */
-    protected final TraceJmxController jmxController = new TraceJmxController();
 
     /**
      * The value associated with the key 'purpose' in jmx registration.
@@ -52,12 +51,12 @@ public class BaseTracingAspect {
 
     protected void initialize(String purpose, boolean enable, boolean enableLogging) {
         setPurpose(purpose);
-        jmxController.enable(enable);     // Set overall tracing enabled state
-        jmxController.enableLogging(enableLogging); // Set logging enabled state
+        enable(enable);     // Set overall tracing enabled state
+        enableLogging(enableLogging); // Set logging enabled state
         registerJmxController();
 
         LOGGER.info("Aspect configuration and JMX registration - AspectPurpose: {}, isEnabled: {}, isLoggingEnabled: {}",
-                 purpose, jmxController.isEnabled(), jmxController.isLoggingEnabled());
+                 purpose, isEnabled(), isLoggingEnabled());
     }
 
 
@@ -99,7 +98,7 @@ public class BaseTracingAspect {
         // using this ensures if an exception is thrown it is still cleaned up.
         try (helper) {
             helper.withException(throwable.getClass().getCanonicalName());
-            if (jmxController.isLoggingEnabled()) {
+            if (isLoggingEnabled()) {
                 LOGGER.error(AFTER, throwable);
             }
         }
@@ -110,7 +109,7 @@ public class BaseTracingAspect {
      * but only if logging is currently enableLogging.
      */
     protected void logBefore() {
-        if (jmxController.isLoggingEnabled()) {
+        if (isLoggingEnabled()) {
             LOGGER.info(BEFORE);
         }
     }
@@ -120,7 +119,7 @@ public class BaseTracingAspect {
      * but only if logging is currently enableLogging.
      */
     protected void logAfter() {
-        if (jmxController.isLoggingEnabled()) {
+        if (isLoggingEnabled()) {
             LOGGER.info(AFTER);
         }
     }
@@ -133,25 +132,7 @@ public class BaseTracingAspect {
      * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
-        Utils.registerWithJmx(getPurpose(), this, jmxController);
-    }
-
-    /**
-     * Retrieves the singleton instance of the {@link TraceJmxController}.
-     *
-     * @return The JMX controller for tracing aspects.
-     */
-    public TraceJmxController getJmxController() {
-        return jmxController;
-    }
-
-    /**
-     * Checks if tracing is currently enabled.
-     *
-     * @return {@code true} if tracing is enabled, {@code false} otherwise.
-     */
-    public boolean isEnabled() {
-        return jmxController.isEnabled();
+        Utils.registerWithJmx(getPurpose(), this, this);
     }
 
     /**
@@ -182,4 +163,36 @@ public class BaseTracingAspect {
         this.purpose = purpose;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void enable(boolean enable) {
+        this.enabled = enable;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void enableLogging(boolean enable) {
+        loggingEnabled = enable;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
+    }
 }

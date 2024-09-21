@@ -1,6 +1,6 @@
 package org.automon.monitoring;
 
-import org.automon.jmx.AutomonMXBean;
+import org.automon.jmx.MonitoringMXBean;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
 import org.automon.implementations.OpenMonFactory;
@@ -14,7 +14,7 @@ import java.util.Properties;
  * with jmx</p>
  */
 
-public class BaseMonitoringAspect implements AutomonMXBean {
+public class BaseMonitoringAspect implements MonitoringMXBean {
 
     /**
      * The value associated with the key 'purpose' in jmx registration.

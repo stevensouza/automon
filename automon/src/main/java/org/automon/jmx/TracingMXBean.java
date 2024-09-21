@@ -1,9 +1,12 @@
 package org.automon.jmx;
 
+import javax.management.MXBean;
+
 /**
  * JMX MBean interface for controlling the tracing aspect.
  */
-public interface TraceJmxControllerMBean extends AspectJmxControllerMBean {
+@MXBean
+public interface TracingMXBean extends EnableMXBean {
 
     /**
      * Enables or disables logging in this aspect.

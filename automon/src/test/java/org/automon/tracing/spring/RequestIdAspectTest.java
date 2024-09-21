@@ -5,8 +5,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.TestTracingAspectBase;
-import org.automon.jmx.AspectJmxController;
-import org.automon.jmx.AspectJmxControllerMBean;
+import org.automon.jmx.EnableMXBean;
 import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class RequestIdAspectTest extends TestTracingAspectBase {
+    private final RequestId aspect = Aspects.aspectOf(RequestId.class);
 
     @BeforeEach
     void setUp() {
@@ -31,15 +31,9 @@ class RequestIdAspectTest extends TestTracingAspectBase {
     }
 
 
-    private AspectJmxController getJmx() {
-        RequestId aspect = Aspects.aspectOf(RequestId.class);
-        return aspect.getJmxController();
-    }
-
-
     private void reset() {
         getListAppender().clear();
-        getJmx().enable(true);
+        aspect.enable(true);
     }
 
     @Test
@@ -47,7 +41,7 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         RequestId requestId = new RequestId();
 
         assertThat(requestId.isEnabled()).isTrue();
-        assertThat(requestId.getJmxController().isEnabled()).isTrue();
+        assertThat(requestId.isEnabled()).isTrue();
     }
 
     @Test
@@ -55,34 +49,33 @@ class RequestIdAspectTest extends TestTracingAspectBase {
         RequestId requestId = new RequestId(true);
 
         assertThat(requestId.isEnabled()).isTrue();
-        assertThat(requestId.getJmxController().isEnabled()).isTrue();
+        assertThat(requestId.isEnabled()).isTrue();
 
         requestId = new RequestId(false);
 
         assertThat(requestId.isEnabled()).isFalse();
-        assertThat(requestId.getJmxController().isEnabled()).isFalse();
+        assertThat(requestId.isEnabled()).isFalse();
     }
 
-    // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(getJmx().isEnabled()).isTrue(); // Inherited from AspectJmxController
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
     @Test
     void testEnable() {
-        getJmx().enable(false);
-        assertThat(getJmx().isEnabled()).isFalse();
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).isFalse();
 
-        getJmx().enable(true);
-        assertThat(getJmx().isEnabled()).isTrue();
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
 
     @Test
     public void testJmxRegistration() throws Throwable {
         RequestId aspect = new RequestId();
-        AspectJmxControllerMBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AspectJmxControllerMBean.class);
+        EnableMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, EnableMXBean.class);
         assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
@@ -109,7 +102,7 @@ class RequestIdAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testDisable() {
-        getJmx().enable(false);
+        aspect.enable(false);
         MyRequestTestClass myTestClass = new MyRequestTestClass();
         myTestClass.firstName("steve");
         final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());

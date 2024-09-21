@@ -5,8 +5,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.automon.tracing.TestTracingAspectBase;
-import org.automon.jmx.TraceJmxController;
-import org.automon.jmx.TraceJmxControllerMBean;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +17,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class FullContextTracingAspectTest extends TestTracingAspectBase {
 
+    private final FullContext aspect = Aspects.aspectOf(FullContext.class);
 
     @BeforeEach
     void setUp() {
@@ -30,15 +30,10 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
     }
 
 
-    private TraceJmxController getJmx() {
-        FullContext aspect = Aspects.aspectOf(FullContext.class);
-        return aspect.getJmxController();
-    }
-
     private void reset() {
         getListAppender().clear();
-        getJmx().enable(true);
-        getJmx().enableLogging(true);
+        aspect.enable(true);
+        aspect.enableLogging(true);
     }
 
     @Test
@@ -46,8 +41,8 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         FullContext fc = new FullContext();
 
         assertThat(fc.isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(fc.isEnabled()).isTrue();
+        assertThat(fc.isLoggingEnabled()).isTrue();
     }
 
 
@@ -56,14 +51,14 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         FullContext fc = new FullContext(true);
 
         assertThat(fc.isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(fc.isEnabled()).isTrue();
+        assertThat(fc.isLoggingEnabled()).isTrue();
 
         fc = new FullContext(false);
 
         assertThat(fc.isEnabled()).isFalse();
-        assertThat(fc.getJmxController().isEnabled()).isFalse();
-        assertThat(fc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(fc.isEnabled()).isFalse();
+        assertThat(fc.isLoggingEnabled()).isTrue();
     }
 
     @Test
@@ -71,50 +66,49 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
         FullContext fc = new FullContext(true, true);
 
         assertThat(fc.isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isLoggingEnabled()).isTrue();
+        assertThat(fc.isEnabled()).isTrue();
+        assertThat(fc.isLoggingEnabled()).isTrue();
 
         fc = new FullContext(true, false);
 
         assertThat(fc.isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isEnabled()).isTrue();
-        assertThat(fc.getJmxController().isLoggingEnabled()).isFalse();
+        assertThat(fc.isEnabled()).isTrue();
+        assertThat(fc.isLoggingEnabled()).isFalse();
     }
 
     @Test
     void testDefaultLoggingEnabled() {
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        assertThat(aspect.isLoggingEnabled()).isTrue();
     }
 
     @Test
     void testEnableLogging() {
-        getJmx().enableLogging(false);
-        assertThat(getJmx().isLoggingEnabled()).isFalse();
+        aspect.enableLogging(false);
+        assertThat(aspect.isLoggingEnabled()).isFalse();
 
-        getJmx().enableLogging(true);
-        assertThat(getJmx().isLoggingEnabled()).isTrue();
+        aspect.enableLogging(true);
+        assertThat(aspect.isLoggingEnabled()).isTrue();
     }
 
-    // Tests for AspectJmxController methods (inherited)
     @Test
     void testDefaultEnabled() {
-        assertThat(getJmx().isEnabled()).isTrue(); // Inherited from AspectJmxController
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
     @Test
     void testEnable() {
-        getJmx().enable(false);
-        assertThat(getJmx().isEnabled()).isFalse();
+        aspect.enable(false);
+        assertThat(aspect.isEnabled()).isFalse();
 
-        getJmx().enable(true);
-        assertThat(getJmx().isEnabled()).isTrue();
+        aspect.enable(true);
+        assertThat(aspect.isEnabled()).isTrue();
     }
 
 
     @Test
     public void testJmxRegistration() throws Throwable {
         FullContext aspect = new FullContext();
-        TraceJmxControllerMBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, TraceJmxControllerMBean.class);
+        TracingMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, TracingMXBean.class);
         assertThat(mxBean.isEnabled()).describedAs("Should be enabled").isTrue();
     }
 
@@ -144,7 +138,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testDisable() {
-        getJmx().enable(false);
+        aspect.enable(false);
         MyTestClass2 myTestClass = new MyTestClass2();
         myTestClass.name();
 
@@ -194,7 +188,7 @@ class FullContextTracingAspectTest extends TestTracingAspectBase {
 
     @Test
     public void testNoLogging() {
-        getJmx().enableLogging(false);
+        aspect.enableLogging(false);
 
         MyTestClass2 myTestClass = new MyTestClass2();
         myTestClass.name();

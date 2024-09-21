@@ -2,7 +2,6 @@ package org.automon.tracing.aspectj;
 
 
 import org.automon.tracing.BaseContextAspect;
-import org.automon.jmx.AspectJmxController;
 import org.automon.utils.Utils;
 
 /**
@@ -16,7 +15,7 @@ import org.automon.utils.Utils;
  *  to this class except it adds 'executionTime' and the methods 'returnValue' to the MDC too.
  *  </p>
  *
- *  <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link AspectJmxController}</p>
+ *  <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link org.automon.jmx.EnableMXBean}</p>
  *
  *  <p>Note by default AspectJ aspects are singletons.</p>
  */
@@ -32,8 +31,7 @@ public privileged abstract aspect FullContextDataAspect extends BaseContextAspec
     }
 
     /**
-     * Constructs a new `FullContextDataAspect` and sets the initial enable state of the associated
-     * `AspectJmxController`.
+     * Constructs a new `FullContextDataAspect` and sets the initial enable state
      *
      * @param enable The initial enable state for tracing.
      */

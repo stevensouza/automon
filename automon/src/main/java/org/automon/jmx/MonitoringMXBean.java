@@ -1,23 +1,13 @@
 package org.automon.jmx;
 
 
+import javax.management.MXBean;
 
 /**
  * Jmx bean that allows MonitoringAspect to be configured from a jmx console like visualvm, or jconsole
  */
-public interface AutomonMXBean  {
-    /**
-     * Note if Automon is disabled all of its methods become noops.
-     *
-     * @return true if Automon is enabled.
-     */
-    public boolean isEnabled();
-
-    /**
-     * Enables/disables the aspect.
-     *
-     */
-    public void enable(boolean enable);
+@MXBean
+public interface MonitoringMXBean extends EnableMXBean {
 
     /**
      * Dynamically change the implementation of {@link org.automon.implementations.OpenMon}.  This also allows Automon to be
@@ -34,7 +24,7 @@ public interface AutomonMXBean  {
 
     /**
      * @return A list of all registered {@link org.automon.implementations.OpenMon}'s.
-     * Values here can be used in {@link AutomonMXBean#setOpenMon(String)}
+     * Values here can be used in {@link MonitoringMXBean#setOpenMon(String)}
      */
     public String getValidOpenMons();
 }

@@ -6,8 +6,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.jmx.TraceJmxController;
-import org.automon.jmx.TraceJmxControllerMBean;
+import org.automon.jmx.TracingMXBean;
 import org.automon.tracing.BaseTracingAspect;
 import org.automon.utils.Utils;
 
@@ -17,10 +16,10 @@ import org.automon.utils.Utils;
  * along with basic context information like execution time.
  * </p>
  *
- * <p>If the {@link TraceJmxControllerMBean#enableLogging(boolean)}
+ * <p>If the {@link TracingMXBean#enableLogging(boolean)}
  * is set to false then only the MDC/NDC values will be set but the logging BEFORE/AFTER methods
  * will not be called.  If any logging statements are run within the entered method the MDC/NDC values
- * will be available. The aspect can be completely disabled by calling {@link TraceJmxControllerMBean#enable(boolean)}
+ * will be available. The aspect can be completely disabled by calling {@link TracingMXBean#enable(boolean)}
  * with a false value.
  * </p>
  *
@@ -76,7 +75,7 @@ public abstract class BasicContextTracingAspect extends BaseTracingAspect {
     /**
      * Around advice for tracing method execution.
      * Adds NDC/MDC context on method entry and exit, along with other basic context information such as execution time.
-     * The information is conditionally logged if {@link TraceJmxController#enableLogging(boolean)} is set.
+     * The information is conditionally logged if {@link TracingMXBean#enableLogging(boolean)} is set.
      * See {@link org.automon.utils.LogTracingHelper#withBasicContext(JoinPoint.StaticPart, JoinPoint.StaticPart)}
      * for additional context being traced. Example output which uses SLF4J's MDC and NDC.
      *       <p>

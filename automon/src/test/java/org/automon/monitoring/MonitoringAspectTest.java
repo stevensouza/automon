@@ -4,7 +4,7 @@ import org.aspectj.lang.Aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.jmx.AutomonMXBean;
+import org.automon.jmx.MonitoringMXBean;
 import org.automon.implementations.Jamon;
 import org.automon.implementations.NullImp;
 import org.automon.implementations.OpenMon;
@@ -62,7 +62,7 @@ public class MonitoringAspectTest {
 
     @Test
     public void testJmxRegistration() throws Throwable {
-        AutomonMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, AutomonMXBean.class);
+        MonitoringMXBean mxBean = Utils.getMxBean(aspect.getPurpose(), aspect, MonitoringMXBean.class);
         mxBean.setOpenMon(OpenMonFactory.JAMON);
 
         assertThat(aspect.getOpenMon()).describedAs("Should be equal to openMon that was set").isInstanceOf(Jamon.class);
