@@ -5,11 +5,10 @@
     <parent>
         <groupId>org.automon</groupId>
         <artifactId>automon_parent</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>2.0.0</version>
     </parent>
 
     <artifactId>helloworld_unwoven_jamon</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>helloworld_unwoven_jamon</name>
     <description>This pom simply has an unwoven HelloWorld class, that also registers jamon as jmx so users can see
@@ -43,7 +42,7 @@
             </plugin>
 
             <!-- The shade plugin generates an uber jar -->
-            <!-- java -Dorg.automon=sysout -jar target/helloworld_woven-1.0.4-SNAPSHOT-shaded.jar 10           -->
+            <!-- java -Dorg.automon=sysout -jar target/helloworld_woven-2.0.0-shaded.jar 10           -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

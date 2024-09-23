@@ -2,7 +2,7 @@ Maven module that generates a java class that has monitoring woven into the clas
 - mvn exec:java
   - Runs with the following by default: org.automon=sysout
 - shaded jar
-  - java -jar -Dorg.automon=sysout  target/helloworld_woven-1.0.4-SNAPSHOT-shaded.jar 
-  - java -jar -Dorg.automon=sysout  target/helloworld_woven-1.0.4-SNAPSHOT-shaded.jar 10
+  - java -jar -Dorg.automon=sysout  target/helloworld_woven-2.0.0-shaded.jar 
+  - java -jar -Dorg.automon=sysout  target/helloworld_woven-2.0.0-shaded.jar 10
 - examples dir 
   - ./hello-world-woven.sh

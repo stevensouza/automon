@@ -6,5 +6,5 @@ use jamon to monitor the code.
 * from the 'examples' directory
   * ./hello-world-jamon-ltw.sh
 * fat/shaded jar  
-  * java -jar target/helloworld_unwoven_jamon-1.0.4-SNAPSHOT-shaded.jar 
-  * java -jar target/helloworld_unwoven_jamon-1.0.4-SNAPSHOT-shaded.jar 10
+  * java -jar target/helloworld_unwoven_jamon-2.0.0-shaded.jar 
+  * java -jar target/helloworld_unwoven_jamon-2.0.0-shaded.jar 10
