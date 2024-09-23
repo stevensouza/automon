@@ -15,7 +15,11 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class Annotations {
 
     @Pointcut("within(@org.automon.annotations.Monitor *) || @annotation(org.automon.annotations.Monitor)")
-    public void automon() {
+    public void automon_monitor() {
+    }
+
+    @Pointcut("within(@org.automon.annotations.Trace *) || @annotation(org.automon.annotations.Trace)")
+    public void automon_trace() {
     }
 
     @Pointcut("within(@com.jamonapi.aop.spring.MonitorAnnotation *) || @annotation(com.jamonapi.aop.spring.MonitorAnnotation)")

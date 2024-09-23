@@ -112,7 +112,7 @@ public class AutomonAnnotationsTest {
 
         @Pointcut("within(org.automon.pointcuts.AutomonAnnotated*) && " +
                 "(org.automon.pointcuts.Select.publicConstructor() || org.automon.pointcuts.SpringSelect.publicMethod()) &&  " +
-                "org.automon.pointcuts.Annotations.automon()"
+                "org.automon.pointcuts.Annotations.automon_monitor()"
         )
         public void select() {
         }

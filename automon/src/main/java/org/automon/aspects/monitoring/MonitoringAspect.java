@@ -9,38 +9,58 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.automon.utils.Utils;
 
 /**
- * <p>This aspect should contain pointcut language that is compatible with Spring.   Use this as your Base class if you use Spring.
- * * It will also work with any AspectJ program, but will be more limited in how expressive the pointcuts can be.</p>
+ * This aspect is designed for monitoring method executions and exceptions in Spring applications.
+ * It extends `BaseMonitoringAspect` to provide Spring-compatible pointcut language and integrates with
+ * `OpenMon` implementations for collecting performance metrics.
  *
- * <p>Note a developer should implement and provide pointcuts that you want to monitor by implementing {@link BaseMonitoringAspect}#user_monitor()
- * and {@link BaseMonitoringAspect}#user_exceptions()</p>
+ * <p>Developers should implement the `select()` pointcut to define the specific methods or classes to monitor.</p>
  */
-
-@Aspect
+@Aspect // Indicates that this class is an AspectJ aspect
 public abstract class MonitoringAspect extends BaseMonitoringAspect {
+
+    /**
+     * The purpose associated with this JMX registration (default: "monitor_spring").
+     */
     static final String PURPOSE = "monitor_spring";
 
+    /**
+     * Constructs a new `MonitoringAspect` with monitoring enabled based on configuration properties.
+     */
     public MonitoringAspect() {
         initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
     }
 
+    /**
+     * Constructs a new `MonitoringAspect` with the specified enabled state.
+     *
+     * @param enable Whether monitoring is initially enabled.
+     */
     public MonitoringAspect(boolean enable) {
         initialize(PURPOSE, enable);
     }
 
+    /**
+     * Abstract pointcut to be implemented by subclasses to define the methods or classes to monitor.
+     */
     @Pointcut
     public abstract void select();
 
     /**
-     * _monitor() advice - Wraps the given pointcut and calls the appropriate {@link org.automon.implementations.OpenMon} method
-     * at the beginning and end of the method call.
+     * Around advice for monitoring method execution.
+     * <p>
+     * This advice wraps the execution of the selected methods and performs the following:
+     * <ol>
+     *     <li>Starts a timer or monitor using the appropriate `OpenMon` implementation.</li>
+     *     <li>Proceeds with the method execution.</li>
+     *     <li>Stops the timer/monitor if the method completes successfully.</li>
+     *     <li>Stops the timer/monitor and records an exception if the method throws an exception.</li>
+     *     <li>Rethrows any exception thrown by the method.</li>
+     * </ol>
      *
-     * @param joinPoint
-     * @return The advised methods value or void.
-     * @throws Throwable If the method throws a {@link java.lang.Throwable} the advice will rethrow it.
+     * @param joinPoint The `ProceedingJoinPoint` representing the intercepted method call.
+     * @return The return value of the advised method.
+     * @throws Throwable If the advised method throws an exception.
      */
-
-
     @Around("select()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         // Note: context is typically a Timer/Monitor object returned by the monitoring implementation (Jamon, JavaSimon, Metrics,...)
@@ -64,15 +84,13 @@ public abstract class MonitoringAspect extends BaseMonitoringAspect {
      * exceptions() advice - Takes action on any Exception thrown.  It typically Tracks/Counts any exceptions thrown by the pointcut.
      * Note arguments are passed on to {@link org.automon.implementations.OpenMon#exception(org.aspectj.lang.JoinPoint, Throwable)}
      *
-     * @param pjp
-     * @param throwable
+     * @param joinPoint The JoinPoint representing the intercepted method call where the exception was thrown
+     * @param throwable The thrown exception
      */
     @AfterThrowing(pointcut = "select()", throwing = "throwable")
-    public void afterThrowingAdvice(JoinPoint pjp, Throwable throwable) {
+    public void afterThrowingAdvice(JoinPoint joinPoint, Throwable throwable) {
         if (isEnabled()) {
-            getOpenMon().exception(pjp, throwable);
+            getOpenMon().exception(joinPoint, throwable);
         }
     }
-
-
 }

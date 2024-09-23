@@ -1,20 +1,19 @@
 package org.automon.annotations;
 
-
-/**
- * This tag annotation is intended to be used on classes and/or methods that should be monitored. If the class
- * is annotated then all methods would be available for monitoring.  Alternatively the class need not be annotated
- * and individual methods could be.  See {@link org.automon.pointcuts.Annotations#automon} for a pointcut that selects
- * this annotation.
- */
-
 import java.lang.annotation.*;
 
 
-@Inherited
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD})
+/**
+ * This annotation marks classes and/or methods for monitoring by Automon.
+ * If applied to a class, all its methods become eligible for monitoring.
+ * Alternatively, it can be applied to individual methods without annotating the class itself.
+ *
+ * <p>Refer to {@link org.automon.pointcuts.Annotations#automon_monitor} for the pointcut that selects this annotation.</p>
+ */
+@Inherited // Annotation is inherited by subclasses
+@Documented // Included in Javadoc generation
+@Retention(RetentionPolicy.RUNTIME) // Retained at runtime for dynamic weaving
+@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD}) // Applicable to types, constructors, and methods
 public @interface Monitor {
 
 }

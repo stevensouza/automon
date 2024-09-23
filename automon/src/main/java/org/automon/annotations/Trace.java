@@ -1,20 +1,17 @@
 package org.automon.annotations;
 
-
-/**
- * This tag annotation is intended to be used on classes and/or methods that should be traced. If the class
- * is annotated then all methods would be available for tracing.  Alternatively the class need not be annotated
- * and individual methods could be.  See {@link org.automon.pointcuts.Annotations#automon} for a pointcut that selects
- * this annotation.
- */
-
 import java.lang.annotation.*;
-
-
-@Inherited
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD})
+/**
+ * This annotation designates classes and/or methods for tracing by Automon.
+ * When applied to a class, all its methods are considered for tracing.
+ * It can also be used on specific methods without annotating the entire class.
+ *
+ * <p>See {@link org.automon.pointcuts.Annotations#automon_monitor} for the pointcut that identifies this annotation.</p>
+ */
+@Inherited // Annotation is inherited by subclasses
+@Documented // Included in Javadoc generation
+@Retention(RetentionPolicy.RUNTIME) // Preserved at runtime for dynamic weaving
+@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD}) // Applicable to types, constructors, and methods
 public @interface Trace {
 
 }
