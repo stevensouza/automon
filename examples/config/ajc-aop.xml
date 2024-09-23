@@ -54,9 +54,7 @@ within a type as well as any types that inherit from it.:
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
       <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoringing.MonitoringAspect">-->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.monitoring.MonitoringAspect">
-        <pointcut name="user_monitor"       expression="profile()"/>
-        <pointcut name="user_exceptions"    expression="profile()"/>
-        <pointcut name="profile"            expression="automon_annotations()"/>
+        <pointcut name="select"            expression="automon_annotations()"/>
 
 
          <!-- The following are reusable pointcuts you can use to tell Automon what parts of your application to monitor -->

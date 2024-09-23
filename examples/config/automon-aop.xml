@@ -20,11 +20,9 @@ The example below monitors call to jdk io and net classes from within the 'org.a
   <aspects>
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
       <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoringing.SpringBase">-->
-     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoring.AspectJBase">
-        <pointcut name="user_monitor"       expression="profile()"/>
-        <pointcut name="user_exceptions"    expression="profile()"/>
+     <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.monitoring.MonitoringAspect">
          <!-- monitor the com.stevesouza package and subpackages for jdk or public method calls -->
-         <pointcut name="profile" expression="within(com.stevesouza..*) AND (jdk() || execution(public * *(..))) AND !automon()"/>
+         <pointcut name="select" expression="within(com.stevesouza..*) AND (jdk() || execution(public * *(..))) AND !automon()"/>
 
          <!-- jdk pointcuts: -->
          <pointcut name="jdk" expression="io() || net() || jdbc()"/>

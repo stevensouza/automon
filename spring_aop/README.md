@@ -10,5 +10,6 @@ This maven module creates a simple Spring program with one Spring bean and monit
     * defaults to -Dorg.automon="sysout" 
   * mvn -Dorg.automon="sysout" exec:java 
 * java -Dorg.automon="sysout" -jar target/spring_aop-2.0.0-SNAPSHOT-shaded.jar
+* ./spring-aop.sh
 
 What you monitor is defined in the [Spring applicationContext.xml](https://github.com/stevensouza/automon/blob/master/spring_aop/src/main/resources/applicationContext.xml) file.
