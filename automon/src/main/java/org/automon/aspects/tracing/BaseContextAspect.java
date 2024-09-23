@@ -6,32 +6,47 @@ import org.automon.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Base class for aspects that manage contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context).
+ * It provides basic enable/disable functionality and JMX registration for dynamic configuration. This class only
+ * writes to the context and does not log/trace the information.
+ */
 public class BaseContextAspect implements EnableMXBean {
+
     /**
-     * Logger instance for the aspect, using the aspect's class name.
+     * Logger instance for the aspect.
      */
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+
     /**
-     * Flag indicating whether tracing is enabled.
+     * Flag indicating whether the aspect is enabled.
      */
     private boolean enabled = true;
 
-    protected static final LogTracingHelper helper = LogTracingHelper.getInstance();
     /**
-     * The value associated with the key 'purpose' in jmx registration.
+     * Helper instance for log tracing operations.
+     */
+    protected static final LogTracingHelper helper = LogTracingHelper.getInstance();
+
+    /**
+     * The purpose associated with this JMX registration.
      */
     protected String purpose;
 
     /**
      * Registers the JMX controller associated with this aspect.
-     * <p>
-     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
-     * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
         Utils.registerWithJmx(getPurpose(), this, this);
     }
 
+    /**
+     * Initializes the aspect with the specified purpose and enabled state.
+     * It also registers the JMX controller.
+     *
+     * @param purpose The purpose of the aspect for JMX registration.
+     * @param enable  Whether the aspect is initially enabled.
+     */
     protected void initialize(String purpose, boolean enable) {
         setPurpose(purpose);
         enable(enable);
@@ -44,7 +59,7 @@ public class BaseContextAspect implements EnableMXBean {
     /**
      * Gets the purpose associated with this JMX registration.
      *
-     * @return The value associated with the key 'purpose' in JMX registration.
+     * @return The purpose string.
      */
     public String getPurpose() {
         return purpose;
@@ -53,14 +68,16 @@ public class BaseContextAspect implements EnableMXBean {
     /**
      * Sets the purpose associated with this JMX registration.
      *
-     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
+     * @param purpose The purpose string.
      */
     public void setPurpose(String purpose) {
         this.purpose = purpose;
     }
 
     /**
-     * {@inheritDoc}
+     * Enables or disables the aspect.
+     *
+     * @param enable `true` to enable, `false` to disable.
      */
     @Override
     public void enable(boolean enable) {
@@ -68,7 +85,9 @@ public class BaseContextAspect implements EnableMXBean {
     }
 
     /**
-     * {@inheritDoc}
+     * Checks if the aspect is currently enabled.
+     *
+     * @return `true` if enabled, `false` otherwise.
      */
     @Override
     public boolean isEnabled() {

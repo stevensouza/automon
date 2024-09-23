@@ -6,30 +6,32 @@ import org.automon.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Abstract base aspect for tracing using AspectJ.
- * This class provides common functionality for tracing method executions.
+ * This class provides common functionality for tracing method executions, including:
+ * <ul>
+ *     <li>Enabling/disabling tracing and logging</li>
+ *     <li>Logging 'BEFORE' and 'AFTER' messages with contextual information</li>
+ *     <li>Handling exceptions and logging error messages</li>
+ *     <li>Registering a JMX controller for dynamic configuration</li>
+ * </ul>
  *
- * <p>Logging can be enableLogging or disabled using the `enableLogging` method or by providing the `enableLogging` flag in the constructor.</p>
- *
- * <p>This aspect has an associated JMX MBean that can be used to configure it.
- * Note this aspect is created as a singleton as always is the case by default in aspectj.
- * </p>
+ * <p>Subclasses need to implement the `select()` pointcut to define the specific methods or classes to trace.</p>
  */
-public class BaseTracingAspect implements TracingMXBean {
+public abstract class BaseTracingAspect implements TracingMXBean {
+
     /**
-     * Logger instance for the aspect, using the aspect's class name.
+     * Logger instance for the aspect.
      */
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
 
     /**
-     * Constant to indicate the "BEFORE" phase in tracing. For example entering a method.
+     * Constant indicating the "BEFORE" phase in tracing.
      */
     protected static final String BEFORE = "BEFORE";
 
     /**
-     * Constant to indicate the "AFTER" phase in tracing. For example exiting a method.
+     * Constant indicating the "AFTER" phase in tracing.
      */
     protected static final String AFTER = "AFTER";
 
@@ -37,7 +39,11 @@ public class BaseTracingAspect implements TracingMXBean {
      * Flag indicating whether tracing is enabled.
      */
     private boolean enabled = true;
-    private boolean loggingEnabled = true; // Default to logging enabled
+
+    /**
+     * Flag indicating whether logging is enabled.
+     */
+    private boolean loggingEnabled = true;
 
     /**
      * Helper instance for log tracing operations.
@@ -45,68 +51,47 @@ public class BaseTracingAspect implements TracingMXBean {
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
 
     /**
-     * The value associated with the key 'purpose' in jmx registration.
+     * The purpose associated with this JMX registration.
      */
     private String purpose = "trace";
 
+    /**
+     * Initializes the aspect with the given purpose, enabled state, and logging enabled state.
+     * It also registers the JMX controller and logs configuration information.
+     *
+     * @param purpose        The purpose of the aspect for JMX registration.
+     * @param enable         Whether tracing is initially enabled.
+     * @param enableLogging Whether logging is initially enabled.
+     */
     protected void initialize(String purpose, boolean enable, boolean enableLogging) {
         setPurpose(purpose);
-        enable(enable);     // Set overall tracing enabled state
-        enableLogging(enableLogging); // Set logging enabled state
+        enable(enable);
+        enableLogging(enableLogging);
         registerJmxController();
 
         LOGGER.info("Aspect configuration and JMX registration - AspectPurpose: {}, isEnabled: {}, isLoggingEnabled: {}",
-                 purpose, isEnabled(), isLoggingEnabled());
+                purpose, isEnabled(), isLoggingEnabled());
     }
-
 
     /**
      * AfterThrowing advice for handling exceptions.
-     * Adds the collection context to the MDC/NDC context for the exception event to the existing
-     * context already added from the method entry from the {@link #around} method and also conditionally logs the information if
-     * logging is enableLogging for this class.
-     * The following Example outputs which use SLF4J's MDC and NDC.
      * <p>
-     * basic context example
-     * <p>
-     *  024-08-18 10:28:35,811 ERROR c.s.a.l.a.b.BasicContextTracingAspect - AFTER: MDC={NDC0=MyLoggerClassBasic.main(..), NDC1=MyLoggerClassBasic.checkedException(), exception=java.lang.Exception, kind=method-execution}
-     *  java.lang.Exception: checkedException
-     *  at com.stevesouza.aspectj.logging.automon.basic.MyLoggerClassBasic.checkedException_aroundBody8(MyLoggerClassBasic.java:22) ~[classes/:?]
-     *  at com.stevesouza.aspectj.logging.automon.basic.MyLoggerClassBasic.checkedException_aroundBody9$advice(MyLoggerClassBasic.java:22) ~[classes/:?]
-     *  at com.stevesouza.aspectj.logging.automon.basic.MyLoggerClassBasic.checkedException(MyLoggerClassBasic.java:1) [classes/:?]
-     *  at com.stevesouza.aspectj.logging.automon.basic.MyLoggerClassBasic.main_aroundBody10(MyLoggerClassBasic.java:39) [classes/:?]
-     *  at com.stevesouza.aspectj.logging.automon.basic.MyLoggerClassBasic.main_aroundBody11$advice(MyLoggerClassBasic.java:22) [classes/:?]
-     *  at com.stevesouza.aspectj.logging.automon.basic.MyLoggerClassBasic.main(MyLoggerClassBasic.java:26) [classes/:?]
-     * </p>
-     *
-     * full context example
-     *      <p>
-     *       2024-08-18 10:45:31,129 ERROR c.s.a.l.a.a.TracingAllAspect - AFTER: MDC={NDC0=MyLoggerClassAll.main(..), NDC1=MyLoggerClassAll.runtimeException(), enclosingSignature=MyLoggerClassAll.runtimeException(), exception=java.lang.RuntimeException, kind=method-execution, parameters={message=steve}, target=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258, this=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258}
-     *        java.lang.RuntimeException: runtimeException
-     *         at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.runtimeException_aroundBody6(MyLoggerClassAll.java:21) ~[classes/:?]
-     *         at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.runtimeException_aroundBody7$advice(MyLoggerClassAll.java:22) ~[classes/:?]
-     *         at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.runtimeException(MyLoggerClassAll.java:1) [classes/:?]
-     *         at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.main_aroundBody8(MyLoggerClassAll.java:37) [classes/:?]
-     *         at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.main_aroundBody9$advice(MyLoggerClassAll.java:22) [classes/:?]
-     *         at com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll.main(MyLoggerClassAll.java:1) [classes/:?]     * </p>
-     *      </p>
+     * This advice is executed when an exception is thrown within the traced methods. It adds exception information to the
+     * MDC/NDC context and logs an error message if logging is enabled.
      *
      * @param throwable The thrown exception.
      */
     protected void afterThrowing(Throwable throwable) {
-        // note the helper object is AutoCloseable which will clear up the NDC/MDC appropriately.
-        // using this ensures if an exception is thrown it is still cleaned up.
-        try (helper) {
+        try (helper) { // Ensure cleanup of NDC/MDC even if an exception occurs
             helper.withException(throwable.getClass().getCanonicalName());
             if (isLoggingEnabled()) {
-                LOGGER.error(AFTER, throwable);
+                LOGGER.error(AFTER, throwable); // Log the 'AFTER' message with the exception
             }
         }
     }
 
     /**
-     * Logs a "BEFORE" message using the associated logger,
-     * but only if logging is currently enableLogging.
+     * Logs a "BEFORE" message using the associated logger, only if logging is enabled.
      */
     protected void logBefore() {
         if (isLoggingEnabled()) {
@@ -115,8 +100,7 @@ public class BaseTracingAspect implements TracingMXBean {
     }
 
     /**
-     * Logs an "AFTER" message using the associated logger,
-     * but only if logging is currently enableLogging.
+     * Logs an "AFTER" message using the associated logger, only if logging is enabled.
      */
     protected void logAfter() {
         if (isLoggingEnabled()) {
@@ -124,12 +108,8 @@ public class BaseTracingAspect implements TracingMXBean {
         }
     }
 
-
     /**
      * Registers the JMX controller associated with this aspect.
-     * <p>
-     * This method utilizes the `Utils.registerWithJmx` utility to register the JMX controller with the platform MBeanServer,
-     * using the current `purpose` as part of the MBean's ObjectName.
      */
     protected void registerJmxController() {
         Utils.registerWithJmx(getPurpose(), this, this);
@@ -148,7 +128,7 @@ public class BaseTracingAspect implements TracingMXBean {
     /**
      * Gets the purpose associated with this JMX registration.
      *
-     * @return The value associated with the key 'purpose' in JMX registration.
+     * @return The purpose string.
      */
     public String getPurpose() {
         return purpose;
@@ -157,15 +137,16 @@ public class BaseTracingAspect implements TracingMXBean {
     /**
      * Sets the purpose associated with this JMX registration.
      *
-     * @param purpose The value to be associated with the key 'purpose' in JMX registration.
+     * @param purpose The purpose string.
      */
     public void setPurpose(String purpose) {
         this.purpose = purpose;
     }
 
-
     /**
-     * {@inheritDoc}
+     * Enables or disables tracing.
+     *
+     * @param enable `true` to enable tracing, `false` to disable.
      */
     @Override
     public void enable(boolean enable) {
@@ -173,7 +154,9 @@ public class BaseTracingAspect implements TracingMXBean {
     }
 
     /**
-     * {@inheritDoc}
+     * Checks if tracing is currently enabled.
+     *
+     * @return `true` if tracing is enabled, `false` otherwise.
      */
     @Override
     public boolean isEnabled() {
@@ -181,15 +164,19 @@ public class BaseTracingAspect implements TracingMXBean {
     }
 
     /**
-     * {@inheritDoc}
+     * Enables or disables logging in this aspect.
+     *
+     * @param enabled `true` to enable logging, `false` to disable logging.
      */
     @Override
-    public void enableLogging(boolean enable) {
-        loggingEnabled = enable;
+    public void enableLogging(boolean enabled) {
+        loggingEnabled = enabled;
     }
 
     /**
-     * {@inheritDoc}
+     * Gets the current logging enabled status.
+     *
+     * @return `true` if logging is enabled, `false` otherwise.
      */
     @Override
     public boolean isLoggingEnabled() {

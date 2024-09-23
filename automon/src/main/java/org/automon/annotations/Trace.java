@@ -6,7 +6,9 @@ import java.lang.annotation.*;
  * When applied to a class, all its methods are considered for tracing.
  * It can also be used on specific methods without annotating the entire class.
  *
- * <p>See {@link org.automon.pointcuts.Annotations#automon_monitor} for the pointcut that identifies this annotation.</p>
+ * <p>See {@link org.automon.pointcuts.Annotations#automon_monitor} for the pointcut that identifies this annotation.
+ * Note this is just one of many ways a pointcut can be setup to trace using automon.
+ * </p>
  */
 @Inherited // Annotation is inherited by subclasses
 @Documented // Included in Javadoc generation

@@ -9,11 +9,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.automon.utils.Utils;
 
 /**
- * This aspect is designed for monitoring method executions and exceptions in Spring applications.
- * It extends `BaseMonitoringAspect` to provide Spring-compatible pointcut language and integrates with
+ * This aspect is designed for monitoring method executions and exceptions in both Spring and non-spring applications.
+ * It extends `BaseMonitoringAspect` to provide pointcut language and integrates with
  * `OpenMon` implementations for collecting performance metrics.
  *
- * <p>Developers should implement the `select()` pointcut to define the specific methods or classes to monitor.</p>
+ * <p>Developers should inherit from this class and implement the `select()` pointcut to define the specific methods or classes to monitor.</p>
  */
 @Aspect // Indicates that this class is an AspectJ aspect
 public abstract class MonitoringAspect extends BaseMonitoringAspect {
