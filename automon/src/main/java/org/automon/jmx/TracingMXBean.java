@@ -3,22 +3,23 @@ package org.automon.jmx;
 import javax.management.MXBean;
 
 /**
- * JMX MBean interface for controlling the tracing aspect.
+ * This is a JMX MBean interface that provides control over the tracing aspect's tracing/logging functionality at runtime.
+ * It allows you to enable or disable tracing/logging and check the current logging status.
  */
-@MXBean
+@MXBean // Marks this interface as an MXBean for JMX management
 public interface TracingMXBean extends EnableMXBean {
 
     /**
-     * Enables or disables logging in this aspect.
+     * Enables or disables tracing/logging for the tracing aspect.
      *
      * @param enabled `true` to enable logging, `false` to disable logging.
      */
-    public void enableLogging(boolean enabled);
+    void enableLogging(boolean enabled);
 
     /**
-     * Gets the current logging enabled status.
+     * Checks if tracing/logging is currently enabled for the tracing aspect.
      *
      * @return `true` if logging is enabled, `false` otherwise.
      */
-    public boolean isLoggingEnabled();
+    boolean isLoggingEnabled();
 }
