@@ -7,19 +7,20 @@ import org.slf4j.NDC;
 import java.util.UUID;
 
 /**
- * LogTracingHelper provides utility methods for managing logging context in AspectJ applications.
- * It utilizes SLF4J's MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context)
- * to store and manage various pieces of information related to application execution.
- * <p>
- * This class is thread-safe due to its use of the thread-safe NDC, and MDC which
- * stores unique information for each logging thread. All values in NDC and MDC must be
- * cleared at the end of an invocation process to prevent memory leaks.
- * <p>
- * This class follows the singleton pattern, as a single instance suffices for all loggers
- * in the application due to the use of MDC and NDC.
+ * <p>This utility class provides methods for managing logging context in AspectJ applications using SLF4J's MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context).</p>
+ *
+ * <p>It facilitates the addition and removal of various contextual information related to application execution, such as method parameters, execution time, request IDs,
+ * exceptions, and more, into the MDC and NDC. This information can then be included in log messages to provide richer context and traceability.</p>
+ *
+ * <p>**Thread-Safety:** This class is thread-safe due to its use of the thread-safe NDC and MDC, which store unique information for each logging thread.</p>
+ *
+ * <p>**Memory Management:** It's crucial to clear all values in the NDC and MDC at the end of an invocation process to prevent memory leaks.</p>
+ *
+ * <p>**Singleton Pattern:** This class implements the singleton pattern, as a single instance is sufficient for all loggers in the application
+ * due to the use of MDC and NDC.</p>
  */
 public class LogTracingHelper implements AutoCloseable {
-
+    /** MDC/NDC keys used */
     public static String PARAMETERS = "parameters";
     public static String EXECUTION_TIME_MS = "executionTimeMs";
     public static String REQUEST_ID = "requestId";
@@ -30,11 +31,12 @@ public class LogTracingHelper implements AutoCloseable {
     public static String RETURN_VALUE = "returnValue";
     public static String EXCEPTION = "exception";
 
-    // aspectj 'kinds' that are needed to determine how logging/tracing should behave
+    /**
+     * AspectJ kind for method and constructor executions.
+     */
     static final String METHOD_EXECUTION_KIND = "method-execution";
     static final String CONSTRUCTOR_EXECUTION_KIND = "constructor-execution";
 
-    // Private static instance of the class, initialized only once
     private static final LogTracingHelper INSTANCE = new LogTracingHelper();
 
     /**
@@ -44,9 +46,9 @@ public class LogTracingHelper implements AutoCloseable {
     }
 
     /**
-     * Public static method to get the single instance of the class.
+     * Retrieves the singleton instance of the `LogTracingHelper`.
      *
-     * @return The single instance of LogTracingHelper.
+     * @return The singleton instance.
      */
     public static LogTracingHelper getInstance() {
         return INSTANCE;
@@ -54,37 +56,43 @@ public class LogTracingHelper implements AutoCloseable {
 
     /**
      * Adds method parameters to the MDC.
-     * Example MDC entry: "parameters" : "{arg0=John, arg1=30}"
-     * Example MDC entry2 (if parameter names are retained):{name=John, age=30}
+     * <p>
+     * Example MDC entry:
+     * <ul>
+     *     <li>`"parameters" : "{arg0=John, arg1=30}"` (if parameter names are not available)</li>
+     *     <li>`{name=John, age=30}` (if parameter names are retained)</li>
+     * </ul>
      *
-     * @param joinPoint The JoinPoint representing the intercepted method call
-     * @return This LogTracingHelper instance
+     * @param joinPoint The JoinPoint representing the intercepted method call.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withParameters(JoinPoint joinPoint) {
         MDC.put(PARAMETERS, Utils.paramsToMap(joinPoint).toString());
         return this;
     }
 
-
     /**
-     * Pushes the method signature to the NDC stack.
-     * Example NDC entry: "Service.doSomething(..)"
+     * Pushes the method signature onto the NDC stack.
+     * <p>
+     * Example NDC entry: `"Service.doSomething(..)"`
+     * </p>
      *
-     * @param joinPointStaticPart The static part of the JoinPoint
-     * @return This LogTracingHelper instance
+     * @param joinPointStaticPart The static part of the JoinPoint.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withSignature(JoinPoint.StaticPart joinPointStaticPart) {
         NDC.push(joinPointStaticPart.getSignature().toShortString());
         return this;
     }
 
-
     /**
      * Adds the enclosing method signature to the MDC.
-     * Example MDC entry: "enclosingSignature" : "Service.processRequest(..)"
+     * <p>
+     * Example MDC entry: `"enclosingSignature" : "Service.processRequest(..)"`
+     * </p>
      *
-     * @param thisEnclosingJoinPointStaticPart The static part of the JoinPoint
-     * @return This LogTracingHelper instance
+     * @param thisEnclosingJoinPointStaticPart The static part of the enclosing JoinPoint.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withEnclosingSignature(JoinPoint.StaticPart thisEnclosingJoinPointStaticPart) {
         MDC.put(ENCLOSING_SIGNATURE, thisEnclosingJoinPointStaticPart.getSignature().toShortString());
@@ -92,11 +100,13 @@ public class LogTracingHelper implements AutoCloseable {
     }
 
     /**
-     * Adds the exception class name as a string to the MDC.
-     * Example MDC entry: "exception" : "com.stevesouza.MyException"
+     * Adds the exception class name to the MDC.
+     * <p>
+     * Example MDC entry: `"exception" : "com.stevesouza.MyException"`
+     * </p>
      *
-     * @param exceptionClassStr The exception class name
-     * @return This LogTracingHelper instance
+     * @param exceptionClassStr The fully qualified name of the exception class.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withException(String exceptionClassStr) {
         MDC.put(EXCEPTION, exceptionClassStr);
@@ -104,23 +114,26 @@ public class LogTracingHelper implements AutoCloseable {
     }
 
     /**
-     * Adds execution time to the MDC.
-     * Example MDC entry: "executionTimeMs" : "42"
+     * Adds the execution time (in milliseconds) to the MDC.
+     * <p>
+     * Example MDC entry: `"executionTimeMs" : "42"`
+     * </p>
      *
-     * @param milliseconds The execution time in milliseconds
-     * @return This LogTracingHelper instance
+     * @param milliseconds The execution time in milliseconds.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withExecutionTime(long milliseconds) {
         MDC.put(EXECUTION_TIME_MS, String.valueOf(milliseconds));
         return this;
     }
 
-
     /**
      * Adds a unique request ID to the MDC.
-     * Example MDC entry: "requestId" : "550e8400-e29b-41d4-a716-446655440000"
+     * <p>
+     * Example MDC entry: `"requestId" : "550e8400-e29b-41d4-a716-446655440000"`
+     * </p>
      *
-     * @return This LogTracingHelper instance
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withRequestId() {
         MDC.put(REQUEST_ID, UUID.randomUUID().toString());
@@ -128,11 +141,13 @@ public class LogTracingHelper implements AutoCloseable {
     }
 
     /**
-     * Adds the return value as a string to the MDC.
-     * Example MDC entry: "returnValue" : "John Smith"
+     * Adds the return value (as a string) to the MDC.
+     * <p>
+     * Example MDC entry: `"returnValue" : "John Smith"`
+     * </p>
      *
-     * @param retValue The return value for the pointcut (call, execution, assignment,...)
-     * @return This LogTracingHelper instance
+     * @param retValue The return value of the intercepted method or advice.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withReturnValue(String retValue) {
         MDC.put(RETURN_VALUE, retValue);
@@ -140,24 +155,27 @@ public class LogTracingHelper implements AutoCloseable {
     }
 
     /**
-     * Adds the join point kind to the MDC.
-     * Example MDC entry: "kind" : "method-execution"
+     * Adds the join point kind (e.g., "method-execution") to the MDC.
+     * <p>
+     * Example MDC entry: `"kind" : "method-execution"`
+     * </p>
      *
-     * @param thisJoinPointStaticPart The static part of the JoinPoint
-     * @return This LogTracingHelper instance
+     * @param thisJoinPointStaticPart The static part of the JoinPoint.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withKind(JoinPoint.StaticPart thisJoinPointStaticPart) {
         MDC.put(KIND, thisJoinPointStaticPart.getKind());
         return this;
     }
 
-
     /**
-     * Adds the string representation of 'this' object to the MDC.
-     * Example MDC entry: "this" : "com.example.Service@3f8f9dd6"
+     * Adds the string representation of the 'this' object to the MDC.
+     * <p>
+     * Example MDC entry: `"this" : "com.example.Service@3f8f9dd6"`
+     * </p>
      *
-     * @param joinPoint The JoinPoint representing the intercepted method call
-     * @return This LogTracingHelper instance
+     * @param joinPoint The JoinPoint representing the intercepted method call.
+     * @return This `LogTracingHelper` instance for method chaining.
      */
     public LogTracingHelper withThis(JoinPoint joinPoint) {
         MDC.put(THIS, objectToString(joinPoint.getThis()));
@@ -375,26 +393,6 @@ public class LogTracingHelper implements AutoCloseable {
     @Override
     public void close() {
         removeFullContext();
-    }
-
-    /**
-     * Prepends the given prefix to the beginning of each of the static variables in this class.
-     * For example by passing in "automon" the results would be "automon.kind", "automon.this" etc.
-     * Note if this is called multiple times it will keep prepending. For example a second call would
-     * result in "automon.automon.kind".
-     *
-     * @param prefix The prefix to prepend. If you want a dot it must be included.
-     */
-    public static void applyPrefix(String prefix) {
-        PARAMETERS = prefix +  PARAMETERS;
-        EXECUTION_TIME_MS = prefix + EXECUTION_TIME_MS;
-        REQUEST_ID = prefix + REQUEST_ID;
-        KIND = prefix + KIND;
-        THIS = prefix + THIS;
-        TARGET = prefix + TARGET;
-        ENCLOSING_SIGNATURE = prefix + ENCLOSING_SIGNATURE;
-        RETURN_VALUE = prefix + RETURN_VALUE;
-        EXCEPTION = prefix + EXCEPTION;
     }
 
     private String objectToString(Object obj) {

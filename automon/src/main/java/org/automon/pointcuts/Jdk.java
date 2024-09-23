@@ -4,19 +4,26 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * <p>Standard pointcuts that are useful for typically monitored classes in the jdk.  Typically these would involve IO of
- * one form or another (i.e. files, jdbc, net/web)</p>
+ * <p>This AspectJ aspect defines standard pointcuts for monitoring common classes in the JDK related to I/O operations.</p>
  *
- * <p>The 'execution' pointcut won't work for jdk class pointcuts, so instead all 'call' pointcuts are monitored which should have the same
- * effect.  Note 'call' is not supported in spring though (you can postprocess your spring jar however and let aspectj do the work).  Also note
- * the '+' at the end of the classname will also monitor any calls to any class that inherits from this one.  See AspectJ documentation
- * for more information.
- * </p>
+ * <p>It includes pointcuts for JDBC (database interactions), IO (file and stream operations), and network (socket and connection) operations.</p>
+ *
+ * <p>**Note:**</p>
+ * <ul>
+ *     <li>The 'execution' pointcut doesn't work for JDK classes, so 'call' pointcuts are used instead to achieve similar monitoring.</li>
+ *     <li>'call' pointcuts are not supported in Spring AOP. However, you can post-process your Spring jar with AspectJ to enable this functionality.</li>
+ *     <li>The '+' at the end of class names in pointcuts includes calls to subclasses as well. See AspectJ documentation for details.</li>
+ * </ul>
  */
-
-@Aspect
+@Aspect // Indicates that this class is an AspectJ aspect
 public abstract class Jdk {
 
+    /**
+     * Pointcut for monitoring JDBC operations.
+     * <p>
+     * This pointcut matches calls to public methods in `java.sql.Statement`, `java.sql.Connection`, and `java.sql.Savepoint` classes and their subclasses.
+     * </p>
+     */
     @Pointcut(
             "call(public * java.sql.Statement+.*(..)) || " +
                     "call(public * java.sql.Connection+.*(..)) || " +
@@ -25,6 +32,13 @@ public abstract class Jdk {
     public void jdbc() {
     }
 
+    /**
+     * Pointcut for monitoring I/O operations.
+     * <p>
+     * This pointcut matches calls to public methods in `java.io.Writer`, `java.io.Reader`, `java.io.OutputStream`, `java.io.InputStream`,
+     * `java.io.DataInput`, and `java.io.DataOutput` classes and their subclasses.
+     * </p>
+     */
     @Pointcut(
             "call(public * java.io.Writer+.*(..)) || " +
                     "call(public * java.io.Reader+.*(..)) || " +
@@ -36,6 +50,13 @@ public abstract class Jdk {
     public void io() {
     }
 
+    /**
+     * Pointcut for monitoring network operations.
+     * <p>
+     * This pointcut matches calls to public methods in `java.net.SocketImpl`, `java.net.ServerSocket`, `java.net.DatagramSocket`,
+     * `java.net.DatagramSocketImpl`, `java.net.Socket`, and `java.net.URLConnection` classes and their subclasses.
+     * </p>
+     */
     @Pointcut(
             "call(public * java.net.SocketImpl+.*(..)) || " +
                     "call(public * java.net.ServerSocket+.*(..)) || " +
@@ -46,5 +67,4 @@ public abstract class Jdk {
     )
     public void net() {
     }
-
 }

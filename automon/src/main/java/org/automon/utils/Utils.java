@@ -40,20 +40,19 @@ public class Utils {
     static final String DEFAULT_MAX_STRING_ENDING = "...";
 
     /**
-     * @return Thread safe Map that can contain Exceptions that are thrown monitored code.
+     * Creates a thread-safe map for storing exceptions with expiration capabilities
+     *
+     * @return A synchronized map for storing exceptions that expire over time
      */
     public static Map<Throwable, AutomonExpirable> createExceptionMap() {
         return Collections.synchronizedMap(new ExpiringMap<Throwable, AutomonExpirable>());
     }
 
     /**
-     * @param throwable The exception that was thrown
-     * @return A string suitable for a monitoring label representing the thrown exception.  It is a convenience method and need not be
-     * used to create the monitor.  Note it adds extra information to the returned label for SQLException's.<br>
-     * <p>
-     * Examples:<br>
-     * <br>java.lang.RuntimeException
-     * <br>java.sql.SQLException,ErrorCode=400,SQLState=Login failure
+     * Generates a monitoring label for a thrown exception
+     *
+     * @param throwable The exception
+     * @return A label suitable for monitoring, including additional information for SQLExceptions
      */
     public static String getLabel(Throwable throwable) {
         String sqlMessage = "";
@@ -66,25 +65,20 @@ public class Utils {
     }
 
     /**
-     * @param jp The pointcut from the @Around advice that was intercepted.
-     * @return A label suitable for a monitoring/timer label.  It is a convenience method and need not be
-     * used to create the monitor
+     * Generates a monitoring label from an intercepted JoinPoint
+     *
+     * @param jp The intercepted JoinPoint
+     * @return A label suitable for monitoring/timer
      */
-
     public static String getLabel(JoinPoint.StaticPart jp) {
         return jp.toString();
     }
 
     /**
-     * Some tools don't allow for special characters in their monitoring labels. For example
-     * StatsD doesn't allow '.=' and JavaSimon doesn't allow ' ='.  The following method strips
-     * these characters out of the exception string for SQL so they will work in these api's.
-     * This is done for sql exceptions of the format:
-     * java.sql.SQLException,ErrorCode=400,SQLState=Login failure
-     * <p>
+     * Formats exception labels to be compatible with tools having limited character sets
      *
-     * @param exceptionLabel
-     * @return
+     * @param exceptionLabel The original exception label
+     * @return A formatted label compatible with tools like StatsD and JavaSimon
      */
     public static String formatExceptionForToolsWithLimitedCharacterSet(String exceptionLabel) {
         if (exceptionLabel == null) {
@@ -97,15 +91,10 @@ public class Utils {
     }
 
     /**
-     * This method extracts method parameters/arguments and their values from the JoinPoint
-     * and returns a read-only map containing them.
-     * Terminology Clarification:
-     * <p>
-     * Parameter (Formal Parameter): A variable declared in the method signature that acts as a placeholder for the value that will be passed in during the method call.
-     * Argument (Actual Parameter): The actual value (data) that is passed into the method when it is called. This value is assigned to the corresponding parameter.
+     * Extracts method parameters and their values from a JoinPoint
      *
-     * @param joinPoint The JoinPoint object containing the execution context
-     * @return A read-only map of argument names to their corresponding values
+     * @param joinPoint The JoinPoint representing the method execution context
+     * @return A read-only map of parameter names to their values
      */
     public static Map<String, Object> paramsToMap(JoinPoint joinPoint) {
         Map<String, Object> argsMap = new LinkedHashMap<>();
@@ -137,14 +126,10 @@ public class Utils {
     }
 
     /**
-     * Convert a Map to a formatted string
+     * Converts a map of arguments to a formatted string
      *
-     * @param args assumed to be parameter key value pairs
-     * @return String representing the argName, argValue pairs. Example of what it could return:
-     * === Parameters ===
-     * filename: report.txt
-     * max_records: 1000
-     * user_id: johndoe123
+     * @param args A map of argument names to their values
+     * @return A formatted string representation of the arguments
      */
     public static String argNameValuePairsToString(Map<String, Object> args) {
         if (args == null) {
@@ -162,16 +147,10 @@ public class Utils {
     }
 
     /**
-     * Converts a single method parameter to a string representation with length limiting.
+     * Converts a method parameter to a string with length limiting and null handling
      *
-     * @param parameter The object to convert to a string.
-     * @return A string representation of the parameter, with the following characteristics:
-     * - Returns NULL_STR for null parameters.
-     * - Truncates strings longer than DEFAULT_ARG_STRING_MAX_LENGTH and appends DEFAULT_MAX_STRING_ENDING.
-     * - Returns UNKNOWN if any exception occurs during conversion.
-     * <p>
-     * This method ensures safe functionality by handling null values, limiting string length,
-     * and catching all exceptions to prevent method failure.
+     * @param parameter The parameter object
+     * @return A string representation of the parameter, handling nulls and truncation
      */
     public static String toStringWithLimit(Object parameter) {
         if (parameter == null) {
@@ -191,7 +170,10 @@ public class Utils {
 
 
     /**
-     * Return full Exception stack trace as String
+     * Gets the full stack trace of an exception as a string
+     *
+     * @param exception The exception
+     * @return The full stack trace as a string, or UNKNOWN if the exception is null
      */
     public static String getExceptionTrace(Throwable exception) {
         if (exception == null) {
@@ -209,31 +191,33 @@ public class Utils {
     }
 
     /**
-     * Tokenize the passed in string.
+     * Tokenizes a string based on a specified delimiter
      *
-     * @param string  string to tokenize
-     * @param splitOn string to split the string on.
-     * @return an array of String tokens.
+     * @param string The string to tokenize
+     * @param splitOn The delimiter to split the string on
+     * @return An array of tokens
      */
     public static String[] tokenize(String string, String splitOn) {
         return string.replace(" ", "").split(splitOn);
     }
 
     /**
-     * @param fileName
-     * @return Take something like file://myfile.dat and return myfile.dat
+     * Strips the file scheme from a file name
+     *
+     * @param fileName The file name (e.g., "file://myfile.dat")
+     * @return The file name without the scheme (e.g., "myfile.dat")
      */
     public static String stripFileScheme(String fileName) {
         return fileName.replaceFirst("(?i)file://", "").replaceFirst("(?i)file:", "");
     }
 
     /**
-     * Retrieves the JMX MBean associated with the given aspect.
+     * Retrieves the JMX MBean associated with the given aspect
      *
-     * @param aspect The aspect instance.
-     * @param <T> The type of the MBean interface.
-     * @return The MBean proxy to manage the aspect.
-     * @throws Exception If JMX commands fail (e.g., MBean not found, registration issues).
+     * @param aspect The aspect instance
+     * @param <T> The type of the MBean interface
+     * @return The MBean proxy
+     * @throws Exception If JMX operations fail
      */
     public static <T> T getMxBean(String purpose, Object aspect, Class<T> mxBeanInterface) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
@@ -242,16 +226,11 @@ public class Utils {
     }
 
     /**
-     * Registers the given JMX MBean with the platform MBeanServer, associating it with the provided aspect.
-     * <p>
-     *     if JMX commands fail. The exception is not propagated as this error is not key to the operating of
-     *     Automon or the application. It should not fail as the exception is well formed and always the same.
-     * </p>
-     * @param aspect The aspect instance. It is used to generate the JMX name such as:
-     *               org.automon:type=aspect,purpose=monitor,name=org.automon.ConcreteMonitoringAspect@63f25932
-     *               It could technically be any object and toString will be called to get the name.
-     * @param mxBean The JMX MBean instance to register (it can be of any type)
-     * @param <T>    The type of the MBean interface.
+     * Registers an MBean with the platform MBeanServer
+     *
+     * @param aspect The aspect instance used for JMX name generation
+     * @param mxBean The MBean instance to register
+     * @param <T> The type of the MBean interface
      */
     public static <T> void registerWithJmx(String purpose, Object aspect, T mxBean) {
         try {
@@ -267,31 +246,45 @@ public class Utils {
 
 
     /**
-     * @param aspect unregister the passed in aspect.
-     * @throws Exception Thrown if the jmx bean has a naming error
+     * Unregisters an aspect from JMX
+     *
+     * @param aspect The aspect to unregister
+     * @throws Exception If JMX unregistration fails
      */
-
     public static void unregisterWithJmx(String purpose, Object aspect) throws Exception {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         mBeanServer.unregisterMBean(getMxBeanObjectName(purpose, aspect));
     }
 
-    // get the ObjectName that is used to refer to the 'aspect' in jmx. Sample return value...
-    //    org.automon:type=aspect,purpose=monitor,name=org.automon.ConcreteMonitoringAspect@63f25932
+    /**
+     * Generates the JMX ObjectName for an aspect
+     *
+     * @param purpose The purpose of the aspect (e.g., "monitor")
+     * @param aspect The aspect instance
+     * @return The JMX ObjectName
+     * @throws Exception If ObjectName creation fails
+     */
     private static ObjectName getMxBeanObjectName(String purpose, Object aspect) throws Exception {
         String jmxName = String.format("org.automon:type=aspect,purpose=%s,name=%s", purpose, aspect.toString());
         return new ObjectName(jmxName);
     }
 
+    /**
+     * Checks if a class name has a package name (contains a '.')
+     *
+     * @param className The class name to check
+     * @return True if the class name has a package, false otherwise
+     */
     public static boolean hasPackageName(String className) {
         return className != null && className.contains(".");
     }
 
     /**
-     * Take a variable list of fully qualified class names and return the first one.
+     * Creates the first instance from a list of fully qualified class names
      *
-     * @param classNames com.package1.MyClass1, com.package2.MyClass2
-     * @return The first created class or none if all fail.
+     * @param classNames Variable list of class names
+     * @param <T> The type of the object to create
+     * @return The first successfully created instance, or null if all fail
      */
     public static <T> T createFirst(String... classNames) {
         for (String className : classNames) {
@@ -303,7 +296,13 @@ public class Utils {
         return null;
     }
 
-    // used to get method argvalues from the method signature.
+    /**
+     * Retrieves parameter names from a JoinPoint (internal helper method)
+     *
+     * @param argValues The array of argument values
+     * @param jp The JoinPoint representing the method execution
+     * @return An array of parameter names, or an empty array if retrieval fails
+     */
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
         Signature signature = jp.getSignature();
         if (signature instanceof CodeSignature) {
@@ -314,10 +313,10 @@ public class Utils {
     }
 
     /**
-     * @param list Take a list and remove any entries with '.' in them.  This is done to remove class names from
-     *             a List.
+     * Removes class names (entries containing '.') from a list
+     *
+     * @param list The list to modify
      */
-
     public static void removeClassNames(List<String> list) {
         ListIterator<String> iterator = list.listIterator();
         while (iterator.hasNext()) {
@@ -329,17 +328,29 @@ public class Utils {
     }
 
 
-    // used to determine if aspect or logging is enabled or disabled by looking at
-    // properties. (i.e. aspectj.org.automon.aspects.tracing.BasicContextTracingAspect.enable)
+    /**
+     *  Provides access to Automon properties for enabling/disabling aspects and logging
+     */
     public static AutomonPropertiesLoader AUTOMON_PROPERTIES = new AutomonPropertiesLoader();
 
-    // pass in MyClass.getClass().getName() typically.
+    /**
+     * Checks if an aspect or feature should be enabled based on properties
+     *
+     * @param object The object representing the aspect or feature
+     * @return True if enabled, false otherwise
+     */
     public static boolean shouldEnable(Object object) {
         String key= (object == null) ? "" : object+".enable";
         return AUTOMON_PROPERTIES.getBoolean(key);
 
     }
 
+    /**
+     * Checks if logging should be enabled for an aspect or feature based on properties
+     *
+     * @param object The object representing the aspect or feature
+     * @return True if logging is enabled, false otherwise
+     */
     public static boolean shouldEnableLogging(Object object) {
         String key = (object == null) ? "" : object+".enableLogging";
         return AUTOMON_PROPERTIES.getBoolean(key);

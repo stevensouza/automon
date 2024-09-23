@@ -2,6 +2,7 @@ package org.automon.utils;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -63,7 +64,7 @@ public class AutomonExpirableTest {
     @Test
     public void testJamonDetailsSet() {
         AutomonExpirable expirable = new AutomonExpirable();
-        AtomicReference<Object> reference = expirable.setJamonDetails("steve");
+        AtomicReference<Serializable> reference = expirable.setJamonDetails("steve");
         assertThat(reference.get()).isEqualTo("steve");
     }
 }

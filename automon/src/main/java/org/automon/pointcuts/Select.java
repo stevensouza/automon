@@ -4,114 +4,144 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * <p>Pointcuts defined for various standard/basic pointcuts such as method, and constructor invocations as well as setter/getter methods.
- * They should be reused in other aspects.  This class extends {@link org.automon.pointcuts.SpringSelect} to add pointcuts not valid in
- * Spring, but valid in AspectJ as a whole.</p>
+ * <p>This AspectJ aspect defines standard pointcuts for various common scenarios, including:</p>
+ * <ul>
+ *     <li>Method invocations</li>
+ *     <li>Constructor invocations</li>
+ *     <li>Field setting (setters)</li>
+ *     <li>Field getting (getters)</li>
+ * </ul>
  *
- * <p>Note remember that this interface extends {@link org.automon.pointcuts.SpringSelect} and so also has all of the available
- * pointcuts in that interface.</p>
+ * <p>These pointcuts can be reused in other aspects to simplify the monitoring or tracing of specific code elements.</p>
+ *
+ * <p>This class extends `SpringSelect` to include pointcuts that are valid in AspectJ but not supported in Spring AOP.</p>
+ *
+ * <p>**Note:** This class also inherits all pointcuts defined in the `SpringSelect` interface.</p>
  */
-@Aspect
+@Aspect // Indicates that this class is an AspectJ aspect
 public abstract class Select extends SpringSelect {
 
     /**
-     * Note this should cover everything.  I had problems with jdk 1.8 if I also included preinitialization so I got rid of this one
+     * <p>Pointcut that matches all join points except for pre-initialization of new objects (`*.new(..)`).</p>
+     * <p>This pointcut was modified to exclude pre-initialization to avoid issues with JDK 1.8.</p>
      */
     @Pointcut("!preinitialization(*.new(..))")
     public void all() {
-
     }
 
+    /**
+     * <p>Pointcut that matches no join points.</p>
+     * <p>This pointcut always evaluates to `false` and can be used to disable monitoring or tracing in specific scenarios.</p>
+     *
+     * @return Always returns `false`.
+     */
     @Pointcut("if()")
     public static boolean none() {
         return false;
     }
 
     /**
-     * Note constructor is just like method except it doesn't allow a return type.
+     * Pointcut that matches all constructor invocations.
      */
     @Pointcut("execution(*.new(..))")
     public void constructor() {
-
     }
 
+    /**
+     * Pointcut that matches all public constructor invocations.
+     */
     @Pointcut("execution(public *.new(..))")
     public void publicConstructor() {
-
     }
 
+    /**
+     * Pointcut that matches all private constructor invocations.
+     */
     @Pointcut("execution(private *.new(..))")
     public void privateConstructor() {
-
     }
 
+    /**
+     * Pointcut that matches all protected constructor invocations.
+     */
     @Pointcut("execution(protected *.new(..))")
     public void protectedConstructor() {
-
     }
 
+    /**
+     * Pointcut that matches all package-private (default visibility) constructor invocations.
+     */
     @Pointcut("constructor() && !privateConstructor() && !protectedConstructor() && !publicConstructor()")
     public void packageConstructor() {
-
     }
 
     /**
-     * Field set pointcuts
+     * Pointcut that matches all field set (setter) operations.
      */
-
     @Pointcut("set(* *.*)")
     public void fieldSet() {
-
-    }
-
-    @Pointcut("set(private * *.*)")
-    public void privateFieldSet() {
-
-    }
-
-    @Pointcut("set(protected * *.*)")
-    public void protectedFieldSet() {
-
-    }
-
-    @Pointcut("set(public * *.*)")
-    public void publicFieldSet() {
-
-    }
-
-    @Pointcut("fieldSet() && !privateFieldSet() && !protectedFieldSet() && !publicFieldSet()")
-    public void packageFieldSet() {
-
     }
 
     /**
-     * Field get pointcuts
+     * Pointcut that matches all private field set (setter) operations.
      */
+    @Pointcut("set(private * *.*)")
+    public void privateFieldSet() {
+    }
 
+    /**
+     * Pointcut that matches all protected field set (setter) operations.
+     */
+    @Pointcut("set(protected * *.*)")
+    public void protectedFieldSet() {
+    }
+
+    /**
+     * Pointcut that matches all public field set (setter) operations.
+     */
+    @Pointcut("set(public * *.*)")
+    public void publicFieldSet() {
+    }
+
+    /**
+     * Pointcut that matches all package-private (default visibility) field set (setter) operations.
+     */
+    @Pointcut("fieldSet() && !privateFieldSet() && !protectedFieldSet() && !publicFieldSet()")
+    public void packageFieldSet() {
+    }
+
+    /**
+     * Pointcut that matches all field get (getter) operations.
+     */
     @Pointcut("get(* *.*)")
     public void fieldGet() {
-
     }
 
+    /**
+     * Pointcut that matches all private field get (getter) operations.
+     */
     @Pointcut("get(private * *.*)")
     public void privateFieldGet() {
-
     }
 
+    /**
+     * Pointcut that matches all protected field get (getter) operations.
+     */
     @Pointcut("get(protected * *.*)")
     public void protectedFieldGet() {
-
     }
 
+    /**
+     * Pointcut that matches all public field get (getter) operations.
+     */
     @Pointcut("get(public * *.*)")
     public void publicFieldGet() {
-
     }
 
+    /**
+     * Pointcut that matches all package-private (default visibility) field get (getter) operations.
+     */
     @Pointcut("fieldGet() && !privateFieldGet() && !protectedFieldGet() && !publicFieldGet()")
     public void packageFieldGet() {
-
     }
-
-
 }

@@ -1,14 +1,18 @@
 package org.automon.utils;
 
 /**
- * This interface is meant to be added as a value to {@link org.automon.utils.ExpiringMap}.
- * Every time a new object is 'put' in the map the oldest {@link org.automon.utils.Expirable} will be checked to see if it should be
- * removed. If the oldest entry needs to be removed the map is checked for any other values to see if they should be removed
- * too and they will also be removed.  This capability is used in Automon to ensure that the underlying map doesn't grow unbounded.
+ * <p>This interface defines the behavior for objects that can expire after a certain period.</p>
+ * <p>It is intended to be used as values in an {@link org.automon.utils.ExpiringMap}, where entries are automatically removed when they expire.</p>
+ * <p>The `isExpired()` method is called by the `ExpiringMap` to determine if an object should be removed.
+ * When the oldest entry in the map expires, the map also checks other entries for expiration to ensure it doesn't grow unbounded.</p>
+ * <p>This mechanism is used in Automon to manage resources and prevent memory leaks by automatically cleaning up expired data.</p>
  */
 public interface Expirable {
+
     /**
-     * @return true if the object has expired.
+     * Checks if this object has expired.
+     *
+     * @return `true` if the object has expired and should be removed from the `ExpiringMap`, `false` otherwise.
      */
-    public boolean isExpired();
+    boolean isExpired();
 }
