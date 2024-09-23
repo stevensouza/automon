@@ -54,14 +54,15 @@ within a type as well as any types that inherit from it.:
       <!--  If you want to use more than just method pointcuts use AspectJBase -->
       <!--<concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.monitoringing.MonitoringAspect">-->
      <concrete-aspect name="com.myorganization.MyMonitoringAspect" extends="org.automon.aspects.monitoring.MonitoringAspect">
-        <pointcut name="select"            expression="automon_annotations()"/>
+        <pointcut name="select"            expression="automon_monitor()"/>
 
 
          <!-- The following are reusable pointcuts you can use to tell Automon what parts of your application to monitor -->
 
         <!-- annotation pointcuts -->
         <pointcut name="jamon_annotations" expression="org.automon.pointcuts.Annotations.jamon()"/>
-        <pointcut name="automon_annotations" expression="org.automon.pointcuts.Annotations.automon()"/>
+        <pointcut name="automon_monitor" expression="org.automon.pointcuts.Annotations.automon_monitor()"/>
+        <pointcut name="automon_trace" expression="org.automon.pointcuts.Annotations.automon_trace()"/>
         <pointcut name="metrics_annotations" expression="org.automon.pointcuts.Annotations.metrics()"/>
         <pointcut name="newrelic_annotations" expression="org.automon.pointcuts.Annotations.newrelic()"/>
         <pointcut name="spring_annotations" expression="org.automon.pointcuts.Annotations.spring()"/>
