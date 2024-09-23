@@ -6,23 +6,28 @@ import org.automon.aspects.tracing.BaseTracingAspect;
 import org.automon.utils.Utils;
 
 /**
- * Aspect for full context tracing using AOP (Aspect-Oriented Programming).
+ * Aspect for full context tracing using AspectJ in non-Spring applications.
  * It provides `around` and `afterThrowing` advice to log method entry, exit, and exceptions,
- * along with full context information like execution time.
+ * along with full context information like execution time, parameters, return value, etc.
  *
- * <p>If the {@link TracingMXBean#enableLogging(boolean)}
- * is set to false then only the MDC/NDC values will be set but the logging BEFORE/AFTER methods
- * will not be called.  If any logging statements are run within the entered method the MDC/NDC values
- * will be available. The aspect can be completely disabled by calling {@link TracingMXBean#enable(boolean)}
- * with a false value.
- * </p>
+ * <p>If {@link TracingMXBean#enableLogging(boolean)} is set to `false`, only the MDC/NDC values will be set,
+ * but the logging BEFORE/AFTER methods will not be called. If any logging statements are run within the
+ * entered method, the MDC/NDC values will be available. The aspect can be completely disabled by calling
+ * {@link TracingMXBean#enable(boolean)} with a `false` value.</p>
  *
  * <p>Subclasses need to implement the `select()` pointcut to define the pointcuts to be traced.</p>
  */
 public privileged abstract aspect FullContextTracingAspect extends BaseTracingAspect {
+
+    /**
+     * The purpose of this aspect for JMX registration.
+     */
     static final String PURPOSE = "trace_log_full_context_native";
+
     /**
      * Constructs a new `FullContextTracingAspect` with both tracing and logging enabled by default.
+     * The enabled state is determined from configuration properties using `Utils.shouldEnable(getClass().getName())`
+     * and logging is enabled using `Utils.shouldEnableLogging(getClass().getName())`.
      */
     public FullContextTracingAspect() {
         initialize(PURPOSE,
@@ -42,44 +47,45 @@ public privileged abstract aspect FullContextTracingAspect extends BaseTracingAs
     }
 
     /**
-     * Pointcut that defines where the request ID should be added and removed.
-     * This should be implemented to target the entry and exit points of requests in your application.
+     * Pointcut that defines the methods or classes to be traced.
+     * This should be implemented by subclasses to target specific join points in your application.
      * <p>
-     * <p>**Examples:**</p>
-     *
-     *  <pre>
-     *      pointcut select() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
-     *  </pre>
+     * **Examples:**
+     * </p>
      *
      * <pre>
-     * pointcut select() : enabled() && execution(* com.example..*.*(..));
+     * pointcut select() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
      * </pre>
      *
-     * Alternatively the following equivalent approach could be used:
      * <pre>
-     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
+     * pointcut select() : execution(* com.example..*.*(..));
      * </pre>
-     *
      */
     public abstract pointcut select();
 
     /**
      * Around advice for tracing method execution.
-     * Adds NDC/MDC context on method entry and exit, along with other context information such as execution time.
-     * The information is conditionally logged if {@link #enableLogging(boolean)} is set.
-     * See {@link org.automon.utils.LogTracingHelper#withFullContext(JoinPoint, JoinPoint.StaticPart, JoinPoint.StaticPart)}
-     * for additional context being traced. Example output which uses SLF4J's MDC and NDC.
-     *       <p>
-     *         2024-08-18 10:39:03,849 INFO  c.s.a.l.a.a.FullContextTracingAspect - BEFORE: MDC={NDC0=MyLoggerClassAll.main(..), NDC1=MyLoggerClassAll.occupationMethod3(..), enclosingSignature=MyLoggerClassAll.occupationMethod3(..), kind=method-execution, parameters={occupation=developer}, target=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258, this=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258}
-     *         2024-08-18 10:39:03,850 INFO  c.s.a.l.a.a.FullContextTracingAspect - AFTER: MDC={NDC0=MyLoggerClassAll.main(..), NDC1=MyLoggerClassAll.occupationMethod3(..), enclosingSignature=MyLoggerClassAll.occupationMethod3(..), executionTimeMs=130, kind=method-execution, parameters={occupation=developer}, returnValue=22, target=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258, this=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258}
-     *       </p>
-     *
-     * <p>Note this class only cleans up NDC/MDC that it added. Also note if an exception is thrown the MDC/NDC
-     * will be cleaned up and an AFTER log line will be written in the 'after throwing' advice.
+     * <p>
+     * This advice wraps the execution of the selected pointcut, adding detailed context information
+     * (including execution time, parameters, return value, etc.) to the MDC/NDC and logging 'BEFORE' and 'AFTER'
+     * messages if logging is enabled.
      * </p>
-     * 
-     * @return The result of the advised method execution.
-     * @throws Throwable If the advised method throws an exception, it is re-thrown after logging.
+     * <p>
+     * Example output (using SLF4J's MDC and NDC):
+     * </p>
+     *
+     * <pre>
+     * 2024-08-18 10:39:03,849 INFO  c.s.a.l.a.a.FullContextTracingAspect - BEFORE: MDC={NDC0=MyLoggerClassAll.main(..), NDC1=MyLoggerClassAll.occupationMethod3(..), enclosingSignature=MyLoggerClassAll.occupationMethod3(..), kind=method-execution, parameters={occupation=developer}, target=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258, this=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258}
+     * 2024-08-18 10:39:03,850 INFO  c.s.a.l.a.a.FullContextTracingAspect - AFTER: MDC={NDC0=MyLoggerClassAll.main(..), NDC1=MyLoggerClassAll.occupationMethod3(..), enclosingSignature=MyLoggerClassAll.occupationMethod3(..), executionTimeMs=130, kind=method-execution, parameters={occupation=developer}, returnValue=22, target=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258, this=com.stevesouza.aspectj.logging.automon.all.MyLoggerClassAll@6ed3f258}
+     * </pre>
+     *
+     * <p>
+     * Note: This aspect only cleans up the NDC/MDC entries it adds. If an exception is thrown, the MDC/NDC
+     * will be cleaned up, and an AFTER log line will be written in the 'after throwing' advice.
+     * </p>
+     *
+     * @return The result of the advised pointcut execution.
+     * @throws Throwable If the advised pointcut throws an exception, it is re-thrown after logging.
      */
     Object around() : select() {
         if (isEnabled()) {
@@ -101,15 +107,17 @@ public privileged abstract aspect FullContextTracingAspect extends BaseTracingAs
     }
 
     /**
-     *  AfterThrowing advice for handling exceptions.
-     *   Adds the collection context to the MDC/NDC context for the exception event to the existing
-     *   context already added from the method entry from the {@link #around} method and also conditionally logs the information if
-     *   logging is enableLogging for this class.
+     * AfterThrowing advice for handling exceptions.
+     * <p>
+     * This advice is executed when an exception is thrown within the traced methods. It delegates the exception handling
+     * to the `afterThrowing` method in the base class, ensuring proper cleanup and logging.
+     * </p>
+     *
+     * @param throwable The thrown exception
      */
     after() throwing(Throwable throwable): select() {
         if (isEnabled()) {
             afterThrowing(throwable);
         }
     }
-
 }
