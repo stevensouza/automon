@@ -1,6 +1,5 @@
 package org.automon.aspects.tracing.spring;
 
-
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -9,65 +8,55 @@ import org.automon.aspects.tracing.BaseContextAspect;
 import org.automon.utils.Utils;
 
 /**
- * Spring AOP aspect for managing request IDs in the SLF4J MDC (Mapped Diagnostic Context).
- * This aspect adds a unique request ID to the MDC at the beginning of a request and removes it at the end.
+ * <p>Aspect for managing request IDs in the SLF4J MDC (Mapped Diagnostic Context). This aspect works for
+ * both Spring and non-Spring applications.</p>
+ * <p>This aspect adds a unique request ID to the MDC at the beginning of a request and removes it at the end.</p>
  *
- * <p>
- * Note it is best to use {@link org.automon.aspects.tracing.aspectj.RequestIdAspect} when using aspectj directly as it allows for more pointcuts to be specified
- * such as non-public methods, variable assignment, calls and more that are not allowed in spring.  Use the Spring
- * version of this class when working with Spring AOP.  Note this class
- * can be used in spring apps if the full power of aspectj is required.  See Automon documentation for examples.
- * </p>
- *
- * <p>Note this object can be controlled (enabled/disabled at runtime) by using {@link org.automon.jmx.EnableMXBean}</p>
- * <p>Note by default AspectJ aspects are singletons.</p>
+ * <p>This aspect can be dynamically enabled or disabled at runtime using the {@link org.automon.jmx.EnableMXBean}.</p>
+ * <p>AspectJ aspects are singletons by default.</p>
  */
-@Aspect
+@Aspect // Indicates that this class is a Spring AOP aspect
 public abstract class RequestIdAspect extends BaseContextAspect {
 
+    /**
+     * The purpose of this aspect for JMX registration (default: "request_id_spring").
+     */
     static final String PURPOSE = "request_id_spring";
 
     /**
-     * Constructs a new `RequestIdAspect` by looking in  automon properties and if it doesn't exist in there
-     * default to enable.
+     * Constructs a new `RequestIdAspect`. It checks the `automon.properties` file to determine if the aspect
+     * should be enabled. If the property is not found, it defaults to enabled.
      */
     public RequestIdAspect() {
         initialize(PURPOSE, Utils.shouldEnable(getClass().getName()));
     }
 
     /**
-     * Constructs a new `RequestIdAspect` and sets the initial enabled state
-     * @param enable The initial enable state for tracing.
+     * Constructs a new `RequestIdAspect` and sets the initial enabled state.
+     *
+     * @param enable The initial enable state for the aspect.
      */
     public RequestIdAspect(boolean enable) {
         initialize(PURPOSE, enable);
     }
 
     /**
-     * Pointcut that defines where the request ID should be added and removed.
-     * This should be implemented to target the entry and exit points of requests in your application.
+     * Abstract pointcut that defines the points in your application where the request ID should be added and removed.
+     * This should be implemented by subclasses to target the entry and exit points of requests.
      * <p>
-     * <p>**Examples:**</p>
-     *
-     *  <pre>
-     *      pointcut select() : execution(* com.stevesouza.MyLoggerClassBasic.main(..));
-     *  </pre>
+     * **Examples:**
+     * </p>
      *
      * <pre>
-     * pointcut select() : enabled() && execution(* com.example..*.*(..));
+     * &#64;Pointcut("execution(* com.stevesouza.MyLoggerClassBasic.main(..))")
      * </pre>
-     *
-     * Alternatively the following equivalent approach could be used:
-     * <pre>
-     *  pointcut select() : if(isEnabled()) && execution(* com.example..*.*(..));
-     * </pre>
-     *
      */
     @Pointcut
     public abstract void select();
 
     /**
-     * Advice to add a request ID to the MDC before the request is processed.
+     * Before advice: Executed before the join point defined by {@link #select()}.
+     * Adds a unique request ID to the MDC if the aspect is enabled.
      */
     @Before("select()")
     public void beforeAdvice() {
@@ -77,7 +66,8 @@ public abstract class RequestIdAspect extends BaseContextAspect {
     }
 
     /**
-     * Advice to remove the request ID from the MDC after the request is processed.
+     * After advice: Executed after the join point defined by {@link #select()}.
+     * Removes the request ID from the MDC if the aspect is enabled.
      */
     @After("select()")
     public void afterAdvice() {
@@ -85,5 +75,4 @@ public abstract class RequestIdAspect extends BaseContextAspect {
             helper.removeRequestId();
         }
     }
-
 }
