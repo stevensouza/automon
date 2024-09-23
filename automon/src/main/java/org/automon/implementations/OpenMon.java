@@ -3,53 +3,57 @@ package org.automon.implementations;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * Implementations of this interface can be called automatically by aspectJ pointcuts to monitor your system.  Implementations could
- * time methods and count exceptions.  Other implementations could simply log method calls and exceptions.  The implementation should
- * be stateless or at a minimum thread safe.
+ * <p>This interface defines the core methods for interacting with monitoring systems in Automon.</p>
+ * <p>Implementations of this interface can be automatically invoked by AspectJ pointcuts to monitor your system.
+ * Typical use cases include timing methods and counting exceptions, but implementations can also log method calls and exceptions or perform other custom monitoring actions.
+ * The implementation should ideally be stateless or, at a minimum, thread-safe.</p>
+ *
+ * @param <T> The type of context object used for monitoring (e.g., a timer or other stateful object).
  */
 public interface OpenMon<T> {
+
     /**
      * Label used for tracking exceptions.
      */
-    public static final String EXCEPTION_LABEL = "org.automon.Exceptions";
+    String EXCEPTION_LABEL = "org.automon.Exceptions";
 
     /**
-     * Called by aspectJ as part of aroundAdvice. It is typically used to start a timer, however anything could be done
-     * such as logging the start of the method.
+     * <p>Called by AspectJ at the beginning of an advised method execution (around advice).</p>
+     * <p>This method is typically used to start a timer or initiate monitoring for the method.
+     * However, it can be used for any action, such as logging the method's start.</p>
      *
-     * @param jp The method name or any identifying context.
-     * @return Any Object can be returned.  It will be passed back into the stop(..) method.  Typically this would be a timer
-     * that can later be stopped.
+     * @param jp The static part of the JoinPoint representing the intercepted method.
+     * @return A context object that will be passed to the `stop` method. This is typically a timer
+     *         or another object to track the monitoring state.
      */
-    public T start(JoinPoint.StaticPart jp);
+    T start(JoinPoint.StaticPart jp);
 
     /**
-     * Called as part of AspectJ's 'around' advice.  It is called after the event such as a method has completed. Typically
-     * a timer that was started in the 'start' method above would be stopped.  Although anything can be done.
+     * <p>Called by AspectJ after the successful completion of an advised method execution (around advice).</p>
+     * <p>This method is typically used to stop a timer or finalize monitoring for the method.
+     * It can also be used for any other action, such as logging the method's completion.</p>
      *
-     * @param context The object returned by 'start' is passed into this parameter.  Typically this would be a timer and should be stopped.
-     *                Note although this variable is typically a 'timer' it can really be any object, or state needed.
+     * @param context The context object returned by the `start` method.
      */
-    public void stop(T context);
-
+    void stop(T context);
 
     /**
-     * Called as part of AspectJ's 'around' advice.  It is called after the event such as a method has completed. Typically
-     * a timer that was started in the 'start' method above would be stopped.  Although anything can be done.
-     * Make sure not to double count exceptions which can happen if you also handle them in {@link #exception}
+     * <p>Called by AspectJ after an advised method execution completes with an exception (around advice).</p>
+     * <p>This method is typically used to stop a timer, record the exception, and finalize monitoring for the method.
+     * Ensure that exceptions are not double-counted if you also handle them in the `exception` method.</p>
      *
-     * @param context The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
-     *                Note although this variable is typically a 'timer' it can really be any object, or state needed.
+     * @param context   The context object returned by the `start` method.
+     * @param throwable The exception that was thrown.
      */
-    public void stop(T context, Throwable throwable);
+    void stop(T context, Throwable throwable);
 
     /**
-     * Notification that an exception has occurred. Typically the implementing class would count exceptions though anything is possible.
+     * <p>Called when an exception occurs within the monitored code.</p>
+     * <p>Implementations typically use this method to count or log exceptions.</p>
      *
-     * @param jp        The {@link org.aspectj.lang.JoinPoint} associated with where the exception was thrown.  Note this gives you access
-     *                  to the argument names and values of the pointcut that threw the exception
-     * @param throwable The thrown exception
+     * @param jp        The `JoinPoint` where the exception was thrown. This provides access to
+     *                  argument names and values.
+     * @param throwable The thrown exception.
      */
-    public void exception(JoinPoint jp, Throwable throwable);
-
+    void exception(JoinPoint jp, Throwable throwable);
 }

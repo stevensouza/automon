@@ -1,6 +1,5 @@
 package org.automon.implementations;
 
-
 import org.aspectj.lang.JoinPoint;
 import org.automon.utils.AutomonExpirable;
 import org.automon.utils.Utils;
@@ -10,92 +9,112 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Base implementation of {@link org.automon.implementations.OpenMon} that has useful standard behavior for any class
- * that inherits from it.  For example it tracks and reuses any Exceptions that are thrown and cleans them up after
- * a certain amount of time to avoid memory leaks.
+ * <p>Base implementation of the `OpenMon` interface, providing common functionality for monitoring implementations.</p>
+ * <p>This class handles exception tracking and provides methods for starting and stopping monitoring,
+ * as well as generating labels for exceptions.</p>
+ *
+ * @param <T> The type of context object used for monitoring (e.g., a timer or other stateful object).
  */
 public abstract class OpenMonBase<T> implements OpenMon<T> {
 
     /**
-     * map containing recently thrown exceptions so they can be reused if needed
+     * A map to store recently thrown exceptions, allowing for reuse and preventing memory leaks.
+     * The map uses `Throwable` as the key and `AutomonExpirable` (which wraps the exception and additional context) as the value.
      */
     private Map<Throwable, AutomonExpirable> exceptionsMap = Utils.createExceptionMap();
 
     /**
-     * Stop the timer and put the the {@link java.lang.Throwable} argument in a map so it can be reused by other methods
-     * in the call stack.
+     * Stops the monitoring context and records the associated exception.
      *
-     * @param context   The object returned by 'start' is passed in.  Typically this would be a timer and should be stopped.
-     * @param throwable This argument is put in the exception map, and otherwise ignored in the default implementation.
+     * @param context   The monitoring context object (typically a timer) returned by the `start` method.
+     * @param throwable The exception that occurred during the monitored execution.
      */
     @Override
     public void stop(T context, Throwable throwable) {
-        stop(context);
-        put(throwable);
+        stop(context); // Stop the monitoring (timer, etc.)
+        put(throwable); // Store the exception for potential reuse
     }
 
     /**
-     * Override {@link #trackException(org.aspectj.lang.JoinPoint, Throwable)} instead of this method unless the default behavior
-     * is not desired.  The useful capability this method provides is to store the thrown exception in the exceptions map.
+     * Handles exceptions by storing them and delegating further tracking to `trackException`.
+     * <p>
+     * This method is called when an exception is thrown within the monitored code. It first stores the exception
+     * in the `exceptionsMap` to prevent duplicate tracking and then calls `trackException` to perform any
+     * implementation-specific exception handling (e.g., logging or metric recording).
+     * <p>
+     * **Note:** The order of operations is important, especially for implementations like Jamon,
+     * where the stack trace needs to be available before further processing.
      *
-     * @param jp        The {@link org.aspectj.lang.JoinPoint} associated with where the exception was thrown.
-     * @param throwable The thrown exception
+     * @param jp        The `JoinPoint` where the exception was thrown.
+     * @param throwable The exception that was thrown.
      */
     @Override
     public void exception(JoinPoint jp, Throwable throwable) {
-        // note for the jamon implementation the order of the following methods is important.  That way the stacktrace can be available
-        // to be put in all monitors.
-        put(throwable);
-        trackException(jp, throwable);
+        put(throwable); // Store the exception
+        trackException(jp, throwable); // Perform implementation-specific exception tracking
     }
 
     /**
-     * Can be overridden to perform the action required by the implementation class.  For example JAMon specific actions
-     * are taken here.
+     * <p>Performs implementation-specific exception tracking.</p>
+     * <p>This method can be overridden by subclasses to customize how exceptions are handled.
+     * The default implementation does nothing.</p>
      *
-     * @param jp
-     * @param throwable
+     * @param jp        The `JoinPoint` where the exception was thrown.
+     * @param throwable The exception that was thrown.
      */
     protected void trackException(JoinPoint jp, Throwable throwable) {
-
+        // Default implementation: No operation
     }
 
     /**
-     * @param throwable The exception that was thrown
-     * @return One or more labels that should be created that represent the exception being thrown.  By default this is the specific
-     * exception label as well as a more general label that represents all exceptions.
+     * Generates labels for the given throwable.
+     *
+     * @param throwable The exception for which labels are generated
+     * @return A list of labels representing the exception. By default, it includes the specific exception label
+     * and a general exception label (`EXCEPTION_LABEL`).
      */
     protected List<String> getLabels(Throwable throwable) {
-        List<String> labels = new ArrayList<String>();
-        labels.add(Utils.getLabel(throwable));
-        labels.add(EXCEPTION_LABEL);
+        List<String> labels = new ArrayList<>();
+        labels.add(Utils.getLabel(throwable)); // Add the specific exception label
+        labels.add(EXCEPTION_LABEL); // Add the general exception label
         return labels;
     }
 
-
     /**
-     * Put the thrown exception in a map.  The exception is given a timestamp so it can be removed after a reasonable
-     * amount of time. This ensures that any other method in the call stack doesn't keep putting in the same exception.
+     * Stores the thrown exception in the `exceptionsMap`.
+     * <p>
+     * The exception is wrapped in an `AutomonExpirable` object, which includes a timestamp to allow for
+     * automatic removal after a certain period. This prevents the map from growing indefinitely and avoids
+     * duplicate tracking of the same exception within the call stack.
      *
-     * @param throwable
+     * @param throwable The exception to be stored.
      */
     protected void put(Throwable throwable) {
-        if (!exceptionsMap.containsKey(throwable)) {
+        if (!exceptionsMap.containsKey(throwable)) { // Avoid duplicates
             AutomonExpirable automonExpirable = new AutomonExpirable();
             automonExpirable.setThrowable(throwable);
             exceptionsMap.put(throwable, automonExpirable);
         }
     }
 
+    /**
+     * Retrieves the `AutomonExpirable` object associated with the given `throwable` from the `exceptionsMap`.
+     *
+     * @param throwable The exception to retrieve.
+     * @return The `AutomonExpirable` object, or `null` if not found.
+     */
     protected AutomonExpirable get(Throwable throwable) {
         return exceptionsMap.get(throwable);
     }
 
     /**
-     * visible for testing
+     * Returns the map containing recently thrown exceptions.
+     * <p>
+     * This method is primarily intended for testing purposes.
+     *
+     * @return The map of exceptions.
      */
     Map<Throwable, AutomonExpirable> getExceptionsMap() {
         return exceptionsMap;
     }
-
 }
