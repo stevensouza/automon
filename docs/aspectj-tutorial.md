@@ -283,4 +283,97 @@ AspectJ offers advanced capabilities beyond dynamic cross-cutting, allowing comp
 
 - **Direct File I/O**:
   ```java
-  declare error: call(* java.io.File.*(..)) && !within
+  declare error: call(* java.io.File.*(..)) && !within(com.example.io..*) : "Direct file I/O is prohibited. Use the FileManager class.";
+
+### Changing Code Structure
+
+AspectJ provides powerful features to modify the structure of your code at compile-time. Here are some key capabilities:
+
+#### Extending/Enhancing Classes
+
+- **declare parents**: Dynamically modify class inheritance (implement interfaces, extend superclasses), but you need to provide the implementation.
+    - Example: Add an interface:
+      ```java
+      declare parents: com.example.domain.* implements Auditable;
+      ```
+    - Note: You need to provide the implementation within the aspect or in the target classes themselves.
+
+#### Adding Annotations
+
+- **declare @type**, **declare @method**, etc.: Introduce annotations to classes, methods, fields, or constructors at compile time.
+    - Example: Annotate service methods:
+      ```java
+      declare @method: execution(* com.example.service.*.*(..)) : @Transactional;
+      ```
+
+#### Implementing Interfaces (Mixins)
+
+- **declare mixin**: "Mix in" interface implementations into existing classes.
+    - Example: Add logging:
+      ```java
+      declare parents: com.example.* implements Loggable;
+      
+      public interface Loggable {
+          Logger getLogger();
+      }
+      
+      public aspect LoggingMixin {
+          private Logger Logger.logger = LoggerFactory.getLogger(Logger.class);
+      
+          public Logger Loggable.getLogger() {
+              return logger;
+          }
+      }
+      ```
+
+#### Implementing Interfaces (Audit Mixins)
+
+- Example: Add Auditing
+  ```java
+  public interface Auditable {
+      Date getCreated();
+      void setCreated(Date date);
+      Date getModified();
+      void setModified(Date date);
+  }
+  
+  public aspect AuditMixin {
+      private Date Auditable.created;
+      private Date Auditable.modified;
+  
+      public Date Auditable.getCreated() { return this.created; }
+      public void Auditable.setCreated(Date date) { this.created = date; }
+      public Date Auditable.getModified() { return this.modified; }
+      public void Auditable.setModified(Date date) { this.modified = date; }
+  
+      pointcut auditable(): set(*) && this(Auditable);
+  
+      after(Auditable a): auditable() && this(a) {
+          a.setModified(new Date());
+      }
+  }
+  
+  declare parents: com.example.domain.* implements Auditable;
+  ```
+
+#### Tracking Last Field Change
+
+This aspect adds a `lastFieldChange` field to `MyClass` and updates it whenever any field within `MyClass` is modified:
+
+```java
+public aspect LastChangeTracker {
+    private long MyClass.lastFieldChange;
+
+    public long MyClass.getLastFieldChange() {
+        return lastFieldChange;
+    }
+
+    pointcut fieldChange(): set(* MyClass.*);
+
+    after() returning: fieldChange() {
+        ((MyClass)thisJoinPoint.getTarget()).lastFieldChange = System.currentTimeMillis();
+    }
+}
+```
+
+These advanced features allow AspectJ to make significant modifications to your codebase at compile-time, enabling powerful cross-cutting concerns and structural changes without modifying the original source code.
