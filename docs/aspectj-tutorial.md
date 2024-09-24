@@ -1,5 +1,37 @@
 # AspectJ Tutorial
 
+## Table of Contents
+
+1. [Introduction to AspectJ](#1-introduction-to-aspectj)
+    - [What is AspectJ?](#what-is-aspectj)
+    - [Key Terminology](#key-terminology)
+    - [Use Cases for AspectJ](#use-cases-for-aspectj)
+
+2. [Core Concepts of AspectJ](#2-core-concepts-of-aspectj)
+    - [Pointcuts/Join Points](#pointcutsjoin-points)
+        - [Example JoinPoints in a Java Class](#example-joinpoints-in-a-java-class)
+        - [Some JoinPoints](#some-joinpoints)
+    - [Types of Advice](#types-of-advice)
+    - [Accessing Join Point Information](#accessing-join-point-information)
+
+3. [Aspects in Action](#3-aspects-in-action)
+    - [Logging Aspect](#logging-aspect)
+    - [Performance Monitoring Aspect](#performance-monitoring-aspect)
+    - [Exception Handling Aspect](#exception-handling-aspect)
+
+4. [Weaving Models in AspectJ](#4-weaving-models-in-aspectj)
+    - [Example aop.xml](#example-aopxml)
+    - [Command line to run LTW](#command-line-to-run-ltw-for-the-comexamplemain-program)
+
+5. [Advanced AspectJ Features](#5-advanced-aspectj-features)
+    - [Compile-Time Errors and Warnings](#compile-time-errors-and-warnings)
+    - [Changing Code Structure](#changing-code-structure)
+        - [Extending/Enhancing Classes](#extendingenhancing-classes)
+        - [Adding Annotations](#adding-annotations)
+        - [Implementing Interfaces (Mixins)](#implementing-interfaces-mixins)
+        - [Implementing Interfaces (Audit Mixins)](#implementing-interfaces-audit-mixins)
+        - [Tracking Last Field Change](#tracking-last-field-change)
+
 ## AspectJ Cheatsheet
 
 ### 1. Introduction to AspectJ
