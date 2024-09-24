@@ -19,14 +19,14 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class Annotations {
 
     /**
-     * Pointcut that matches methods or classes annotated with `@Monitor`.
+     * Pointcut that matches methods or classes annotated with Automon's `@Monitor`.
      */
     @Pointcut("within(@org.automon.annotations.Monitor *) || @annotation(org.automon.annotations.Monitor)")
     public void automon_monitor() {
     }
 
     /**
-     * Pointcut that matches methods or classes annotated with `@Trace`.
+     * Pointcut that matches methods or classes annotated with Automon's `@Trace`.
      */
     @Pointcut("within(@org.automon.annotations.Trace *) || @annotation(org.automon.annotations.Trace)")
     public void automon_trace() {
