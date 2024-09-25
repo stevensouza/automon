@@ -25,9 +25,16 @@ Version 1.0 of Automon only performed monitoring and version 2.0 added tracing.
 - **Dynamic Enable/Disable**: Can be dynamically enabled or disabled via JMX.
 
 # What are Automon's dependencies?
+The Automon dependency will look something like this
+```xml
+      <dependency>
+          <groupId>org.automon</groupId>
+          <artifactId>automon</artifactId>
+          <version>2.0.0</version>
+      </dependency>
+```
+The following are other possible dependencies depending on whehter you are using Automon monitoring or tracing.
 
-A short [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md)
- and a a short [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md) can be found at these links.
 <details>
 <summary><strong>AspectJ (used for both Tracing and Monitoring)</strong></summary>
 
@@ -61,6 +68,11 @@ If automon doesn't support your tool of interest it can usually be supported by 
 Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monitoring/metering APIs and so through it automon does too.  As of 5/2019 the list of tools Micrometer can proxy includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront.
 
 </details>
+
+## Tutorials
+* [Automon tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md)
+* [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md)
+* [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md) can be found at these links.)
 
 ## How Automon Works
 
