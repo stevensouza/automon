@@ -6,35 +6,6 @@ of monitoring and tracing, enabling you to gain valuable insights into your code
 
 Version 1.0 of Automon only performed monitoring and version 2.0 added tracing.
 
-# What are Automon's dependencies?
-
-Short AspectJ and SLF4J and Log4j2 tutorials can be found at these links.
-
-## AspectJ (used for both Tracing and Monitoring)
-
-- **Aspect-Oriented Programming (AOP)** is a programming paradigm that addresses cross-cutting concerns, which are functionalities that span multiple parts of your application (e.g., logging, performance monitoring, security).
-- **AspectJ** is a popular AOP framework for Java that provides a rich set of tools for defining and weaving aspects into your code.
-
-Automon leverages AspectJ's capabilities to enable developers and administrators to not only define what parts of their 
-code to observe (pointcuts), but also to seamlessly inject custom monitoring or tracing logic at those precise points (advice).
-
-## SLF4J (used for Tracing only)
-SLF4J (Simple Logging Facade for Java) acts as a bridge between your application and the actual logging framework you 
-choose to use. It allows you to switch logging implementations (like Log4j, Logback, etc.) without changing your code. 
-This provides flexibility and makes your application independent of a specific logging library
-
-'Tracing' is defined as the process of capturing detailed information about the execution flow of an application.
-Automon utilizes SLF4J's flexibility to provide comprehensive tracing capabilities, capturing method entry and exit 
-events along with crucial metadata such as method names, execution times, and parameter values, to name just a few.
-
-## Monitoring tools (used for Monitoring only)
-'Monitoring' is defined as the practice of collecting and analyzing metrics to understand the behavior and health of an application.
-
-Some monitoring tools Automon currently works with are: Micrometer JAMon, JavaSimon, Yammer Metrics, StatsD. Here are the current [implementations](https://github.com/stevensouza/automon/tree/master/automon/src/main/java/org/automon/implementations).
-If automon doesn't support your tool of interest it can usually be supported by adding a simple class.
-
-Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monitoring/metering APIs and so through it automon does too.  As of 5/2019 the list of tools Micrometer can proxy includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront.
-
 ## Why Automon?
 
 - Non-invasive monitoring and tracing: No need to modify your existing code
@@ -52,6 +23,43 @@ Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monit
 - **JDK and Third-Party Library Monitoring**: Monitor not just your code, but also JDK classes and third-party libraries/jars.
 - **Spring Integration**: Seamlessly integrate with Spring applications.
 - **Dynamic Enable/Disable**: Can be dynamically enabled or disabled via JMX.
+
+# What are Automon's dependencies?
+
+??Short AspectJ and SLF4J and Log4j2 tutorials can be found at these links.
+<details>
+<summary><strong>AspectJ (used for both Tracing and Monitoring)</strong></summary>
+
+- **Aspect-Oriented Programming (AOP)** is a programming paradigm that addresses cross-cutting concerns, which are functionalities that span multiple parts of your application (e.g., logging, performance monitoring, security).
+- **AspectJ** is a popular AOP framework for Java that provides a rich set of tools for defining and weaving aspects into your code.
+
+Automon leverages AspectJ's capabilities to enable developers and administrators to not only define what parts of their 
+code to observe (pointcuts), but also to seamlessly inject custom monitoring or tracing logic at those precise points (advice).
+</details>
+
+<details>
+<summary><strong>SLF4J (used for Tracing only)</strong></summary>
+
+SLF4J (Simple Logging Facade for Java) acts as a bridge between your application and the actual logging framework you 
+choose to use. It allows you to switch logging implementations (like Log4j, Logback, etc.) without changing your code. 
+This provides flexibility and makes your application independent of a specific logging library
+
+'Tracing' is defined as the process of capturing detailed information about the execution flow of an application.
+Automon utilizes SLF4J's flexibility to provide comprehensive tracing capabilities, capturing method entry and exit 
+events along with crucial metadata such as method names, execution times, and parameter values, to name just a few.
+</details>
+
+<details>
+<summary><strong>Monitoring tools (used for Monitoring only)</strong></summary>
+
+'Monitoring' is defined as the practice of collecting and analyzing metrics to understand the behavior and health of an application.
+
+Some monitoring tools Automon currently works with are: Micrometer JAMon, JavaSimon, Yammer Metrics, StatsD. Here are the current [implementations](https://github.com/stevensouza/automon/tree/master/automon/src/main/java/org/automon/implementations).
+If automon doesn't support your tool of interest it can usually be supported by adding a simple class.
+
+Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monitoring/metering APIs and so through it automon does too.  As of 5/2019 the list of tools Micrometer can proxy includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront.
+
+</details>
 
 ## How Automon Works
 
