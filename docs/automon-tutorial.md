@@ -62,7 +62,22 @@ The [examples](https://github.com/stevensouza/automon/tree/master/examples) dire
 shows how to invoke your programs using both LTW, and BTW.
 
 ### Load Time Weaving
-(LTW) also involves providing an ajc-aop.xml config file.  Review the [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
+
+#### Advantages of Load-Time Weaving
+
+1. **Flexibility**: LTW allows you to add or modify aspects without recompiling your application.
+2. **Runtime decision-making**: You can decide whether to apply aspects at runtime.
+3. **Easier testing**: You can run your application with or without aspects easily.
+4. **No build-time dependencies**: Your build process doesn't need to be aware of AspectJ.
+
+#### When to Use Load-Time Weaving
+
+- When you need to add monitoring or tracing to third-party libraries or classes you don't own.
+- In development environments where quick iteration and testing with different aspect configurations is valuable.
+- When you want to keep your source code and compiled classes free of woven aspects.
+
+#### Load-Time Weaving Examples
+(LTW) also involves providing an `ajc-aop.xml` config file.  Review the [config files](https://github.com/stevensouza/automon/tree/master/examples/config)
 for more information on them. The following maven projects generate plain (unwoven) java jars.  Each of them has a *.sh script
 in the [examples](https://github.com/stevensouza/automon/tree/master/examples) directory that lets you run the the java code with LTW.
 
@@ -76,7 +91,21 @@ in the [examples](https://github.com/stevensouza/automon/tree/master/examples) d
   [README.md](https://github.com/stevensouza/automon/tree/master/webapp_unwoven) for more information.
 
 
-### Build Time Weaving
+### Build-Time Weaving
+
+#### Advantages of Build-Time Weaving
+
+1. **Performance**: BTW typically has better runtime performance as the weaving is done at compile-time.
+2. **Verification**: Errors in aspect definitions are caught at compile-time.
+3. **Simpler deployment**: The woven classes can be deployed without additional runtime dependencies.
+
+#### When to Use Build-Time Weaving
+
+- For production environments where runtime performance is critical.
+- When you want to catch potential errors in your aspect definitions early in the development process.
+- When you have full control over the source code and build process of the application you're monitoring.
+
+#### Build-Time Weaving Examples
 (BTW) - And finally if you want to use Build Time Weaving in your maven build process refer to these BTW sample projects (In the examples I use 'woven' and BTW synonymously):
 
 * [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) - A simple project that
@@ -194,18 +223,6 @@ public class ExampleService {
 ## Tracing Example with Automon (Load-Time Weaving)
 
 
-### Advantages of Load-Time Weaving
-
-1. **Flexibility**: LTW allows you to add or modify aspects without recompiling your application.
-2. **Runtime decision-making**: You can decide whether to apply aspects at runtime.
-3. **Easier testing**: You can run your application with or without aspects easily.
-4. **No build-time dependencies**: Your build process doesn't need to be aware of AspectJ.
-
-### When to Use Load-Time Weaving
-
-- When you need to add monitoring or tracing to third-party libraries or classes you don't own.
-- In development environments where quick iteration and testing with different aspect configurations is valuable.
-- When you want to keep your source code and compiled classes free of woven aspects.
 
 ### Using BasicContextTracingAspect with LTW
 
@@ -240,17 +257,6 @@ Here are some other examples of LTW:???
 
 ## Monitoring Example with Automon (Build-Time Weaving)
 
-### Advantages of Build-Time Weaving
-
-1. **Performance**: BTW typically has better runtime performance as the weaving is done at compile-time.
-2. **Verification**: Errors in aspect definitions are caught at compile-time.
-3. **Simpler deployment**: The woven classes can be deployed without additional runtime dependencies.
-
-### When to Use Build-Time Weaving
-
-- For production environments where runtime performance is critical.
-- When you want to catch potential errors in your aspect definitions early in the development process.
-- When you have full control over the source code and build process of the application you're monitoring.
 
 ### Using MonitoringAspect with Micrometer
 
