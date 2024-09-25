@@ -41,11 +41,17 @@ runtime to specify what classes you want to monitor. It also lets you monitor jd
 Here is a short video that shows how to monitor your code using Automon with LTW: [Automon demo](http://youtu.be/RdR0EdezS74)
 
 ## Getting Started
-The quickest way to get started with Automon is to download this distribution, run 'mvn clean install' from the parent directory
-and go to the [examples](https://github.com/stevensouza/automon/tree/master/examples) directory and run the sample programs (*.sh).  
-There are more directions on running the examples in the 'examples' directories README file.
+The quickest way to get started with Automon is to download this distribution, run `mvn clean install` from the parent directory
+and go to the [examples](https://github.com/stevensouza/automon/tree/master/examples) directory and run the sample programs (*.sh). There are more directions on running the examples  
+[examples](https://github.com/stevensouza/automon/tree/master/examples) directory `README' file.
 
-If you are using **Spring** the following maven module shows how to [monitor Spring beans with Automon](https://github.com/stevensouza/automon/tree/master/spring_aop).  In particular look at the Spring [applicationContext.xml](https://github.com/stevensouza/automon/blob/master/spring_aop/src/main/resources/applicationContext.xml) file to see how to specify which Spring beans to monitor.
+### Spring AOP
+If you are using **Spring** the following maven module shows how to [monitor Spring beans with Automon](https://github.com/stevensouza/automon/tree/master/spring_aop).  
+* This [directory contains the aspects](https://github.com/stevensouza/automon/tree/master/spring_aop/src/main/java/org/automon/spring_aop/aspects) that will trace and monitor the Spring code.
+  * Note Spring only supports the `execution` pointcut on Spring bean public methods.  This is a limitation of Spring and not the Automon aspects which can work on any pointcut type as well as on non-public parts of a codebase.
+* This [directory contains the application source code](https://github.com/stevensouza/automon/tree/master/spring_aop/src/main/java/org/automon/spring_aop) being monitored.
+* This  [applicationContext.xml](https://github.com/stevensouza/automon/blob/master/spring_aop/src/main/resources/applicationContext.xml) file configures specifies which Spring beans to trace/monitor.
+* Look at this [pom.xml ](https://github.com/stevensouza/automon/tree/master/spring_aop)file to see how a Spring project should be configured.
 
 Automon does not require Spring though. **Running a non-Spring program** with Automon is easy too.  You simply...
 
