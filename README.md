@@ -1,19 +1,86 @@
-# Automon
-Automon combines the power of AOP (AspectJ) with monitoring tools  or logging tools that you already use to declaratively monitor the following:
+# What is Automon?
 
-* Your Java code,
-* The JDK,
-* Any jars used by your application. 
+Automon is a powerful Java library that combines the power of AOP (AspectJ) with monitoring or logging tools you already 
+use to declaratively monitor and/or trace your Java code, the JDK, and any jars used by your application. It streamlines the process 
+of monitoring and tracing, enabling you to gain valuable insights into your code's behavior without invasive modifications.
 
-Some monitoring tools Automon currently works with are: JAMon, JavaSimon, Yammer Metrics, StatsD, Micrometer. Here are the current [implementations](https://github.com/stevensouza/automon/tree/master/automon/src/main/java/org/automon/implementations). If automon doesn't support your tool of intrest it can usually be supported by adding a simple class.
+Version 1.0 of Automon only performed monitoring and version 2.0 added tracing.
 
-Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monitoring/metering APIs and so through it automon does too.  As of 5/2019 the list of tools Micrometer can proxy includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront. 
+# What are Automon's dependencies?
 
-**Automon is typically used to track method invocation time, and exception counts.** It is very easy to set-up and you should
+Short AspectJ and SLF4J and Log4j2 tutorials can be found at these links.
+
+## AspectJ (used for both Tracing and Monitoring)
+
+- **Aspect-Oriented Programming (AOP)** is a programming paradigm that addresses cross-cutting concerns, which are functionalities that span multiple parts of your application (e.g., logging, performance monitoring, security).
+- **AspectJ** is a popular AOP framework for Java that provides a rich set of tools for defining and weaving aspects into your code.
+
+Automon leverages AspectJ's capabilities to enable developers and administrators to not only define what parts of their 
+code to observe (pointcuts), but also to seamlessly inject custom monitoring or tracing logic at those precise points (advice).
+
+## SLF4J (used for Tracing only)
+SLF4J (Simple Logging Facade for Java) acts as a bridge between your application and the actual logging framework you 
+choose to use. It allows you to switch logging implementations (like Log4j, Logback, etc.) without changing your code. 
+This provides flexibility and makes your application independent of a specific logging library
+
+'Tracing' is defined as the process of capturing detailed information about the execution flow of an application.
+Automon utilizes SLF4J's flexibility to provide comprehensive tracing capabilities, capturing method entry and exit 
+events along with crucial metadata such as method names, execution times, and parameter values, to name just a few.
+
+## Monitoring tools (used for Monitoring only)
+'Monitoring' is defined as the practice of collecting and analyzing metrics to understand the behavior and health of an application.
+
+Some monitoring tools Automon currently works with are: Micrometer JAMon, JavaSimon, Yammer Metrics, StatsD. Here are the current [implementations](https://github.com/stevensouza/automon/tree/master/automon/src/main/java/org/automon/implementations).
+If automon doesn't support your tool of interest it can usually be supported by adding a simple class.
+
+Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monitoring/metering APIs and so through it automon does too.  As of 5/2019 the list of tools Micrometer can proxy includes: AppOptics, Atlas, Datadog, Dynatrace, Elastic, Ganglia, Graphite, Humio, Influx, JMX, KairosDB, New Relic, Prometheus, SignalFx, StatsD, Wavefront.
+
+## Why Automon?
+
+- Non-invasive monitoring and tracing: No need to modify your existing code
+- Flexibility: Works with various monitoring and logging tools you already use
+- Comprehensive coverage: Monitor and trace your code, JDK, and third-party libraries/jars
+- Performance insights: Easily identify bottlenecks and optimize your application
+- Exception tracking: Catch and analyze exceptions for improved reliability
+
+## Key Features
+
+- **Performance Monitoring**: Track method execution times and identify performance bottlenecks.
+- **Tracing**: Capture detailed logs of method calls, parameters, return values, and exceptions.
+- **Exception Tracking**: Monitor and log exceptions, providing insights into error rates and potential issues.
+- **Flexibility**: Works with various monitoring tools like Micrometer, JAMon, Yammer Metrics, StatsD, and Micrometer.
+- **JDK and Third-Party Library Monitoring**: Monitor not just your code, but also JDK classes and third-party libraries/jars.
+- **Spring Integration**: Seamlessly integrate with Spring applications.
+- **Dynamic Enable/Disable**: Can be dynamically enabled or disabled via JMX.
+
+## How Automon Works
+
+Automon uses AspectJ weaving to inject monitoring and tracing code into your application. This weaving can be done at:
+- Runtime with Load Time Weaving (LTW)
+- Build time with Build Time Weaving (BTW)
+
+LTW offers greater flexibility, allowing you to dynamically define pointcuts and monitor even third-party libraries and JDK classes.
+
+## Give some examples of what Automon can do??
+- **Monitoring:** Automon is typically used to track method invocation time, and exception counts. It is very easy to set-up and you should
 be able to start monitoring your code within minutes.  The data will be stored and displayed using the monitoring tool of your choice. The following image shows the type of data Automon collects (The example below displays the data in JAMon, however the data can be displayed in whatever monitoring tool/api you choose.  For example here is same data displayed in [grahphite/StatsD](https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png)).
 
 ![Automon method and exception metrics displayed in JAMon](https://github.com/stevensouza/automon/blob/master/docs/automon_jamon.png)
 
+- **Tracing:** Here is an example of the output generated to an application log file when the 'BasicContextTracingAspect'
+ is used (not there are other tracing aspects such as 'FullContextTracingAspect'). Note the the following trace 
+tracks method execution but it can also track many other join points such as instance variable get/set.
+
+Automon automatically logged method entry (BEFORE) and exit (AFTER) for the 'getFirstName()' method. 
+It also kept as metadata the calls that led to its being called (main(..) called run(..) which called 'getFirstName()').
+The method exit tracks how long the method invocation took. In this example the 'RequestIdAspect' was also used to create
+a unique request UUID that lasts the duration of the request. You can see how this trace output was generated by looking at 
+??examples/hello-world-tracebasiccontext-ltw.sh??
+
+```
+c.m.MyTracingBasicContextAspect INFO 08:51:56.273 - BEFORE MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), NDC2=HelloWorld.getFirstName(), kind=method-execution, requestId=5f7c836b-0283-42b7-b52c-1819e0ef855c} 
+c.m.MyTracingBasicContextAspect INFO 08:51:56.274 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), NDC2=HelloWorld.getFirstName(), executionTimeMs=0, kind=method-execution, requestId=5f7c836b-0283-42b7-b52c-1819e0ef855c}
+```
 **The following is a sample command that will monitor your program with Automon** (in this case using JAMon):
 * java  -Dorg.aspectj.weaver.loadtime.configuration=file:aop.xml -javaagent:aspectjweaver.jar -classpath automon-{version}.jar:myapplication.jar:jamon-2.81.jar com.mypackage.MyClass
 * Running with Micrometer, Yammer Metrics, StatsD, JavaSimon etc. you would simply use their respective jars instead of the JAMon jar
@@ -100,7 +167,7 @@ Incorporate Automon into your maven project by adding the following dependency (
       <dependency>
           <groupId>org.automon</groupId>
           <artifactId>automon</artifactId>
-          <version>1.0.3</version>
+          <version>2.0.0</version>
       </dependency>
 ```
 
@@ -119,6 +186,30 @@ at admin@automon.org.
 Thanks, and happy monitoring!
 
 Steve
+
+## Glossary
+### Aspect-Oriented Programming (AOP) and AspectJ Concepts
+* **AOP (Aspect-Oriented Programming)**: A programming paradigm that enables modularization of cross-cutting concerns.
+* **Aspect**: A modular unit that encapsulates a cross-cutting concern, consisting of pointcuts and advice.
+* **Advice**: The code that is executed at join points selected by a pointcut.
+* **Join point**: A well-defined point in the execution of your program, such as a method call, field access, or exception handling.
+* **Pointcut**: An expression that selects join points in your code where advice should be applied.
+* **Weaving**: The process of combining aspects with your target code to perform some action such as monitoring or tracing.
+* **AspectJ**: An AOP framework for Java.
+* **BTW (Build-Time Weaving)**: Weaving aspects into your code during compilation.
+* **LTW (Load-Time Weaving)**: Weaving aspects into your code at runtime.
+
+### Monitoring/Observability/Logging/Tracing
+* **Monitoring/Observability**: The practice of collecting and analyzing metrics and logs to understand the behavior and health of an application.
+* **Monitoring tools**: Tools used to collect and visualize metrics about an application's performance and health.
+* **Tracing**: The process of capturing detailed information about the execution flow of an application.
+* **Log4j**: A popular logging framework for Java.
+* **SLF4J**: A logging facade that provides a common interface for various logging frameworks.
+
+### Software Development
+* **Maven**: A build automation tool for Java projects.
+* **Spring**: A popular framework for building enterprise Java applications.
+* **Shaded jar**: An "uber-jar" that bundles all dependencies into a single JAR file.
 
 ```mermaid
 %%{init: { 'themeVariables': { 'fontSize': '10px' } } }%%
