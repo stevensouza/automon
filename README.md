@@ -77,7 +77,7 @@ be able to start monitoring your code within minutes.  The data will be stored a
 
 * **Tracing:** Here is an example of the output generated to an application log file when the `BasicContextTracingAspect` is used (note there are other tracing aspects such as 'FullContextTracingAspect'). Note that the following trace tracks method execution but it can also track many other join points such as instance variable get/set.
 
-    * **Example:**
+    * **Example:**??
       Automon automatically logged method entry (BEFORE) and exit (AFTER) for the `getFirstName()` method.
       It also kept as metadata the calls that led to its being called (`main(..)` called `run(..)` which called `getFirstName()`).
       The method exit tracks how long the method invocation took. In this example the `RequestIdAspect`?? was also used to create
