@@ -6,6 +6,9 @@ of monitoring and tracing, enabling you to gain valuable insights into your code
 
 Version 1.0 of Automon only performed monitoring and version 2.0 added tracing.
 
+Here is a visual depiction of how Automon and AspectJ work together to monitor and trace your code.
+![Automon](https://github.com/stevensouza/automon/blob/master/docs/%E2%80%8Eautomon_bridge.png)
+
 ## Why Automon?
 
 - Non-invasive monitoring and tracing: No need to modify your existing code
