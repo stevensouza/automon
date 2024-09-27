@@ -7,6 +7,9 @@ of monitoring and tracing, enabling you to gain valuable insights into your code
 Version 1.0 of Automon only performed monitoring and version 2.0 added tracing.
 
 Here is a visual depiction of how Automon and AspectJ work together to monitor and trace your code.
+The  diagram shows an AspectJ pointcut that will monitor or trace all methods (any return type, any number of arguments) in the 'com.mycompany' package as well as 
+its subpackages (..) using your monitoring tool of choice. (see the [Automon tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md) for more information
+on how AspectJ pointcuts work).
 ![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png)
 
 ## Why Automon?
@@ -90,10 +93,6 @@ See the [Automon Tutorial](https://github.com/stevensouza/automon/blob/master/do
 It serves as a bridge between AspectJ (AspectJ defines 'what to trace or monitor') and monitoring and logging tools (which define 'how to trace or monitor').
 You can also easily provide your own monitoring tool by implementing the simple [OpenMon](https://github.com/stevensouza/automon/blob/master/automon/src/main/java/org/automon/implementations/OpenMon.java)
 interface.
-
-The following diagram shows an AspectJ pointcut that will monitor all methods (any return type, any number of arguments)
-in the 'com.mycompany' package as well as its subpackages (..) using your monitoring tool of choice.
-![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png)
 
 And finally, Automon can be dynamically enabled/disabled via the Automon MXBean (JMX).
 
