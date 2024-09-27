@@ -187,8 +187,13 @@ org.mypackage.MyBasicContextTracingAspect.enableLogging=false
 
 ### JMX Integration
 
-Automon provides JMX integration for runtime configuration. You can use JConsole or any other JMX client to enable/disable aspects or change the OpenMon implementation at runtime.
+Automon provides JMX integration for runtime configuration. You can use JConsole or any other JMX client to enable/disable aspects, enable/disable logging or change the OpenMon implementation at runtime depending on the type of 
+aspect under management.
 
+For example the following screen snapshot shows two different Automon aspects that can be enabled/disabled at runtime
+(`request_id_native` which adds a unique request id to a trace and `trace_log_basic_context_spring` that adds other 
+context to the trace such as the method being invoked). Logging can also be enabled/disabled at runtime for any tracing aspect.
+![Automon JMX Example](https://github.com/stevensouza/automon/blob/master/docs/automon_jmx.png)
 To enable JMX, add the following system property when running your application:
 
 ```bash
