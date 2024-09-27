@@ -75,7 +75,7 @@ Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monit
 ## Tutorials
 * [Automon tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md)
 * [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md)
-* [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md) can be found at these links.)
+* [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md)
 
 ## How Automon Works
 
