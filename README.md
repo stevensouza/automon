@@ -1,12 +1,12 @@
-# Automon Table of Contents
+# Automon
 
 1. [What is Automon?](#what-is-automon)
 2. [Why Automon?](#why-automon)
 3. [Key Features](#key-features)
 4. [What are Automon's dependencies?](#what-are-automons-dependencies)
-    - [AspectJ](#aspectj-used-for-both-tracing-and-monitoring)
-    - [SLF4J](#slf4j-used-for-tracing-only)
-    - [Monitoring tools](#monitoring-tools-used-for-monitoring-only)
+    - AspectJ
+    - SLF4J
+    - Monitoring tools
 5. [Tutorials](#tutorials)
 6. [How Automon Works](#how-automon-works)
 7. [What are some examples of what Automon can do?](#what-are-some-examples-of-what-automon-can-do)
