@@ -11,7 +11,7 @@ The  diagram shows an AspectJ pointcut that will monitor or trace all methods (a
 its subpackages (..) using your monitoring or tracing tool of choice. 
 ![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png)
 (Note: see the [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md) for more information
-on how AspectJ pointcuts work).
+on how AspectJ pointcuts work)
 
 ## Why Automon?
 
