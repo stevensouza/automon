@@ -11,11 +11,11 @@ Here is a visual depiction of how Automon and AspectJ work together to monitor a
 
 ## Why Automon?
 
-- Non-invasive monitoring and tracing: No need to modify your existing code
-- Flexibility: Works with various monitoring and logging tools you already use
-- Comprehensive coverage: Monitor and trace your code, JDK, and third-party libraries/jars
-- Performance insights: Easily identify bottlenecks and optimize your application
-- Exception tracking: Catch and analyze exceptions for improved reliability
+- **Non-invasive monitoring and tracing**: No need to modify your existing code
+- **Flexibility**: Works with various monitoring and logging tools you already use
+- **Comprehensive coverage**: Monitor and trace your code, JDK, and third-party libraries/jars
+- **Performance insights**: Easily identify bottlenecks and optimize your application
+- **Exception tracking**: Catch and analyze exceptions for improved reliability
 
 ## Key Features
 
