@@ -10,8 +10,8 @@
 5. [Tutorials](#tutorials)
 6. [How Automon Works](#how-automon-works)
 7. [What are some examples of what Automon can do?](#what-are-some-examples-of-what-automon-can-do)
-    - [Monitoring](#monitoring)
-    - [Tracing](#tracing)
+    - Monitoring
+    - Tracing
 8. [Automon Source Code](#automon-source-code)
 9. [Glossary](#glossary)
     - [Aspect-Oriented Programming (AOP) and AspectJ Concepts](#aspect-oriented-programming-aop-and-aspectj-concepts)
@@ -147,8 +147,8 @@ The following image shows the type of data Automon collects (The example below d
 The code that generates the automon-{version}.jar file is contained in [this directory](https://github.com/stevensouza/automon/tree/master/automon). All other modules are
 examples how to use Automon.
 
-## Glossary
-### Aspect-Oriented Programming (AOP) and AspectJ Concepts
+# Glossary
+## Aspect-Oriented Programming (AOP) and AspectJ Concepts
 * **AOP (Aspect-Oriented Programming)**: A programming paradigm that enables modularization of cross-cutting concerns.
 * **Aspect**: A modular unit that encapsulates a cross-cutting concern, consisting of pointcuts and advice.
 * **Advice**: The code that is executed at join points selected by a pointcut.
@@ -159,14 +159,14 @@ examples how to use Automon.
 * **BTW (Build-Time Weaving)**: Weaving aspects into your code during compilation.
 * **LTW (Load-Time Weaving)**: Weaving aspects into your code at runtime.
 
-### Monitoring/Observability/Logging/Tracing
+## Monitoring/Observability/Logging/Tracing
 * **Monitoring/Observability**: The practice of collecting and analyzing metrics and logs to understand the behavior and health of an application.
 * **Monitoring tools**: Tools used to collect and visualize metrics about an application's performance and health.
 * **Tracing**: The process of capturing detailed information about the execution flow of an application.
 * **Log4j**: A popular logging framework for Java.
 * **SLF4J**: A logging facade that provides a common interface for various logging frameworks.
 
-### Software Development
+## Software Development
 * **Maven**: A build automation tool for Java projects.
 * **Spring**: A popular framework for building enterprise Java applications.
 * **Shaded jar**: An "uber-jar" that bundles all dependencies into a single JAR file.
