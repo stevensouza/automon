@@ -1,3 +1,24 @@
+# Automon Table of Contents
+
+1. [What is Automon?](#what-is-automon)
+2. [Why Automon?](#why-automon)
+3. [Key Features](#key-features)
+4. [What are Automon's dependencies?](#what-are-automons-dependencies)
+    - [AspectJ](#aspectj-used-for-both-tracing-and-monitoring)
+    - [SLF4J](#slf4j-used-for-tracing-only)
+    - [Monitoring tools](#monitoring-tools-used-for-monitoring-only)
+5. [Tutorials](#tutorials)
+6. [How Automon Works](#how-automon-works)
+7. [What are some examples of what Automon can do?](#what-are-some-examples-of-what-automon-can-do)
+    - [Monitoring](#monitoring)
+    - [Tracing](#tracing)
+8. [Automon Source Code](#automon-source-code)
+9. [Glossary](#glossary)
+    - [Aspect-Oriented Programming (AOP) and AspectJ Concepts](#aspect-oriented-programming-aop-and-aspectj-concepts)
+    - [Monitoring/Observability/Logging/Tracing](#monitoringobservabilityloggingtracing)
+    - [Software Development](#software-development)
+10. [Support](#support)
+
 # What is Automon?
 
 Automon is a powerful Java library that combines the power of AOP (AspectJ) with monitoring or logging tools you already 
@@ -76,12 +97,12 @@ Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monit
 
 </details>
 
-## Tutorials
+# Tutorials
 * [Automon tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md): A guide explaining how to use Automon.
 * [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md): An introduction to AspectJ, covering its core concepts and usage for implementing aspect-oriented programming in Java applications.
 * [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md):  A tutorial demonstrating how to use SLF4J (Simple Logging Facade for Java) with Log4j2, focusing on logging implementation in Java projects.
 
-## How Automon Works
+# How Automon Works
 
 Automon uses AspectJ weaving to inject monitoring and tracing code into your application. This weaving can be done at:
 - Runtime with Load Time Weaving (LTW)
@@ -98,7 +119,7 @@ interface.
 And finally, Automon can be dynamically enabled/disabled via the Automon MXBean (JMX) (see the A[Automon Tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md) for information on 
 Automon and JMX).
 
-## What are some examples of what Automon can do?
+# What are some examples of what Automon can do?
 - **Monitoring:** Automon monitoring is typically used to track method invocation time, and exception counts. It is very easy to set-up. You should
 be able to start monitoring your code within minutes.  The data will be stored and displayed using the monitoring tool of your choice. 
 The following image shows the type of data Automon collects (The example below displays the data in JAMon, however the data can be displayed in whatever monitoring tool/api you choose.  For example here is same data displayed in [grahphite/StatsD](https://github.com/stevensouza/automon/blob/master/docs/automon_statsd.png)).
@@ -121,8 +142,7 @@ The following image shows the type of data Automon collects (The example below d
           c.m.MyTracingBasicContextAspect INFO 08:51:56.274 - AFTER MDC: {NDC0=HelloWorld.main(..), NDC1=HelloWorld.run(..), NDC2=HelloWorld.getFirstName(), executionTimeMs=0, kind=method-execution, requestId=5f7c836b-0283-42b7-b52c-1819e0ef855c}
           ```
 
-Automon Source Code
------------------------------------
+# Automon Source Code
 
 The code that generates the automon-{version}.jar file is contained in [this directory](https://github.com/stevensouza/automon/tree/master/automon). All other modules are
 examples how to use Automon.
@@ -152,7 +172,7 @@ examples how to use Automon.
 * **Shaded jar**: An "uber-jar" that bundles all dependencies into a single JAR file.
 
 
-Support
+# Support
 -----------------------------------
 And finally, if you need support contact us at [Issues](https://github.com/stevensouza/automon/issues) or email us
 at admin@automon.org.
