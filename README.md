@@ -10,7 +10,7 @@ Here is a visual depiction of how Automon and AspectJ work together to monitor a
 The  diagram shows an AspectJ pointcut that will monitor or trace all methods (any return type, any number of arguments) in the 'com.mycompany' package as well as 
 its subpackages (..) using your monitoring or tracing tool of choice. 
 ![Automon](https://github.com/stevensouza/automon/blob/master/docs/automon_bridge.png)
-(Note: see the [Automon tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md) for more information
+(Note: see the [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md) for more information
 on how AspectJ pointcuts work).
 
 ## Why Automon?
