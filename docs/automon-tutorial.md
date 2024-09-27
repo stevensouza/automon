@@ -2,22 +2,24 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Getting Started](#getting-started)
-    - [Dependencies](#dependencies)
-    - [Configuration](#configuration)
-3. [ExampleService Class](#exampleservice-class)
-4. [Tracing with Automon (Load-Time Weaving)](#tracing-with-automon-load-time-weaving)
+2. [AspectJ Weaving](#aspectj-weaving)
+    - ['select' Pointcut](#select-pointcut)
+3. [Getting Started](#getting-started)
+    - [Spring AOP](#spring-aop)
+4. [Load Time Weaving](#load-time-weaving)
     - [Advantages of Load-Time Weaving](#advantages-of-load-time-weaving)
     - [When to Use Load-Time Weaving](#when-to-use-load-time-weaving)
-    - [Using BasicContextTracingAspect with LTW](#using-basiccontexttracingaspect-with-ltw)
-5. [Monitoring with Automon (Build-Time Weaving)](#monitoring-with-automon-build-time-weaving)
+    - [Load-Time Weaving Examples](#load-time-weaving-examples)
+5. [Build-Time Weaving](#build-time-weaving)
     - [Advantages of Build-Time Weaving](#advantages-of-build-time-weaving)
     - [When to Use Build-Time Weaving](#when-to-use-build-time-weaving)
-    - [Using MonitoringAspect with Micrometer](#using-monitoringaspect-with-micrometer)
-6. [Advanced Usage](#advanced-usage)
+    - [Build-Time Weaving Examples](#build-time-weaving-examples)
+6. [Configuration](#configuration)
+7. [JMX Integration](#jmx-integration)
+8. [Advanced Usage](#advanced-usage)
     - [Custom Pointcuts](#custom-pointcuts)
-    - [JMX Integration](#jmx-integration)
-7. [Conclusion](#conclusion)
+9. [Conclusion](#conclusion)
+10. [Glossary](#glossary)
 
 ## Introduction
 
@@ -41,7 +43,7 @@ Here is a short video that shows how to monitor your code using Automon with LTW
 
 ### 'select' Pointcut
 Whether you use LTW or BTW you will have to inherit from one of the Automon abstract aspects and provide the 'select' pointcut 
-which indicates what code you would like to monitor or trace.  Here is an example of how you could do that in java code (could be used
+which indicates what code you would like to monitor or trace.  Here is an example of how you could do that in java code (this aspect could be used
 for either LTW or BTW). 
 ```java
 package com.mypackage.aspects;
@@ -52,7 +54,7 @@ import org.automon.aspects.monitoring.MonitoringAspect;
 
 @Aspect
 public class ConcreteMonitoringAspect extends MonitoringAspect {
-
+  // Monitor all methods in the HelloWorld class regardless of return values and arguments.  
   @Pointcut("execution(public * com.stevesouza.helloworld.HelloWorld.*(..))")
   public void select() {
   }
@@ -61,7 +63,7 @@ public class ConcreteMonitoringAspect extends MonitoringAspect {
 ```
 or for LTW you could specify the 'select' pointcut in the aop.xml file 
 ```xml
-<!--This example shows how to do a request id aspect and basic tracing -->
+<!--This example shows how to do a request id aspect and basic tracing by providing the 'select' pointcut -->
 <aspectj>
   <aspects>
      <concrete-aspect name="com.myorganization.MyRequestIdAspect" extends="org.automon.aspects.tracing.aspectj.RequestIdAspect">
@@ -78,7 +80,7 @@ or for LTW you could specify the 'select' pointcut in the aop.xml file
   </weaver>
 </aspectj>
 ```
-Look at the various `*.sh` examples or maven modules to see more examples.
+Look at the various `*.sh` [examples](https://github.com/stevensouza/automon/tree/master/examples) or maven modules to see more examples.
 
 ## Getting Started
 The quickest way to get started with Automon is to download this distribution, run `mvn clean install` from the parent directory
@@ -88,10 +90,10 @@ and go to the [examples](https://github.com/stevensouza/automon/tree/master/exam
 ### Spring AOP
 If you are using **Spring** the following maven module shows how to [monitor Spring beans with Automon](https://github.com/stevensouza/automon/tree/master/spring_aop).  
 * This [directory contains the aspects](https://github.com/stevensouza/automon/tree/master/spring_aop/src/main/java/org/automon/spring_aop/aspects) that will trace and monitor the Spring code.
-  * Note Spring only supports the `execution` pointcut on Spring bean public methods.  This is a limitation of Spring and not the Automon aspects which can work on any pointcut type as well as on non-public parts of a codebase.
+  * Note Spring only supports the `execution` pointcut on Spring bean public methods.  This is a limitation of Spring and not the Automon aspects themselves which can work on any pointcut type as well as on non-public parts of a codebase.
 * This [directory contains the application source code](https://github.com/stevensouza/automon/tree/master/spring_aop/src/main/java/org/automon/spring_aop) being monitored.
 * This  [applicationContext.xml](https://github.com/stevensouza/automon/blob/master/spring_aop/src/main/resources/applicationContext.xml) file configures specifies which Spring beans to trace/monitor.
-* Look at this [pom.xml ](https://github.com/stevensouza/automon/tree/master/spring_aop)file to see how a Spring project should be configured.
+* Look at this [pom.xml ](https://github.com/stevensouza/automon/tree/master/spring_aop) file to see how a Spring project should be configured.
 
 Automon does not require Spring though. **Running a non-Spring program** with Automon is easy too.  You simply...
 
@@ -100,7 +102,7 @@ Automon does not require Spring though. **Running a non-Spring program** with Au
 * And include a monitoring tool dependency (i.e. micrometer, JAMon etc.) if you are performing Automon monitoring or slf4j and a logging tool dependency like log4j2 if you would like to perform Automon tracing.
 
 You can also look in the various demo maven modules [pom.xml](https://github.com/stevensouza/automon/blob/master/spring_woven/pom.xml) file to see what dependencies are needed
-to run Automon. The Automon dependency will look something like this
+to run Automon. The Automon dependency itself will look something like this
 ```xml
       <dependency>
           <groupId>org.automon</groupId>
@@ -171,7 +173,6 @@ with instructions on how to run their program.
 
 An interview that covers Automon can be found [here](http://jaxenter.com/advanced-java-monitoring-with-automon-116079.html).
 
-
 ### Configuration
 
 * Automon monitoring will pick a supported monitoring tool if it is in the classpath or you can explicitly provide it 
@@ -181,7 +182,7 @@ either with a command line argument or via the `automon.properties` file. Here i
 
 ```properties
 org.mypackage.MyBasicContextTracingAspect.enable=false
-org.mypackage.MyBasicContextTracingAspect.enable=false
+org.mypackage.MyBasicContextTracingAspect.enableLogging=false
 ```
 
 ### JMX Integration
@@ -195,148 +196,6 @@ To enable JMX, add the following system property when running your application:
 ```
 
 Then, you can connect to your application using JConsole and navigate to the Automon MBeans to configure the aspects.
-
-
-## ExampleService Class
-
-Let's create a simple `ExampleService` class that we'll use for both our load-time and build-time weaving examples:
-
-```java
-package com.example;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class ExampleService {
-    private static final Logger logger = LoggerFactory.getLogger(ExampleService.class);
-
-    public void doSomething() throws InterruptedException {
-        logger.info("Doing something...");
-        // Simulate some work
-        Thread.sleep(100);
-    }
-
-    public void mightThrowException() throws Exception {
-        logger.info("Might throw an exception...");
-        if (Math.random() < 0.5) {
-            throw new Exception("Random exception");
-        }
-    }
-
-    public static void main(String[] args) {
-        ExampleService service = new ExampleService();
-
-        // Run some operations
-        for (int i = 0; i < 10; i++) {
-            try {
-                service.doSomething();
-                service.mightThrowException();
-            } catch (Exception e) {
-                logger.error("An error occurred: ", e);
-            }
-        }
-    }
-}
-```
-
-## Tracing Example with Automon (Load-Time Weaving)
-
-
-
-### Using BasicContextTracingAspect with LTW
-
-For load-time weaving, create an `aop.xml` file in the `src/main/resources/META-INF` directory:
-
-```xml
-<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "https://www.eclipse.org/aspectj/dtd/aspectj.dtd">
-<aspectj>
-    <weaver options="-verbose -showWeaveInfo">
-        <include within="com.example.*"/>
-    </weaver>
-    <aspects>
-        <concrete-aspect name="com.example.CustomBasicContextTracingAspect" extends="org.automon.aspects.tracing.aspectj.BasicContextTracingAspect">
-            <pointcut name="select" expression="execution(* com.example.ExampleService.*(..))"/>
-        </concrete-aspect>
-    </aspects>
-</aspectj>
-```
-
-:
-
-```bash
-java   -Dorg.aspectj.weaver.loadtime.configuration=file:config/hello-world-unwoven-basiccontext-aop.xml \
-       -javaagent:aspectjweaver-${ASPECTJ_VERSION}.jar \
-       -classpath automon-${AUTOMON_VERSION}.jar:yourapplication.jar \
-       com.stevesouza.helloworld.HelloWorld
-```
-
-Here are some other examples of LTW:???
-* [Example monitoring JDK classes (JDBC, IO, Net packages), and custom classes:]( https://github.com/stevensouza/automon/blob/master/examples/config/automon-aop.xml)
-  See 'Getting Started' below and [examples](https://github.com/stevensouza/automon/tree/master/examples) for instructions on how to run Automon with CodaHale/Yammer Metrics, JavaSimon, NewRelic, StatsD, Tomcat and Jetty.
-
-## Monitoring Example with Automon (Build-Time Weaving)
-
-
-### Using MonitoringAspect with Micrometer
-
-First, let's create a custom MonitoringAspect:
-
-```java
-package com.example;
-
-import org.automon.aspects.monitoring.MonitoringAspect;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-
-@Aspect
-public class MicrometerMonitoringAspect extends MonitoringAspect {
-
-    @Pointcut("execution(* com.example.ExampleService.*(..))")
-    public void select() {}
-
-}
-```
-
-For build-time weaving, you'll need to configure the AspectJ Maven plugin in your `pom.xml`:
-
-```xml
-<plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>aspectj-maven-plugin</artifactId>
-    <version>1.14.0</version>
-    <configuration>
-        <complianceLevel>1.8</complianceLevel>
-        <source>1.8</source>
-        <target>1.8</target>
-        <showWeaveInfo>true</showWeaveInfo>
-        <verbose>true</verbose>
-        <aspectLibraries>
-            <aspectLibrary>
-                <groupId>org.automon</groupId>
-                <artifactId>automon</artifactId>
-            </aspectLibrary>
-        </aspectLibraries>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
-                <goal>compile</goal>
-                <goal>test-compile</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-
-To run the example with build-time weaving, simply execute the `main` method of the `ExampleService` class after compiling with the AspectJ Maven plugin.
-
-Note: Automon will automatically detect Micrometer if it's available on the classpath, so there's no need for explicit initialization or registration.
-
-
-Maven
------------------------------------
-
-Incorporate Automon into your maven project by adding the following dependency ([using the most current version](http://search.maven.org/#search%7Cga%7C1%7Cautomon)).
 
 
 ## Advanced Usage
@@ -395,3 +254,26 @@ This tutorial has demonstrated how to use Automon for both tracing and monitorin
 Automon provides a powerful way to add monitoring and tracing to your Java applications with minimal code changes, leveraging the strengths of AspectJ and various monitoring frameworks. By using load-time weaving, you gain flexibility and ease of testing, while build-time weaving offers better runtime performance and early error detection.
 
 Remember to consult the Automon documentation for more advanced features and configurations. Happy monitoring and tracing!
+
+## Glossary
+
+Aspect-Oriented Programming Concepts:
+- **AOP**: A programming paradigm that increases modularity by separating cross-cutting concerns.
+- **Cross-cutting concerns**: Functionalities or behaviors in a program that span multiple modules and can't be cleanly separated from the main business logic, such as logging, security, or transaction management.
+- **Aspect**: A module encapsulating cross-cutting concerns, containing pointcuts and advice.
+- **Join Point**: A specific moment during program execution where aspect code can be applied.
+- **Pointcut**: A set of join points where advice should be applied.
+- **Advice**: Code that executes at specified join points, defining actions to be taken.
+- **Weaving**: The process of applying aspects to a target object to create a new proxied object.
+
+AOP Technologies and Tools:
+- **AspectJ**: An aspect-oriented programming extension for Java.
+- **Spring AOP**: The aspect-oriented programming framework in the Spring Framework.
+- **Automon**: A Java library combining AOP (AspectJ) with monitoring and logging tools for declarative code monitoring and tracing.
+
+Weaving Types:
+- **BTW**: Build-Time Weaving, where aspects are woven during the build process.
+- **LTW**: Load-Time Weaving, where aspects are woven at runtime when classes are loaded.
+
+Related Technology:
+- **JMX**: Java Management Extensions, providing tools for managing and monitoring Java applications.
