@@ -1,7 +1,21 @@
 # Automon Aspects Guide
-<style>
-  .mermaid svg { font-size: 10px; }
-</style>
+
+## Table of Contents
+
+1. [Introduction to Aspects in Automon](#introduction-to-aspects-in-automon)
+2. [The Monitoring Aspect Chain](#the-monitoring-aspect-chain)
+3. [The Tracing Aspect Chain and Related Aspects](#the-tracing-aspect-chain-and-related-aspects)
+    - [Tracing Aspect Styles](#tracing-aspect-styles)
+    - [Tracing Aspect Hierarchy](#tracing-aspect-hierarchy)
+    - [Supporting Aspects](#supporting-aspects)
+4. [Implementing Your Own Monitoring or Tracing Aspect](#implementing-your-own-monitoring-or-tracing-aspect)
+    - [Monitoring Aspect Example](#monitoring-aspect-example)
+    - [Tracing Aspect Example](#tracing-aspect-example)
+    - [Load-Time Weaving Configuration](#load-time-weaving-configuration)
+5. [What Gets Monitored and Traced](#what-gets-monitored-and-traced)
+    - [Monitoring Aspects](#monitoring-aspects)
+    - [Tracing Aspects](#tracing-aspects)
+6. [Conclusion](#conclusion)
 
 ## Introduction to Aspects in Automon
 
@@ -12,6 +26,7 @@ Automon leverages the power of Aspect-Oriented Programming (AOP) to provide non-
 The monitoring functionality in Automon is built around a chain of aspects, with the `MonitoringAspect` at its core. Here's a visual representation of the monitoring aspect hierarchy:
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '10px'}, "flowchart": {"htmlLabels": true, "curve": "linear"}, "sequence": {"useMaxWidth":false}}}%%
 classDiagram
     EnableMXBean <|-- MonitoringMXBean
     MonitoringMXBean <|.. BaseMonitoringAspect
@@ -67,6 +82,7 @@ Here's a visual representation of the tracing aspect hierarchy. (Note there are 
 `org.automon.aspects.tracing.spring` and `org.automon.aspects.tracing.aspectj` packages)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '10px'}, "flowchart": {"htmlLabels": true, "curve": "linear"}, "sequence": {"useMaxWidth":false}}}%%
 classDiagram
     EnableMXBean <|-- TracingMXBean
     TracingMXBean <|.. BaseTracingAspect
