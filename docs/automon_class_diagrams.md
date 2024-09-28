@@ -165,12 +165,19 @@ classDiagram
     }
 ```
 
-This diagram shows the main tracing aspects (BasicContextTracingAspect for basic tracing and FullContextTracingAspect for full featured tracing context such as the methods return value) along with two supporting aspects:
+This diagram shows the main tracing aspects along with supporting aspects. Developers should override the following abstract classes and provide the `select()` pointcut:
 
-1. FullContextDataAspect: This aspect manages full contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context) but does not log method entry/exit.
+1. BasicContextTracingAspect: This aspect provides basic tracing functionality. It logs method entry and exit, including basic context information such as method names and execution times.
 
-2. RequestIdAspect: This aspect manages request IDs in the SLF4J MDC. It adds a unique request ID to the MDC at the beginning of a request and removes it at the end. This is crucial for correlating log entries across multiple components or services that process the same request.
+2. FullContextTracingAspect: This aspect offers full-featured tracing with more detailed context. In addition to basic tracing, it captures and logs method parameters, return values, and more comprehensive execution details.
 
+3. FullContextDataAspect: This aspect manages full contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context) but does not log method entry/exit. It's useful for adding rich context to all log entries within its scope.
+
+4. RequestIdAspect: This aspect manages request IDs in the SLF4J MDC. It adds a unique request ID to the MDC at the beginning of a request and removes it at the end. This is crucial for correlating log entries across multiple components or services that process the same request.
+
+Each of these aspects plays a specific role in Automon's tracing framework, allowing for flexible and comprehensive application tracing.
+
+[Rest of the document content remains unchanged]
 ## Implementing Your Own Monitoring or Tracing Aspect
 
 To use Automon's monitoring or tracing capabilities, you need to create your own aspect that inherits from either `MonitoringAspect` and/or one of the tracing aspects (e.g., `BasicContextTracingAspect`) and implements the `select()` pointcut. This pointcut defines which parts of your code should be monitored or traced.
