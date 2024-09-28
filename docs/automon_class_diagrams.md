@@ -1,5 +1,10 @@
-Automon Aspects Guide
-Introduction to Aspects in Automon
+# Automon Aspects Guide
+<style>
+  .mermaid svg { font-size: 10px; }
+</style>
+
+## Introduction to Aspects in Automon
+
 Automon leverages the power of Aspect-Oriented Programming (AOP) to provide non-invasive monitoring and tracing capabilities for Java applications. At the core of Automon's functionality are its aspects, which allow you to inject monitoring and tracing logic into your code without modifying your existing codebase.
 
 ## The Monitoring Aspect Chain
