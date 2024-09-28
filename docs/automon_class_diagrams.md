@@ -3,8 +3,8 @@
 ## Table of Contents
 
 1. [Introduction to Aspects in Automon](#introduction-to-aspects-in-automon)
-2. [The Monitoring Aspect Chain](#the-monitoring-aspect-chain)
-3. [The Tracing Aspect Chain and Related Aspects](#the-tracing-aspect-chain-and-related-aspects)
+2. [Automon Monitoring Aspect Inheritance Structure](#the-monitoring-aspect-chain)
+3. [Automon Tracing Aspect and Related Aspects and Ineritance Structure](#the-tracing-aspect-chain-and-related-aspects)
     - [Tracing Aspect Styles](#tracing-aspect-styles)
     - [Tracing Aspect Hierarchy](#tracing-aspect-hierarchy)
     - [Supporting Aspects](#supporting-aspects)
