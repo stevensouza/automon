@@ -52,7 +52,7 @@ classDiagram
     }
 ```
 
-## The Tracing Aspect Chain
+## The Tracing Aspect Chain and Related Aspects
 
 Tracing in Automon allows you to capture detailed logs of method calls, parameters, return values, and exceptions. It provides insights into the execution flow of your application. The tracing functionality is built around a chain of aspects in the `org.automon.aspects.tracing` package.
 
@@ -72,58 +72,65 @@ classDiagram
     TracingMXBean <|.. BaseTracingAspect
     BaseTracingAspect <|-- BasicContextTracingAspect
     BaseTracingAspect <|-- FullContextTracingAspect
-    BasicContextTracingAspect <|-- UserDefinedTracingAspect
+    BaseContextAspect <|-- FullContextDataAspect
+    BaseContextAspect <|-- RequestIdAspect
 
     class EnableMXBean {
         <<interface>>
-        Defines JMX MBean operations for enabling
-        or disabling an aspect at runtime.
         +enable(boolean enable) void
         +isEnabled() boolean
     }
 
     class TracingMXBean {
         <<interface>>
-        JMX MBean interface that provides control
-        over the tracing aspect's tracing/logging
-        functionality at runtime.
         +enableLogging(boolean enabled) void
         +isLoggingEnabled() boolean
     }
 
     class BaseTracingAspect {
         <<abstract>>
-        Abstract base aspect for tracing using AspectJ.
-        Provides common functionality for tracing method executions.
         #logBefore() void
         #logAfter() void
         #afterThrowing(Throwable throwable) void
     }
 
+    class BaseContextAspect {
+        <<abstract>>
+        #initialize(String purpose, boolean enable) void
+        #registerJmxController() void
+    }
+
     class BasicContextTracingAspect {
         <<abstract>>
-        Aspect for basic context tracing using AOP.
-        Provides around and afterThrowing advice for basic tracing.
         +select() void
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
-        +afterThrowingAdvice(Throwable throwable) void
     }
 
     class FullContextTracingAspect {
         <<abstract>>
-        Aspect for full context tracing using AspectJ.
-        Provides around and afterThrowing advice for detailed tracing.
         +select() void
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
-        +afterThrowingAdvice(Throwable throwable) void
     }
 
-    class UserDefinedTracingAspect {
-        User-defined aspect that extends a tracing aspect
-        and implements the select() pointcut.
+    class FullContextDataAspect {
+        <<abstract>>
+        Manages full contextual data in SLF4J MDC/NDC
+        +select() void
+    }
+
+    class RequestIdAspect {
+        <<abstract>>
+        Manages request IDs in SLF4J MDC
         +select() void
     }
 ```
+
+This diagram shows the main tracing aspects (BasicContextTracingAspect for basic tracing and FullContextTracingAspect for full featured tracing context such as the methods return value) along with two supporting aspects:
+
+1. FullContextDataAspect: This aspect manages full contextual data in the SLF4J MDC (Mapped Diagnostic Context) and NDC (Nested Diagnostic Context) but does not log method entry/exit.
+
+2. RequestIdAspect: This aspect manages request IDs in the SLF4J MDC. It adds a unique request ID to the MDC at the beginning of a request and removes it at the end. This is crucial for correlating log entries across multiple components or services that process the same request.
+
 ## Implementing Your Own Monitoring or Tracing Aspect
 
 To use Automon's monitoring or tracing capabilities, you need to create your own aspect that inherits from either `MonitoringAspect` and/or one of the tracing aspects (e.g., `BasicContextTracingAspect`) and implements the `select()` pointcut. This pointcut defines which parts of your code should be monitored or traced.
