@@ -71,8 +71,8 @@ classDiagram
     }
 
     class UserDefinedAspect {
-        User-defined aspect that inherits from MonitoringAspect and implements 
-        the 'select' pointcut
+        User-defined aspect that inherits from MonitoringAspect 
+        and implements the 'select' pointcut
         +select() pointcut
     }
 ```
@@ -263,8 +263,9 @@ For tracing aspects:
 ## Conclusion
 
 By extending Automon's monitoring and tracing aspects and implementing the `select()` pointcut, you can easily add powerful monitoring and tracing capabilities to your Java application. Automon takes care of the heavy lifting, allowing you to focus on defining what to monitor and trace rather than how to do it.
-For monitoring, Automon collects performance metrics and exception data, which can be visualized and analyzed using your chosen monitoring tool. This helps in identifying performance bottlenecks and tracking the health of your application.
-For tracing, Automon provides detailed logs of method executions, including contextual information, which is invaluable for debugging and understanding the flow of your application. The tracing data is typically logged using SLF4J, allowing you to use your preferred logging framework for storage and analysis.
+1. For monitoring, Automon collects performance metrics and exception data, which can be visualized and analyzed using your chosen monitoring tool. This helps in identifying performance bottlenecks and tracking the health of your application.
+2. For tracing, Automon provides detailed logs of method executions, including contextual information, which is invaluable for debugging and understanding the flow of your application. The tracing data is typically logged using SLF4J, allowing you to use your preferred logging framework for storage and analysis.
+
 Remember, Automon is flexible and can work with various monitoring tools and logging frameworks. Make sure to configure your chosen monitoring tool and logging framework properly to visualize and analyze the data collected by your aspects.
 
 For more detailed information on using Automon, including how to set up Load-Time Weaving and Build-Time Weaving, refer to the [Automon Tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md).
