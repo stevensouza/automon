@@ -22,14 +22,6 @@ import org.aspectj.lang.annotation.Pointcut;
 public abstract class Select extends SpringSelect {
 
     /**
-     * <p>Pointcut that matches all join points except for pre-initialization of new objects (`*.new(..)`).</p>
-     * <p>This pointcut was modified to exclude pre-initialization to avoid issues with JDK 1.8.</p>
-     */
-    @Pointcut("!preinitialization(*.new(..))")
-    public void all() {
-    }
-
-    /**
      * <p>Pointcut that matches no join points.</p>
      * <p>This pointcut always evaluates to `false` and can be used to disable monitoring or tracing in specific scenarios.</p>
      *
@@ -38,6 +30,14 @@ public abstract class Select extends SpringSelect {
     @Pointcut("if()")
     public static boolean none() {
         return false;
+    }
+
+    /**
+     * <p>Pointcut that matches all join points except for pre-initialization of new objects (`*.new(..)`).</p>
+     * <p>This pointcut was modified to exclude pre-initialization to avoid issues with JDK 1.8.</p>
+     */
+    @Pointcut("!preinitialization(*.new(..))")
+    public void all() {
     }
 
     /**

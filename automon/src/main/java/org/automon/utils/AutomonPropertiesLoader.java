@@ -16,54 +16,45 @@ import java.util.Properties;
 public class AutomonPropertiesLoader {
 
     /**
+     * Property key for the configured OpenMon implementation.
+     */
+    public static final String CONFIGURED_OPEN_MON = "org.automon";
+    /**
      * Default value for the configured OpenMon implementation (empty string).
      */
     private static final String EMPTY_DEFAULT_OPEN_MON = "";
-
-    /**
-     * Array of file names to search for configuration properties.
-     */
-    private String[] fileNames;
-
-    /**
-     * The `Properties` object holding Automon-specific properties.
-     */
-    private Properties automonProps;
-
     /**
      * AspectJ system property specifying the XML configuration file.
      */
     private static final String ASPECTJ_CONFIG_FILE = "org.aspectj.weaver.loadtime.configuration";
-
     /**
      * Default properties file name.
      */
     private static final String DEFAULT_PROPS_CONFIG_FILE = "automon.properties";
-
     /**
      * First default XML configuration file name.
      */
     private static final String DEFAULT_XML_CONFIG_FILE1 = "ajc-aop.xml";
-
     /**
      * Second default XML configuration file name.
      */
     private static final String DEFAULT_XML_CONFIG_FILE2 = "aop.xml";
-
-    /**
-     * Property key for the configured OpenMon implementation.
-     */
-    public static final String CONFIGURED_OPEN_MON = "org.automon";
-
-    /**
-     * Flag indicating if a configuration file was found.
-     */
-    private boolean configFileFound = false;
-
     /**
      * Provides access to system properties (for testability).
      */
     SysProperty sysProperty = new SysProperty();
+    /**
+     * Array of file names to search for configuration properties.
+     */
+    private final String[] fileNames;
+    /**
+     * The `Properties` object holding Automon-specific properties.
+     */
+    private Properties automonProps;
+    /**
+     * Flag indicating if a configuration file was found.
+     */
+    private boolean configFileFound = false;
 
     /**
      * Constructs an `AutomonPropertiesLoader` with default file names and system properties.

@@ -1,6 +1,7 @@
 package org.automon.annotations;
 
 import java.lang.annotation.*;
+
 /**
  * This annotation designates classes and/or methods for tracing by Automon.
  * When applied to a class, all its methods are considered for tracing.
@@ -13,7 +14,8 @@ import java.lang.annotation.*;
 @Inherited // Annotation is inherited by subclasses
 @Documented // Included in Javadoc generation
 @Retention(RetentionPolicy.RUNTIME) // Preserved at runtime for dynamic weaving
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD}) // Applicable to types, constructors, and methods
+@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD})
+// Applicable to types, constructors, and methods
 public @interface Trace {
 
 }

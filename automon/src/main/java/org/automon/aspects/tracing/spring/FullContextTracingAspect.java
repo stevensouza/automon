@@ -6,8 +6,8 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.jmx.TracingMXBean;
 import org.automon.aspects.tracing.BaseTracingAspect;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.Utils;
 
 /**
@@ -125,10 +125,10 @@ public abstract class FullContextTracingAspect extends BaseTracingAspect {
     }
 
     /**
-     *  AfterThrowing advice for handling exceptions.
-     *   Adds the collection context to the MDC/NDC context for the exception event to the existing
-     *   context already added from the method entry from the {@link #aroundAdvice(ProceedingJoinPoint)} method and also conditionally logs the information if
-     *   logging is enableLogging for this class.
+     * AfterThrowing advice for handling exceptions.
+     * Adds the collection context to the MDC/NDC context for the exception event to the existing
+     * context already added from the method entry from the {@link #aroundAdvice(ProceedingJoinPoint)} method and also conditionally logs the information if
+     * logging is enableLogging for this class.
      */
     @AfterThrowing(pointcut = "select()", throwing = "throwable")
     public void afterThrowingAdvice(Throwable throwable) {

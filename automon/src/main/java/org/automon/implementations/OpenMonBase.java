@@ -21,7 +21,7 @@ public abstract class OpenMonBase<T> implements OpenMon<T> {
      * A map to store recently thrown exceptions, allowing for reuse and preventing memory leaks.
      * The map uses `Throwable` as the key and `AutomonExpirable` (which wraps the exception and additional context) as the value.
      */
-    private Map<Throwable, AutomonExpirable> exceptionsMap = Utils.createExceptionMap();
+    private final Map<Throwable, AutomonExpirable> exceptionsMap = Utils.createExceptionMap();
 
     /**
      * Stops the monitoring context and records the associated exception.

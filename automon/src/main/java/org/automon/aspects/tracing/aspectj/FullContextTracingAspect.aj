@@ -1,8 +1,7 @@
 package org.automon.aspects.tracing.aspectj;
 
-import org.aspectj.lang.JoinPoint;
-import org.automon.jmx.TracingMXBean;
 import org.automon.aspects.tracing.BaseTracingAspect;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.Utils;
 
 /**
@@ -87,7 +86,7 @@ public privileged abstract aspect FullContextTracingAspect extends BaseTracingAs
      * @return The result of the advised pointcut execution.
      * @throws Throwable If the advised pointcut throws an exception, it is re-thrown after logging.
      */
-    Object around() : select() {
+    Object around(): select() {
         if (isEnabled()) {
             helper.withFullContext(thisJoinPoint, thisJoinPointStaticPart, thisEnclosingJoinPointStaticPart);
             logBefore();

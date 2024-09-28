@@ -6,8 +6,8 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.automon.jmx.TracingMXBean;
 import org.automon.aspects.tracing.BaseTracingAspect;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.Utils;
 
 /**
@@ -61,7 +61,7 @@ public abstract class BasicContextTracingAspect extends BaseTracingAspect {
      * **Examples:**
      * </p>
      *
-     *  <pre>
+     * <pre>
      *      &#64;Pointcut("execution(* com.stevesouza.MyLoggerClassBasic.main(..))")
      *  </pre>
      *

@@ -12,16 +12,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AutomonExpirable extends TimeExpirable {
 
     /**
-     * The throwable (exception) that occurred.
-     */
-    private Throwable throwable;
-
-    /**
-     * A map containing the names and values of method arguments at the time of the exception.
-     */
-    private Map<String, Object> argNamesAndValues;
-
-    /**
      * <p>An `AtomicReference` to hold details that will be displayed in Jamon FIFO buffers, etc.</p>
      * <p>Since Jamon can be clustered with Hazelcast, the data must be serializable. `AtomicReference` is used here
      * because it can hold a serializable object and its `toString()` method simply returns the underlying object's string representation.
@@ -30,6 +20,14 @@ public class AutomonExpirable extends TimeExpirable {
      * might not be available on all servers for deserialization.</p>
      */
     private final AtomicReference<Serializable> jamonDetails = new AtomicReference<>();
+    /**
+     * The throwable (exception) that occurred.
+     */
+    private Throwable throwable;
+    /**
+     * A map containing the names and values of method arguments at the time of the exception.
+     */
+    private Map<String, Object> argNamesAndValues;
 
     /**
      * Constructs a new `AutomonExpirable` with the default expiration interval.
@@ -108,10 +106,8 @@ public class AutomonExpirable extends TimeExpirable {
      * @return A string representation of the object.
      */
     public String toString() {
-        return new StringBuilder().
-                append(Utils.argNameValuePairsToString(argNamesAndValues)).
-                append(Utils.LINE_SEPARATOR).
-                append(Utils.getExceptionTrace(throwable)).
-                toString();
+        return Utils.argNameValuePairsToString(argNamesAndValues) +
+                Utils.LINE_SEPARATOR +
+                Utils.getExceptionTrace(throwable);
     }
 }

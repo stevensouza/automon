@@ -25,12 +25,12 @@ public class OpenMonFactory {
     /**
      * Map storing OpenMon implementations, where keys are both fully qualified and simple class names (lowercase).
      */
-    private Map<String, String> openMonFactoryMap = new HashMap<String, String>();
+    private final Map<String, String> openMonFactoryMap = new HashMap<String, String>();
 
     /**
      * The default `OpenMon` implementation used when the requested one cannot be created.
      */
-    private OpenMon defaultOpenMon;
+    private final OpenMon defaultOpenMon;
 
     /**
      * Constructs an `OpenMonFactory` with the specified default `OpenMon` implementation.
@@ -49,6 +49,17 @@ public class OpenMonFactory {
     }
 
     /**
+     * Extracts the simple class name from a fully qualified class name.
+     *
+     * @param className The fully qualified class name (e.g., "com.example.MyClass").
+     * @return The simple class name (e.g., "MyClass").
+     */
+    static String getJustClassName(String className) {
+        String[] array = Utils.tokenize(className, "[.]");
+        return array[array.length - 1];
+    }
+
+    /**
      * Adds OpenMon implementations to the factory.
      * <p>
      * This method takes fully qualified class names of `OpenMon` implementations and adds them to the factory map
@@ -63,17 +74,6 @@ public class OpenMonFactory {
             openMonFactoryMap.put(className, className); // Add full class name
             openMonFactoryMap.put(getJustClassName(className).toLowerCase(), className); // Add lowercase simple name
         }
-    }
-
-    /**
-     * Extracts the simple class name from a fully qualified class name.
-     *
-     * @param className The fully qualified class name (e.g., "com.example.MyClass").
-     * @return The simple class name (e.g., "MyClass").
-     */
-    static String getJustClassName(String className) {
-        String[] array = Utils.tokenize(className, "[.]");
-        return array[array.length - 1];
     }
 
     /**

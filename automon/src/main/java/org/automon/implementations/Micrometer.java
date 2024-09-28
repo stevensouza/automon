@@ -56,6 +56,25 @@ public class Micrometer extends OpenMonBase<TimerContext> {
     private static MeterRegistry registry = new SimpleMeterRegistry();
 
     /**
+     * Retrieves the `MeterRegistry` used by this `Micrometer` instance.
+     *
+     * @return The `MeterRegistry`.
+     */
+    public static MeterRegistry getMeterRegistry() {
+        return registry;
+    }
+
+    /**
+     * Sets the `MeterRegistry` to be used by this `Micrometer` instance.
+     * This allows for sharing the same `MeterRegistry` with other components, such as Spring.
+     *
+     * @param newMeterRegistry The new `MeterRegistry` to use.
+     */
+    public static void setMeterRegistry(MeterRegistry newMeterRegistry) {
+        registry = newMeterRegistry;
+    }
+
+    /**
      * Starts monitoring by creating a `TimerContext` for the given join point.
      *
      * @param jp The join point representing the intercepted method.
@@ -116,24 +135,5 @@ public class Micrometer extends OpenMonBase<TimerContext> {
                 .tag("automon", "exception")
                 .description("automon.org exception counter")
                 .register(registry);
-    }
-
-    /**
-     * Retrieves the `MeterRegistry` used by this `Micrometer` instance.
-     *
-     * @return The `MeterRegistry`.
-     */
-    public static MeterRegistry getMeterRegistry() {
-        return registry;
-    }
-
-    /**
-     * Sets the `MeterRegistry` to be used by this `Micrometer` instance.
-     * This allows for sharing the same `MeterRegistry` with other components, such as Spring.
-     *
-     * @param newMeterRegistry The new `MeterRegistry` to use.
-     */
-    public static void setMeterRegistry(MeterRegistry newMeterRegistry) {
-        registry = newMeterRegistry;
     }
 }

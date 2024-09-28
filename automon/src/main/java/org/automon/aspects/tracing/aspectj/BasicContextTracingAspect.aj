@@ -1,8 +1,8 @@
 package org.automon.aspects.tracing.aspectj;
 
 import org.aspectj.lang.JoinPoint;
-import org.automon.jmx.TracingMXBean;
 import org.automon.aspects.tracing.BaseTracingAspect;
+import org.automon.jmx.TracingMXBean;
 import org.automon.utils.Utils;
 
 /**

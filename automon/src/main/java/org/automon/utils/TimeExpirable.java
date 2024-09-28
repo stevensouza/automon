@@ -25,17 +25,17 @@ public class TimeExpirable implements Expirable {
     /**
      * The creation time of this object in milliseconds.
      */
-    private long creationTime;
+    private final long creationTime;
 
     /**
      * The expiration interval in milliseconds.
      */
-    private long expirationIntervalInMs;
+    private final long expirationIntervalInMs;
 
     /**
      * An object providing the current time. Allows for dependency injection (DI) in testing.
      */
-    private Now now;
+    private final Now now;
 
     /**
      * Constructs a new `TimeExpirable` with the default expiration interval.
@@ -66,16 +66,6 @@ public class TimeExpirable implements Expirable {
     }
 
     /**
-     * Checks if this object has expired.
-     *
-     * @return `true` if the current time is past the expiration time, `false` otherwise.
-     */
-    @Override
-    public boolean isExpired() {
-        return (now.now() - creationTime) >= expirationIntervalInMs;
-    }
-
-    /**
      * Converts the given expiration interval from minutes to milliseconds.
      *
      * @param expirationInternalInMinutes The expiration interval in minutes.
@@ -86,18 +76,13 @@ public class TimeExpirable implements Expirable {
     }
 
     /**
-     * Default implementation of `Now` that returns the current system time in milliseconds.
+     * Checks if this object has expired.
+     *
+     * @return `true` if the current time is past the expiration time, `false` otherwise.
      */
-    private static class CurrentTimeMills implements Now {
-        /**
-         * Returns the current system time in milliseconds.
-         *
-         * @return The current time in milliseconds.
-         */
-        @Override
-        public long now() {
-            return System.currentTimeMillis();
-        }
+    @Override
+    public boolean isExpired() {
+        return (now.now() - creationTime) >= expirationIntervalInMs;
     }
 
     /**
@@ -113,5 +98,20 @@ public class TimeExpirable implements Expirable {
          * @return The current time in milliseconds.
          */
         long now();
+    }
+
+    /**
+     * Default implementation of `Now` that returns the current system time in milliseconds.
+     */
+    private static class CurrentTimeMills implements Now {
+        /**
+         * Returns the current system time in milliseconds.
+         *
+         * @return The current time in milliseconds.
+         */
+        @Override
+        public long now() {
+            return System.currentTimeMillis();
+        }
     }
 }

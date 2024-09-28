@@ -20,6 +20,25 @@ public class Metrics extends OpenMonBase<Timer> {
     private static MetricRegistry metrics = new MetricRegistry();
 
     /**
+     * Retrieves the `MetricRegistry` used by this `Metrics` instance.
+     *
+     * @return The `MetricRegistry`.
+     */
+    public static MetricRegistry getMetricRegistry() {
+        return metrics;
+    }
+
+    /**
+     * Sets the `MetricRegistry` to be used by this `Metrics` instance.
+     * This allows for sharing the same `MetricRegistry` with other components, such as Spring.
+     *
+     * @param newMetricRegistry The new `MetricRegistry` to use.
+     */
+    public static void setMetricRegistry(MetricRegistry newMetricRegistry) {
+        metrics = newMetricRegistry;
+    }
+
+    /**
      * Starts a Yammer Metrics `Timer` for the given join point.
      *
      * @param jp The join point representing the intercepted method.
@@ -52,24 +71,5 @@ public class Metrics extends OpenMonBase<Timer> {
         for (String label : labels) {
             metrics.counter(label).inc();
         }
-    }
-
-    /**
-     * Retrieves the `MetricRegistry` used by this `Metrics` instance.
-     *
-     * @return The `MetricRegistry`.
-     */
-    public static MetricRegistry getMetricRegistry() {
-        return metrics;
-    }
-
-    /**
-     * Sets the `MetricRegistry` to be used by this `Metrics` instance.
-     * This allows for sharing the same `MetricRegistry` with other components, such as Spring.
-     *
-     * @param newMetricRegistry The new `MetricRegistry` to use.
-     */
-    public static void setMetricRegistry(MetricRegistry newMetricRegistry) {
-        metrics = newMetricRegistry;
     }
 }

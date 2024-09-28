@@ -11,7 +11,7 @@ public class TimerContext extends BasicTimer {
     /**
      * The static part of the JoinPoint representing the intercepted method.
      */
-    private JoinPoint.StaticPart jp;
+    private final JoinPoint.StaticPart jp;
 
     /**
      * Constructs a new `TimerContext` with the given `JoinPoint.StaticPart`.

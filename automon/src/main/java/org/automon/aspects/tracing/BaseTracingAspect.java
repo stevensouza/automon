@@ -21,35 +21,29 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseTracingAspect implements TracingMXBean {
 
     /**
-     * Logger instance for the aspect.
-     */
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
-
-    /**
      * Constant indicating the "BEFORE" phase in tracing.
      */
     protected static final String BEFORE = "BEFORE";
-
     /**
      * Constant indicating the "AFTER" phase in tracing.
      */
     protected static final String AFTER = "AFTER";
-
     /**
-     * Flag indicating whether tracing is enabled.
+     * Logger instance for the aspect.
      */
-    private boolean enabled = true;
-
-    /**
-     * Flag indicating whether logging is enabled.
-     */
-    private boolean loggingEnabled = true;
-
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
     /**
      * Helper instance for log tracing operations.
      */
     protected final LogTracingHelper helper = LogTracingHelper.getInstance();
-
+    /**
+     * Flag indicating whether tracing is enabled.
+     */
+    private boolean enabled = true;
+    /**
+     * Flag indicating whether logging is enabled.
+     */
+    private boolean loggingEnabled = true;
     /**
      * The purpose associated with this JMX registration.
      */
@@ -59,8 +53,8 @@ public abstract class BaseTracingAspect implements TracingMXBean {
      * Initializes the aspect with the given purpose, enabled state, and logging enabled state.
      * It also registers the JMX controller and logs configuration information.
      *
-     * @param purpose        The purpose of the aspect for JMX registration.
-     * @param enable         Whether tracing is initially enabled.
+     * @param purpose       The purpose of the aspect for JMX registration.
+     * @param enable        Whether tracing is initially enabled.
      * @param enableLogging Whether logging is initially enabled.
      */
     protected void initialize(String purpose, boolean enable, boolean enableLogging) {

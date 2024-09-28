@@ -20,7 +20,15 @@ import java.util.UUID;
  * due to the use of MDC and NDC.</p>
  */
 public class LogTracingHelper implements AutoCloseable {
-    /** MDC/NDC keys used */
+    /**
+     * AspectJ kind for method and constructor executions.
+     */
+    static final String METHOD_EXECUTION_KIND = "method-execution";
+    static final String CONSTRUCTOR_EXECUTION_KIND = "constructor-execution";
+    private static final LogTracingHelper INSTANCE = new LogTracingHelper();
+    /**
+     * MDC/NDC keys used
+     */
     public static String PARAMETERS = "parameters";
     public static String EXECUTION_TIME_MS = "executionTimeMs";
     public static String REQUEST_ID = "requestId";
@@ -30,14 +38,6 @@ public class LogTracingHelper implements AutoCloseable {
     public static String ENCLOSING_SIGNATURE = "enclosingSignature";
     public static String RETURN_VALUE = "returnValue";
     public static String EXCEPTION = "exception";
-
-    /**
-     * AspectJ kind for method and constructor executions.
-     */
-    static final String METHOD_EXECUTION_KIND = "method-execution";
-    static final String CONSTRUCTOR_EXECUTION_KIND = "constructor-execution";
-
-    private static final LogTracingHelper INSTANCE = new LogTracingHelper();
 
     /**
      * Private constructor to prevent external instantiation.
@@ -52,6 +52,29 @@ public class LogTracingHelper implements AutoCloseable {
      */
     public static LogTracingHelper getInstance() {
         return INSTANCE;
+    }
+
+    private static boolean isKindExecution(String kind) {
+        return METHOD_EXECUTION_KIND.equals(kind) || CONSTRUCTOR_EXECUTION_KIND.equals(kind);
+    }
+
+    /**
+     * Converts a string to an integer, returning a default value if conversion fails.
+     *
+     * @param value The string to convert
+     * @return The integer value, or 0 if conversion fails
+     */
+    static int getStringAsNumberOrDefault(String value) {
+        if (value == null) {
+            return 0;
+        } else {
+            try {
+                return Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                // Handle the case where the string is not a valid number
+                return 0; // Or another default value, or throw an exception
+            }
+        }
     }
 
     /**
@@ -194,7 +217,6 @@ public class LogTracingHelper implements AutoCloseable {
         return this;
     }
 
-
     /**
      * Removes the target object representation from the MDC.
      *
@@ -332,7 +354,6 @@ public class LogTracingHelper implements AutoCloseable {
                 withThis(joinPoint);
     }
 
-
     /**
      * Removes the basic context information from MDC and NDC.
      * This method clears the following elements:
@@ -397,28 +418,5 @@ public class LogTracingHelper implements AutoCloseable {
 
     private String objectToString(Object obj) {
         return obj == null ? "null" : obj.toString();
-    }
-
-    private static boolean isKindExecution(String kind) {
-        return METHOD_EXECUTION_KIND.equals(kind) || CONSTRUCTOR_EXECUTION_KIND.equals(kind);
-    }
-
-    /**
-     * Converts a string to an integer, returning a default value if conversion fails.
-     *
-     * @param value The string to convert
-     * @return The integer value, or 0 if conversion fails
-     */
-    static int getStringAsNumberOrDefault(String value) {
-        if (value == null) {
-            return 0;
-        } else {
-            try {
-                return Integer.parseInt(value);
-            } catch (NumberFormatException e) {
-                // Handle the case where the string is not a valid number
-                return 0; // Or another default value, or throw an exception
-            }
-        }
     }
 }

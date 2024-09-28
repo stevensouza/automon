@@ -14,24 +14,21 @@ import org.slf4j.LoggerFactory;
 public class BaseContextAspect implements EnableMXBean {
 
     /**
-     * Logger instance for the aspect.
-     */
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
-
-    /**
-     * Flag indicating whether the aspect is enabled.
-     */
-    private boolean enabled = true;
-
-    /**
      * Helper instance for log tracing operations.
      */
     protected static final LogTracingHelper helper = LogTracingHelper.getInstance();
-
+    /**
+     * Logger instance for the aspect.
+     */
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
     /**
      * The purpose associated with this JMX registration.
      */
     protected String purpose;
+    /**
+     * Flag indicating whether the aspect is enabled.
+     */
+    private boolean enabled = true;
 
     /**
      * Registers the JMX controller associated with this aspect.

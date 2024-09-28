@@ -24,7 +24,7 @@ public interface OpenMon<T> {
      *
      * @param jp The static part of the JoinPoint representing the intercepted method.
      * @return A context object that will be passed to the `stop` method. This is typically a timer
-     *         or another object to track the monitoring state.
+     * or another object to track the monitoring state.
      */
     T start(JoinPoint.StaticPart jp);
 

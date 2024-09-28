@@ -14,5 +14,5 @@ public aspect PrecedenceAspect {
      * in the MDC before any other aspects potentially utilize it for logging or tracing.
      * </p>
      */
-    declare precedence: RequestIdAspect, *; // RequestIdAspect first, then all other aspects
+    declare precedence:RequestIdAspect,*; // RequestIdAspect first, then all other aspects
 }

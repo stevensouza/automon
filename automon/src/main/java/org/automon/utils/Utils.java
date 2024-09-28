@@ -38,6 +38,10 @@ public class Utils {
      * the string after the truncation point to indicate there is more data that is not shown.
      */
     static final String DEFAULT_MAX_STRING_ENDING = "...";
+    /**
+     * Provides access to Automon properties for enabling/disabling aspects and logging
+     */
+    public static AutomonPropertiesLoader AUTOMON_PROPERTIES = new AutomonPropertiesLoader();
 
     /**
      * Creates a thread-safe map for storing exceptions with expiration capabilities
@@ -57,8 +61,7 @@ public class Utils {
     public static String getLabel(Throwable throwable) {
         String sqlMessage = "";
         // add special label information if it is a sql exception.
-        if (throwable instanceof SQLException) {
-            SQLException sqlException = (SQLException) throwable;
+        if (throwable instanceof SQLException sqlException) {
             sqlMessage = ",ErrorCode=" + sqlException.getErrorCode() + ",SQLState=" + sqlException.getSQLState();
         }
         return throwable.getClass().getName() + sqlMessage;
@@ -168,7 +171,6 @@ public class Utils {
         }
     }
 
-
     /**
      * Gets the full stack trace of an exception as a string
      *
@@ -180,7 +182,7 @@ public class Utils {
             return UNKNOWN;
         }
         // each line of the stack trace will be returned in the array.
-        StackTraceElement elements[] = exception.getStackTrace();
+        StackTraceElement[] elements = exception.getStackTrace();
         StringBuilder sb = new StringBuilder().append(exception).append(LINE_SEPARATOR);
 
         for (int i = 0; i < elements.length; i++) {
@@ -193,7 +195,7 @@ public class Utils {
     /**
      * Tokenizes a string based on a specified delimiter
      *
-     * @param string The string to tokenize
+     * @param string  The string to tokenize
      * @param splitOn The delimiter to split the string on
      * @return An array of tokens
      */
@@ -215,7 +217,7 @@ public class Utils {
      * Retrieves the JMX MBean associated with the given aspect
      *
      * @param aspect The aspect instance
-     * @param <T> The type of the MBean interface
+     * @param <T>    The type of the MBean interface
      * @return The MBean proxy
      * @throws Exception If JMX operations fail
      */
@@ -230,7 +232,7 @@ public class Utils {
      *
      * @param aspect The aspect instance used for JMX name generation
      * @param mxBean The MBean instance to register
-     * @param <T> The type of the MBean interface
+     * @param <T>    The type of the MBean interface
      */
     public static <T> void registerWithJmx(String purpose, Object aspect, T mxBean) {
         try {
@@ -243,7 +245,6 @@ public class Utils {
         }
 
     }
-
 
     /**
      * Unregisters an aspect from JMX
@@ -260,7 +261,7 @@ public class Utils {
      * Generates the JMX ObjectName for an aspect
      *
      * @param purpose The purpose of the aspect (e.g., "monitor")
-     * @param aspect The aspect instance
+     * @param aspect  The aspect instance
      * @return The JMX ObjectName
      * @throws Exception If ObjectName creation fails
      */
@@ -283,7 +284,7 @@ public class Utils {
      * Creates the first instance from a list of fully qualified class names
      *
      * @param classNames Variable list of class names
-     * @param <T> The type of the object to create
+     * @param <T>        The type of the object to create
      * @return The first successfully created instance, or null if all fail
      */
     public static <T> T createFirst(String... classNames) {
@@ -300,7 +301,7 @@ public class Utils {
      * Retrieves parameter names from a JoinPoint (internal helper method)
      *
      * @param argValues The array of argument values
-     * @param jp The JoinPoint representing the method execution
+     * @param jp        The JoinPoint representing the method execution
      * @return An array of parameter names, or an empty array if retrieval fails
      */
     private static Object[] getParameterNames(Object[] argValues, JoinPoint jp) {
@@ -327,12 +328,6 @@ public class Utils {
         }
     }
 
-
-    /**
-     *  Provides access to Automon properties for enabling/disabling aspects and logging
-     */
-    public static AutomonPropertiesLoader AUTOMON_PROPERTIES = new AutomonPropertiesLoader();
-
     /**
      * Checks if an aspect or feature should be enabled based on properties
      *
@@ -340,7 +335,7 @@ public class Utils {
      * @return True if enabled, false otherwise
      */
     public static boolean shouldEnable(Object object) {
-        String key= (object == null) ? "" : object+".enable";
+        String key = (object == null) ? "" : object + ".enable";
         return AUTOMON_PROPERTIES.getBoolean(key);
 
     }
@@ -352,7 +347,7 @@ public class Utils {
      * @return True if logging is enabled, false otherwise
      */
     public static boolean shouldEnableLogging(Object object) {
-        String key = (object == null) ? "" : object+".enableLogging";
+        String key = (object == null) ? "" : object + ".enableLogging";
         return AUTOMON_PROPERTIES.getBoolean(key);
     }
 

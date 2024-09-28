@@ -34,7 +34,7 @@ public class BaseMonitoringAspect implements MonitoringMXBean {
     /**
      * Factory for creating `OpenMon` instances.
      */
-    private OpenMonFactory factory = new OpenMonFactory(new NullImp());
+    private final OpenMonFactory factory = new OpenMonFactory(new NullImp());
 
     /**
      * The current monitoring implementation (default: NullImp).
@@ -104,16 +104,6 @@ public class BaseMonitoringAspect implements MonitoringMXBean {
     }
 
     /**
-     * Gets the string representation of the current `OpenMon` implementation.
-     *
-     * @return The string representation of the `OpenMon`.
-     */
-    @Override
-    public String getOpenMonString() {
-        return openMon.toString();
-    }
-
-    /**
      * Sets the monitoring implementation using the provided `OpenMon` instance.
      *
      * @param openMon The `OpenMon` implementation to use for monitoring.
@@ -136,6 +126,16 @@ public class BaseMonitoringAspect implements MonitoringMXBean {
         } else {
             this.openMon = factory.getInstance(openMonKey);
         }
+    }
+
+    /**
+     * Gets the string representation of the current `OpenMon` implementation.
+     *
+     * @return The string representation of the `OpenMon`.
+     */
+    @Override
+    public String getOpenMonString() {
+        return openMon.toString();
     }
 
     /**

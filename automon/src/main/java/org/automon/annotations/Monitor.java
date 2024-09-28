@@ -15,7 +15,8 @@ import java.lang.annotation.*;
 @Inherited // Annotation is inherited by subclasses
 @Documented // Included in Javadoc generation
 @Retention(RetentionPolicy.RUNTIME) // Retained at runtime for dynamic weaving
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD}) // Applicable to types, constructors, and methods
+@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD})
+// Applicable to types, constructors, and methods
 public @interface Monitor {
 
 }
