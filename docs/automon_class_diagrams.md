@@ -4,7 +4,7 @@
 
 1. [Introduction to Aspects in Automon](#introduction-to-aspects-in-automon)
 2. [Automon Monitoring Aspect Inheritance Structure](#the-monitoring-aspect-chain)
-3. [Automon Tracing Aspect and Related Aspects and Inheritance Structure](#the-tracing-aspect-chain-and-related-aspects)
+3. [Automon Tracing and Related Aspects and Inheritance Structure](#the-tracing-aspect-chain-and-related-aspects)
     - [Tracing Aspect Styles](#tracing-aspect-styles)
     - [Tracing Aspect Hierarchy](#tracing-aspect-hierarchy)
     - [Supporting Aspects](#supporting-aspects)
@@ -65,20 +65,19 @@ classDiagram
         <<abstract>>
         Abstract aspect for monitoring method
         executions and exceptions
-        +select() void
+        +select() pointcut
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
         +afterThrowingAdvice(JoinPoint joinPoint, Throwable throwable) void
     }
 
     class UserDefinedAspect {
         User-defined aspect that extends
-        MonitoringAspect and implements
-        the select() pointcut
-        +select() void
+        MonitoringAspect and implements the 'select'()' pointcut
+        +select() pointcut
     }
 ```
 
-## Automon Tracing Aspect and Related Aspects and Inheritance Structure
+## Automon Tracing and Related Aspects and Inheritance Structure
 
 Tracing in Automon allows you to capture detailed logs of method calls, parameters, return values, and exceptions. It provides insights into the execution flow of your application. The tracing functionality is built around a chain of aspects in the `org.automon.aspects.tracing` package.
 
@@ -139,7 +138,7 @@ classDiagram
         <<abstract>>
         Aspect for basic context tracing
         Provides around and afterThrowing advice
-        +select() void
+        +select() pointcut
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
     }
 
@@ -147,7 +146,7 @@ classDiagram
         <<abstract>>
         Aspect for full context tracing
         Includes detailed context information
-        +select() void
+        +select() pointcut
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
     }
 
@@ -155,14 +154,14 @@ classDiagram
         <<abstract>>
         Manages full contextual data
         in SLF4J MDC/NDC without logging
-        +select() void
+        +select() pointcut
     }
 
     class RequestIdAspect {
         <<abstract>>
         Manages request IDs in SLF4J MDC
         for request correlation
-        +select() void
+        +select() pointcut
     }
 ```
 
