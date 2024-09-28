@@ -71,8 +71,8 @@ classDiagram
     }
 
     class UserDefinedAspect {
-        User-defined aspect that extends
-        MonitoringAspect and implements the 'select'()' pointcut
+        User-defined aspect that inherits from MonitoringAspect and implements 
+        the 'select' pointcut
         +select() pointcut
     }
 ```
@@ -177,7 +177,6 @@ This diagram shows the main tracing aspects along with supporting aspects. Devel
 
 Each of these aspects plays a specific role in Automon's tracing framework, allowing for flexible and comprehensive application tracing.
 
-[Rest of the document content remains unchanged]
 ## Implementing Your Own Monitoring or Tracing Aspect
 
 To use Automon's monitoring or tracing capabilities, you need to create your own aspect that inherits from either `MonitoringAspect` and/or one of the tracing aspects (e.g., `BasicContextTracingAspect`) and implements the `select()` pointcut. This pointcut defines which parts of your code should be monitored or traced.
