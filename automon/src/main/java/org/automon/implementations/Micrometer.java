@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
  *     </li>
  * </ul>
  *
- * <h3>Enabling Micrometer for Monitoring</h3>
+ * <p>Enabling Micrometer for Monitoring:</p>
  *
  * <p>To enable this class for monitoring, add the following line to your `automon.properties` file:</p>
  *

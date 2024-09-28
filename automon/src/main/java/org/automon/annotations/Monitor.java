@@ -1,5 +1,7 @@
 package org.automon.annotations;
 
+import org.automon.pointcuts.Annotations;
+
 import java.lang.annotation.*;
 
 
@@ -8,7 +10,7 @@ import java.lang.annotation.*;
  * If applied to a class, all its methods become eligible for monitoring.
  * Alternatively, it can be applied to individual methods without annotating the class itself.
  *
- * <p>Refer to {@link org.automon.pointcuts.Annotations#automon_monitor} for the pointcut that selects this annotation.
+ * <p>Refer to {@link Annotations#automon_monitor()} for the pointcut that selects this annotation.
  * Note this is just one of many ways a pointcut can be setup to monitor using automon.
  * </p>
  */

@@ -1,4 +1,4 @@
 /**
- * Contains utility classes that support Automon's core functionality.<p>
+ * Contains utility classes that support Automon's core functionality.
  */
 package org.automon.utils;

@@ -1,5 +1,5 @@
 /**
- * This package serves as the container for all AspectJ aspects within Automon, encompassing both monitoring and tracing functionalities.<p>
+ * This package serves as the container for all AspectJ aspects within Automon, encompassing both monitoring and tracing functionalities.
  * It includes sub-packages for:
  * <ul>
  * <li><code>org.automon.aspects.monitoring</code>: Contains aspects focused on collecting performance metrics and monitoring method invocations and exceptions.</li>
