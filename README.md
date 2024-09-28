@@ -99,7 +99,7 @@ Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monit
 
 # Tutorials
 * [Automon tutorial](https://github.com/stevensouza/automon/blob/master/docs/automon-tutorial.md): A guide explaining how to use Automon.
-* [Automon Aspects and class diagrams](https://github.com/stevensouza/automon/blob/master/docs/automon_class_diagrams.md)
+* [Automon Aspects and class diagrams](https://github.com/stevensouza/automon/blob/master/docs/automon_class_diagrams.md): Class diagrams and other information on the Automon aspects for tracing and how users can inherit from them and leverage their capabilities.
 * [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md): An introduction to AspectJ, covering its core concepts and usage for implementing aspect-oriented programming in Java applications.
 * [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md):  A tutorial demonstrating how to use SLF4J (Simple Logging Facade for Java) with Log4j2, focusing on logging implementation in Java projects.
 
