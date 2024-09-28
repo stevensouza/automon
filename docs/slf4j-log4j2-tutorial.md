@@ -1,14 +1,14 @@
 # SLF4J and Log4j2 Tutorial
 
 ## Table of Contents
-1. Introduction
-2. SLF4J's Role
-3. MDC (Mapped Diagnostic Context)
-4. NDC (Nested Diagnostic Context)
-5. Log4j2 Appenders
-6. Sample log4j2.xml Configuration
-7. Sample Java Program
-8. Example Log Output
+1. [Introduction](#1-introduction)
+2. [SLF4J's Role](#2-slf4js-role)
+3. [MDC (Mapped Diagnostic Context)](#3-mdc-mapped-diagnostic-context)
+4. [NDC (Nested Diagnostic Context)](#4-ndc-nested-diagnostic-context)
+5. [Log4j2 Appenders](#5-log4j2-appenders)
+6. [Sample log4j2.xml Configuration](#6-sample-log4j2xml-configuration)
+7. [Sample Java Program](#7-sample-java-program)
+8. [Example Log Output](#8-example-log-output)
 
 ## 1. Introduction
 
