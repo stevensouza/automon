@@ -3,18 +3,10 @@
 ## Table of Contents
 
 1. [Introduction to Aspects in Automon](#introduction-to-aspects-in-automon)
-2. [Automon Monitoring Aspect Inheritance Structure](#the-monitoring-aspect-chain)
-3. [Automon Tracing and Related Aspects and Inheritance Structure](#the-tracing-aspect-chain-and-related-aspects)
-    - [Tracing Aspect Styles](#tracing-aspect-styles)
-    - [Tracing Aspect Hierarchy](#tracing-aspect-hierarchy)
-    - [Supporting Aspects](#supporting-aspects)
+2. [Automon Monitoring Aspect Inheritance Structure](#automon-monitoring-aspect-inheritance-structure)
+3. [Automon Tracing and Related Aspects and Inheritance Structure](#automon-tracing-and-related-aspects-and-inheritance-structure)
 4. [Implementing Your Own Monitoring or Tracing Aspect](#implementing-your-own-monitoring-or-tracing-aspect)
-    - [Monitoring Aspect Example](#monitoring-aspect-example)
-    - [Tracing Aspect Example](#tracing-aspect-example)
-    - [Load-Time Weaving Configuration](#load-time-weaving-configuration)
 5. [What Gets Monitored and Traced](#what-gets-monitored-and-traced)
-    - [Monitoring Aspects](#monitoring-aspects)
-    - [Tracing Aspects](#tracing-aspects)
 6. [Conclusion](#conclusion)
 
 ## Introduction to Aspects in Automon
