@@ -4,7 +4,7 @@
 
 1. [Introduction to Aspects in Automon](#introduction-to-aspects-in-automon)
 2. [Automon Monitoring Aspect Inheritance Structure](#the-monitoring-aspect-chain)
-3. [Automon Tracing Aspect and Related Aspects and Ineritance Structure](#the-tracing-aspect-chain-and-related-aspects)
+3. [Automon Tracing Aspect and Related Aspects and Inheritance Structure](#the-tracing-aspect-chain-and-related-aspects)
     - [Tracing Aspect Styles](#tracing-aspect-styles)
     - [Tracing Aspect Hierarchy](#tracing-aspect-hierarchy)
     - [Supporting Aspects](#supporting-aspects)
@@ -21,7 +21,7 @@
 
 Automon leverages the power of Aspect-Oriented Programming (AOP) to provide non-invasive monitoring and tracing capabilities for Java applications. At the core of Automon's functionality are its aspects, which allow you to inject monitoring and tracing logic into your code without modifying your existing codebase.
 
-## The Monitoring Aspect Chain
+## Automon Monitoring Aspect Inheritance Structure
 
 The monitoring functionality in Automon is built around a chain of aspects, with the `MonitoringAspect` at its core. Here's a visual representation of the monitoring aspect hierarchy:
 
@@ -35,12 +35,16 @@ classDiagram
 
     class EnableMXBean {
         <<interface>>
+        Defines JMX operations for
+        enabling/disabling aspects at runtime
         +enable(boolean enable) void
         +isEnabled() boolean
     }
 
     class MonitoringMXBean {
         <<interface>>
+        JMX interface for dynamic configuration
+        of MonitoringAspect at runtime
         +setOpenMon(String openMon) void
         +getOpenMonString() String
         +getValidOpenMons() String
@@ -48,6 +52,8 @@ classDiagram
 
     class BaseMonitoringAspect {
         <<abstract>>
+        Base class for all monitoring aspects
+        Provides core monitoring functionalities
         +isEnabled() boolean
         +enable(boolean enable) void
         +getOpenMon() OpenMon
@@ -57,17 +63,22 @@ classDiagram
 
     class MonitoringAspect {
         <<abstract>>
+        Abstract aspect for monitoring method
+        executions and exceptions
         +select() void
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
         +afterThrowingAdvice(JoinPoint joinPoint, Throwable throwable) void
     }
 
     class UserDefinedAspect {
+        User-defined aspect that extends
+        MonitoringAspect and implements
+        the select() pointcut
         +select() void
     }
 ```
 
-## The Tracing Aspect Chain and Related Aspects
+## Automon Tracing Aspect and Related Aspects and Inheritance Structure
 
 Tracing in Automon allows you to capture detailed logs of method calls, parameters, return values, and exceptions. It provides insights into the execution flow of your application. The tracing functionality is built around a chain of aspects in the `org.automon.aspects.tracing` package.
 
@@ -93,18 +104,24 @@ classDiagram
 
     class EnableMXBean {
         <<interface>>
+        Defines JMX operations for
+        enabling/disabling aspects at runtime
         +enable(boolean enable) void
         +isEnabled() boolean
     }
 
     class TracingMXBean {
         <<interface>>
+        JMX interface for controlling
+        tracing/logging functionality
         +enableLogging(boolean enabled) void
         +isLoggingEnabled() boolean
     }
 
     class BaseTracingAspect {
         <<abstract>>
+        Base class for tracing aspects
+        Provides common tracing functionality
         #logBefore() void
         #logAfter() void
         #afterThrowing(Throwable throwable) void
@@ -112,31 +129,39 @@ classDiagram
 
     class BaseContextAspect {
         <<abstract>>
+        Base class for aspects managing
+        contextual data in SLF4J MDC/NDC
         #initialize(String purpose, boolean enable) void
         #registerJmxController() void
     }
 
     class BasicContextTracingAspect {
         <<abstract>>
+        Aspect for basic context tracing
+        Provides around and afterThrowing advice
         +select() void
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
     }
 
     class FullContextTracingAspect {
         <<abstract>>
+        Aspect for full context tracing
+        Includes detailed context information
         +select() void
         +aroundAdvice(ProceedingJoinPoint joinPoint) Object
     }
 
     class FullContextDataAspect {
         <<abstract>>
-        Manages full contextual data in SLF4J MDC/NDC
+        Manages full contextual data
+        in SLF4J MDC/NDC without logging
         +select() void
     }
 
     class RequestIdAspect {
         <<abstract>>
         Manages request IDs in SLF4J MDC
+        for request correlation
         +select() void
     }
 ```
