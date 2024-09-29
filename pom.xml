@@ -12,7 +12,7 @@
 
     <groupId>org.automon</groupId>
     <artifactId>automon_parent</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>automon parent</name>
 
@@ -33,7 +33,7 @@
         <url>https://github.com/stevensouza/automon</url>
         <connection>scm:git:git://github.com:stevensouza/automon.git</connection>
         <developerConnection>scm:git:git@github.com:stevensouza/automon.git</developerConnection>
-      <tag>automon_parent-2.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <developers>
