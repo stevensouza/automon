@@ -84,7 +84,7 @@ This provides flexibility and makes your application independent of a specific l
 Automon utilizes SLF4J's flexibility to provide comprehensive tracing capabilities, capturing method entry and exit 
 events along with crucial metadata such as method names, execution times, and parameter values, to name just a few.
 </details>
-
+ 
 <details>
 <summary><strong>Monitoring tools (used for Monitoring only)</strong></summary>
 
