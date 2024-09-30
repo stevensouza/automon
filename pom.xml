@@ -55,13 +55,6 @@
         <module>spring_aop</module>
     </modules>
 
-    <!--TODO: in  the following complete means the artifact is up to date and
-    no more research has to be done.  some things need to be done
-    - latest library that supports jdk 1.8 (need to upgrade to go higher)
-    - libraries that are no longer updated
-    - libraries i no longer wish to support
-    - libraries whos artifact/groups have changed names/locations
--->
     <properties>
         <automon.version>2.0.0-SNAPSHOT</automon.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -269,6 +262,7 @@
                         <useReleaseProfile>false</useReleaseProfile>
                         <releaseProfiles>release</releaseProfiles>
                         <goals>deploy</goals>
+                        <arguments>-Dgpg.skip=false</arguments>
                     </configuration>
                 </plugin>
             </plugins>
