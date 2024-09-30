@@ -8,7 +8,7 @@
     - SLF4J
     - Monitoring tools
 5. [Tutorials](#tutorials)
-6. [How Automon Works](#how-automon-works)
+6. [How does Automon work?](#how-automon-works)
 7. [What are some examples of what Automon can do?](#what-are-some-examples-of-what-automon-can-do)
     - Monitoring
     - Tracing
@@ -103,7 +103,7 @@ Note: [Micrometer](https://micrometer.io/docs) serves as a proxy for other monit
 * [AspectJ tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md): An introduction to AspectJ, covering its core concepts and usage for implementing aspect-oriented programming in Java applications.
 * [SLF4J and Log4j2 tutorial](https://github.com/stevensouza/automon/blob/master/docs/slf4j-log4j2-tutorial.md):  A tutorial demonstrating how to use SLF4J (Simple Logging Facade for Java) with Log4j2, focusing on logging implementation in Java projects.
 
-# How Automon Works
+# How does Automon work?
 
 Automon uses AspectJ weaving to inject monitoring and tracing code into your application. This weaving can be done at:
 - Runtime with Load Time Weaving (LTW)
