@@ -18,6 +18,15 @@
 
   <build>
       <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+          </plugin>
 
 <!-- note the ajc compiler is used. There may be ways to not use this however, I was having runtime errors with the following exception
      when i used the standard maven compiler.
