@@ -8,7 +8,7 @@
     - SLF4J
     - Monitoring tools
 5. [Tutorials](#tutorials)
-6. [How does Automon work?](#how-automon-works)
+6. [How does Automon work?](#how-does-automon-work)
 7. [What are some examples of what Automon can do?](#what-are-some-examples-of-what-automon-can-do)
     - Monitoring
     - Tracing
