@@ -20,7 +20,7 @@
     - [Exception Handling Aspect](#exception-handling-aspect)
 
 4. [Weaving Models in AspectJ](#4-weaving-models-in-aspectj)
-    - [Example aop.xml](#example-aopxml)
+    - [LTW Example (aop.xml)](#ltw-example-aopxml)
     - [Command line to run LTW](#command-line-to-run-ltw-for-the-comexamplemain-program)
 
 5. [Advanced AspectJ Features](#5-advanced-aspectj-features)
@@ -256,16 +256,16 @@ public class ExceptionHandlingAspect {
 
 We've seen how aspects interact with your code. Now, let's understand how AspectJ weaves these aspects into your application. Weaving is the process of combining aspects with your target code to create the final executable program. AspectJ offers three primary weaving models:
 
-1. **Compile-time Weaving (CTW)**:
+1. **Compile-time Weaving (CTW) (Also known as 'Source Code Weaving')**:
    - Aspects are woven directly into your code during compilation.
 
-2. **Post-compile Weaving (PCW)**:
+2. **Post-compile Weaving (PCW) (Also known as 'Binary Weaving')**:
    - Aspects are woven into existing class files or JARs after compilation.
 
-3. **Load-time Weaving (LTW)**:
+3. **Load-time Weaving (LTW) (Also known as 'Runtime Weaving')**:
    - Aspects are woven as classes are loaded into the JVM.
 
-#### Example aop.xml
+#### LTW Example (aop.xml)
 Includes all classes within the com.example package and its subpackages for weaving.
 
 ```xml
@@ -316,7 +316,7 @@ AspectJ offers advanced capabilities beyond dynamic cross-cutting, allowing comp
 - **Direct File I/O**:
   ```java
   declare error: call(* java.io.File.*(..)) && !within(com.example.io..*) : "Direct file I/O is prohibited. Use the FileManager class.";
-
+  ```
 ### Changing Code Structure
 
 AspectJ provides powerful features to modify the structure of your code at compile-time. Here are some key capabilities:
