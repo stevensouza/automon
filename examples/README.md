@@ -1,9 +1,12 @@
 Automon Example Programs
 ========================
 
-This directory contains sample programs (*.sh) that show how programs can easily be monitored/profiled/instrumented with Automon.
-Before running the programs you must generate the needed jar files by running the following from the automon root directory:
-mvn clean package
+This directory contains sample programs (*.sh) that show how programs can easily be monitored/profiled/instrumented/traced with Automon.
+
+To run the scrips you must first:
+1. Build the required jars with `mvn clean package` from the automon root directory.
+2. Make sure all the `*.sh` files in this directory are executable (for example `chmod +x *.sh`)
+2. Make sure the version on this script matches the version of Automon that is being build: [set_version.sh](https://github.com/stevensouza/automon/blob/master/examples/set_versions.sh)
 
 A Spring AOP monitoring example can be found in this directory (spring-aop.sh).  [Here is its source code](https://github.com/stevensouza/automon/tree/master/spring_aop).
 
@@ -13,7 +16,7 @@ classes at runtime when they are loaded by the class loader.
 
 See [helloworld_woven](https://github.com/stevensouza/automon/tree/master/helloworld_woven) and
 [spring_woven](https://github.com/stevensouza/automon/tree/master/spring_woven) pom files for how to configure a program
-for Build Time Weaving (BTW).  Examples of using LTW are in this 'examples' directory.
+for Build Time Weaving (BTW).  Examples of using LTW are in this `examples` directory.
 
 Note you can perform both BTW and LTW on existing jars, whether you own the code in them or not.
 
@@ -34,9 +37,9 @@ make sure you include those jars in the classpath too. If this parameter is not 
 default implementations (as of 1.0 that is Jamon, JavaSimon, Yammer Metrics) and use the first one it finds or disable Automon if
 none are found.
 * **-Dorg.aspectj.weaver.loadtime.configuration=file:config/ajc-aop.xml** - Standard AspectJ syntax for configuring the weaver. For
-Automon you will put your 'pointcuts' here that specify what parts of your code you would like to monitor.  See the
+Automon you will put your `pointcuts` here that specify what parts of your code you would like to monitor.  See the
 [/config](https://github.com/stevensouza/automon/tree/master/examples/config) directory for a few examples.
-Note org.automon=sysout, can also be put in the comments section of this file.
+Note org.automon=sysout, can also be put in the comments section of this XML file.
 * **-javaagent:libs/aspectjweaver.jar** - Standard way of specifying for AspectJ to use LTW.
 * **-classpath libs/automon-1.0.jar:libs/playground-1.0.jar** - In addition to whatever jars are needed to run your
 program you should include automon-{version}.jar.  This small jar is the bridge between AspectJ and the library you chose to
@@ -66,6 +69,7 @@ Resources
 ---------
 For more information on AspectJ refer to the following links:
 
+* [AspectJ Tutorial](https://github.com/stevensouza/automon/blob/master/docs/aspectj-tutorial.md)
 * [AspectJ Documentation](http://eclipse.org/aspectj/doc/released/progguide/index.html).
 * The most important part to learn is the AspectJ pointcut language which allows you to select what code you would like
 to monitor. I highly recommend [AspectJ in Action](http://www.amazon.com/AspectJ-Action-Enterprise-Spring-Applications/dp/1933988053/ref=sr_1_1?ie=UTF8&qid=1426500440&sr=8-1&keywords=aspectj+in+action).
