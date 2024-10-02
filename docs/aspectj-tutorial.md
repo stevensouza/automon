@@ -333,7 +333,7 @@ AspectJ provides powerful features to modify the structure of your code at compi
 
 #### Adding Annotations
 
-- **declare @type**, **declare @method**, etc.: Introduce annotations to classes (@type), methods (@method), fields (@fields), or constructors (@constrctor) at compile or load time.
+- **declare @type**, **declare @method**, etc.: Introduce annotations to classes (@type), methods (@method), fields (@fields), or constructors (@constructor) at compile or load time.
     - Example: Annotate service methods:
       ```java
       declare @method: execution(* com.example.service.*.*(..)) : @Transactional;
