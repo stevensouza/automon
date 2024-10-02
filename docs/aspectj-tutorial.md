@@ -40,6 +40,7 @@
 
 AspectJ is an implementation of Aspect-Oriented Programming (AOP) for Java. AOP is a programming paradigm that allows you to modularize cross-cutting concerns, which are functionalities that span across multiple parts of your application. It is sort of like a 'Listener' but without having to create an interface for it. Some common examples of cross-cutting concerns are logging, transaction management, security, and performance monitoring.
 
+(An AspectJ PDF cheat sheet can be found [here](https://github.com/eclipse-aspectj/aspectj/blob/master/docs/quickref/quick5.pdf).)
 #### Key Terminology:
 
 - **Cross-cutting concerns**: Functionalities that affect multiple parts of a system, making them challenging to modularize with traditional object-oriented programming; aspects provide a way to encapsulate and manage these concerns separately.
@@ -332,7 +333,7 @@ AspectJ provides powerful features to modify the structure of your code at compi
 
 #### Adding Annotations
 
-- **declare @type**, **declare @method**, etc.: Introduce annotations to classes, methods, fields, or constructors at compile time.
+- **declare @type**, **declare @method**, etc.: Introduce annotations to classes (@type), methods (@method), fields (@fields), or constructors (@constrctor) at compile or load time.
     - Example: Annotate service methods:
       ```java
       declare @method: execution(* com.example.service.*.*(..)) : @Transactional;
