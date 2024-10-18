@@ -78,7 +78,7 @@
         <mockito.version>5.12.0</mockito.version>
         <junit.version>5.10.3</junit.version>
         <newrelic.version>8.13.0</newrelic.version>
-        <spring.version>6.1.10</spring.version>
+        <spring.version>6.1.14</spring.version>
         <spring.aop.version>${aspectj.version}</spring.aop.version>
         <micrometer.version>1.13.2</micrometer.version>
         <hsqldb.version>2.7.3</hsqldb.version>
